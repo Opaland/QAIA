@@ -37,7 +37,11 @@ Evaluate top to bottom; the **first** matching band is the verdict.
      human decision (these **always** cap the verdict at CONCERNS until resolved);
    - a dimension dropped ≥ 1 versus a provided baseline (regression signal);
    - execution present with `blocked > 0`, or automation coverage materially below the book
-     (`traceability.scenariosAutomated` ≪ `scenariosTotal`) when a run was expected.
+     (`traceability.scenariosAutomated` ≪ `scenariosTotal`) when a run was expected;
+   - a `flakiness` section (from `qaia-playwright:flaky-detect`, #34) lists any `@P1` scenario
+     whose verdict varied across runs — a P1 that sometimes fails isn't release-clean even if
+     its last run was green. `@P2`/`@P3` flaky scenarios are named in `reasons` but don't by
+     themselves force CONCERNS (report them; don't over-block on low-priority instability).
 3. **PASS** — rubric total `≥ 16`, no dimension at 0, all hard gates met, no pending
    arbitration, and (if execution is present) `failed = 0` and `blocked = 0`.
 4. **WAIVED** — a human explicitly accepts a CONCERNS or FAIL candidate. **Never self-granted**:
@@ -46,9 +50,9 @@ Evaluate top to bottom; the **first** matching band is the verdict.
 
 ## Steps
 
-1. **Read the manifest** — `design`, `execution` (if any), `gate.score`/`dimensions`, and
-   `openArbitrations`. Note the `contract` major version; treat any absent field as absent, not
-   as a failure (degraded mode).
+1. **Read the manifest** — `design`, `execution` (if any), `gate.score`/`dimensions`,
+   `openArbitrations`, and `flakiness` (if present, #44). Note the `contract` major version;
+   treat any absent field as absent, not as a failure (degraded mode).
    **Recompute the rubric total from the 10 `dimensions` scores yourself — never trust
    `gate.score` as given.** #21 calibration found a real case: a judge's own listed dimension
    scores summed to 15, but the recorded total said 16 — an arithmetic slip that silently
