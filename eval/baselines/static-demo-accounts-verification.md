@@ -1,12 +1,21 @@
 # Static demo — all 4 accounts verified (2026-07-26)
 
 Confirmed live at `https://opaland.github.io/QAIA/` (GitHub Pages, Source: GitHub Actions,
-`.github/workflows/pages.yml`). No browser automation tool was available in this environment
-(Playwright MCP disconnected mid-session), so this was verified by running the exact deployed
-`static-demo/mock-backend.js` file directly in Node — byte-identical to what the live page
-loads, not a reimplementation — rather than clicking through the UI. A future session with
-browser tooling should still do a visual pass (screenshots, actual click-through) as a
-complementary check; this covers the logic, not the rendering.
+`.github/workflows/pages.yml`). First pass (below, "Covered") was verified by running the exact
+deployed `static-demo/mock-backend.js` file directly in Node — byte-identical to what the live
+page loads — since the Playwright MCP tool was disconnected at the time.
+
+**Update, same day**: Playwright MCP reconnected. Did the complementary real-browser pass this
+was missing — actual navigation, form fills, clicks, screenshots (`static-demo-screenshots/
+01-employee-signed-in.png` → `04-manager-approved.png`) against the live URL. Walked: employee
+login → start draft → fill line (taxi, 40 EUR, receipt checked) → submit ("Report submitted
+(total 40 EUR)") → sign out → manager login → inbox correctly lists the submitted report →
+approve ("Decision recorded: approve") → inbox clears. Console monitored throughout
+(`browser_console_messages`, all levels): **zero JS errors** across the whole interactive
+session — the only console entry at all is a harmless `favicon.ico` 404 (no favicon file was
+ever added to `static-demo/`, cosmetic only, not a functional defect). Confirms the Node-level
+logic verification below matches actual rendered/interactive behavior, not just the underlying
+code path.
 
 ## Covered
 

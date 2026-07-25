@@ -13,3 +13,6 @@ __pycache__/
 
 # Local QAIA project state (per-project, not the plugin/skill source)
 .qaia/
+
+# Playwright MCP tool scratch output (accessibility snapshots, console logs)
+.playwright-mcp/
