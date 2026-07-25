@@ -1,6 +1,6 @@
 {
   "name": "qaia-playwright",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "QAIA automation: turn a Gherkin test book into native Playwright tests (Page Object Model as fixtures) with requirement traceability, plus accessibility, performance and security-surface checks. Web-first.",
   "author": {
     "name": "Cédric Moretti and QAIA contributors",

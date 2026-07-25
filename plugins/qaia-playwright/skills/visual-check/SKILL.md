@@ -17,6 +17,7 @@ Reference: `examples/medibook/tests/visual.booking.spec.js` (login + booking scr
 ## Guardrails
 
 - **Determinism first**: seed data and freeze/mask dynamic content before snapshotting — a flaky visual test is worse than none (real lesson from the medibook flake hunt). Set `workers: 1` against a shared mutable SUT.
+- **Unmasked dynamic content isn't just a flake risk — it can silently eat the tolerance budget.** Audit finding (#40): an unmasked clock changed real pixels on every run yet stayed under `maxDiffPixelRatio` and passed — not by protection, by luck of the tolerance margin. A masked/frozen region gives an exact, provable diff (0 pixels); an unmasked "dynamic but small" region can pass today and silently absorb the budget a real regression would need to trip the threshold tomorrow. Mask/freeze, don't just rely on tolerance to average it out.
 - Baselines are platform-specific (`*-linux.png`): generate them in the same environment the CI runs, or the diff is meaningless.
 - Never suppress a real visual diff to force green; a diff is a finding for the human to accept or reject.
 - Web-first, like the rest of the plugin (D50): mobile visuals are browser-emulation screenshots, not native.
