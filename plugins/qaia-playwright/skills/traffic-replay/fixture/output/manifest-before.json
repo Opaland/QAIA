@@ -1,0 +1,37 @@
+{
+  "contract": "1.0",
+  "usId": "US-DEMO-TRAFFIC",
+  "title": "traffic-replay fixture (TaskFlow demo HAR)",
+  "status": "review",
+  "generatedAt": "2026-07-25T09:05:00Z",
+  "base": ".qaia",
+
+  "producers": [
+    { "plugin": "qaia-playwright", "version": "0.1.6", "skill": "automate", "at": "2026-07-25T09:04:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "execution", "format": "junit", "path": "fixture/output/junit-placeholder.xml" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 7, "byPriority": { "P1": 4, "P2": 3 }, "negative": 1, "smoke": 0, "outlines": 0 }
+  },
+
+  "execution": {
+    "total": 7, "passed": 7, "failed": 0, "blocked": 0,
+    "byType": { "api": 7 },
+    "traceability": { "scenariosAutomated": 7, "scenariosTotal": 7 }
+  },
+
+  "openArbitrations": [],
+
+  "gate": {
+    "verdict": "PASS",
+    "score": 19, "max": 20,
+    "scoredBy": "qaia-score/testbook-score", "at": "2026-07-25T09:04:30Z",
+    "dimensions": [],
+    "reasons": ["7 of 7 tests passed"],
+    "waiver": null
+  }
+}

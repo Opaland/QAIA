@@ -1,0 +1,262 @@
+{
+  "harSource": "demo-traffic.har",
+  "entriesTotal": 8,
+  "conditionsTotal": 7,
+  "piiMasked": {
+    "auth-header": 7,
+    "card": 1,
+    "cookie": 3,
+    "email": 2,
+    "name": 2,
+    "phone": 1,
+    "query-token": 1,
+    "secret": 2
+  },
+  "conditions": [
+    {
+      "id": "@QAIA-TRAFFIC-001",
+      "method": "POST",
+      "path": "/api/login",
+      "queryParamNames": [],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 200,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": {
+        "kind": "json-object",
+        "keys": {
+          "email": "string",
+          "password": "string"
+        }
+      },
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "token": "string",
+          "userId": "number",
+          "email": "string"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store"
+      },
+      "timingMs": [
+        182
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-002",
+      "method": "GET",
+      "path": "/api/tasks",
+      "queryParamNames": [],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 200,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": null,
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "tasks": "array",
+          "total": "number"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        95
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-003",
+      "method": "GET",
+      "path": "/api/tasks",
+      "queryParamNames": [
+        "status",
+        "token"
+      ],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 200,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": null,
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "tasks": "array",
+          "total": "number"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        88
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-004",
+      "method": "POST",
+      "path": "/api/tasks",
+      "queryParamNames": [],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 201,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": {
+        "kind": "json-object",
+        "keys": {
+          "title": "string",
+          "assignee": "string",
+          "phone": "string"
+        }
+      },
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "id": "number",
+          "title": "string",
+          "done": "boolean",
+          "assignee": "string"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        140
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-005",
+      "method": "GET",
+      "path": "/api/tasks/1",
+      "queryParamNames": [],
+      "sampleCount": 2,
+      "singleSample": false,
+      "observedStatuses": [
+        {
+          "status": 200,
+          "samples": 2,
+          "of": 2
+        }
+      ],
+      "requestShape": null,
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "id": "number",
+          "title": "string",
+          "done": "boolean"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        40,
+        250
+      ],
+      "note": "2 samples observed for this exact signature."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-006",
+      "method": "DELETE",
+      "path": "/api/tasks/999",
+      "queryParamNames": [],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 404,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": null,
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "error": "string"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        30
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    },
+    {
+      "id": "@QAIA-TRAFFIC-007",
+      "method": "POST",
+      "path": "/api/checkout",
+      "queryParamNames": [],
+      "sampleCount": 1,
+      "singleSample": true,
+      "observedStatuses": [
+        {
+          "status": 200,
+          "samples": 1,
+          "of": 1
+        }
+      ],
+      "requestShape": {
+        "kind": "json-object",
+        "keys": {
+          "cardNumber": "string",
+          "amount": "number",
+          "currency": "string"
+        }
+      },
+      "responseShape": {
+        "kind": "json-object",
+        "keys": {
+          "status": "string",
+          "transactionId": "string"
+        }
+      },
+      "responseShapeConsistentAcrossSamples": true,
+      "significantHeaders": {
+        "Content-Type": "application/json"
+      },
+      "timingMs": [
+        310
+      ],
+      "note": "1 sample observed -- documents what happened this one time, not a guaranteed contract."
+    }
+  ]
+}
