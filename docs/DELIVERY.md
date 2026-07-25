@@ -7,9 +7,10 @@
 > 4. Couche Cucumber abandonnée : Gherkin comme cahier, tests Playwright natifs (D5).
 > 5. Critère de sortie M3 mesuré sur une app pilote réelle (T17) ; la démo publique n'est qu'un objectif intermédiaire.
 > 6. Roadmap recalibrée à 4-6 mois grâce au temps plein (D15). M2+ ne démarre que si M1 trouve des utilisateurs réels.
-> 7. Gate juridique G1 traitée (purge D1) ; merge squash final + suppression de branche encore dus avant communication publique.
+> 7. Gate juridique G1 traitée (purge D1) ; merge squash fait, branche source supprimée (D66).
+> 8. **Gate G2 (5 pilotes) levée par le fondateur** (D67, 2026-07-25) : les critères de sortie M1/M3 ci-dessous qui citent des pilotes réels comme condition bloquante ne le sont plus — voir `docs/DECISIONS.md` D67 pour la portée exacte de la levée.
 
-Roadmap par incréments. Chaque jalon livre quelque chose d'**utilisable seul** (leçon fondatrice : des outils, pas un pipeline). Aucun jalon ne démarre sans le critère de sortie du précédent. Les décisions actées (D1-D32 et T1-T17, `DECISIONS.md`) priment sur le texte ci-dessous en cas de divergence.
+Roadmap par incréments. Chaque jalon livre quelque chose d'**utilisable seul** (leçon fondatrice : des outils, pas un pipeline). Aucun jalon ne démarre sans le critère de sortie du précédent. Les décisions actées (`docs/DECISIONS.md`, y compris au-delà de D32/T17) priment **toujours** sur le texte ci-dessous en cas de divergence — ce document est un plan initial, pas la source de vérité de l'état actuel (voir `docs/STATUS.md`).
 
 ---
 

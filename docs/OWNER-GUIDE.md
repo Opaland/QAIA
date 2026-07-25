@@ -32,8 +32,10 @@ Labels à créer : `P0 P1 P2 P3` · `type:skill type:connecteur type:automatisat
 - Relire contrat de travail + solde de tout compte : non-concurrence (portée/durée/contrepartie), confidentialité, non-sollicitation.
 - En cas de doute, avis d'un avocat en droit du travail. La purge du dépôt est faite (D1), mais c'est ton jugement qui débloque la publication.
 
-## 7. Recruter 5 pilotes (irréductible) — le vrai go/no-go (gate G2)
-Message prêt à coller ci-dessous. Cible : communautés QA (Ministry of Testing, CFTL, meetups QA FR, LinkedIn). Objectif : 5 testeurs qui s'engagent à dérouler un cahier réel sous 30 jours.
+## 7. Recruter des pilotes (souhaitable, plus un gate bloquant depuis D67)
+**Mise à jour 2026-07-25 (D67)** : ce recrutement n'est plus une condition d'entrée en M1 — le développement avance sans l'attendre (`docs/DECISIONS.md`). Rester utile à terme pour une validation conversationnelle réelle (issue #5), mais message ci-dessous à ajuster : ne plus le présenter comme un blocage produit, plutôt comme un appel à du feedback réel une fois que tu veux le faire.
+
+Message prêt à coller ci-dessous (à retoucher). Cible : communautés QA (Ministry of Testing, CFTL, meetups QA FR, LinkedIn). Objectif : des testeurs qui s'engagent à dérouler un cahier réel sous 30 jours.
 
 > 💡 **Pour maximiser les réponses**, pointe les candidats vers [`docs/PILOT-KIT.md`](PILOT-KIT.md) : un parcours guidé « 15 min » (story prête, install, feedback structuré) qui abaisse l'effort perçu de « 1 h sur ma propre US » à « 15 min ». C'est le levier qui transforme un « peut-être » en « ok je teste ».
 

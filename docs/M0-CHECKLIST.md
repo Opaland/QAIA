@@ -28,8 +28,10 @@ Critère de sortie global : un contributeur externe comprend le projet et peut p
 | 5 | Configurer **GitHub Projects** (board de `KANBAN.md` : colonnes, labels, WIP max 2) et importer le backlog en issues | Kanban |
 | 6 | Relire le **contrat de travail** (réserve D1) — recommandé avant toute communication publique sur le projet | G1 |
 | 7 | Vérifier l'installation de bout en bout depuis un autre compte : `/plugin marketplace add <org>/QAIA` puis `/plugin install qaia-core@qaia`, lancer `/qaia-core:hello` | Critère M0 |
-| 8 | Lancer le **recrutement des 5 pilotes** dans les communautés QA (gate G2 — condition d'entrée en M1) | D12 |
+| 8 | Recrutement de pilotes réels dans les communautés QA — **souhaitable, plus une condition d'entrée en M1** (gate G2 levée par décision du fondateur, D67, 2026-07-25) | D12, D67 |
 
 ## Critère de passage en M1
 
-Tous les points « À faire » cochés **et** 5 pilotes engagés nommément. M1 démarre par les skills du parcours dans l'ordre, chacune évaluée au harnais avant merge.
+Tous les points « À faire » cochés. Le recrutement de pilotes nommément engagés (gate G2) n'est
+plus une condition bloquante depuis D67 — M1 peut démarrer sur les skills du parcours dans
+l'ordre, chacune évaluée au harnais avant merge, sans attendre de pilotes réels.
