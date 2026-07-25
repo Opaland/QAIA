@@ -6,6 +6,10 @@
 # that slipped through; scenario 3 is a legitimate concrete assertion (must stay PASS);
 # scenario 4 is a legitimate config-driven gap scenario tagged @low-confidence (must NOT be
 # flagged vague — a hedge on an externally-configured value is correct behavior, not a defect).
+# Scenario 5 (added #31, follow-up to D65/D71's documented residual limit) is the exact wording
+# of C5/Mistral's SECOND Then (`the order between "P1" and "P2" is consistent (e.g., by player
+# name)`) — quoted entity identifiers previously satisfied ASSERT_RE's blanket quote match and
+# silenced the correct VAGUE_RE hit on "consistent"; must now also FAIL as C2.
 
 @QAIA-BILL-001 @AC1
 Scenario: Tie-break order between two patients with identical priority score
@@ -31,3 +35,9 @@ Scenario: Fenêtre de grâce pilotée par la configuration du cours
   When l'étudiant tente de soumettre son travail
   Then le comportement dépend de la configuration du cours (fenêtre de grâce non spécifiée)
   And le comportement par défaut sûr, en l'absence de configuration, est de refuser la soumission
+
+@QAIA-BILL-005 @AC1
+Scenario: Tie-break order between two named players, asserted only via cited identifiers
+  Given two players tied on rating, losses and join date
+  When the tie-break rule is applied to the seasonal ranking
+  Then the order between "P1" and "P2" is consistent (e.g., by player name)

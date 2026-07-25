@@ -58,6 +58,39 @@ VAGUE_RE = re.compile(
 )
 # a real assertion carries a concrete token: number, quoted value, status code, comparator, state verb
 ASSERT_RE = re.compile(r"\d|\"[^\"]+\"|'[^']+'|\b(status|code|HTTP|=|==|>=|<=|>|<|equals?|[ée]gal|contains?|contient|affiche|displays?|redirect|returns?|retourne|is (not )?(visible|present|enabled|disabled)|est (visible|pr[ée]sent|absent))\b", re.I)
+# #31 (P3, follow-up to D65/D71's documented residual limit): ASSERT_RE's bare quote clause
+# above treats ANY quoted literal as proof of a concrete assertion, but a Then can cite an
+# already-known entity identifier (e.g. `the order between "P1" and "P2" is consistent`) without
+# ever asserting a real result value - the quotes then mask an otherwise-correct VAGUE_RE hit on
+# "consistent" (real case: eval/baselines/corpus-24-depth.md, lot 3, C5/Mistral). has_strict_assertion()
+# below requires a quoted literal to sit immediately next to a state/assertion verb (is/are/shows/
+# displays/equals/contains/returns/redirects...) to count - a citation embedded in an unrelated
+# phrase ("between X and Y") no longer does, and a bare digit embedded INSIDE a quoted literal
+# (e.g. the "1" in "P1") is blanked out first so it can't satisfy the plain `\d` alternative on
+# its own either - same false-positive, different route. Used ONLY to gate `vague` below,
+# deliberately NOT swapped into ASSERT_RE itself/`covers()`: real fixtures legitimately phrase
+# assertions with the verb *not* immediately adjacent to the quote (`the slot with "Dr. Ben Osei"
+# is not listed`, `an audit entry is recorded with ... the action "book"`, `only slots ...
+# "Dermatology" ... are shown`) - tightening the general-purpose ASSERT_RE the same way flips ~15
+# legitimate assertions across eval/concerns-zone-fixtures/, eval/baselines/
+# multi-judge-median-testbook/ and eval/baselines/rag-recall-gain/ to "no concrete signal", a real
+# regression for no gain, since none of them also trip VAGUE_RE (the only place a bare quote's
+# leniency is actually a problem). Honest partial fix: it closes the documented C5 gap without
+# touching completeness scoring elsewhere; a quoted entity ID sitting next to VAGUE_RE wording in
+# some other phrasing this regex doesn't anticipate could still slip through - not exhaustive.
+_ASSERT_OUTSIDE_QUOTES_RE = re.compile(
+    r"\d|\b(status|code|HTTP|=|==|>=|<=|>|<|equals?|[ée]gal|contains?|contient|affiche|displays?|redirect|returns?|retourne|is (not )?(visible|present|enabled|disabled)|est (visible|pr[ée]sent|absent))\b",
+    re.I,
+)
+_ASSERT_VALUE_NEAR_QUOTE_RE = re.compile(
+    r"\b(?:is|are|est|sont|shows?|displays?|affiche(?:nt)?|equals?|[ée]gal(?:e|es)?|contains?|contient|returns?|retourne(?:nt)?|redirects?)\s+(?:not\s+)?(?:to\s+)?[\"'][^\"']+[\"']",
+    re.I,
+)
+
+def has_strict_assertion(t):
+    outside_quotes = re.sub(r'"[^"]*"|\'[^\']*\'', " ", t)
+    return bool(_ASSERT_OUTSIDE_QUOTES_RE.search(outside_quotes) or _ASSERT_VALUE_NEAR_QUOTE_RE.search(t))
+
 # fabrication sniffer: technical literals that should trace to a source/oracle
 TECH_LITERAL_RE = re.compile(r"https?://\S+|\b\d{1,3}(?:\.\d{1,3}){3}\b|\b[a-z0-9.-]+\.(?:com|net|org|io|local|internal)\b|:\d{2,5}\b|\b[A-Z]{2,}-\d+\b|\b\d+[.,]\d{2}\s?(?:€|EUR|\$|USD)\b", re.I)
 
@@ -109,7 +142,7 @@ def score_feature(path, declared_acs=None, source_text=None):
     truncated = [s["name"] for s in scen if any(t.endswith(("…", "...", ",", "-")) or (len(t.split()) < 2) for _, t in s["steps"] if t)]
     empty_then = [s["name"] for s in scen if not s["then"]]
     hollow = [s["name"] for s in scen if s["then"] and all(HOLLOW_RE.search(t) for t in s["then"])]
-    vague = [s["name"] for s in scen if s["then"] and not any(ASSERT_RE.search(t) for t in s["then"]) and any(VAGUE_RE.search(t) for t in s["then"])]
+    vague = [s["name"] for s in scen if s["then"] and not any(has_strict_assertion(t) for t in s["then"]) and any(VAGUE_RE.search(t) for t in s["then"])]
     # a scenario "really covers" only if it has a Then with a concrete assertion, not hollow/empty
     def covers(s): return bool(s["then"]) and s["name"] not in empty_then and s["name"] not in hollow and s["name"] not in vague and any(ASSERT_RE.search(t) for t in s["then"])
     traced = [s for s in scen if any(re.match(r"@QAIA-", t) for t in s["tags"])]
