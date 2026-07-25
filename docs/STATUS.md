@@ -1,6 +1,15 @@
 # QAIA — état du projet & prompt de reprise
 
-Dernière session : 2026-07-25 (corpus élargi 24 cas TERMINÉ + correctif `VAGUE_RE`/`HOLLOW_RE` + statuts M0/KANBAN resynchronisés + merge vers `main` en attente du fondateur). Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre le travail plus tard (y compris en Claude Code **local** : tout est poussé sur la branche, le pickup est immédiat).
+Dernière session : 2026-07-25 (merge vers `main` fait, backlog GitHub resynchronisé, **mandat élargi post-M0** : gate G2 levée par le fondateur — D67 —, veille concurrentielle faite, backlog remodelé, démonstration hors médical en cours). Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup est immédiat).
+
+## Mandat en cours (D67, 2026-07-25)
+
+Le fondateur a levé le gate G2 (5 pilotes réels) et donné un mandat élargi : veille
+concurrentielle (faite, `docs/COMPETITIVE-ANALYSIS.md`), remodelage du backlog (fait — #1/#5/#23
+fermées ou reformulées, #29/#30 débloquées, 10 nouvelles issues #33-#42), extension du produit
+à un domaine non-médical (en cours, `examples/expense-demo/` sur US-004), puis relance du
+développement en autonomie sur le backlog remodelé. Objectif final : un projet montrable,
+docs à jour, diffusable, sans bug évident — pas seulement sur le médical.
 
 ## Où on en est
 

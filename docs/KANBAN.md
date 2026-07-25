@@ -6,6 +6,23 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 19 — Mandat élargi post-M0 : gate G2 levée, veille concurrentielle, backlog remodelé (2026-07-25, D67) 🔄 EN COURS
+
+Demande fondateur : la validation humaine (gate G2) est considérée franchie, le développement
+reprend en autonomie. Veille concurrentielle, remodelage du backlog, extension du produit
+hors du seul domaine médical.
+
+| Livré | Preuve |
+|---|---|
+| **Gate G2 levée** — #1 (recrutement pilotes), #23 (gel connecteurs) fermées comme superseded ; #29/#30 (tier opt-in "post-pilote") débloqués ; #5 (validation conversationnelle) reformulée sans blocage strict | décision D67 |
+| **Veille concurrentielle** — paysage (Agentic QE Fleet et 7 autres catégories), angles morts, différenciation réelle de QAIA, 10 pistes de backlog | `docs/COMPETITIVE-ANALYSIS.md` |
+| **10 nouvelles issues ouvertes** depuis la veille (#33-#42), priorisées P1-P3 | idem |
+| **Démonstration hors médical en cours** — US-004 (notes de frais, gold set existant, domaine finance/HR), app réelle + parcours QAIA complet + automatisation Playwright réelle | `examples/expense-demo/` (en cours) |
+
+**Reste (en cours)** : intégrer le résultat de la démo hors médical une fois livrée ; relancer
+le développement sur le backlog remodelé ; vérification finale (montrable, docs à jour,
+diffusable, sans bug évident).
+
 ## Sprint 10 — Harnais de gap #24 sur matériel réel (accès web) ✅ TERMINÉ (2026-07-24 ter)
 
 Demande fondateur : utiliser l'accès web confirmé cette session pour sourcer un vrai gold set
