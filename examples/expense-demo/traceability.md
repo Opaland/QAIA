@@ -1,7 +1,7 @@
 # Traceability — US-004 → scenarios → automated tests (ExpenseFlow)
 
 Continuous chain: requirement (acceptance criterion) → QAIA Gherkin scenario (stable ID,
-`.qaia/testbooks/US-004/*.feature`) → executable Playwright test. All tests run green against
+`qaia-journey/testbooks/US-004/*.feature`) → executable Playwright test. All tests run green against
 the live SUT (40/40, re-run twice, deterministic).
 
 | AC | Requirement | Scenario ID | Automated test | Type | Result |
@@ -47,7 +47,7 @@ the live SUT (40/40, re-run twice, deterministic).
 | (a11y) | no serious/critical WCAG 2 A/AA violations | @QAIA-A11Y-US004-001/002 | axe-core login + reports screen | A11y | PASS |
 
 **Coverage**: all 8 AC have ≥ 2 automated tests; every `[req-neg]` condition from
-`.qaia/testbooks/US-004/03-design.md` has a covering `@negative` test (17/17); every
+`qaia-journey/testbooks/US-004/03-design.md` has a covering `@negative` test (17/17); every
 `@low-confidence` scenario (9, one per open/assumption question Q1-Q9 except Q9 which needed
 none) is traceable to its question ID inline in both the `.feature` files and the test titles
 above. Requirement → scenario → test is navigable in both directions via the
@@ -55,6 +55,6 @@ above. Requirement → scenario → test is navigable in both directions via the
 `examples/medibook/traceability.md`.
 
 **Not covered by automation** (recorded honestly, not hidden): the three gaps flagged in
-`.qaia/testbooks/US-004/coverage-matrix.md` (draft delete/discard, list sort/filter/pagination,
+`qaia-journey/testbooks/US-004/coverage-matrix.md` (draft delete/discard, list sort/filter/pagination,
 notifications) were never generated as scenarios in the first place (ceiling rule 3c — the
 source doesn't name them), so there is nothing to automate for them either.

@@ -1,7 +1,7 @@
 # journey — US-004
 
-Output base: `examples/expense-demo/.qaia/` (project-local, rule 9 — a demo project directory
-rather than a real repo's default `.qaia/` root).
+Output base: `examples/expense-demo/qaia-journey/` (project-local, rule 9 — a demo project directory
+rather than a real repo's default `qaia-journey/` root).
 
 | Step | Status | Date | Notes |
 |---|---|---|---|

@@ -41,12 +41,12 @@ stated minimum.
 ## The QAIA journey artifacts
 
 Unlike medibook (whose intermediate checkpoints were not preserved), this example keeps the
-full, real journey output under `.qaia/`, exactly as the skills specify:
+full, real journey output under `qaia-journey/`, exactly as the skills specify:
 
-- `.qaia/state/US-004/00-source.md` … `04-priorities.md` — ingestion, extraction, ambiguity
+- `qaia-journey/state/US-004/00-source.md` … `04-priorities.md` — ingestion, extraction, ambiguity
   hunt (9 questions, 5 open / 4 assumption), ISTQB technique map + 37 conditions, risk-based
   priorities.
-- `.qaia/testbooks/US-004/*.feature` — 38 Gherkin scenarios (`@QAIA-US-004-001..038`),
+- `qaia-journey/testbooks/US-004/*.feature` — 38 Gherkin scenarios (`@QAIA-US-004-001..038`),
   `coverage-matrix.md`, `synthesis.md`, `generated.snapshot.md`.
 
 Execution was **non-interactive** (batch mode, `simulated: <default applied>` at every
@@ -92,7 +92,7 @@ Execution was **non-interactive** (batch mode, `simulated: <default applied>` at
 
 ## Comparison to the judge reference (honest, per gold-set protocol)
 
-See `.qaia/testbooks/US-004/synthesis.md` and `.qaia/state/US-004/02-understanding.md` for the
+See `qaia-journey/testbooks/US-004/synthesis.md` and `qaia-journey/state/US-004/02-understanding.md` for the
 full ambiguity hunt. Summary against `eval/gold-set/US-004-expense-approval.md`'s 4 planted
 ambiguities:
 

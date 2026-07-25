@@ -10,7 +10,7 @@ const NOW = () => Date.now();
 const DAY = 24 * 3600 * 1000;
 
 // --- ambiguity resolutions made explicit in code (full reasoning in
-// .qaia/state/US-004/02-understanding.md — this block only summarizes the code-level effect) ---
+// qaia-journey/state/US-004/02-understanding.md — this block only summarizes the code-level effect) ---
 // [open] Q1: thresholds are read as: <500 -> band A (1 approval), 500..5000 inclusive
 //   both ends -> band B (manager+finance), >5000 -> band C (manager+finance+director).
 //   i.e. exactly 500.00 and exactly 5000.00 both fall in band B. Flagged @low-confidence.

@@ -1,5 +1,5 @@
 // API tests — Playwright request context (no browser). Same scenario IDs as the QAIA
-// test book (.qaia/testbooks/US-004/*.feature), API-level. Covers the boundary/decision-table
+// test book (qaia-journey/testbooks/US-004/*.feature), API-level. Covers the boundary/decision-table
 // heavy conditions (AC2, AC3, AC5, AC6, AC8, auth) more efficiently than a UI would.
 const { test, expect } = require('./fixtures');
 const { apiLogin, apiCreateDraft, apiSubmit, apiCreateSubmittedReport, apiDecide, daysAgoISO, todayISO } = require('./helpers');
