@@ -1,0 +1,50 @@
+---
+name: istqb-design
+description: Choose and justify ISTQB test design techniques (Foundation + Test Analyst) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, use cases, pairwise. Fourth step of the QAIA journey.
+---
+
+# istqb-design — technique selection, justified
+
+Follow the shared contract in `../README.md`. Prerequisite: `02-understanding.md` (else offer `need-understanding`).
+
+## Technique palette (D24 — Foundation + Test Analyst)
+
+| Technique | Fits when the AC involves |
+|---|---|
+| Equivalence partitioning | input/state classes treated the same way |
+| Boundary value analysis | thresholds, limits, sizes, dates (test the exact wording: inclusive/exclusive — use the answers from step 02) |
+| Decision table | combinations of conditions → actions (roles × flags × states) |
+| State transition | lifecycle rules (statuses, allowed/forbidden transitions, events) |
+| Use case / scenario | end-to-end user goals crossing several rules — **constrained**: at most one journey scenario per US, tagged `@smoke`, whose `Then` asserts the single journey-level outcome (never re-verifying behaviors already covered atomically); excluded from atomicity accounting |
+| Pairwise (Test Analyst) | many independent parameters where full combination explodes |
+| Error guessing / checklist | error handling, empty states, concurrency — anchored on the ambiguity log |
+
+## Steps
+
+1. **Map AC → techniques.** For each AC from `01-extraction.md`, select the applicable technique(s) and write a one-sentence justification tied to the AC's shape ("AC2 sets a time threshold → boundary value analysis on the 2h limit, inclusive per decision Q3-answer").
+2. **Derive the test conditions.** Per AC × technique, list the concrete conditions to cover: partitions with representative values, boundaries (value, value±1), decision-table columns, transition pairs (valid + at least one invalid). This list is the input contract of `testbook-generate` — conditions, not scenarios yet.
+3. **Negative pressure (ADR 0001).** For every rule that can refuse, error, or deny, mark the corresponding condition as a **required-negative** (tag `[req-neg]` in `03-design.md`). These are the conditions the coverage gate enforces downstream — not a percentage, but a checklist: every refusal/error/denial path must end up with a scenario.
+3b. **Standardized domains → oracle (optional).** If an AC touches a standardized domain (card/Luhn, dates/ISO 8601, HTTP status, email/RFC 5322, currency/ISO 4217, IBAN…), invoke `oracle-generate` to add grounded edge-case conditions with their correct expected results, rather than guessing them. Oracle conditions are tagged `@oracle:<standard>` and cited — they strengthen negative-path coverage without fabrication.
+3c. **Systematic coverage expansion (recall — do not skip).** Beyond the ACs literally written, derive the conditions a mature tester adds by reflex. Apply each pattern whose trigger the feature matches; each derived condition still cites its technique and, if beyond the source, carries `[assumption]`/`@low-confidence`:
+   - **List / collection view** (any screen showing a set of items) → **sort** by each column/criterion, **filter** by each displayed attribute, **empty-list** state, **pagination** bounds, and **state persistence** of sort/filter across navigation away-and-back.
+   - **Any entity → full CRUD lifecycle, not just create** → read/**update/delete**; **lifecycle state transitions and their inverses** (open→close→reopen, submit→accept/reject, enable→disable); **cancel mid-operation** (abandon an edit); and the forbidden transitions. **When the source doesn't specify the exact delete/inverse mechanism, tag the derived scenario `@low-confidence`/`[assumption]` — never assert one specific mechanism with full confidence** (#24 gap-harness finding: three independent runs on the same real hard case each *confidently* invented the same plausible-but-wrong mechanism — "reset to a default value" — for an unspecified deletion, none flagging it as an assumption; a converged, confident fabrication is worse than random variance because it reads as certain and can pass a shallow review).
+   - **Conditional behavior (decision table over the variation axes)** → cross the system's real axes: **config/feature flag** on/off, **visibility** private/public, **ownership/role** owner vs member vs admin vs anonymous. Generate the cell for each combination that changes behavior.
+   - **Authorization & server-side enforcement (the most common miss)** → for every action: **unauthenticated** access, **permission denied** (wrong role), **cross-tenant** access to another user's resource (IDOR), **uniqueness/constraint** violation, and **UI-bypass** (the rule holds even when the request is sent directly, not through the UI).
+   - **Enumerate EVERY list/aggregation view, not just the primary one** → a screen often exposes several distinct collections (e.g. a dashboard with separate issues, merge-requests and groups lists; a profile with several tabs). Each distinct list gets the sort/filter/persistence treatment above — do not stop at the first/most obvious list.
+   - **Sibling collections of a named entity (#24 gap-harness finding, mode 1)** → when an AC describes an entity as "a collection/group of X" (e.g. a group is a collection of projects), explicitly ask — and surface as a gap if the source is silent — whether **X itself carries sub-collections or attributes that would naturally roll up here** (e.g. a project has issues, merge requests, an archived flag; a group dashboard commonly aggregates those too). Measured failure: three independent runs on a real hard case each recalled the entity's *own* fields (name, activity) but silently missed every roll-up of the child entity's sub-collections, without flagging that more might exist — do not stop at what the source names for the primary entity only.
+   - **Account & auth features → include the recovery path** → beyond the authenticated happy path (change password while logged in), derive the **forgot/reset/recovery** flow when the feature implies it: request reset, email token, invalid new value, unknown account. Recovery is a distinct flow, not a variant of the authenticated change.
+   These are `[req-neg]` where they refuse/deny. This step exists because real human test suites cover these by reflex and generation-from-AC-alone systematically misses them (measured: recall gap classes A-D).
+
+   **Ceiling — do not hallucinate to chase recall.** Two families are legitimately *not* inferable from a thin US and must NOT be invented: (a) **config/feature-flag-driven behavior** (what a button does when payments are off, a community is private, a custom field is enabled) — this depends on the project's configuration and belongs to the **knowledge base** (`rag-build`), not to guessing; and (b) **rich domain-specific interactions the US never mentions** (a merge request's inline diff comments, a Markdown preview) — if the source does not imply them, generating them is fabrication, not coverage. When you detect such a family, surface it as a gap ("this feature likely has config-driven / detail-page behavior not described in the US — provide it or the knowledge base") rather than inventing scenarios. Honest recall < fabricated recall.
+3d. **Knowledge-driven conditions (the RAG in use — breaks the D38 ceiling).** Follow the shared retrieval protocol (`../README.md`, "Knowledge retrieval & citation"). Route through `knowledge/index.md`, match the current AC's entities/domain/verbs, and open only the matched files. For every applicable entry in `business-rules.md` (a role that may not perform the action, a config/feature flag that changes the outcome, a threshold or rounding the US left implicit, an anomaly from `anomaly-history.md` worth a regression condition), **derive a concrete test condition** — this is precisely the config-driven coverage a thin US cannot yield (the honest-recall ceiling of 3c). Each such condition:
+   - cites its source rule (`# rule: BR-KB-nnn`) and is numbered like any condition (`AC3-C5`);
+   - is `[req-neg]` when the rule denies/refuses; inherits `[assumption]`/`@low-confidence` only if the rule itself is uncertain (a promoted, human-validated rule is *not* an assumption — it is project truth);
+   - if it **contradicts** the source, is raised as a question for `need-understanding` instead of being applied silently (the US wins unless the user says otherwise).
+   Record the applied rule IDs so `report` can populate `design.knowledgeApplied`. Knowledge base absent → record "knowledge base absent" and proceed on the source alone (do not invent its content — that would be the fabrication 3c forbids).
+4. ⚠ VALIDATION: present the AC → technique map with justifications; the user amends or approves.
+5. **Checkpoint.** Write `03-design.md`: the approved map + derived test conditions, each condition numbered (`AC2-C3`), with the applied `BR-KB-nnn` rule IDs listed. Update `journey.md`. Next step: `prioritize`.
+
+## Guardrails
+
+- Every technique choice must cite its justification — an unjustified technique is a rubric defect (dim. 4).
+- Conditions marked on `[open]` ambiguities inherit an `[open]` flag — they will surface in the confidence report rather than silently asserting behavior.

@@ -1,0 +1,13 @@
+{
+  "name": "qaia-playwright",
+  "version": "0.1.2",
+  "description": "QAIA automation: turn a Gherkin test book into native Playwright tests (Page Object Model as fixtures) with requirement traceability, plus accessibility, performance and security-surface checks. Web-first.",
+  "author": {
+    "name": "Cédric Moretti and QAIA contributors",
+    "url": "https://github.com/Opaland/QAIA"
+  },
+  "homepage": "https://github.com/Opaland/QAIA",
+  "repository": "https://github.com/Opaland/QAIA",
+  "license": "MIT",
+  "keywords": ["playwright", "automation", "e2e", "api", "accessibility", "performance", "security", "pom"]
+}

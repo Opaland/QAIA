@@ -1,0 +1,81 @@
+---
+name: testbook-score
+description: Score a QAIA test book against its source US with the ISTQB-grounded 10-dimension rubric (0/1/2 per dimension, /20) plus a top-3 fixes list, and record the score in the standardized run manifest. Read-only over test content - it judges, it never edits. Use to review a generated test book or gate a release candidate.
+---
+
+# testbook-score — the quality scorecard
+
+Applies the embedded rubric (`rubric.md`, mirroring `eval/RUBRIC.md`) to **one** test book
+against **its** source US, and writes the result into the `gate` block of the standardized run
+manifest (`docs/OUTPUT-CONTRACT.md`, D39). It **scores only** — see the scoring-only guardrails
+in `../README.md`. It is the LLM-judge of the project, packaged as an installable skill.
+
+## Prerequisites
+
+- A generated test book: `.feature` files, `synthesis.md`, `coverage-matrix.md` under
+  `.qaia/testbooks/<US-ID>/`, and the source US (`00-source.md` / `01-extraction.md`).
+- Ideally `.qaia/reports/<US-ID>/manifest.json` (from `qaia-core:report`) for the normalized
+  counts. If absent, offer to run `report` first; do not score against guessed counts.
+
+## Steps
+
+0. **Deterministic structural pass FIRST — not an LLM self-note (best of IATS, issues #26/#27/#28).**
+   Before any LLM judgment, compute a **reproducible structural score** the same way every run.
+   The founding project's lesson (case US 676266: 100/100 machine vs 58/100 human) is that a high
+   structural score hides hollow tests — so this pass is a **gate**, not a vanity number, and it is
+   kept **separate** from the LLM rubric (two numbers, never conflated).
+   - **In Claude Code**: materialize a throwaway script implementing the algorithm below and **run
+     it** on the `.feature` files for true determinism (the script is generated in-session, never
+     shipped — QAIA stays 100% skill). Reference implementation and proof it discriminates:
+     `eval/tools/structural_score.py` + `eval/baselines/structural-score.md`.
+   - **Without code execution**: execute the algorithm step-by-step (reproducible by construction
+     of the prompt; say so — it is weaker than running the code).
+   - **Algorithm (explicit budget /100):** readability 25 · completeness 30 (% of ACs covered by a
+     scenario that *really* asserts) · coherence 20 (no truncated step) · traceability 25 (stable
+     `@QAIA-*` ID + AC link). **Detectors that force FAIL regardless of score:**
+     - **C1 — hollow AC**: a `Then` whose only evidence is an image/table/screenshot reference →
+       the AC is **not** counted covered (the us-ingest "images = not analyzed" rule made visible).
+     - **C2 — no expected result**: a `Then` that is empty or only restates success ("works",
+       "responds correctly") with no verifiable value/state/status → a question, not a test.
+     - **#27 sniffer — fabrication**: technical literals (URL, host, port, id, amount) that do **not**
+       trace to the source US or a cited oracle → penalty; plus `[À DÉFINIR]`/`TODO`/placeholder
+       markers (−5 each). **≥3 hits → forced STOP.** The sniffer is only fully effective **with the
+       source/oracle** to compare against — always feed it the source, never run it blind.
+   - Record the deterministic score and any forced-STOP finding; a forced STOP caps the verdict at
+     FAIL no matter how good the LLM rubric looks.
+
+1. **Assemble the judge inputs** — the source US, the `.feature` files, the synthesis and the
+   coverage matrix. **Do not** load the generation session's reasoning: the rubric is a
+   fresh-eyes judgment (protocol in `rubric.md`). If this same session generated the book, say
+   so — a self-review is weaker evidence than a fresh-session judge, and that limitation is
+   part of the output.
+2. **Score each of the 10 dimensions** 0/1/2 per `rubric.md`. For every dimension:
+   - cite the evidence (a scenario ID, a matrix row, a manifest count) in one sentence;
+   - **default to the lower score** when hesitating;
+   - never score dimension 3 on the raw negative *ratio* — score it on whether every
+     **required** negative condition (ADR 0001) has a covering scenario; the ratio is context.
+3. **Verify literals independently** where a dimension depends on them (boundary ±1, string
+   lengths, checksum/oracle values) — recompute, do not trust the book's own assertion. A
+   wrong literal presented as correct is a dimension-5 hit (plausible-but-wrong).
+4. **Total and top-3.** Sum to `/20`. Produce the **top-3 fixes**: the three changes that would
+   most raise the score, each pointing at the artifact to change. This is advice for
+   `qaia-core` — name the fix, never apply it here.
+5. **Write the score into the manifest.** Merge into `gate` (contract rule 2 — never clobber
+   `design`/`execution`/`status`): `score`, `max: 20`, `scoredBy: "qaia-score/testbook-score"`,
+   `at`, and `dimensions` listing **only** the dimensions scored below 2 (with `n`, `name`,
+   `score`). Do **not** set `verdict` here — the PASS/CONCERNS/FAIL/WAIVED decision is
+   `aptitude-gate`'s job; leave any existing verdict for it to recompute. If no manifest
+   exists, emit the scorecard and offer to run `report`.
+6. **Report** the table (dimension, score, justification), the total, the top-3, and — when
+   scoring against a baseline the user provides — the per-dimension delta, flagging any
+   dimension that dropped ≥ 1 (a release-gate regression).
+
+## Guardrails
+
+- **Read-only over test content** — the only write is the manifest `gate` block. Never edit a
+  scenario, matrix or synthesis (scoring-only guardrail 1).
+- **No inflation.** Encouraging but wrong is a disservice; the lower score and the honest
+  regression flag are the value. `simulated`/`[open]` items still pending human arbitration are
+  reported as caveats, and cap the eventual verdict at CONCERNS (enforced by `aptitude-gate`).
+- **Portable.** Reads markdown + JSON, writes JSON; no network, no API key. Without file
+  tooling, emit the scorecard and the `gate` fragment as fenced blocks.

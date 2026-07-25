@@ -1,0 +1,34 @@
+# qaia-playwright
+
+QAIA automation plugin: turn a Gherkin test book into **native Playwright tests** (Page Object Model as fixtures), with requirement traceability — plus accessibility, performance and security-surface coverage. **Web-first.**
+
+**Status: 0.1.0 — pre-alpha.** The skills codify the patterns proven end-to-end in [`examples/medibook/`](../../examples/medibook) (31 tests green across 7 test types). Their productization (agent generates these from any test book) is milestone M3.
+
+## Install
+
+```
+/plugin marketplace add Opaland/QAIA
+/plugin install qaia-playwright@qaia
+/reload-plugins
+```
+
+## Skills
+
+| Skill | Purpose |
+|---|---|
+| `automate` | Gherkin test book → native Playwright (POM-as-fixtures), E2E web + API, traceable to `@QAIA-*` IDs |
+| `a11y-audit` | axe-core / WCAG 2 A/AA, violations by severity |
+| `visual-check` | Playwright screenshot regression, baselines + tolerance, per screen |
+| `perf-check` | latency budgets + concurrency integrity; k6 for real load — **self-hosted only** |
+| `security-surface` | passive checks (auth, IDOR, error handling, enumeration) + ZAP baseline — **authorized self-hosted only** |
+| `run-report` | JUnit XML + Cucumber JSON + HTML, with traceability |
+
+## Design commitments
+
+- **POM as fixtures** (D34): page objects hold selectors, tests hold assertions.
+- **Native Playwright, no Cucumber layer** (D5): the Gherkin book is the human-readable source; tests reference its stable scenario IDs.
+- **Web-first** (D50): mobile = browser emulation; native iOS/Android is out of scope (would need Appium).
+- **Self-hosted for security & load** (D35): shared public demos forbid them.
+- Generated tests are **autonomous outside the Claude session** — they run in the user's own CI.
+
+See [`examples/medibook/`](../../examples/medibook) for the full worked reference.

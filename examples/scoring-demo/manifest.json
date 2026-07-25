@@ -1,0 +1,57 @@
+{
+  "contract": "1.0",
+  "usId": "US-001",
+  "title": "Appointment booking",
+  "status": "review",
+  "generatedAt": "2026-07-23T10:05:00Z",
+  "base": ".qaia",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.3", "skill": "testbook-generate", "at": "2026-07-23T09:58:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.3", "skill": "report", "at": "2026-07-23T09:59:00Z" },
+    { "plugin": "qaia-score", "version": "0.1.0", "skill": "testbook-score", "at": "2026-07-23T10:04:00Z" },
+    { "plugin": "qaia-score", "version": "0.1.0", "skill": "aptitude-gate", "at": "2026-07-23T10:05:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-001/booking.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-001/synthesis.md" },
+    { "kind": "matrix",    "format": "markdown", "path": "testbooks/US-001/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 22, "byPriority": { "P1": 9, "P2": 8, "P3": 5 },
+                   "negative": 9, "smoke": 1, "outlines": 3 },
+    "coverage": { "acTotal": 8, "acCovered": 8,
+                  "reqNegTotal": 7, "reqNegCovered": 7,
+                  "negativeRatio": 0.41 },
+    "confidence": { "lowConfidence": 3, "openQuestions": 1, "assumptions": 4, "simulated": 1 },
+    "techniques": ["ep", "boundary", "decision-table", "state-transition", "use-case"],
+    "oracles": ["iso-8601"]
+  },
+
+  "openArbitrations": [
+    { "id": "Q5", "kind": "open", "about": "cancellation window when the appointment is < 4h away",
+      "sourceCheckpoint": "state/US-001/02-understanding.md" },
+    { "id": "AC7-C2", "kind": "simulated", "about": "guardian-contact format defaulted non-interactively",
+      "sourceCheckpoint": "state/US-001/04-priorities.md" }
+  ],
+
+  "gate": {
+    "verdict": "CONCERNS",
+    "score": 18,
+    "max": 20,
+    "scoredBy": "qaia-score/aptitude-gate",
+    "at": "2026-07-23T10:05:00Z",
+    "dimensions": [
+      { "n": 4, "name": "istqb-technique-fit", "score": 1 },
+      { "n": 10, "name": "review-support", "score": 1 }
+    ],
+    "reasons": [
+      "2 open arbitrations pending human decision (Q5 open, AC7-C2 simulated) -> caps verdict at CONCERNS",
+      "dim 4 = 1: decision-table justification generic on AC7 (minor x authorization x guardian)",
+      "dim 10 = 1: synthesis present but 3 low-confidence scenarios not flagged review-first"
+    ],
+    "waiver": null
+  }
+}

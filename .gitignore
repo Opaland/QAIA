@@ -1,0 +1,15 @@
+# Secrets — never committed (T3)
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+
+# Python bytecode cache (eval/tools/ scripts)
+__pycache__/
+*.pyc
+
+# Local QAIA project state (per-project, not the plugin/skill source)
+.qaia/

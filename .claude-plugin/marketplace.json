@@ -1,0 +1,42 @@
+{
+  "name": "qaia",
+  "owner": {
+    "name": "QAIA maintainers"
+  },
+  "description": "Agentic QA platform: from user story to prioritized Gherkin test books and native Playwright tests, running entirely in your Claude session.",
+  "plugins": [
+    {
+      "name": "qaia-core",
+      "source": "./plugins/qaia-core",
+      "description": "QAIA core: US ingestion, need understanding, team knowledge base, ISTQB test design, prioritized atomic Gherkin test books with stable IDs and coverage matrix.",
+      "author": {
+        "name": "Cédric Moretti and QAIA contributors"
+      },
+      "license": "MIT",
+      "category": "testing",
+      "homepage": "https://github.com/Opaland/QAIA"
+    },
+    {
+      "name": "qaia-playwright",
+      "source": "./plugins/qaia-playwright",
+      "description": "QAIA automation: Gherkin test book to native Playwright (POM as fixtures) with traceability, plus accessibility, performance and security-surface checks. Web-first.",
+      "author": {
+        "name": "Cédric Moretti and QAIA contributors"
+      },
+      "license": "MIT",
+      "category": "testing",
+      "homepage": "https://github.com/Opaland/QAIA"
+    },
+    {
+      "name": "qaia-score",
+      "source": "./plugins/qaia-score",
+      "description": "QAIA scoring: read-only quality scoring (ISTQB 10-dimension rubric, /20) and a PASS/CONCERNS/FAIL/WAIVED release-readiness gate over the standardized run manifest. Scores only - never edits test content.",
+      "author": {
+        "name": "Cédric Moretti and QAIA contributors"
+      },
+      "license": "MIT",
+      "category": "testing",
+      "homepage": "https://github.com/Opaland/QAIA"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Jalon M0 — Fondations : avancement
+
+Critère de sortie global : un contributeur externe comprend le projet et peut proposer une issue ; `claude plugin install` fonctionne ; la CI protège `main` ; le harnais d'éval existe avant toute skill.
+
+## ✅ Fait (dans ce dépôt)
+
+| Élément | Détail |
+|---|---|
+| `LICENSE` | MIT (D3) |
+| `README.md` | Bilingue EN/FR, positionnement honnête (quota, apprentissage local, web-first, Claude Code first) |
+| `CONTRIBUTING.md` | DCO obligatoire, règles spéciales skills (revue adversariale tracée, démonstration par l'usage, gold set non dégradé) — D28, T14 |
+| `CODE_OF_CONDUCT.md` | Contributor Covenant 2.1, limite mainteneur-unique documentée |
+| `SECURITY.md` | Signalement privé via Security Advisories, périmètre injection/supply-chain/code généré |
+| Templates | Issues (Proposition avec processus de challenge, Bug) + PR (checklist DCO/skills) |
+| Marketplace | `.claude-plugin/marketplace.json` + **3 plugins validés `--strict`** : `qaia-core` 0.2.9 (15 skills, parcours complet US→cahier), `qaia-playwright` 0.1.2 (6 skills), `qaia-score` 0.1.1 (2 skills) — 23/23 skills couvertes |
+| CI | Validation JSON, structure plugins, frontmatter des skills, lint Gherkin épinglé, **gardes supply-chain** (hooks/agents/MCP interdits, sources marketplace locales), job **DCO** ; Actions épinglées par SHA (T15) |
+| Harnais d'éval | `eval/RUBRIC.md` (10 dimensions, gate ≥ 16/20) + gold set durci + corpus élargi 24 cas (`eval/goldset-hardened/`, `eval/baselines/`) ; score structurel déterministe (`eval/tools/structural_score.py`) |
+| Discussions activées, branch protection sur `main` (CI requise, pas de push direct), 2FA exigée pour les admins | confirmé dans `docs/STATUS.md` |
+
+## ⏳ À faire par le propriétaire (droits que l'agent n'a pas)
+
+| # | Action | Référence |
+|---|---|---|
+| 1 | **Créer l'organisation GitHub** dédiée et y transférer ce dépôt ; ajouter un **second admin** de confiance. Après transfert, mettre à jour les URLs `Opaland/QAIA` codées en dur (marketplace.json, plugin.json, README du plugin, skill hello, README racine) | D14, Q73 |
+| 2 | Vérifier la **disponibilité du nom QAIA** (produits IA homonymes, npm, domaine) — décider du gel du nom | Q1, D32 |
+| 3 | Merger cette branche dans `main` (**squash**) puis **supprimer la branche** (son nom contient l'ancien acronyme "iats") — nécessite des droits admin que l'agent n'a pas (branch protection active sur `main`, pas de `gh` CLI disponible en session) ; à faire via l'UI GitHub ou en levant temporairement la protection | D1 |
+| 4 | Activer : **GitHub Sponsors**, **Security Advisories** (private vulnerability reporting) — Discussions déjà actif | D27, SECURITY.md |
+| 5 | Configurer **GitHub Projects** (board de `KANBAN.md` : colonnes, labels, WIP max 2) et importer le backlog en issues | Kanban |
+| 6 | Relire le **contrat de travail** (réserve D1) — recommandé avant toute communication publique sur le projet | G1 |
+| 7 | Vérifier l'installation de bout en bout depuis un autre compte : `/plugin marketplace add <org>/QAIA` puis `/plugin install qaia-core@qaia`, lancer `/qaia-core:hello` | Critère M0 |
+| 8 | Lancer le **recrutement des 5 pilotes** dans les communautés QA (gate G2 — condition d'entrée en M1) | D12 |
+
+## Critère de passage en M1
+
+Tous les points « À faire » cochés **et** 5 pilotes engagés nommément. M1 démarre par les skills du parcours dans l'ordre, chacune évaluée au harnais avant merge.

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MediBook — Teleconsultation</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; color: #14213d; }
+    header { background: #14213d; color: #fff; padding: 1rem; }
+    main { max-width: 720px; margin: 1rem auto; padding: 0 1rem; }
+    .slot { border: 1px solid #ccc; border-radius: 8px; padding: .75rem; margin: .5rem 0; display: flex; justify-content: space-between; align-items: center; }
+    button { background: #14213d; color: #fff; border: 0; border-radius: 6px; padding: .5rem .9rem; cursor: pointer; }
+    button:disabled { background: #9aa; cursor: not-allowed; }
+    label { display: block; margin: .5rem 0 .2rem; }
+    input, select { padding: .5rem; width: 100%; box-sizing: border-box; }
+    .msg { padding: .6rem; border-radius: 6px; margin: .6rem 0; }
+    .msg.error { background: #fde8e8; color: #9b1c1c; }
+    .msg.ok { background: #e6f4ea; color: #1e6b34; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  </style>
+</head>
+<body>
+  <header><h1>MediBook</h1></header>
+  <main>
+    <section id="login-section" aria-labelledby="login-h">
+      <h2 id="login-h">Sign in</h2>
+      <label for="email">Email</label>
+      <input id="email" data-testid="email" type="email" autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" data-testid="password" type="password" autocomplete="current-password" />
+      <p><button data-testid="login-btn" id="login-btn">Sign in</button></p>
+    </section>
+
+    <section id="app-section" hidden aria-labelledby="slots-h">
+      <p>Signed in as <strong data-testid="whoami" id="whoami"></strong> · <button data-testid="logout-btn" id="logout-btn">Sign out</button></p>
+      <h2 id="slots-h">Available slots</h2>
+      <label for="specialty">Filter by specialty</label>
+      <select id="specialty" data-testid="specialty">
+        <option value="">All</option>
+        <option value="cardiology">Cardiology</option>
+        <option value="dermatology">Dermatology</option>
+      </select>
+      <div id="slots" data-testid="slots" role="list" aria-live="polite"></div>
+      <div id="message" role="status" aria-live="assertive"></div>
+      <h2>My appointments</h2>
+      <div id="appointments" data-testid="appointments" role="list"></div>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

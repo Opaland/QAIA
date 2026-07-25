@@ -1,0 +1,60 @@
+---
+name: report
+description: Project the QAIA journey into the standardized run manifest (.qaia/reports/<US-ID>/manifest.json) - the single machine-readable output contract every QAIA plugin shares, carrying normalized counts, coverage, confidence and provenance. Use after generating or exporting a test book, or when another plugin needs a uniform view of the run.
+---
+
+# report — the standardized run manifest
+
+Follow the shared contract in `../README.md`. This skill produces the **one envelope every
+QAIA plugin shares**: `.qaia/reports/<US-ID>/manifest.json`, defined by
+`docs/OUTPUT-CONTRACT.md` (decision D39). It never invents data — it *projects* the existing
+journey artifacts into the common schema so `qaia-score`, an export, or CI can read any run
+the same way.
+
+## Prerequisite
+
+A generated test book in `.qaia/testbooks/<US-ID>/` (with its `synthesis.md`,
+`coverage-matrix.md`, and the `03-design.md` / `04-priorities.md` checkpoints). If it is
+absent, say which step is missing and offer `testbook-generate` — never emit a manifest with
+guessed counts.
+
+## Steps
+
+1. **Read the source artifacts**, never re-generate them:
+   - the `.feature` files (count scenario blocks, priority/`@negative`/`@smoke`/Outline tags,
+     technique tags, `@oracle:*` provenance);
+   - `coverage-matrix.md` (AC covered, condition coverage);
+   - `03-design.md` (`[req-neg]` conditions → `reqNegTotal`);
+   - `synthesis.md` and `02-understanding.md` (open questions, assumptions, `simulated`,
+     low-confidence);
+   - `03-design.md` and the `# rule: BR-KB-nnn` scenario comments → `design.knowledgeApplied`
+     (the knowledge-base rules that shaped the book — the RAG-in-use provenance, D38).
+2. **Compute the counts** — do not estimate. Every number in the manifest must equal what the
+   artifacts contain: the negative ratio is `@negative` blocks / all blocks (D20, single
+   definition), `reqNegCovered/reqNegTotal` is the ADR 0001 gate, `byPriority` sums to
+   `total` minus the excluded `@smoke` journey per the counting rules of `testbook-generate`.
+3. **Merge, don't clobber** (contract rule 2). If `manifest.json` already exists, load it,
+   replace only the `design` section and `openArbitrations`, append this skill to
+   `producers[]`, and add any new `artifacts[]` entries — leaving `execution`, `gate`, and a
+   human-set `status` untouched.
+4. **Fill `openArbitrations`** from every still-pending `⚠ VALIDATION` point: `[open]`
+   questions, `simulated` defaults, waivers awaiting confirmation — each with its
+   `sourceCheckpoint`. A non-interactive run surfaces all its `simulated` entries here.
+5. **Write** `.qaia/reports/<US-ID>/manifest.json` (create the directory). On a surface
+   without file tooling, emit the JSON as a fenced block and tell the user where to save it.
+6. **Report** the headline line to the user: US-ID, scenarios by priority, AC coverage,
+   negative-path gate (`reqNegCovered/reqNegTotal`), open arbitrations count — and remind
+   them the `gate` verdict is filled by `qaia-score`, not here.
+
+## Guardrails
+
+- **Never self-score.** This skill writes `design`, `artifacts`, `openArbitrations`,
+  provenance — never the `gate` block (shared contract rule 3: the skill never self-validates;
+  scoring is a separate plugin).
+- **No secrets, no PII, no raw source** in the manifest — counts, IDs, paths, verdicts only
+  (contract principle 5). If a title or path would leak sensitive data, redact it.
+- **Counts must match the book.** If the manifest and the artifacts disagree, the artifacts
+  win: stop and surface the discrepancy rather than writing numbers that lie (same rule as
+  `testbook-export`).
+- **Contract version.** Always stamp `"contract": "1.0"`; if `docs/OUTPUT-CONTRACT.md` has
+  advanced, follow its current version and note the bump.
