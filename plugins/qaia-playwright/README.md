@@ -2,7 +2,7 @@
 
 QAIA automation plugin: turn a Gherkin test book into **native Playwright tests** (Page Object Model as fixtures), with requirement traceability — plus accessibility, performance and security-surface coverage. **Web-first.**
 
-**Status: 0.1.0 — pre-alpha.** The skills codify the patterns proven end-to-end in [`examples/medibook/`](../../examples/medibook) (31 tests green across 7 test types). Their productization (agent generates these from any test book) is milestone M3.
+**Status: 0.1.8.** The skills codify the patterns proven end-to-end in [`examples/medibook/`](../../examples/medibook) (31 tests green across 7 test types) and [`examples/expense-demo/`](../../examples/expense-demo) (40 tests green, finance/HR domain).
 
 ## Install
 
@@ -19,8 +19,9 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 | `automate` | Gherkin test book → native Playwright (POM-as-fixtures), E2E web + API, traceable to `@QAIA-*` IDs |
 | `a11y-audit` | axe-core / WCAG 2 A/AA, violations by severity |
 | `visual-check` | Playwright screenshot regression, baselines + tolerance, per screen |
-| `perf-check` | latency budgets + concurrency integrity; k6 for real load — **self-hosted only** |
-| `security-surface` | passive checks (auth, IDOR, error handling, enumeration) + ZAP baseline — **authorized self-hosted only** |
+| `perf-check` | latency budgets + concurrency integrity; named CT-PT test types (load/stress/spike/soak/scalability), k6 for real load — **self-hosted only** |
+| `security-surface` | risk-based (assets → threats → prioritized checks, CT-SEC): auth, IDOR, error handling, enumeration + ZAP baseline — **authorized self-hosted only** |
+| `usability-heuristic-review` | Nielsen's 10 heuristics + one cognitive walkthrough (CT-UT), violations by severity — **self-hosted only** |
 | `run-report` | JUnit XML + Cucumber JSON + HTML, with traceability |
 | `flaky-detect` | Detect pass/fail verdict variance across N ≥ 3 runs of the same code — flag with evidence only, never auto-retry/fix |
 | `locator-repair` | Diagnose a test failing on a broken `getByRole`/`getByTestId` locator and propose a candidate fix as a reviewable diff — never applied automatically |

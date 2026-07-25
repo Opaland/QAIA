@@ -1,6 +1,6 @@
 # Minimal excerpt, deliberately built for issue #41 (self-review lint validation).
 # Not a real product US — three scenarios, each with a concrete, assertable Then,
-# chosen to exercise the three violation classes step 4 must catch.
+# chosen to exercise the three violation classes step 5 must catch.
 
 Feature: Booking cancellation window (fixture for automate's assertion self-review)
 

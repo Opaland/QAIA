@@ -1,22 +1,26 @@
 ---
 name: istqb-design
-description: Choose and justify ISTQB test design techniques (Foundation + Test Analyst) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, use cases, pairwise. Fourth step of the QAIA journey.
+description: Choose and justify ISTQB test design techniques (Foundation + Test Analyst + CT-AI) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, use cases, pairwise, domain analysis, metamorphic testing, CRUD, AI/ML-feature testing. Fourth step of the QAIA journey.
 ---
 
 # istqb-design — technique selection, justified
 
 Follow the shared contract in `../README.md`. Prerequisite: `02-understanding.md` (else offer `need-understanding`).
 
-## Technique palette (D24 — Foundation + Test Analyst)
+## Technique palette (D24 — Foundation + Test Analyst + CT-AI, extended D95)
 
 | Technique | Fits when the AC involves |
 |---|---|
 | Equivalence partitioning | input/state classes treated the same way |
 | Boundary value analysis | thresholds, limits, sizes, dates (test the exact wording: inclusive/exclusive — use the answers from step 02) |
+| Domain analysis (Test Analyst) | **several related variables each carrying their own boundaries, needing combined coverage** — not each variable's boundaries tested in isolation (plain BVA), but the worst-case/best-case/single-variable-boundary combinations across the set (e.g. a shipping cost driven jointly by weight AND distance bands, each with its own thresholds) |
 | Decision table | combinations of conditions → actions (roles × flags × states) |
-| State transition | lifecycle rules (statuses, allowed/forbidden transitions, events) |
+| State transition | lifecycle rules (statuses, allowed/forbidden transitions, events) — **build the explicit state × event table first** (CT-MBT discipline, D95): list every declared state × every declared event, mark each cell valid-target or forbidden, *then* derive conditions from the completed table — never pick transition pairs opportunistically straight from AC prose, which is how gaps like #43's state-machine over-generalization happen |
 | Use case / scenario | end-to-end user goals crossing several rules — **constrained**: at most one journey scenario per US, tagged `@smoke`, whose `Then` asserts the single journey-level outcome (never re-verifying behaviors already covered atomically); excluded from atomicity accounting |
 | Pairwise (Test Analyst) | many independent parameters where full combination explodes |
+| CRUD (Test Analyst v4.0) | full entity lifecycle (create/read/update/delete + inverses) — already derived by the 3c reflex pattern below; tag `@crud` when the technique driving the scenario *is* the lifecycle pattern itself, distinct from a plain state-transition on a single status field |
+| Metamorphic testing (Test Analyst v4.0 / CT-AI) | **the exact expected output can't be stated directly** — it depends on an external or unsourced parameter (an exchange rate, a ranking score, a model output) — but a **relation** between two related inputs/outputs is known and checkable without knowing that parameter (double the input amount → the converted total is ~double; the same input submitted twice → the same classification; reordering independent inputs → an unchanged aggregate). Use this **instead of** asserting a fabricated precise value (the exact defect closed in #46) whenever the AC's real requirement is the *relationship*, not a specific number |
+| AI/ML feature under test (CT-AI v2.0) | the AC describes a feature **in the target application** backed by an AI/ML/GenAI model (recommendation, classification, scoring, generation, ranking) — never QAIA testing itself, always the SUT's own AI feature. Derive, as ordinary Gherkin scenarios (never a live attack, never executed against anything but the self-hosted target): **adversarial-input robustness** (malformed/perturbed input degrades gracefully — a documented fallback/error, not a silent wrong answer), **consistency / back-to-back** (the same input stays within a stated tolerance across re-runs or model versions), and the **metamorphic relations** above. Drift/monitoring needs are flagged as an operational gap for the user, never fabricated as a test assertion (D38) |
 | Error guessing / checklist | error handling, empty states, concurrency — anchored on the ambiguity log |
 
 ## Steps

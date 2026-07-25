@@ -1,6 +1,6 @@
 ---
 name: perf-check
-description: Generate and run performance checks (latency budgets, concurrency integrity) against a self-hosted app, with k6 for real load. Use for performance coverage. Self-hosted targets only.
+description: Generate and run performance checks (latency budgets, concurrency integrity, named CT-PT test types - load/stress/spike/soak/scalability) against a self-hosted app, with k6 for real load. Use for performance coverage. Self-hosted targets only.
 ---
 
 # perf-check — performance
@@ -11,8 +11,14 @@ Reference: `examples/medibook/tests/perf.slots.spec.js` (p95 latency + no-overse
 
 1. **Latency budget**: fire N concurrent requests at a key endpoint, assert p95 < budget; log p50/p95/max.
 2. **Concurrency integrity**: race N clients on a limited resource (e.g. one bookable slot), assert exactly one succeeds — no oversell/double-spend.
-3. For serious load, generate a **k6 script** (stages, thresholds) and run it against the self-hosted target.
-4. Tag `@QAIA-PERF-<NNN>`; report real numbers.
+3. **Named performance test type (CT-PT, D95)** — ask the user which type(s) apply (default: load only, the cheapest and most broadly relevant); generate a **k6 script** matching the requested type's shape, never a one-size-fits-all script:
+   - **Load** — realistic expected concurrency, steady stage; asserts the latency budget holds under normal traffic.
+   - **Stress** — ramp stages beyond the expected peak until something degrades; goal is finding the breaking point and how it fails (graceful 5xx/backpressure vs. crash/hang), not passing a fixed threshold.
+   - **Spike** — a short, extreme step-increase from baseline then back down; asserts the system recovers (no lingering errors/latency) after the spike passes, not just that it survives during it.
+   - **Soak / endurance** — a long, steady stage (minutes-to-hours, scoped to what's practical in-session); watches for degradation over time (rising latency, memory growth via repeated measurement) that a short run can't reveal — flag honestly if the session can only run a short proxy of a real soak window.
+   - **Scalability / capacity** — repeat the load stage at increasing concurrency levels and report where the budget first breaks, rather than asserting a single pass/fail — a capacity curve, not a gate.
+   - Volume, configuration, and baseline testing (CT-PT) are named but not separately scripted here — volume folds into the concurrency-integrity check above (large N), configuration/baseline are a documentation concern (record the environment the numbers were measured against), not a distinct k6 shape.
+4. Tag `@QAIA-PERF-<NNN>`, plus the CT-PT type tag `@perf:load` / `@perf:stress` / `@perf:spike` / `@perf:soak` / `@perf:scalability`; report real numbers, never a budget you did not actually measure.
 
 ## Guardrails
 

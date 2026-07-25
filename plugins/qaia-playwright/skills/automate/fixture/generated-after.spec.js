@@ -1,4 +1,4 @@
-// Fixture for issue #41 — the SAME generation, with SKILL.md step 4's self-review
+// Fixture for issue #41 — the SAME generation, with SKILL.md step 5's self-review
 // applied before writing: each trivial assertion replaced by a real one derived
 // from its scenario's Then text, using the page object already in scope. See
 // ../VALIDATION.md for the before → after mapping and why each fix was chosen.

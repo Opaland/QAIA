@@ -1,13 +1,20 @@
 ---
 name: security-surface
-description: Generate and run passive security-surface checks (auth boundaries, IDOR, error handling, user enumeration) against an authorized self-hosted app, plus optional OWASP ZAP baseline. Use for security coverage. Authorized self-hosted targets only.
+description: Generate and run risk-based passive security-surface checks (CT-SEC - assets and threats identified first, then auth boundaries, IDOR, error handling, user enumeration prioritized by risk) against an authorized self-hosted app, plus optional OWASP ZAP baseline. Use for security coverage. Authorized self-hosted targets only.
 ---
 
-# security-surface — passive security checks
+# security-surface — risk-based passive security checks (CT-SEC)
 
-Reference: `examples/medibook/tests/security.booking.spec.js` (401/IDOR/malformed-input/user-enumeration). Decision D26 — v1 passive; ZAP baseline opt-in.
+Reference: `examples/medibook/tests/security.booking.spec.js` (401/IDOR/malformed-input/user-enumeration). Decision D26 — v1 passive; ZAP baseline opt-in. Decision D95 — front-ended with a CT-SEC risk assessment: the fixed v1 checklist alone treated every app the same regardless of what it actually protects; identical checklist, but now run in the order and depth the app's own assets/threats justify, not uniformly.
 
-## Scope (v1, passive)
+## Step 0 — Asset & threat identification (CT-SEC, run before the checklist)
+
+1. **Name the sensitive assets** the app actually holds, from the US/test book/knowledge base — never invented: authentication credentials, other users' personal data, payment/financial data, admin/privileged functions, any data a breach would make notably worse than "generic CRUD record" (health data, financial totals, access tokens).
+2. **Rank threats per asset** with the same impact × probability spirit as `prioritize` (T16 — human arbitrates, never a silent auto-verdict): which asset, if compromised via which check category below, causes the most damage? A payment-data asset raises IDOR/enumeration to the top; an admin-function asset raises auth-boundary privilege checks; an app with no sensitive asset beyond its own generic records still runs the full v1 checklist, just without an elevated priority on any one category.
+3. **Record the ranking** alongside the report (asset → top-priority check category → why) — this is what changed from a flat checklist to a risk-based one; the checklist items themselves (below) are unchanged, only their **order and depth of attention** are asset-driven.
+4. **Never skip a v1 checklist item because an asset ranking looks low-risk** — risk-based means *prioritized*, not *reduced coverage*. A quiet asset still gets the full passive pass, just not the first or deepest one.
+
+## Scope (v1, passive — run for every target, ordered/weighted by step 0)
 
 - **Auth boundaries**: protected endpoints reject missing/forged/expired tokens (401).
 - **IDOR / cross-tenant**: one user cannot read or mutate another user's resource (expect 404/403, indistinguishable where privacy requires).
