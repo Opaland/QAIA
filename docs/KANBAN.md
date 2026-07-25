@@ -6,6 +6,26 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 21 — Élargissement ISTQB global, IDOR trouvé, démo statique GitHub Pages (2026-07-26, D94-D97) ✅ TERMINÉ
+
+Demande fondateur : veille concurrentielle élargie hors médical (regard global, GitHub +
+web) puis audit complet de couverture ISTQB (tous les syllabus, pas seulement CT-GenAI),
+implémentation des gaps trouvés, tests locaux, et une démo statique GitHub Pages.
+
+| Livré | Preuve |
+|---|---|
+| **Veille élargie hors médical** — écosystème de plugins Claude Code QA densifié depuis D67, aucun concurrent à l'échelle d'Agentic QE Fleet ; 1 trouvaille distincte (`chaos-qa`, sondage adversarial de contrat) convertie en piste de backlog | D94, [#47](https://github.com/Opaland/QAIA/issues/47) ouverte |
+| **8 ajouts ISTQB au-delà de CTFL/CT-GenAI** : Domain Analysis, Metamorphic testing, techniques CT-AI (`istqb-design`) ; menu de types CT-PT (`perf-check`) ; refonte risk-based CT-SEC (`security-surface`) ; précheck de testabilité CTAL-TAE (`automate`) ; nouvelle skill `usability-heuristic-review` (CT-UT) — vérifiée pour de vrai contre `expense-demo`, 3 violations trouvées avec preuve fichier:ligne | D95, [#48](https://github.com/Opaland/QAIA/issues/48) fermée |
+| **Vrai IDOR trouvé et corrigé** en testant localement le nouveau security-surface risk-based : `GET /api/reports/:id` n'avait aucune vérification de propriété — corrigé, 3 cas de non-régression ajoutés | D96 |
+| **Démo statique GitHub Pages** publiée (`static-demo/`, mock-backend fidèle y compris le correctif IDOR) pour tester usability-heuristic-review/a11y-audit/visual-check sans backend — vérifiée fonctionnellement avant publication | D97, `.github/workflows/pages.yml` |
+
+**Pattern de cette session** : recherche réelle vérifiée avant tout ajout au backlog (un lead
+IEC 62304 écarté après lecture directe de la source, D93) ; discipline de coût agent — édition
+directe préférée au dispatch de sous-agent pour du travail déjà bien cadré, sur demande
+explicite du fondateur en cours de session.
+
+---
+
 ## Sprint 20 — Reliquat post-mandat : connecteur TestRail, budget token complet, fiabilisation veille (2026-07-25, D89-D92) ✅ TERMINÉ
 
 Demande fondateur, après constat que le backlog GitHub agent-faisable était épuisé (Sprint 19) :
