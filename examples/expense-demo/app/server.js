@@ -235,7 +235,14 @@ const server = http.createServer(async (req, res) => {
   if (p.match(/^\/api\/reports\/[^/]+$/) && req.method === 'GET') {
     const a = authFrom(req); if (!a) return json(res, 401, { error: 'unauthenticated' });
     const rpt = db.reports.find(r => r.id === p.split('/').pop());
-    if (!rpt) return json(res, 404, { error: 'report not found' });
+    // IDOR fix (found by usability/security review pass, 2026-07-26): reading a report was
+    // never ownership-checked (unlike the PUT/edit path above), so any authenticated user
+    // could read any other user's report by id, including unsubmitted drafts. Same visibility
+    // rule as the /api/reports?scope=inbox listing: the submitter always sees their own report;
+    // an approver only sees it once it is submitted and currently awaiting their role.
+    const isOwner = rpt && rpt.submitterId === a.user.id;
+    const isCurrentApprover = rpt && rpt.status === 'submitted' && rpt.submitterId !== a.user.id && nextApproverRole(rpt) === a.user.role;
+    if (!rpt || !(isOwner || isCurrentApprover)) return json(res, 404, { error: 'report not found' });
     return json(res, 200, { report: rpt });
   }
 

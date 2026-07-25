@@ -304,4 +304,33 @@ test.describe('ExpenseFlow API (US-004)', () => {
     const r = await request.put(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + emp }, data: { currency: 'EUR', lines: [] } });
     expect(r.status()).toBe(404); // not found, not 403 -> no existence disclosure
   });
+
+  // Read-path IDOR (#48 security-surface risk-based review, 2026-07-26): GET was never
+  // ownership-checked, unlike PUT above -- any authenticated user could read any other
+  // user's report by id, including an unsubmitted draft. Fixed in app/server.js to mirror
+  // the same visibility rule as ?scope=inbox: owner always sees it; an approver only once
+  // it is submitted and currently awaiting their role.
+  test('@QAIA-US-004-039 @AC-auth @P1 @negative a manager cannot read an employee\'s unsubmitted draft (IDOR, read path)', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const id = await apiCreateDraft(request, B, emp, { lines: [{ category: 'x', amount: 20, date: todayISO(), receipt: true }] });
+    const mgr = await apiLogin(request, B, 'manager@demo');
+    const r = await request.get(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + mgr } });
+    expect(r.status()).toBe(404); // not found, not 403 -> no existence disclosure
+  });
+
+  test('@QAIA-US-004-040 @AC-auth @P2 the current approver CAN read a report once it is submitted and awaiting their role', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'x', amount: 20, date: todayISO(), receipt: true }] });
+    const mgr = await apiLogin(request, B, 'manager@demo');
+    const r = await request.get(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + mgr } });
+    expect(r.status()).toBe(200);
+  });
+
+  test('@QAIA-US-004-041 @AC-auth @P2 @negative an approver not yet in the chain cannot read a submitted report (IDOR, read path)', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'x', amount: 20, date: todayISO(), receipt: true }] });
+    const fin = await apiLogin(request, B, 'finance@demo');
+    const r = await request.get(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + fin } });
+    expect(r.status()).toBe(404); // band A report, only awaiting the manager -> finance is not yet in the chain
+  });
 });
