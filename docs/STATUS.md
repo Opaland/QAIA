@@ -338,11 +338,11 @@ d'org). **Vérifie d'abord le board GitHub ET fais un tour rapide de veille conc
 un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu être ouverte depuis,
 le paysage concurrentiel évolue vite) — mais vérifie toute piste trouvée en allant lire la
 source directement avant de l'ajouter au backlog (un lead prometteur sur IEC 62304 ne tenait pas
-la route une fois la source réelle lue, D93) — sinon dis-le clairement plutôt que d'inventer du
+la route une fois la source réelle lue, D101) — sinon dis-le clairement plutôt que d'inventer du
 travail marginal. **Regarde aussi en premier le verdict de l'audit externe** (voir ci-dessus) —
 son plan d'action peut être un meilleur point de départ qu'une nouvelle veille à froid.
 
-**Coût agent (D93, réappliqué tout le Sprint 21) : par défaut, préfère l'édition directe
+**Coût agent (D102, réappliqué tout le Sprint 21) : par défaut, préfère l'édition directe
 (Read/Edit/Bash) à un dispatch d'agent en sous-tâche pour du travail déjà bien cadré** — ne
 réserve le dispatch d'agent (surtout en `isolation: "worktree"`, ~40-140k tokens par agent
 observé) qu'aux tâches vraiment parallélisables ou nécessitant une exécution isolée/indépendante

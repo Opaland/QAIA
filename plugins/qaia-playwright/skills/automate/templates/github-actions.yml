@@ -31,8 +31,17 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
 
-      - name: Run Playwright suite
-        run: npx playwright test
+      # Retry/quarantine policy (T2): 0 automatic retries (masking instability would hide the
+      # exact signal qaia-playwright:flaky-detect exists to surface). A test tagged @quarantine
+      # by a human after a flaky-detect finding is excluded from the blocking run below but
+      # still executed and reported separately, so it stays visible instead of disappearing.
+      - name: Run Playwright suite (excludes @quarantine)
+        run: npx playwright test --grep-invert "@quarantine"
+
+      - name: Run quarantined tests (non-blocking, reported separately)
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        run: npx playwright test --grep "@quarantine" --output=quarantine-results
 
       - name: Publish JUnit + Cucumber + HTML (qaia-playwright:run-report formats, T1)
         if: ${{ !cancelled() }}

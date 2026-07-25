@@ -21,9 +21,9 @@ implémentation des gaps trouvés, tests locaux, et une démo statique GitHub Pa
 | **Nouvelle skill `contract-probe`** (sondage adversarial de contrat, CT-SEC/exploratoire) — ferme #47, dernier chantier de la veille élargie. Vérifiée sur un fixture dédié avec un défaut injecté délibérément (`GET /tasks/:id` retourne 500 au lieu du 404 promis) : 3 promesses extraites du README, 5 sondes adversariales, 1 scénario de régression généré | D98, [#47](https://github.com/Opaland/QAIA/issues/47) fermée |
 
 **Pattern de cette session** : recherche réelle vérifiée avant tout ajout au backlog (un lead
-IEC 62304 écarté après lecture directe de la source, D93) ; discipline de coût agent — édition
+IEC 62304 écarté après lecture directe de la source, D101) ; discipline de coût agent — édition
 directe préférée au dispatch de sous-agent pour du travail déjà bien cadré, sur demande
-explicite du fondateur en cours de session ; démo statique testée à deux niveaux (logique Node
+explicite du fondateur en cours de session (D102) ; démo statique testée à deux niveaux (logique Node
 identique au déployé, puis navigateur réel dès l'outillage redisponible).
 
 **Backlog agent-faisable de nouveau épuisé** (toutes les issues #47/#48 ouvertes cette session

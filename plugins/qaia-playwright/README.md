@@ -32,7 +32,7 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 
 - **POM as fixtures** (D34): page objects hold selectors, tests hold assertions.
 - **Native Playwright, no Cucumber layer** (D5): the Gherkin book is the human-readable source; tests reference its stable scenario IDs.
-- **Web-first** (D50): mobile = browser emulation; native iOS/Android is out of scope (would need Appium).
+- **Web-first** (D100): mobile = browser emulation; native iOS/Android is out of scope (would need Appium).
 - **Self-hosted for security & load** (D35): shared public demos forbid them.
 - Generated tests are **autonomous outside the Claude session** — they run in the user's own CI.
 - **`traffic-replay` never captures live traffic** (issue #39): input is a HAR the user already

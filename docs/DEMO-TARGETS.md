@@ -18,7 +18,7 @@ Vetted catalog of public apps and GitHub lists to exercise QAIA on real software
 | SauceDemo | ❌ | ✅ | ❌ | +native demo app | ❌ | ❌ | ⚠ | ✅ |
 | the-internet | ✅ Docker | ✅✅ edge cases | ❌ | ❌ | ❌ | ❌ | ⚠ | ⚠ |
 
-Native mobile: SauceLabs **My Demo App** (React Native, OSS) is the go-to real-native target (needs Appium — out of QAIA v1 scope, D50).
+Native mobile: SauceLabs **My Demo App** (React Native, OSS) is the go-to real-native target (needs Appium — out of QAIA v1 scope, D100).
 
 ## GitHub lists that catalog targets
 

@@ -27,7 +27,7 @@ npx playwright test               # 24 tests: e2e desktop + mobile, api, a11y, v
 | API | `tests/api.booking.spec.js` | REST-level AC checks (filters, 2h/4h/3-cap boundaries, race → 409, minor rules, auth, audit) |
 | Accessibility | `tests/a11y.booking.spec.js` | axe-core, WCAG 2 A/AA, zero serious/critical violations |
 | Visual | `tests/visual.booking.spec.js` | Screenshot baselines (login, booking) |
-| Mobile | `e2e-mobile` project | Browser emulation (Pixel 7) — **native iOS/Android is out of scope, honest per decision D50** |
+| Mobile | `e2e-mobile` project | Browser emulation (Pixel 7) — **native iOS/Android is out of scope, honest per decision D100** |
 
 ## Design notes
 

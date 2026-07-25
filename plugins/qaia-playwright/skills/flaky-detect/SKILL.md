@@ -7,9 +7,15 @@ description: Detect tests whose pass/fail verdict varies across repeated runs of
 
 Addresses issue #34 (P1) — flaky detection was an identified gap versus the competitive
 landscape (`docs/COMPETITIVE-ANALYSIS.md`), and the exact class of bug QAIA's own automation
-has hit for real: 3 findings in `examples/medibook/`'s flake hunt (shared mutable state raced
-by parallel workers, fixed with `workers: 1`) and a 4th in `examples/expense-demo/` (D68). The
-value of catching this class is proven; this skill is the missing tool.
+has hit for real: 1 finding in `examples/medibook/`'s flake hunt (shared mutable state raced
+by parallel workers, fixed with `workers: 1`) and a 2nd in `examples/expense-demo/` (D68).
+**Correction (external audit, 2026-07-26)**: this line previously overstated the medibook
+count as "3 findings" — the hunt session did surface 3 distinct defects (`docs/KANBAN.md`
+Sprint 5 entry), but only the shared-state race is actually an instance of *this skill's*
+defect class (pass/fail variance across runs of unchanged code); the other two (a hardcoded
+Chromium path, a visual-baseline tolerance gap) are different defect classes entirely, found
+in the same session but not flakiness. Reported accurately rather than inflated. The value of
+catching this class is proven either way; this skill is the missing tool.
 
 Reference fixture: `fixture/` in this skill folder — a minimal, self-contained Playwright
 suite against a shared-state server, deliberately timing-dependent (not "always fails"),

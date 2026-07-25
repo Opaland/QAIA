@@ -52,6 +52,37 @@ test.describe('ExpenseFlow API (US-004)', () => {
     expect(r.status()).toBe(409);
   });
 
+  // CT-MBT symmetric coverage gap (external audit finding, 2026-07-26): `rejected` had both
+  // of the tests above proving it is terminal, but `approved` -- the report's other terminal
+  // state -- had none. The behavior was already correct (server.js's guards are generic, not
+  // rejected-specific), only the regression coverage was missing. Same pattern as #028/#029.
+  test('@QAIA-US-004-043 @AC7 @P2 @negative an approved report cannot be edited', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const mgr = await apiLogin(request, B, 'manager@demo');
+    const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'taxi', amount: 20, date: todayISO(), receipt: true }] });
+    await apiDecide(request, B, mgr, id, 'approve');
+    const r = await request.put(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + emp }, data: { currency: 'EUR', lines: [] } });
+    expect(r.status()).toBe(409);
+  });
+
+  test('@QAIA-US-004-044 @AC7 @P2 @negative an approved report cannot be re-submitted', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const mgr = await apiLogin(request, B, 'manager@demo');
+    const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'taxi', amount: 20, date: todayISO(), receipt: true }] });
+    await apiDecide(request, B, mgr, id, 'approve');
+    const r = await request.post(B + '/api/reports/' + id + '/submit', { headers: { Authorization: 'Bearer ' + emp } });
+    expect(r.status()).toBe(409);
+  });
+
+  test('@QAIA-US-004-045 @AC7 @P2 @negative an approved report cannot be re-decided', async ({ request }) => {
+    const emp = await apiLogin(request, B, 'employee@demo');
+    const mgr = await apiLogin(request, B, 'manager@demo');
+    const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'taxi', amount: 20, date: todayISO(), receipt: true }] });
+    await apiDecide(request, B, mgr, id, 'approve');
+    const r = await apiDecide(request, B, mgr, id, 'approve');
+    expect(r.status()).toBe(409);
+  });
+
   // --- AC2 boundaries ---
 
   test('@QAIA-US-004-008 @AC2 @P1 @boundary just under €500 needs only manager', async ({ request }) => {
