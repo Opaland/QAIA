@@ -1,0 +1,554 @@
+<title>QAIA — Compte-rendu d'audit externe</title>
+<style>
+  :root {
+    --ink: #1c2430;
+    --ink-soft: #4b5563;
+    --paper: #f6f4ef;
+    --paper-raised: #ffffff;
+    --accent: #2f5d55;
+    --accent-soft: #e7efec;
+    --critical: #a4322a;
+    --critical-soft: #f6e6e4;
+    --warning: #96702c;
+    --warning-soft: #f5edda;
+    --minor: #5b6472;
+    --minor-soft: #eceef0;
+    --line: rgba(28, 36, 48, 0.14);
+    --line-soft: rgba(28, 36, 48, 0.08);
+    --shadow: 0 1px 2px rgba(28, 36, 48, 0.06), 0 8px 24px rgba(28, 36, 48, 0.05);
+  }
+  :root[data-theme="dark"] {
+    --ink: #e8e6df;
+    --ink-soft: #a9b0ba;
+    --paper: #14181f;
+    --paper-raised: #1b212a;
+    --accent: #7fb8ab;
+    --accent-soft: #1e2b28;
+    --critical: #e08079;
+    --critical-soft: #33201e;
+    --warning: #d8b878;
+    --warning-soft: #332a17;
+    --minor: #9aa3af;
+    --minor-soft: #232830;
+    --line: rgba(232, 230, 223, 0.16);
+    --line-soft: rgba(232, 230, 223, 0.08);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e8e6df;
+      --ink-soft: #a9b0ba;
+      --paper: #14181f;
+      --paper-raised: #1b212a;
+      --accent: #7fb8ab;
+      --accent-soft: #1e2b28;
+      --critical: #e08079;
+      --critical-soft: #33201e;
+      --warning: #d8b878;
+      --warning-soft: #332a17;
+      --minor: #9aa3af;
+      --minor-soft: #232830;
+      --line: rgba(232, 230, 223, 0.16);
+      --line-soft: rgba(232, 230, 223, 0.08);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16.5px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif; }
+  .mono { font-family: "SF Mono", "Cascadia Code", "Consolas", ui-monospace, monospace; }
+
+  a { color: var(--accent); }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* Masthead */
+  .masthead {
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0 32px;
+    margin-bottom: 40px;
+  }
+  .masthead .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .masthead h1 {
+    font-size: clamp(30px, 5vw, 42px);
+    line-height: 1.12;
+    margin: 0 0 16px;
+    text-wrap: balance;
+    font-weight: 400;
+  }
+  .masthead .meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+  .masthead .meta dt { font-weight: 600; color: var(--ink); }
+  .masthead .meta dd { margin: 0; }
+
+  /* TOC */
+  .toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 4px;
+    margin-bottom: 48px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .toc a {
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .toc a:hover { color: var(--accent); border-color: var(--accent); }
+
+  section { margin-bottom: 64px; scroll-margin-top: 20px; }
+  h2.serif {
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0 0 8px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  h2.serif .num { font-family: ui-monospace, monospace; font-size: 15px; color: var(--accent); font-weight: 600; }
+  .section-intro { color: var(--ink-soft); font-size: 15px; max-width: 640px; margin: 0 0 28px; }
+
+  p { max-width: 66ch; }
+
+  /* Callout */
+  .callout {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 18px 22px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow);
+  }
+  .callout strong { color: var(--ink); }
+
+  /* Scorecard table */
+  .table-scroll { overflow-x: auto; border-radius: 8px; border: 1px solid var(--line); box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; background: var(--paper-raised); font-size: 14.5px; }
+  thead th {
+    text-align: left;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  tbody td { padding: 12px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--accent-soft); }
+  .score-bar-cell { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+  .score-num { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; width: 34px; }
+  .score-track { width: 64px; height: 6px; border-radius: 100px; background: var(--minor-soft); overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 100px; background: var(--accent); }
+  .score-fill.low { background: var(--critical); }
+  .score-fill.mid { background: var(--warning); }
+  tr.zero-row { opacity: 0.7; }
+
+  .avg-strip {
+    display: flex;
+    gap: 32px;
+    margin-top: 18px;
+    padding: 16px 20px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .avg-strip .figure { font-family: ui-monospace, monospace; font-size: 22px; font-weight: 700; color: var(--accent); }
+  .avg-strip .label { color: var(--ink-soft); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* SWOT */
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .swot-grid { grid-template-columns: 1fr; } }
+  .swot-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .swot-card h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 14px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .swot-card h3::before { content: ""; width: 8px; height: 8px; border-radius: 2px; }
+  .swot-card.strengths h3::before { background: var(--accent); }
+  .swot-card.weaknesses h3::before { background: var(--critical); }
+  .swot-card.opportunities h3::before { background: var(--warning); }
+  .swot-card.threats h3::before { background: var(--minor); }
+  .swot-card ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .swot-card li { font-size: 14px; padding-left: 14px; border-left: 2px solid var(--line); }
+  .swot-card.weaknesses li.sev-bloquant { border-left-color: var(--critical); }
+  .swot-card.weaknesses li.sev-majeur { border-left-color: var(--warning); }
+  .sev-tag {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .sev-tag.bloquant { background: var(--critical-soft); color: var(--critical); }
+  .sev-tag.majeur { background: var(--warning-soft); color: var(--warning); }
+  cite.src { font-style: normal; font-family: ui-monospace, monospace; font-size: 12px; color: var(--ink-soft); }
+
+  details.nuance { margin-top: 20px; }
+  details.nuance summary {
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    padding: 10px 0;
+  }
+  details.nuance ul { font-size: 13.5px; color: var(--ink-soft); padding-left: 20px; }
+  details.nuance li { margin-bottom: 8px; }
+
+  /* Action plan */
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    min-width: 32px;
+  }
+  .prio-badge.p0 { background: var(--critical-soft); color: var(--critical); }
+  .prio-badge.p1 { background: var(--warning-soft); color: var(--warning); }
+  .prio-badge.p2, .prio-badge.p3 { background: var(--minor-soft); color: var(--minor); }
+  tr.row-p0 td:first-child { border-left: 3px solid var(--critical); }
+  tr.row-p1 td:first-child { border-left: 3px solid var(--warning); }
+  tr.row-p2 td:first-child, tr.row-p3 td:first-child { border-left: 3px solid var(--minor); }
+  td.action-cell { max-width: 320px; }
+  .tag-pill { display: inline-block; font-size: 11px; color: var(--ink-soft); background: var(--minor-soft); padding: 2px 8px; border-radius: 100px; }
+
+  /* Roadmap */
+  .blindspots { display: flex; flex-direction: column; gap: 18px; }
+  .blindspot {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .blindspot .n { font-family: ui-monospace, monospace; font-size: 22px; font-weight: 700; color: var(--accent); }
+  .blindspot p { margin: 0; font-size: 14.5px; }
+  .recommendation {
+    margin-top: 20px;
+    padding: 18px 22px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 14.5px;
+  }
+
+  /* Verdict */
+  .verdict-panel {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .verdict-panel::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--critical), var(--warning), var(--accent));
+  }
+  .verdict-lede {
+    font-size: 19px;
+    line-height: 1.5;
+    font-weight: 600;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  .verdict-facts { display: flex; flex-direction: column; gap: 14px; margin: 24px 0; }
+  .verdict-fact { display: grid; grid-template-columns: 28px 1fr; gap: 12px; font-size: 14.5px; }
+  .verdict-fact .n {
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+    color: var(--critical);
+  }
+  .maturity-stamp {
+    margin-top: 28px;
+    padding: 20px 24px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .maturity-stamp .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); }
+  .maturity-stamp .value { font-family: Georgia, serif; font-size: 20px; }
+
+  .post-audit {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .post-audit .check { color: var(--accent); font-weight: 700; }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Compte-rendu d'audit — usage interne</div>
+    <h1 class="serif">QAIA — mesurer la promesse face à la réalité</h1>
+    <dl class="meta">
+      <dt>Mandat</dt><dd>Revue externe post-contradictoire de la plateforme QAIA</dd>
+      <dt>Méthode</dt><dd>13 personas métier indépendants (ISTQB + hors périmètre) → 3 passes adversariales ayant reproduit chaque preuve citée → synthèse</dd>
+      <dt>Date</dt><dd>2026-07-26 — environ 3 jours calendaires après le premier commit du dépôt</dd>
+    </dl>
+  </div>
+
+  <nav class="toc">
+    <a href="#preambule">Préambule</a>
+    <a href="#scorecard">Scorecard</a>
+    <a href="#swot">SWOT</a>
+    <a href="#plan">Plan d'action</a>
+    <a href="#roadmap">Feuille de route</a>
+    <a href="#verdict">Verdict</a>
+  </nav>
+
+  <section id="preambule">
+    <h2 class="serif"><span class="num">00</span>Préambule méthodologique</h2>
+    <div class="callout">
+      <p style="margin:0 0 10px">Sur les 13 personas mandatés, <strong>un seul (Test Manager ISTQB CTAL-TM) n'a produit aucun finding</strong> — c'est un angle mort de l'audit lui-même, relevé comme tel plutôt qu'ignoré ; il est compté à 0/5 dans la scorecard.</p>
+      <p style="margin:0">Sur l'ensemble des claims soumises au contradictoire, plus de 90&nbsp;% ont <strong>survécu</strong> à au moins 2 des 3 sceptiques — plusieurs revérifiées en direct (<span class="mono">curl</span> live, suites Playwright ré-exécutées, tokens recalculés). Le noyau restant, nuancé ou contredit à l'exécution, est isolé en transparence plutôt que dilué dans le SWOT.</p>
+    </div>
+  </section>
+
+  <section id="scorecard">
+    <h2 class="serif"><span class="num">01</span>Scorecard par persona</h2>
+    <p class="section-intro">Note sur 5, attribuée après revue adversariale — pas la note brute du persona lui-même.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Persona</th><th>Score</th><th>Verdict en un mot</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Test Analyst ISTQB (CTAL-TA)</td><td><div class="score-bar-cell"><span class="score-num">3.0</span><div class="score-track"><div class="score-fill mid" style="width:60%"></div></div></div></td><td>Documenté honnêtement, mal structuré vs syllabus</td></tr>
+          <tr><td>Technical Test Analyst ISTQB (CTAL-TTA)</td><td><div class="score-bar-cell"><span class="score-num">2.5</span><div class="score-track"><div class="score-fill mid" style="width:50%"></div></div></div></td><td>Black-box réel, white-box absent et non justifié</td></tr>
+          <tr><td>Test Automation Engineer ISTQB (CTAL-TAE)</td><td><div class="score-bar-cell"><span class="score-num">3.3</span><div class="score-track"><div class="score-fill" style="width:66%"></div></div></div></td><td>Architecture solide, preuves non portables</td></tr>
+          <tr><td>Performance Tester ISTQB (CT-PT)</td><td><div class="score-bar-cell"><span class="score-num">2.0</span><div class="score-track"><div class="score-fill low" style="width:40%"></div></div></div></td><td>Vaporware k6 — prose sans outillage</td></tr>
+          <tr><td>Testeur Sécurité ISTQB (CT-SEC)</td><td><div class="score-bar-cell"><span class="score-num">2.0</span><div class="score-track"><div class="score-fill low" style="width:40%"></div></div></div></td><td>Faille active non détectée dans le produit vitrine</td></tr>
+          <tr><td>Usability Tester ISTQB (CT-UT)</td><td><div class="score-bar-cell"><span class="score-num">3.0</span><div class="score-track"><div class="score-fill mid" style="width:60%"></div></div></div></td><td>Signal réel, un seul pass, non généralisable</td></tr>
+          <tr><td>AI Tester ISTQB (CT-AI / CT-GenAI)</td><td><div class="score-bar-cell"><span class="score-num">2.0</span><div class="score-track"><div class="score-fill low" style="width:40%"></div></div></div></td><td>Technique écrite, jamais exercée</td></tr>
+          <tr><td>Agile Tester ISTQB (CTFL-AT)</td><td><div class="score-bar-cell"><span class="score-num">3.0</span><div class="score-track"><div class="score-fill mid" style="width:60%"></div></div></div></td><td>Fixtures rigoureuses, preuve gonflée 3× sur un point</td></tr>
+          <tr class="zero-row"><td>Test Manager ISTQB (CTAL-TM)</td><td><div class="score-bar-cell"><span class="score-num">0.0</span><div class="score-track"><div class="score-fill low" style="width:0%"></div></div></div></td><td>Persona jamais réellement instruit — angle mort d'audit</td></tr>
+          <tr><td>Testeur mobile senior (CT-MAT)</td><td><div class="score-bar-cell"><span class="score-num">2.5</span><div class="score-track"><div class="score-fill mid" style="width:50%"></div></div></div></td><td>Limite honnête mais mal sourcée, coût non chiffré</td></tr>
+          <tr><td>Testeur QA pilote indépendant</td><td><div class="score-bar-cell"><span class="score-num">2.5</span><div class="score-track"><div class="score-fill mid" style="width:50%"></div></div></div></td><td>Mécanisme prouvé, parcours humain jamais validé</td></tr>
+          <tr><td>CTO PME tech (50–200 devs)</td><td><div class="score-bar-cell"><span class="score-num">1.5</span><div class="score-track"><div class="score-fill low" style="width:30%"></div></div></div></td><td>Non adoptable en équipe à ce stade</td></tr>
+          <tr><td>Auditeur qualité/conformité DM (IEC 62304)</td><td><div class="score-bar-cell"><span class="score-num">1.0</span><div class="score-track"><div class="score-fill low" style="width:20%"></div></div></div></td><td>Non auditable en environnement réglementé</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="avg-strip">
+      <div><div class="figure">2.4/5</div><div class="label">Moyenne, 12 personas instruits</div></div>
+      <div><div class="figure">2.2/5</div><div class="label">Moyenne, TM inclus (non instruit)</div></div>
+    </div>
+    <p style="font-size:14.5px;color:var(--ink-soft);margin-top:18px">QAIA n'échoue nulle part par malhonnêteté délibérée — c'est le point le plus constant du contradictoire — mais échoue systématiquement sur la <strong style="color:var(--ink)">preuve d'exécution à l'échelle</strong> : un artefact réel existe presque toujours, mais souvent un seul, souvent produit le même jour que la revendication qui s'appuie dessus, souvent jamais rejoué par une tierce partie avant cet audit.</p>
+  </section>
+
+  <section id="swot">
+    <h2 class="serif"><span class="num">02</span>SWOT consolidé</h2>
+    <p class="section-intro">Critère de rétention : claim confirmée « survit » par au moins 2 des 3 sceptiques.</p>
+    <div class="swot-grid">
+      <div class="swot-card strengths">
+        <h3>Forces retenues</h3>
+        <ul>
+          <li><strong>Discipline d'honnêteté documentaire, systémique.</strong> Assume des FAIL réels sans les lisser (score structurel 58/100 sur <cite class="src">receipts.feature</cite>, confirmé par ré-exécution indépendante).</li>
+          <li><strong>Coûts token mesurés sans complaisance.</strong> 14/14 skills instrumentées, 13/14 dépassant leur propre estimation — total ~860k tokens recalculé au token près par les 3 sceptiques.</li>
+          <li><strong>Correctif IDOR (D96) réel</strong>, vérifié en code et en test — confirmé par lecture directe et ré-exécution de la suite complète.</li>
+          <li><strong>Architecture Playwright disciplinée</strong> : 0 <span class="mono">expect()</span> dans les Page Objects, <span class="mono">workers:1</span> justifié par un flake de production documenté.</li>
+          <li><strong>Mécanisme d'incertitude appliqué réellement</strong> (<span class="mono">[open]</span>/<span class="mono">[assumption]</span>/<span class="mono">@low-confidence</span>), traçabilité question → scénario confirmée.</li>
+          <li>Zéro clé API dans le cœur, licence MIT, coût logé en quota d'abonnement.</li>
+        </ul>
+      </div>
+      <div class="swot-card weaknesses">
+        <h3>Faiblesses retenues</h3>
+        <ul>
+          <li class="sev-bloquant"><span class="sev-tag bloquant">Bloquant</span>Faille de contrôle d'accès active sur <cite class="src">GET /api/audit</cite>, non authentifiée — reproduite en direct par les 3 sceptiques. <em style="color:var(--accent)">Corrigée le jour même (D99).</em></li>
+          <li class="sev-bloquant"><span class="sev-tag bloquant">Bloquant</span>Le seul vrai critère go/no-go (5 pilotes externes réels, gate G2) n'a jamais été rempli — levé administrativement, pas franchi.</li>
+          <li class="sev-bloquant"><span class="sev-tag bloquant">Bloquant</span>Bus factor = 1, non résolu sur son propre ticket P0 (#2).</li>
+          <li class="sev-bloquant"><span class="sev-tag bloquant">Bloquant</span>Aucun script k6 n'a jamais existé dans le dépôt malgré une présentation qui en fait le moteur du volet performance.</li>
+          <li class="sev-bloquant"><span class="sev-tag bloquant">Bloquant</span>Portabilité cassée sur l'exemple vitrine medibook (chemin Chromium codé en dur) — reproduit par 2 des 3 sceptiques.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Aucune technique structure-based (statement/branch/MC-DC), sans justification d'exclusion.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Citations internes cassées et répétées (« D50 », « D93 » mal attribuées dans 8 fichiers) — ironique pour un projet fondé sur la traçabilité.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Techniques CT-AI jamais exercées : 0 occurrence des tags dans les 7 exemples.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Garde-fou CT-MBT jamais rejoué sur l'exemple existant — trou de couverture symétrique confirmé (<span class="mono">approved</span> jamais testé comme terminal).</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Aucune politique retry/quarantaine malgré une exigence documentée ; <span class="mono">.env</span>/<span class="mono">BASE_URL</span> revendiqués mais non câblés.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>Angle mort réglementaire total pour le médical (IEC 62304…) — alors que c'est la niche v1 revendiquée.</li>
+          <li class="sev-majeur"><span class="sev-tag majeur">Majeur</span>La question centrale « pourquoi QAIA plutôt qu'un bon prompt direct » n'a jamais reçu de réponse chiffrée.</li>
+        </ul>
+        <details class="nuance">
+          <summary>+ 5 claims nuancées ou écartées à l'exécution (transparence)</summary>
+          <ul>
+            <li>« 43 tests verts, rejouée indépendamment » — confirmé par 1 sceptique sur 3 seulement.</li>
+            <li>« Capacité mobile réellement exécutée et verte » — contredit par un sceptique (échecs Chromium reproduits) ; formulation absolue écartée.</li>
+            <li>« 40/40 tests verts » (persona CTO) — chiffre contredit par le comptage réel (43).</li>
+            <li>« Descriptions CT-PT textuellement conformes au syllabus » — non vérifiable depuis le dépôt seul.</li>
+            <li>« Scores structurels D84 rejoués, identiques » — un seul sceptique a effectivement ré-exécuté le script.</li>
+          </ul>
+        </details>
+      </div>
+      <div class="swot-card opportunities">
+        <h3>Opportunités</h3>
+        <ul>
+          <li>Combler la classification CTAL-TA v4.0 : effort faible, la matière existe déjà.</li>
+          <li>Le coût token mesuré peut devenir un argument commercial une fois rapproché des paliers d'abonnement réels.</li>
+          <li>La niche médicale réglementée reste ouverte — aucun concurrent cartographié n'est positionné QMS/DM.</li>
+          <li>Recruter enfin des pilotes réels transformerait la preuve la plus fragile du produit en son actif le plus solide.</li>
+        </ul>
+      </div>
+      <div class="swot-card threats">
+        <h3>Menaces</h3>
+        <ul>
+          <li>Un concurrent avec un vrai moteur k6 prendrait l'avantage immédiat sur le volet CT-PT.</li>
+          <li>Bus factor = 1 : risque de continuité pur, contraire à l'exigence P0 du projet lui-même.</li>
+          <li>Le marché mobile natif régulé reste hors de portée sans que ce coût de marché ait été chiffré.</li>
+          <li>Sans pilote ni second mainteneur, la crédibilité repose entièrement sur l'auto-évaluation du fondateur.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="plan">
+    <h2 class="serif"><span class="num">03</span>Plan d'action priorisé</h2>
+    <p class="section-intro">Classé par priorité, puis par effort décroissant.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Prio.</th><th>Action</th><th>Effort</th><th>Valeur</th><th>Gain</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row-p0"><td><span class="prio-badge p0">P0</span></td><td class="action-cell">Corriger l'authentification manquante sur <span class="mono">GET /api/audit</span> <em style="color:var(--accent)">— fait le jour même, D99</em></td><td>Faible</td><td>Critique</td><td><span class="tag-pill">Sécurité</span></td></tr>
+          <tr class="row-p0"><td><span class="prio-badge p0">P0</span></td><td class="action-cell">Corriger les citations internes cassées (« D50 », « D93 » mal attribuées)</td><td>Très faible</td><td>Moyenne</td><td><span class="tag-pill">Intégrité doc.</span></td></tr>
+          <tr class="row-p0"><td><span class="prio-badge p0">P0</span></td><td class="action-cell">Rendre le chemin Chromium configurable dans <span class="mono">medibook/playwright.config.js</span></td><td>Faible</td><td>Haute</td><td><span class="tag-pill">Reproductibilité</span></td></tr>
+          <tr class="row-p0"><td><span class="prio-badge p0">P0</span></td><td class="action-cell">Transférer le dépôt hors compte personnel (#2)</td><td>Faible (admin.)</td><td>Critique</td><td><span class="tag-pill">Continuité</span></td></tr>
+          <tr class="row-p0"><td><span class="prio-badge p0">P0</span></td><td class="action-cell">Recruter réellement 2–3 testeurs pilotes externes indépendants</td><td>Moyen</td><td>Critique</td><td><span class="tag-pill">Validation</span></td></tr>
+          <tr class="row-p1"><td><span class="prio-badge p1">P1</span></td><td class="action-cell">Documenter/implémenter une politique retry/quarantaine concrète</td><td>Faible</td><td>Moyenne</td><td><span class="tag-pill">Fiabilité CI</span></td></tr>
+          <tr class="row-p1"><td><span class="prio-badge p1">P1</span></td><td class="action-cell">Câbler <span class="mono">BASE_URL</span>/<span class="mono">.env</span> réellement dans la config Playwright</td><td>Faible</td><td>Moyenne</td><td><span class="tag-pill">Cohérence CI</span></td></tr>
+          <tr class="row-p1"><td><span class="prio-badge p1">P1</span></td><td class="action-cell">Rejouer le garde-fou CT-MBT sur US-004, corriger le trou AC7/<span class="mono">approved</span></td><td>Moyen</td><td>Haute</td><td><span class="tag-pill">Couverture</span></td></tr>
+          <tr class="row-p1"><td><span class="prio-badge p1">P1</span></td><td class="action-cell">Corriger la revendication « 3 findings » de <span class="mono">flaky-detect</span></td><td>Très faible</td><td>Faible</td><td><span class="tag-pill">Intégrité preuve</span></td></tr>
+          <tr class="row-p1"><td><span class="prio-badge p1">P1</span></td><td class="action-cell">Chiffrer le coût token face aux paliers Pro/Max, publier une reco d'usage équipe</td><td>Faible</td><td>Haute</td><td><span class="tag-pill">Adoption CTO</span></td></tr>
+          <tr class="row-p2"><td><span class="prio-badge p2">P2</span></td><td class="action-cell">Structurer le palette de techniques selon la taxonomie CTAL-TA v4.0</td><td>Moyen</td><td>Haute</td><td><span class="tag-pill">Crédibilité</span></td></tr>
+          <tr class="row-p2"><td><span class="prio-badge p2">P2</span></td><td class="action-cell">Produire un vrai benchmark « QAIA vs prompt direct »</td><td>Moyen</td><td>Très haute</td><td><span class="tag-pill">Valeur centrale</span></td></tr>
+          <tr class="row-p2"><td><span class="prio-badge p2">P2</span></td><td class="action-cell">Construire un vrai moteur k6, même minimal</td><td>Élevé</td><td>Haute</td><td><span class="tag-pill">Crédibilité CT-PT</span></td></tr>
+          <tr class="row-p2"><td><span class="prio-badge p2">P2</span></td><td class="action-cell">Démo avec une vraie fonctionnalité IA/ML pour exercer CT-AI</td><td>Élevé</td><td>Moyenne</td><td><span class="tag-pill">Preuve CT-AI</span></td></tr>
+          <tr class="row-p3"><td><span class="prio-badge p3">P3</span></td><td class="action-cell">Documenter l'exclusion white-box/MC-DC comme un choix assumé</td><td>Faible→Élevé</td><td>Moyenne</td><td><span class="tag-pill">Scoping</span></td></tr>
+          <tr class="row-p3"><td><span class="prio-badge p3">P3</span></td><td class="action-cell">Scope-out l'exploratoire/session-based ou le combler</td><td>Faible</td><td>Moyenne</td><td><span class="tag-pill">Scoping</span></td></tr>
+          <tr class="row-p3"><td><span class="prio-badge p3">P3</span></td><td class="action-cell">Trancher la niche médicale réglementée : committer ou retirer la revendication</td><td>Variable</td><td>Stratégique</td><td><span class="tag-pill">Promesse produit</span></td></tr>
+          <tr class="row-p3"><td><span class="prio-badge p3">P3</span></td><td class="action-cell">Concevoir un mécanisme de résolution de conflit multi-devs sur <span class="mono">.qaia/</span></td><td>Élevé</td><td>Moyenne</td><td><span class="tag-pill">Adoption équipe</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <h2 class="serif"><span class="num">04</span>Feuille de route compétitive</h2>
+    <p class="section-intro">Trois angles morts structurels de la veille elle-même, confirmés par le contradictoire.</p>
+    <div class="blindspots">
+      <div class="blindspot">
+        <div class="n">1</div>
+        <p>Aucun concurrent orienté QMS/dispositif médical n'a jamais été scanné, alors que c'est la niche v1 originelle du produit. Tant que cet angle reste ouvert, la promesse « logiciel médical réglementé » est un slogan non instruit, pas une capacité.</p>
+      </div>
+      <div class="blindspot">
+        <div class="n">2</div>
+        <p>Aucun concurrent mobile natif piloté par IA n'a jamais été scanné, alors que le coût de marché du mobile natif a été posé explicitement dès la discovery et jamais tranché.</p>
+      </div>
+      <div class="blindspot">
+        <div class="n">3</div>
+        <p>Aucune comparaison sur l'axe le plus menaçant : « pourquoi pas un bon prompt nu envoyé à un agent généraliste » — l'angle qu'un client sceptique ou un concurrent low-cost utilisera en premier.</p>
+      </div>
+    </div>
+    <div class="recommendation">
+      <strong>Recommandation :</strong> avant d'élargir davantage la couverture ISTQB, consolider d'abord ce qui est déjà revendiqué mais fragile (portabilité, citations, bus factor, faille active), puis produire le benchmark de valeur différentielle. Étendre la couverture concurrentielle avant la couverture fonctionnelle serait une erreur de séquencement — QAIA ne sait pas encore s'il gagne face à un simple prompt.
+    </div>
+  </section>
+
+  <section id="verdict">
+    <h2 class="serif"><span class="num">05</span>Verdict final</h2>
+    <div class="verdict-panel">
+      <p class="verdict-lede serif">QAIA ne tient pas encore sa promesse — mais pas pour les raisons qu'un audit superficiel aurait trouvées.</p>
+      <p style="font-size:15px">Le produit n'est pas du carton-pâte documentaire : la discipline d'honnêteté est réelle et rare — coûts publiés sans complaisance, FAIL assumés, écarts au syllabus consignés plutôt que cachés. La quasi-totalité des forces citées a survécu à une vérification indépendante, y compris quand elle consistait à relancer un serveur et taper une commande <span class="mono">curl</span> en direct.</p>
+      <p style="font-size:15px">Mais trois faits, confirmés en direct par au moins deux des trois passes adversariales, empêchent de qualifier QAIA d'« outil prêt pour adoption pilote » :</p>
+      <div class="verdict-facts">
+        <div class="verdict-fact"><span class="n">01</span><span>Une vulnérabilité de contrôle d'accès active existait dans le produit vitrine que QAIA utilise pour démontrer sa propre méthode de sécurité.</span></div>
+        <div class="verdict-fact"><span class="n">02</span><span>Le seul critère de passage en production que le projet s'est fixé (5 pilotes humains réels) n'a jamais été rempli — levé administrativement, pas franchi.</span></div>
+        <div class="verdict-fact"><span class="n">03</span><span>Trois jours d'existence calendaire, un seul mainteneur, bus factor ouvert sur son propre ticket P0 — un défaut de maturité organisationnelle, pas de méthode.</span></div>
+      </div>
+      <div class="maturity-stamp">
+        <span class="label">Niveau de maturité retenu</span>
+        <span class="value serif">Prototype d'ingénierie avancé — à mi-chemin vers un MVP crédible</span>
+        <span style="font-size:13.5px;color:var(--ink-soft);margin-top:6px">Non validé en production. Non prêt pour une adoption pilote sans conditions. Un feu vert conditionnel est défendable une fois — et seulement une fois — les 3 bloquants P0 résolus.</span>
+      </div>
+      <div class="post-audit">
+        <span class="check">✓</span>
+        <span><strong>Mise à jour post-audit (même jour) :</strong> le fait n°1 (faille <span class="mono">GET /api/audit</span>) a été corrigé et vérifié dans les deux SUT dans les heures suivant la remise de cet audit — voir <span class="mono">docs/DECISIONS.md</span>, décision D99.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Compte-rendu généré par un audit multi-agent (17 agents : 13 personas + 3 revues adversariales + synthèse) exécuté le 2026-07-26 sur l'état du dépôt <span class="mono">github.com/Opaland/QAIA</span> à cette date. Chaque claim retenue cite une preuve fichier:ligne ou une commande rejouée ; les claims non confirmées à 2/3 sont listées en transparence plutôt qu'omises.
+  </footer>
+</div>
