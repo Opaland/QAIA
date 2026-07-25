@@ -1,0 +1,65 @@
+{
+  "contract": "1.0",
+  "usId": "US-004",
+  "title": "Expense report approval workflow",
+  "status": "review",
+  "generatedAt": "2026-07-25T20:34:51Z",
+  "base": ".qaia",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.15", "skill": "testbook-generate", "at": "2026-07-25T09:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.15", "skill": "testbook-export", "at": "2026-07-25T09:30:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.15", "skill": "report", "at": "2026-07-25T20:34:51Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-004/approval-chain.feature" },
+    { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-004/audit-and-auth.feature" },
+    { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-004/line-items.feature" },
+    { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-004/workflow-state-machine.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-004/synthesis.md" },
+    { "kind": "matrix",    "format": "markdown", "path": "testbooks/US-004/coverage-matrix.md" },
+    { "kind": "export",    "format": "xlsx",     "path": "testbooks/US-004/export/testbook-US-004.xlsx" },
+    { "kind": "export",    "format": "csv",      "path": "testbooks/US-004/export/testrail/US-004-testrail-import.csv" },
+    { "kind": "export",    "format": "csv",      "path": "testbooks/US-004/export/xray/US-004-xray-import.csv" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 38, "byPriority": { "P1": 18, "P2": 15, "P3": 4 },
+                   "negative": 17, "smoke": 1, "outlines": 0 },
+    "coverage": { "acTotal": 8, "acCovered": 8,
+                  "reqNegTotal": 17, "reqNegCovered": 17,
+                  "negativeRatio": 0.459 },
+    "confidence": { "lowConfidence": 11, "openQuestions": 5, "assumptions": 4, "simulated": 4 },
+    "techniques": ["use-case", "ep", "boundary", "decision-table", "state-transition", "error-guessing"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "00-source", "kind": "simulated", "about": "source document accepted as the correct US without live confirmation (non-interactive mode)",
+      "sourceCheckpoint": "state/US-004/00-source.md" },
+    { "id": "01-extraction", "kind": "simulated", "about": "AC1-AC8 extraction accepted as-is without live correction (non-interactive mode)",
+      "sourceCheckpoint": "state/US-004/01-extraction.md" },
+    { "id": "Q1", "kind": "open", "about": "AC2/AC6 threshold boundary at exactly EUR 500 and EUR 5000 -- inclusivity not confirmed",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q2", "kind": "open", "about": "AC3 'skip straight to the next level up' -- narrows the amount-chain or escalates to the next hierarchy role, not confirmed",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q4", "kind": "open", "about": "AC6 exchange-rate source is an undefined external dependency (fallback behavior applied as an assumption, source itself still open)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q6", "kind": "open", "about": "AC5 EUR 25 receipt threshold -- compared on face value or EUR-converted amount, not confirmed",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q7", "kind": "open", "about": "AC2 x AC3 x AC6 triple intersection -- whether a stale-rate total still drives both band and escalation, not confirmed",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q3", "kind": "simulated", "about": "assumption default applied: a changes-requested-turned-draft report can only be rejected after re-submission",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q5", "kind": "simulated", "about": "assumption default applied: AC4's 90-day window is measured against the server/UTC clock",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q8", "kind": "simulated", "about": "assumption default applied: AC3's self-approval-skip rule generalizes beyond the named manager case",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q9", "kind": "simulated", "about": "assumption default applied: draft-creation counts as a recorded AC8 audit-trail transition",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "04-priorities", "kind": "simulated", "about": "priority scores accepted as proposed; full-breadth P1+P2+P3 scope decision recorded non-interactively",
+      "sourceCheckpoint": "state/US-004/04-priorities.md" }
+  ]
+}
