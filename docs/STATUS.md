@@ -13,6 +13,40 @@ code. Ce document donne l'état honnête du projet et un **prompt prêt à colle
 le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup
 est immédiat).
 
+## Sprint 21 — élargissement ISTQB global, IDOR trouvé, démo statique (2026-07-26, D94-D98) — TERMINÉ
+
+Enchaînement après Sprint 20 : demande fondateur de sortir du seul angle médical pour la veille
+concurrentielle (GitHub + web, regard global), puis d'auditer la couverture ISTQB complète
+(pas seulement CT-GenAI) et de combler les gaps trouvés, de tester en local, et de publier une
+démo statique GitHub Pages pour les skills UI-only.
+
+- **Veille élargie (D94)** : écosystème de plugins Claude Code QA densifié depuis D67, aucun
+  concurrent à l'échelle d'Agentic QE Fleet (421★, toujours le seul acteur sérieux). 1 trouvaille
+  distincte vérifiée directement (`chaos-qa`, sondage adversarial de contrat) → #47.
+- **8 ajouts ISTQB au-delà de CTFL/CT-GenAI (D95, #48 fermée)** : Domain Analysis + Metamorphic
+  testing + techniques CT-AI v2.0 dans `istqb-design` ; menu de types nommés CT-PT dans
+  `perf-check` ; refonte risk-based CT-SEC dans `security-surface` ; précheck de testabilité
+  CTAL-TAE dans `automate` ; nouvelle skill `usability-heuristic-review` (CT-UT). Confirmé déjà
+  couvert ou hors périmètre sans travail double : CRUD, Test Impact Analysis, CTAL-TM, CT-MAT
+  natif.
+- **Vrai IDOR trouvé et corrigé (D96)** en testant localement le nouveau `security-surface`
+  risk-based sur `expense-demo` : `GET /api/reports/:id` n'avait aucune vérification de
+  propriété, contrairement au `PUT` sœur — n'importe quel utilisateur authentifié pouvait lire
+  le brouillon de n'importe qui. Corrigé, 3 cas de non-régression ajoutés.
+- **Démo statique GitHub Pages (D97)** publiée à `https://opaland.github.io/QAIA/`
+  (`static-demo/`, mock-backend fidèle y compris le correctif IDOR). Vérifiée à deux niveaux :
+  logique Node identique au fichier déployé, puis navigateur réel une fois Playwright
+  reconnecté (flux complet employee→manager rejoué, captures d'écran, zéro erreur console).
+- **Nouvelle skill `contract-probe` (D98, #47 fermée)** : sondage adversarial de contrat,
+  dernier chantier de la veille élargie. Vérifiée sur un fixture dédié avec un défaut injecté
+  délibérément.
+
+**Backlog agent-faisable de nouveau épuisé.** Un audit externe multi-persona (cabinet fictif,
+8 personas ISTQB sur les disciplines couvertes + 5 personas sur les disciplines non couvertes,
+revue adversariale à 3 sceptiques, synthèse) a été lancé en `Workflow` pour challenger le produit
+dans son ensemble — **verdict pas encore rendu au moment de la rédaction de cette section**,
+à consulter/résumer dans la prochaine reprise si la session s'est arrêtée avant qu'il ne finisse.
+
 ## Sprint 20 — reliquat + fiabilisation (2026-07-25, D89-D93) — TERMINÉ
 
 Enchaînement direct après le mandat post-M0 : le fondateur a demandé de compléter le reliquat
@@ -85,10 +119,11 @@ ci-dessous.
 ## Où on en est
 
 **Le produit existe et est éprouvé (en automatique, et maintenant aussi sur du matériel dur réel). Quatre plugins.**
-- **`qaia-core` 0.2.16** — 15 skills, **budget token intégralement mesuré (issue #7 fermée)** : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding`, `rag-build`, `istqb-design` [RAG-in-use + amendements #24/#43/#45], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé, +signal git-history #36], `testbook-generate` [garde-fou anti-fabrication étendu aux valeurs calculées non sourcées, #46], `report` [manifeste standardisé], `testbook-export` [+ export Xray et TestRail opt-in, #35 fermée], `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
-- **`qaia-playwright` 0.1.7** — 8 skills : `automate` (Gherkin → Playwright POM + pipeline CI, +lint anti-assertions-creuses #41), `a11y-audit`, `visual-check` (régression visuelle, audité #40), `perf-check`, `security-surface`, `run-report`, `flaky-detect` (#34), `locator-repair` (#37), `traffic-replay` (HAR → non-régression, #39).
+- **`qaia-core` 0.2.17** — 15 skills, **budget token intégralement mesuré (issue #7 fermée)**, **technique palette élargie CTFL+Test Analyst+CT-AI (D95)** : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding`, `rag-build`, `istqb-design` [RAG-in-use + amendements #24/#43/#45 + Domain Analysis/Metamorphic/CT-AI/modèle d'états explicite #48], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé, +signal git-history #36], `testbook-generate` [garde-fou anti-fabrication étendu aux valeurs calculées non sourcées, #46], `report` [manifeste standardisé], `testbook-export` [+ export Xray et TestRail opt-in, #35 fermée], `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
+- **`qaia-playwright` 0.1.9** — 11 skills : `automate` (Gherkin → Playwright POM + pipeline CI, +lint anti-assertions-creuses #41, +précheck de testabilité CTAL-TAE #48), `a11y-audit`, `visual-check` (régression visuelle, audité #40), `perf-check` (+menu de types nommés CT-PT #48), `security-surface` (+refonte risk-based CT-SEC #48, a trouvé et corrigé un vrai IDOR #96), `usability-heuristic-review` (nouveau, CT-UT #48), `contract-probe` (nouveau, sondage adversarial de contrat #47), `run-report`, `flaky-detect` (#34), `locator-repair` (#37), `traffic-replay` (HAR → non-régression, #39).
 - **`qaia-score` 0.1.4** — score uniquement, lecture seule : `testbook-score` (rubrique ISTQB /20 + top-3, pass structurel DÉTERMINISTE step 0, sniffer anti-fabrication #27, détecteurs C1/C2 #28), `aptitude-gate` (PASS/CONCERNS/FAIL/WAIVED, +recalcul du total #21, +signal `flakiness` #44). N'écrit que le bloc `gate` ; aucun producteur ne se score lui-même.
 - **`qaia-testdata` 0.1.0** (nouveau, #15) — 1 skill : `dataset-generate` (jeux de données synthétiques cohérents métier, injectables via fixtures Playwright, jamais de données réelles/PII).
+- **Démo statique GitHub Pages** : `https://opaland.github.io/QAIA/` (`examples/expense-demo/static-demo/`), pour tester `usability-heuristic-review`/`a11y-audit`/`visual-check` sans backend local.
 
 **Session 2026-07-25 — corpus élargi 24 cas TERMINÉ (lots 2-6, 20 cas clean-room via agents
 parallèles) :** Reprise après un plantage de session (rien perdu, tout committé). Les 5 lots
@@ -262,45 +297,60 @@ Security Advisories ; GitHub Projects.
 Reprends le projet QAIA (plateforme QA agentic open source, plugins Claude Code).
 Lis d'abord docs/STATUS.md, docs/DECISIONS.md et docs/KANBAN.md pour le contexte complet.
 
-État (2026-07-25) : QUATRE plugins validés --strict — qaia-core 0.2.16 (15 skills, budget
-token intégralement mesuré), qaia-playwright 0.1.7 (8 skills, dont traffic-replay), qaia-score
+État (2026-07-26) : QUATRE plugins validés --strict — qaia-core 0.2.17 (15 skills, budget
+token intégralement mesuré, palette de techniques élargie CTFL+Test Analyst+CT-AI), qaia-playwright
+0.1.9 (11 skills, dont usability-heuristic-review et contract-probe tout neufs), qaia-score
 0.1.4 (2 skills), qaia-testdata 0.1.0 (1 skill). Éprouvé en automatique (gold set 19/20,
 robustesse, éval vérité-terrain ~93 % précision), sur du matériel dur réel (harnais #24, corpus
-élargi 24 cas D58-D64 : Claude 24/24 sans défaut), ET bout-en-bout sur DEUX domaines
-indépendants (santé — examples/medibook/, 31 tests verts ; finance/RH — examples/expense-demo/,
-40 tests verts).
+élargi 24 cas D58-D64 : Claude 24/24 sans défaut), bout-en-bout sur DEUX domaines indépendants
+(santé — examples/medibook/, 31 tests verts ; finance/RH — examples/expense-demo/, 40+ tests
+verts), ET maintenant sur une démo statique GitHub Pages publique
+(https://opaland.github.io/QAIA/, vérifiée en navigateur réel).
 
-**Mandat post-M0 (D67-D88) puis Sprint 20 (D89-D93) TERMINÉS.** Le fondateur a levé la gate G2
-(2026-07-25) et donné un mandat élargi (veille concurrentielle, remodelage backlog #33-#42,
-extension hors médical), livré en 8 chantiers (D81-D88), puis un Sprint 20 de reliquat +
-fiabilisation : **#35 fermée** (export Xray + TestRail, tous deux fichier-only), **#7 fermée**
-(14/14 skills `qaia-core` mesurées en tokens réels — gain méthodologique : la notification de
-fin de tâche d'un agent délégué porte son vrai total via `subagent_tokens`, lisible par
-l'orchestrateur), **#46 ouverte et fermée le même jour** (défaut trouvé en effet de bord d'une
-mesure : `testbook-generate` pouvait asserter un total de conversion de devise non sourcé,
-corrigé par un garde-fou). Une re-veille concurrentielle le même jour n'a rien trouvé de neuf
-(un chemin prometteur — IEC 62304 Edition 2 — n'a pas résisté à la vérification directe de la
-source, écarté honnêtement). Décisions D67-D93 dans docs/DECISIONS.md.
+**Mandat post-M0 (D67-D88), Sprint 20 (D89-D93), Sprint 21 (D94-D98) TERMINÉS.** Sprint 21
+(2026-07-26) : veille concurrentielle élargie hors médical (D94, aucun nouveau concurrent
+sérieux, 1 trouvaille `chaos-qa` → #47), audit complet des syllabus ISTQB au-delà de CTFL/CT-GenAI
+et 8 ajouts livrés (D95, #48 fermée : Domain Analysis/Metamorphic/CT-AI/modèle d'états dans
+`istqb-design`, menu CT-PT dans `perf-check`, refonte risk-based CT-SEC dans `security-surface`,
+précheck testabilité CTAL-TAE dans `automate`, nouvelle skill `usability-heuristic-review`),
+**un vrai IDOR trouvé et corrigé** en testant localement le nouveau security-surface (D96),
+démo statique GitHub Pages publiée et vérifiée à deux niveaux — logique Node puis navigateur
+réel (D97), nouvelle skill `contract-probe` fermant #47 (D98). Décisions D67-D98 dans
+docs/DECISIONS.md.
 
-**Le backlog agent-faisable de ce cycle reste ÉPUISÉ (re-vérifié D89-D93).** Tout ce qui reste
-ouvert sur le board GitHub (10 issues) est bloqué sur : (a) le mur humain — #1 (5 vrais
-pilotes), #10/#12/#13/#14/#18 (T17 sur app pilote réelle, D79 : expense-demo ne suffit pas
-littéralement) ; (b) une ressource externe — #32 (crédit Hugging Face épuisé) ; (c) un cadrage
-fondateur explicitement requis avant tout code — #29/#30 (tier opt-in, ADR 0002 dit encore
-"post-pilote uniquement" dans son propre texte malgré D67), #42 (son critère d'acceptation
-exige un tranchage acté dans DECISIONS.md avant implémentation) ; (d) propriétaire seul — #2
-(transfert d'org). **Vérifie d'abord le board GitHub ET fais un tour rapide de veille
-concurrentielle pour un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu
-être ouverte depuis, le paysage concurrentiel évolue vite) — mais vérifie toute piste trouvée en
-allant lire la source directement avant de l'ajouter au backlog (un lead prometteur sur IEC
-62304 ne tenait pas la route une fois la source réelle lue, D93) — sinon dis-le clairement
-plutôt que d'inventer du travail marginal.
+**Un audit externe multi-persona a été lancé en `Workflow` en fin de Sprint 21** (cabinet fictif,
+8 personas ISTQB sur les disciplines couvertes + 5 personas sur les disciplines non couvertes,
+revue adversariale à 3 sceptiques, synthèse — scorecard/SWOT/plan d'action/roadmap/verdict).
+**Si tu reprends une session interrompue avant que ce workflow ait fini** : vérifie d'abord s'il
+a terminé (la notification de tâche de fond arrive automatiquement si la session a continué ;
+sinon le run_id est dans l'historique de conversation ou `/workflows`) et lis son verdict avant
+toute chose — il peut changer les priorités du prochain sprint plus que ce document ne le fait.
 
-**Coût agent (nouveau, D93 mandat) : par défaut, préfère l'édition directe (Read/Edit/Bash) à un
-dispatch d'agent en sous-tâche pour du travail déjà bien cadré** — ne réserve le dispatch d'agent
-(surtout en `isolation: "worktree"`, ~40-140k tokens par agent observé) qu'aux tâches vraiment
-parallélisables ou nécessitant une exécution isolée/indépendante (ex. une mesure qui doit être
-un run réel séparé). Le fondateur a explicitement demandé cette discipline en cours de session.
+**Le backlog agent-faisable de ce cycle reste ÉPUISÉ (re-vérifié D94-D98, 10 issues ouvertes,
+les mêmes qu'avant Sprint 21 — #47/#48 ouvertes ce sprint sont refermées).** Tout ce qui reste
+ouvert sur le board GitHub est bloqué sur : (a) le mur humain — #1 (5 vrais pilotes),
+#10/#12/#13/#14/#18 (T17 sur app pilote réelle, D79 : expense-demo ne suffit pas littéralement) ;
+(b) une ressource externe — #32 (crédit Hugging Face épuisé) ; (c) un cadrage fondateur
+explicitement requis avant tout code — #29/#30 (tier opt-in, ADR 0002 dit encore "post-pilote
+uniquement" dans son propre texte malgré D67), #42 (son critère d'acceptation exige un
+tranchage acté dans DECISIONS.md avant implémentation) ; (d) propriétaire seul — #2 (transfert
+d'org). **Vérifie d'abord le board GitHub ET fais un tour rapide de veille concurrentielle pour
+un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu être ouverte depuis,
+le paysage concurrentiel évolue vite) — mais vérifie toute piste trouvée en allant lire la
+source directement avant de l'ajouter au backlog (un lead prometteur sur IEC 62304 ne tenait pas
+la route une fois la source réelle lue, D93) — sinon dis-le clairement plutôt que d'inventer du
+travail marginal. **Regarde aussi en premier le verdict de l'audit externe** (voir ci-dessus) —
+son plan d'action peut être un meilleur point de départ qu'une nouvelle veille à froid.
+
+**Coût agent (D93, réappliqué tout le Sprint 21) : par défaut, préfère l'édition directe
+(Read/Edit/Bash) à un dispatch d'agent en sous-tâche pour du travail déjà bien cadré** — ne
+réserve le dispatch d'agent (surtout en `isolation: "worktree"`, ~40-140k tokens par agent
+observé) qu'aux tâches vraiment parallélisables ou nécessitant une exécution isolée/indépendante
+(ex. une mesure qui doit être un run réel séparé). **Exception explicitement voulue par le
+fondateur (fin Sprint 21) : le `Workflow` tool reste approprié pour un panel multi-persona
+genuinement parallèle avec revue adversariale** (l'audit externe ci-dessus) — la discipline de
+coût vise le dispatch d'agent isolé pour du travail séquentiel bien cadré, pas l'orchestration
+multi-agents quand la tâche l'exige vraiment et que le fondateur la demande explicitement.
 
 Principes non négociables : distribution 100 % skill (Markdown, sans clé API) ; Python EN
 SESSION généré par un skill autorisé (déterminisme sans shipper de code, ADR 0002/D42) ;

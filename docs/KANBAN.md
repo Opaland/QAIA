@@ -6,7 +6,7 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
-## Sprint 21 — Élargissement ISTQB global, IDOR trouvé, démo statique GitHub Pages (2026-07-26, D94-D97) ✅ TERMINÉ
+## Sprint 21 — Élargissement ISTQB global, IDOR trouvé, démo statique GitHub Pages (2026-07-26, D94-D98) ✅ TERMINÉ
 
 Demande fondateur : veille concurrentielle élargie hors médical (regard global, GitHub +
 web) puis audit complet de couverture ISTQB (tous les syllabus, pas seulement CT-GenAI),
@@ -14,15 +14,22 @@ implémentation des gaps trouvés, tests locaux, et une démo statique GitHub Pa
 
 | Livré | Preuve |
 |---|---|
-| **Veille élargie hors médical** — écosystème de plugins Claude Code QA densifié depuis D67, aucun concurrent à l'échelle d'Agentic QE Fleet ; 1 trouvaille distincte (`chaos-qa`, sondage adversarial de contrat) convertie en piste de backlog | D94, [#47](https://github.com/Opaland/QAIA/issues/47) ouverte |
+| **Veille élargie hors médical** — écosystème de plugins Claude Code QA densifié depuis D67, aucun concurrent à l'échelle d'Agentic QE Fleet ; 1 trouvaille distincte (`chaos-qa`, sondage adversarial de contrat) convertie en piste de backlog | D94, [#47](https://github.com/Opaland/QAIA/issues/47) |
 | **8 ajouts ISTQB au-delà de CTFL/CT-GenAI** : Domain Analysis, Metamorphic testing, techniques CT-AI (`istqb-design`) ; menu de types CT-PT (`perf-check`) ; refonte risk-based CT-SEC (`security-surface`) ; précheck de testabilité CTAL-TAE (`automate`) ; nouvelle skill `usability-heuristic-review` (CT-UT) — vérifiée pour de vrai contre `expense-demo`, 3 violations trouvées avec preuve fichier:ligne | D95, [#48](https://github.com/Opaland/QAIA/issues/48) fermée |
 | **Vrai IDOR trouvé et corrigé** en testant localement le nouveau security-surface risk-based : `GET /api/reports/:id` n'avait aucune vérification de propriété — corrigé, 3 cas de non-régression ajoutés | D96 |
-| **Démo statique GitHub Pages** publiée (`static-demo/`, mock-backend fidèle y compris le correctif IDOR) pour tester usability-heuristic-review/a11y-audit/visual-check sans backend — vérifiée fonctionnellement avant publication | D97, `.github/workflows/pages.yml` |
+| **Démo statique GitHub Pages** publiée (`static-demo/`, mock-backend fidèle y compris le correctif IDOR) pour tester usability-heuristic-review/a11y-audit/visual-check sans backend — vérifiée fonctionnellement avant publication, puis re-vérifiée en navigateur réel (Playwright reconnecté) : flux complet employee→manager rejoué, captures d'écran, zéro erreur console | D97, `.github/workflows/pages.yml`, `eval/baselines/static-demo-accounts-verification.md` |
+| **Nouvelle skill `contract-probe`** (sondage adversarial de contrat, CT-SEC/exploratoire) — ferme #47, dernier chantier de la veille élargie. Vérifiée sur un fixture dédié avec un défaut injecté délibérément (`GET /tasks/:id` retourne 500 au lieu du 404 promis) : 3 promesses extraites du README, 5 sondes adversariales, 1 scénario de régression généré | D98, [#47](https://github.com/Opaland/QAIA/issues/47) fermée |
 
 **Pattern de cette session** : recherche réelle vérifiée avant tout ajout au backlog (un lead
 IEC 62304 écarté après lecture directe de la source, D93) ; discipline de coût agent — édition
 directe préférée au dispatch de sous-agent pour du travail déjà bien cadré, sur demande
-explicite du fondateur en cours de session.
+explicite du fondateur en cours de session ; démo statique testée à deux niveaux (logique Node
+identique au déployé, puis navigateur réel dès l'outillage redisponible).
+
+**Backlog agent-faisable de nouveau épuisé** (toutes les issues #47/#48 ouvertes cette session
+sont refermées) — un audit externe multi-persona (cabinet fictif, personas ISTQB + non couverts,
+revue adversariale) a été lancé en parallèle pour challenger le produit dans son ensemble ; voir
+son verdict une fois rendu avant de conclure à un nouveau palier.
 
 ---
 
