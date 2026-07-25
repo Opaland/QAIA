@@ -6,7 +6,7 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
-## Sprint 19 — Mandat élargi post-M0 : gate G2 levée, veille concurrentielle, backlog remodelé (2026-07-25, D67) 🔄 EN COURS
+## Sprint 19 — Mandat élargi post-M0 : gate G2 levée, veille concurrentielle, backlog remodelé (2026-07-25, D67-D88) ✅ TERMINÉ
 
 Demande fondateur : la validation humaine (gate G2) est considérée franchie, le développement
 reprend en autonomie. Veille concurrentielle, remodelage du backlog, extension du produit
@@ -25,9 +25,24 @@ hors du seul domaine médical.
 | **Budget token partiellement instrumenté** (3/~15 skills mesurées réellement, `us-ingest` dépasse nettement l'ancienne estimation) | `plugins/qaia-core/README.md`, D70, [#7](https://github.com/Opaland/QAIA/issues/7) |
 | **Audit d'indépendance des skills** — 7 tests hors séquence réels, aucune fabrication, 2 garde-fous structurels trouvés et corrigés (`feedback`/`aptitude-gate`) | `eval/baselines/skill-independence-audit.md`, D69, [#22](https://github.com/Opaland/QAIA/issues/22) |
 | **#43 corrigé** (`istqb-design` distingue désormais `[assumption]` de `[open]` sur les transitions non déclarées) | commit `3c262fe` |
+| **`istqb-design` décompose les règles composites** (#45) — `BR-KB-203` passe de 3/7 à 7/7 sous-faits assertés, comble le défaut trouvé par le gain RAG chiffré (D77). Non-régression vérifiée octet pour octet sur les scénarios existants | D81, [#45](https://github.com/Opaland/QAIA/issues/45) |
+| **Audit `visual-check` vs diff perceptuel** (#40) — suffisant tel quel pour son usage documenté ; 1 vraie lacune trouvée (contenu dynamique non masqué peut consommer le budget de tolérance en silence) et corrigée dans `SKILL.md` | D82, [#40](https://github.com/Opaland/QAIA/issues/40) |
+| **`structural_score.py` corrige une limite résiduelle `ASSERT_RE`/guillemets** (#31) — le cas C5 du corpus 24 (`"P1"`/`"P2"` masquant un `Then` vague) est maintenant correctement détecté FAIL, zéro régression sur les 7 fixtures existantes | D83, [#31](https://github.com/Opaland/QAIA/issues/31) |
+| **Première validation conversationnelle simulée** (#5) — parcours QAIA sur US-004 avec un persona testeur exerçant un vrai arbitrage humain : 8 objections/corrections sur 5 étapes, rétention mesurée 28/34 scénarios (82,4 %) livrés sans réécriture | D84, [#5](https://github.com/Opaland/QAIA/issues/5) |
+| **Budget token : 2 mesures réelles de plus** (`rag-build` 67,6k, `testbook-export` 77,6k) — 5/12 skills désormais mesurées, 7 restent honnêtement estimées | D85, [#7](https://github.com/Opaland/QAIA/issues/7) |
+| **Connecteur d'export Xray** (git-master, CSV, fichier seul, jamais d'API/credential) livré et vérifié ; TestRail explicitement non couvert | D86, [#35](https://github.com/Opaland/QAIA/issues/35) |
+| **4ème plugin `qaia-testdata`** — génération de jeux de données synthétiques cohérents métier, validé sur US-002 (10/10 tests Playwright verts, rejoués indépendamment) | D87, [#15](https://github.com/Opaland/QAIA/issues/15) |
+| **Nouvelle skill `traffic-replay`** (`qaia-playwright`) — capture/rejeu de trafic HAR → conditions de non-régression, masquage PII/secrets sur 8 catégories vérifié sans fuite | D88, [#39](https://github.com/Opaland/QAIA/issues/39) |
 
-**Reste** : relancer le développement sur le reste du backlog remodelé (#19-21, #35-42) ;
-vérification finale (montrable, docs à jour, diffusable, sans bug évident).
+**Terminé.** Tous les items agent-faisables identifiés par la veille concurrentielle (#33-#42)
+sont désormais soit livrés (#33-#40, #45, #5, #7 partiel, #15, #31, #39), soit honnêtement
+laissés ouverts faute d'un déclencheur agent-faisable : **#2** (transfert d'org, propriétaire
+seul), **#10/#12/#13/#14/#18** (T17 sur app pilote réelle, mur humain #1), **#32** (crédit
+Hugging Face épuisé, ressource externe), **#29/#30** (tier opt-in — ADR 0002 dit encore
+« post-pilote uniquement », pas rouvert sans engagement plus explicite du fondateur malgré
+D67), **#42** (son propre critère d'acceptation exige un tranchage fondateur avant tout code).
+Le backlog agent-faisable de ce cycle est **épuisé** — prochain pas = décisions/actions
+fondateur.
 
 ## Sprint 10 — Harnais de gap #24 sur matériel réel (accès web) ✅ TERMINÉ (2026-07-24 ter)
 

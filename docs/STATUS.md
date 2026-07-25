@@ -1,36 +1,69 @@
 # QAIA — état du projet & prompt de reprise
 
-Dernière session : 2026-07-25 (merge vers `main` fait, backlog GitHub resynchronisé, **mandat élargi post-M0** : gate G2 levée par le fondateur — D67 —, veille concurrentielle faite, backlog remodelé, **première démonstration bout-en-bout hors médical livrée et vérifiée — D68**). Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup est immédiat).
+Dernière session : 2026-07-25 (mandat élargi post-M0 **terminé** — D67-D88 : gate G2 levée par
+le fondateur, veille concurrentielle faite, backlog remodelé, démonstration hors médical livrée
+et vérifiée, puis **8 chantiers du backlog remodelé livrés en autonomie continue** — composite
+rules `istqb-design` #45, audit `visual-check` #40, correctif `structural_score.py` #31,
+validation conversationnelle simulée #5, 2 mesures de budget token #7, connecteur d'export Xray
+#35, nouveau plugin `qaia-testdata` #15, nouvelle skill `traffic-replay` #39 — chacun vérifié
+indépendamment avant merge, pas seulement pris au mot de l'agent constructeur). Le backlog
+agent-faisable de ce cycle est **épuisé** : tout ce qui reste ouvert est bloqué sur une décision
+ou une action du fondateur, une ressource externe, ou un cadrage explicitement requis avant tout
+code. Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre
+le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup
+est immédiat).
 
-## Mandat en cours (D67-D68, 2026-07-25)
+## Mandat post-M0 (D67-D88, 2026-07-25) — TERMINÉ
 
 Le fondateur a levé le gate G2 (5 pilotes réels) et donné un mandat élargi : veille
 concurrentielle (faite, `docs/COMPETITIVE-ANALYSIS.md`), remodelage du backlog (fait —
-#1/#5/#23 fermées ou reformulées, #29/#30 débloquées, 10 nouvelles issues #33-#42),
-extension du produit à un domaine non-médical (**faite**, `examples/expense-demo/` sur
-US-004 — notes de frais, finance/HR), puis relance du développement en autonomie sur le
-backlog remodelé.
+#1/#5/#23 fermées ou reformulées, #29/#30 débloqués sur le papier, 10 nouvelles issues
+#33-#42), extension du produit à un domaine non-médical (**faite**, `examples/expense-demo/`
+sur US-004 — notes de frais, finance/HR), puis relance du développement en autonomie sur le
+backlog remodelé — **exécutée jusqu'à épuisement de ce qui est agent-faisable**.
 
 **Démonstration hors médical (D68)** : app réelle self-hostée + parcours QAIA complet (38
 scénarios Gherkin) + automatisation Playwright — **40/40 tests verts, re-vérifié
 indépendamment** (pas seulement le rapport de l'agent constructeur), score structurel
 déterministe 4/4 fichiers PASS. **3 vrais défauts trouvés et corrigés pendant
 l'automatisation** (une vraie violation WCAG, une course de test induite par le correctif,
-une erreur arithmétique dans le cahier généré). **1 vrai défaut produit resté ouvert** :
-`istqb-design` sous-classifie parfois une ambiguïté métier en `[assumption]` plutôt que
-`[open]` quand une convention de machine à états comble le vide silencieusement — tracé en
-[#43](https://github.com/Opaland/QAIA/issues/43), pas corrigé.
+une erreur arithmétique dans le cahier généré). **1 vrai défaut produit trouvé et corrigé** :
+`istqb-design` sous-classifiait parfois une ambiguïté métier en `[assumption]` plutôt que
+`[open]` quand une convention de machine à états comblait le vide silencieusement — tracé en
+[#43](https://github.com/Opaland/QAIA/issues/43), corrigé, puis étendu par #45 (D81,
+décomposition des règles composites).
+
+**8 chantiers du backlog remodelé livrés en autonomie continue (D81-D88)**, chacun vérifié
+indépendamment avant merge (tests rejoués, diffs isolés relus, valeurs grep-ées) — pas
+seulement pris au mot de l'agent constructeur :
+1. **#45** — `istqb-design` décompose désormais les règles composites (`BR-KB-203` 3/7→7/7).
+2. **#40** — audit `visual-check` vs diff perceptuel : suffisant tel quel, 1 vraie lacune
+   documentaire trouvée et corrigée (budget de tolérance consommé en silence).
+3. **#31** — `structural_score.py` : limite résiduelle `ASSERT_RE`/guillemets corrigée (cas
+   C5 du corpus 24 désormais détecté FAIL), zéro régression.
+4. **#5** — première validation conversationnelle **simulée** (arbitrage humain réellement
+   exercé, pas en mode non-interactif) : 8 objections/corrections sur 5 étapes, rétention
+   28/34 scénarios (82,4 %).
+5. **#7** — 2 mesures de budget token réelles de plus (`rag-build` 67,6k, `testbook-export`
+   77,6k) — 5/12 skills mesurées, 7 honnêtement encore estimées.
+6. **#35** — connecteur d'export Xray (git-master, CSV, fichier seul) ; TestRail
+   explicitement non couvert.
+7. **#15** — 4ème plugin `qaia-testdata` (jeux de données synthétiques), validé 10/10 tests.
+8. **#39** — nouvelle skill `traffic-replay` (HAR → conditions de non-régression), masquage
+   PII/secrets vérifié sans fuite sur 8 catégories.
 
 Objectif final du mandat : un projet montrable, docs à jour, diffusable, sans bug évident —
-pas seulement sur le médical. **Reste** : relancer le développement sur le backlog remodelé
-(#33-#43), puis vérification finale definition-of-done.
+pas seulement sur le médical. **Atteint pour tout ce qui est agent-faisable.** Ce qui reste
+ouvert est bloqué sur le fondateur ou une ressource externe — voir « Ce qui bloque »
+ci-dessous.
 
 ## Où on en est
 
-**Le produit existe et est éprouvé (en automatique, et maintenant aussi sur du matériel dur réel). Trois plugins.**
-- **`qaia-core` 0.2.9** — 15 skills : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding` [numérotation corrigée, audit prompt management], `rag-build`, `istqb-design` [RAG-in-use + 2 amendements #24], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé — D52], `testbook-generate`, `report` [manifeste standardisé], `testbook-export`, `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
-- **`qaia-playwright` 0.1.2** — 6 skills : `automate` (Gherkin → Playwright POM **+ pipeline CI**), `a11y-audit`, `visual-check` (régression visuelle), `perf-check`, `security-surface`, `run-report`.
-- **`qaia-score` 0.1.1** — score uniquement, lecture seule : `testbook-score` (rubrique ISTQB /20 + top-3, **+ pass structurel DÉTERMINISTE step 0** : score reproductible séparé du juge LLM, sniffer anti-fabrication #27, détecteurs C1/C2 #28), `aptitude-gate` (PASS/CONCERNS/FAIL/WAIVED). N'écrit que le bloc `gate` ; aucun producteur ne se score lui-même.
+**Le produit existe et est éprouvé (en automatique, et maintenant aussi sur du matériel dur réel). Quatre plugins.**
+- **`qaia-core` 0.2.14** — 15 skills : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding`, `rag-build`, `istqb-design` [RAG-in-use + amendements #24/#43/#45], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé, +signal git-history #36], `testbook-generate`, `report` [manifeste standardisé], `testbook-export` [+ export Xray opt-in #35], `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
+- **`qaia-playwright` 0.1.7** — 8 skills : `automate` (Gherkin → Playwright POM + pipeline CI, +lint anti-assertions-creuses #41), `a11y-audit`, `visual-check` (régression visuelle, audité #40), `perf-check`, `security-surface`, `run-report`, `flaky-detect` (#34), `locator-repair` (#37), `traffic-replay` (HAR → non-régression, #39).
+- **`qaia-score` 0.1.4** — score uniquement, lecture seule : `testbook-score` (rubrique ISTQB /20 + top-3, pass structurel DÉTERMINISTE step 0, sniffer anti-fabrication #27, détecteurs C1/C2 #28), `aptitude-gate` (PASS/CONCERNS/FAIL/WAIVED, +recalcul du total #21, +signal `flakiness` #44). N'écrit que le bloc `gate` ; aucun producteur ne se score lui-même.
+- **`qaia-testdata` 0.1.0** (nouveau, #15) — 1 skill : `dataset-generate` (jeux de données synthétiques cohérents métier, injectables via fixtures Playwright, jamais de données réelles/PII).
 
 **Session 2026-07-25 — corpus élargi 24 cas TERMINÉ (lots 2-6, 20 cas clean-room via agents
 parallèles) :** Reprise après un plantage de session (rien perdu, tout committé). Les 5 lots
@@ -143,30 +176,40 @@ amendements — honnêtement marqué comme suivi, pas encore validé à grande �
 
 ## Ce qui bloque (et qui n'est pas à la main d'un agent)
 
-Le seul vrai mur est **humain** — issues [#1](https://github.com/Opaland/QAIA/issues/1) (5 pilotes, gate G2) et [#3](https://github.com/Opaland/QAIA/issues/3) (relire le contrat). Tout est validé en mode *non-interactif* : seuls de vrais testeurs valideront le parcours conversationnel. Kit prêt : `docs/PILOT-KIT.md` (15 min) ; message de recrutement dans `docs/OWNER-GUIDE.md`.
+Le mur humain reste réel, même si G2 a été levée sur le plan calendaire (D67) : personne n'a
+encore validé le parcours avec un vrai testeur externe. `#5` a désormais une validation
+**simulée** avec arbitrage humain réellement exercé (D84), mais ce n'est explicitement pas un
+substitut à `#1` (5 vrais pilotes). Issues bloquées sur ce mur :
+[#1](https://github.com/Opaland/QAIA/issues/1) (5 pilotes, gate G2),
+[#10](https://github.com/Opaland/QAIA/issues/10)/[#12](https://github.com/Opaland/QAIA/issues/12)/[#13](https://github.com/Opaland/QAIA/issues/13)/[#14](https://github.com/Opaland/QAIA/issues/14)/[#18](https://github.com/Opaland/QAIA/issues/18)
+(critère T17 sur app pilote réelle — D79 : la démo expense-demo ne le satisfait pas
+littéralement, malgré sa forte valeur de preuve). Kit prêt : `docs/PILOT-KIT.md` (15 min) ;
+message de recrutement dans `docs/OWNER-GUIDE.md`.
+
+**Autres blocages non-agent (2026-07-25) :**
+- [#2](https://github.com/Opaland/QAIA/issues/2) — transfert d'org GitHub, droits admin requis.
+- [#32](https://github.com/Opaland/QAIA/issues/32) — crédit gratuit Hugging Face épuisé (`402`), ressource externe.
+- [#29](https://github.com/Opaland/QAIA/issues/29)/[#30](https://github.com/Opaland/QAIA/issues/30) — tier opt-in (hook budget/observabilité, agent de revue adversariale) : ADR 0002 dit encore explicitement « post-pilote uniquement » dans son propre texte ; D67 a dit le développement « possible » mais je n'ai pas traité cette ligne ambiguë comme un blanc-seing pour rouvrir unilatéralement le débat multi-agents (D33) ou le tier supply-chain — nécessite un engagement plus explicite du fondateur.
+- [#42](https://github.com/Opaland/QAIA/issues/42) — son propre critère d'acceptation exige un tranchage fondateur (« aller / ne pas aller » acté dans `docs/DECISIONS.md`) avant tout code.
 
 ## Prochains leviers (par ordre de valeur)
 
-Les 4 leviers skill-level de la session précédente sont **construits** (RAG-in-use, M3 automate, oracle OpenAPI, Jira) ; le harnais de gap #24, le durcissement #25, et leur contrôle de non-régression sont désormais **exécutés**. Le backlog agent-faisable identifié pour ce cycle est **épuisé** — ce qui reste est le mur humain.
+**Le backlog agent-faisable de ce cycle est épuisé (2026-07-25).** Les 8 chantiers du mandat
+post-M0 remodelé (#45, #40, #31, #5, #7 partiel, #35 partiel, #15, #39) sont livrés et vérifiés
+indépendamment (voir « Mandat post-M0 » ci-dessus). Tout ce qui reste ouvert sur le board
+GitHub est listé dans « Ce qui bloque » — chacun nécessite soit une décision/action du
+fondateur, soit une ressource externe non disponible en session. **Ne pas inventer de travail
+marginal** : le prompt de reprise ci-dessous doit d'abord re-vérifier le board GitHub pour un
+nouveau levier avant de conclure au mur, mais à la date de cette session il n'y en a aucun.
 
-**Fait cette session (2026-07-24 ter), agent-faisable sans pilote :**
-1. **#24** — 4 modes mesurés sur 2 cas durs réels sourcés sur le web, 2 défauts trouvés et corrigés dans `istqb-design`, déterminisme branché sur `testbook-validate`.
-2. **#25** — avertissement spec sous-documentée + résolution `$ref` obligatoire, re-vérifié sur 3 vraies specs.
-3. **Contrôle de non-régression échantillonné** des 2 amendements `istqb-design` sur 2 cas neufs (signal de généralisation, pas un re-run complet des 50 US — limite assumée, `eval/baselines/istqb-amendments-regression-24.md`).
-4. **Grooming backlog** : le gate D20 (ratio négatifs) était déjà résolu par ADR 0001 mais pas re-groomé — fait.
+**Reliquat honnête sur des issues partiellement closes (pas de nouveau levier, juste à
+compléter si le fondateur le demande) :**
+- `#7` — 7 skills de `qaia-core` restent estimées, pas mesurées (`hello`/`qaia-help`,
+  `us-review`, `need-understanding`, `prioritize`, `oracle-generate`, `testbook-validate`,
+  `report`, `feedback`).
+- `#35` — TestRail non couvert (Xray seul livré).
 
-**Restant, sans nouveau levier agent-faisable identifié :**
-- ~~Généraliser le sniffer/déterminisme au vrai corpus IATS~~ — **abandonné** (décision D49,
-  fondateur) : le coût de récupération (Tuleap/ZIP Notion, confidentiel) dépasse la valeur
-  puisque #24 fonctionne déjà sur du matériel réel public. Ne pas rouvrir sans raison nouvelle.
-- Re-mesurer les 50 US de `groundtruth-corpus.md` en entier (au-delà du contrôle échantillonné) — possible mais coûteux ; à faire si un futur amendement touche encore `istqb-design`, ou avant une release publique/pilote.
-
-**Mur humain (non agent) :**
-5. **Recruter les 5 pilotes** (#1, gate G2) — le seul vrai mur. Kit `docs/PILOT-KIT.md`.
-6. **M3/T17 sur app pilote**, **RAG chiffré au harnais** (#19), **calibration qaia-score vs humain** (#21) — gate pilote/humain.
-
-**Tier opt-in (post-pilote, ADR 0002) :** #29 hook budget/observabilité (comble #7 FinOps), #30 agent ReAct. Ne pas construire avant G2 (#23, leçon #2).
-7. Org GitHub dédiée (optionnel, #2).
+**Tier opt-in (post-pilote, ADR 0002) :** #29 hook budget/observabilité (comble #7 FinOps), #30 agent ReAct, #42 bridge MCP. Ne pas construire avant un engagement fondateur plus explicite que D67 (#23, leçon #2, tension D33 non rouverte).
 
 > **Note accès web (2026-07-24 ter)** : cette session a confirmé l'accès à `WebSearch`/`WebFetch` (GitHub + web général), utilisé pour sourcer les 2 cas durs réels du #24 — à **reconfirmer en reprise** (l'environnement d'exécution peut varier d'une session à l'autre, ne pas supposer l'accès acquis par défaut).
 >
@@ -194,90 +237,70 @@ Security Advisories ; GitHub Projects.
 Reprends le projet QAIA (plateforme QA agentic open source, plugins Claude Code).
 Lis d'abord docs/STATUS.md, docs/DECISIONS.md et docs/KANBAN.md pour le contexte complet.
 
-État : TROIS plugins validés --strict — qaia-core 0.2.9, qaia-playwright 0.1.2, qaia-score
-0.1.1. Éprouvé en automatique (gold set 19/20, robustesse 2 failles sécu corrigées, éval
-vérité-terrain généralisation prouvée sans overfitting, précision ~93 %) ET sur du matériel
-dur réel (harnais de gap #24, 2 cas web, 4 modes d'échec IATS mesurés, 2 défauts corrigés
-dans istqb-design — eval/baselines/gap-harness-24.md), et ces 2 amendements ont été
-re-vérifiés sans régression sur 2 cas neufs (eval/baselines/istqb-amendments-regression-24.md,
-D48 — signal de généralisation, pas un re-run complet des 50 US). Oracle OpenAPI durci
-(#25, clos) : avertissement spec sous-documentée + résolution $ref obligatoire, re-vérifié
-sur 3 vraies specs (eval/baselines/connectors-real-data.md). qaia-score ET testbook-validate
-portent un pass structurel DÉTERMINISTE (séparé du juge LLM) : sniffer anti-fabrication +
-détecteurs C1 (AC couvert par image) / C2 (Then non-vérifiable) / redondance (pesticide),
-ancrés sur le cas réel IATS US 676266 (preuve eval/tools/structural_score.py +
-eval/baselines/structural-score.md). Audit IATS honnête dans docs/IATS-RETROSPECTIVE.md.
-Le mur reste humain : 5 pilotes (issue #1, gate G2).
+État (2026-07-25) : QUATRE plugins validés --strict — qaia-core 0.2.14 (15 skills),
+qaia-playwright 0.1.7 (8 skills, dont traffic-replay tout neuf), qaia-score 0.1.4 (2 skills),
+qaia-testdata 0.1.0 (1 skill, tout neuf). Éprouvé en automatique (gold set 19/20, robustesse,
+éval vérité-terrain ~93 % précision), sur du matériel dur réel (harnais #24, corpus élargi 24
+cas D58-D64 : Claude 24/24 sans défaut), ET maintenant bout-en-bout sur DEUX domaines
+indépendants (santé — examples/medibook/, 31 tests verts ; finance/RH — examples/expense-demo/,
+40 tests verts, 3 vrais bugs trouvés et corrigés pendant l'automatisation — D68).
+
+**Mandat post-M0 (D67-D88) TERMINÉ.** Le fondateur a levé la gate G2 (2026-07-25, "la
+validation humaine est validée, on peut commencer") et donné un mandat élargi : veille
+concurrentielle (docs/COMPETITIVE-ANALYSIS.md), remodelage du backlog (10 issues #33-#42),
+extension hors médical, développement en autonomie continue. **8 chantiers livrés et
+vérifiés indépendamment cette session** (pas seulement pris au mot de l'agent constructeur —
+tests rejoués, diffs isolés relus, valeurs sensibles grep-ées) : #45 (istqb-design décompose
+les règles composites), #40 (audit visual-check, 1 lacune doc corrigée), #31 (structural_score.py,
+limite ASSERT_RE/guillemets corrigée), #5 (1re validation conversationnelle simulée avec
+arbitrage humain réellement exercé), #7 (2 mesures token réelles de plus, 5/12 skills
+mesurées), #35 (export Xray git-master, TestRail non couvert), #15 (nouveau plugin
+qaia-testdata), #39 (nouvelle skill traffic-replay, masquage PII vérifié sans fuite).
+Décisions D67-D88 dans docs/DECISIONS.md.
+
+**Le backlog agent-faisable de ce cycle est ÉPUISÉ.** Tout ce qui reste ouvert sur le board
+GitHub est bloqué sur : (a) le mur humain — #1 (5 vrais pilotes), #10/#12/#13/#14/#18 (T17 sur
+app pilote réelle, D79 : expense-demo ne suffit pas littéralement) ; (b) une ressource externe
+— #32 (crédit Hugging Face épuisé) ; (c) un cadrage fondateur explicitement requis avant tout
+code — #29/#30 (tier opt-in, ADR 0002 dit encore "post-pilote uniquement" dans son propre
+texte malgré D67), #42 (son critère d'acceptation exige un tranchage acté dans DECISIONS.md
+avant implémentation) ; (d) propriétaire seul — #2 (transfert d'org). **Vérifie d'abord le
+board GitHub pour un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu
+être ouverte depuis) — sinon dis-le clairement plutôt que d'inventer du travail marginal.
 
 Principes non négociables : distribution 100 % skill (Markdown, sans clé API) ; Python EN
 SESSION généré par un skill autorisé (déterminisme sans shipper de code, ADR 0002/D42) ;
-hooks/MCP/agents = tier opt-in séparé, jamais dans le cœur, post-pilote (leçon #2) ; sortie
-au contrat standard (D39) ; aucun producteur ne s'auto-valide/score (rule 3) ; Gherkin
-atomique + IDs stables ; Playwright natif (D5) ; POM-as-fixtures (D34) ; PII masquée + gates
-abus/not-a-spec (D37) ; rappel honnête > fabriqué (D38) ; connecteurs portable-first (D29) ;
-outils d'abord, pipelines ensuite ; toute modif de skill se mesure au harnais eval/ (ni
-régression ni overfit) ; le board GitHub est la source de vérité — toute trouvaille = une issue.
+hooks/MCP/agents = tier opt-in séparé, jamais dans le cœur, gardé post-pilote sauf engagement
+fondateur explicite plus fort que D67 (leçon #2, tension D33 sur le multi-agents à ne pas
+rouvrir seul) ; sortie au contrat standard (D39) ; aucun producteur ne s'auto-valide/score
+(rule 3) ; Gherkin atomique + IDs stables ; Playwright natif (D5) ; POM-as-fixtures (D34) ;
+PII masquée + gates abus/not-a-spec (D37, étendu au trafic HTTP par D88) ; rappel honnête >
+fabriqué (D38) ; connecteurs portable-first (D29) ; jamais réutiliser un secret qui a transité
+en clair dans le chat (D51, réappliqué cette session sur un PAT GitHub collé par le fondateur) ;
+toute modif de skill se mesure au harnais eval/ ; le board GitHub est la source de vérité.
+
+Pattern d'exécution établi cette session (à réutiliser) : dispatcher des agents en
+`isolation: "worktree"` en parallèle, chacun committant localement SANS toucher à
+docs/DECISIONS.md ni pousser ; l'orchestrateur diff chaque worktree contre son VRAI parent
+(pas `main` si `main` a avancé depuis le dispatch — utiliser `git diff --stat <parent-sha>
+<worktree-head>`), vérifie indépendamment au moins un chiffre/claim clé (re-grep, re-run de
+tests, re-parse d'un artefact), merge avec `git merge --no-ff <sha>`, s'assure du sign-off DCO
+(`git commit --amend -s --no-edit` si manquant — seulement avant push), ajoute UNE entrée
+DECISIONS.md avec le prochain numéro D libre, bump la version de plugin si le contenu d'une
+skill a changé (jamais pour un simple README), `claude plugin validate --strict .`, push,
+commente + ferme (ou laisse honnêtement ouvert) l'issue GitHub, nettoie le worktree
+(`git worktree remove --force` puis `git branch -D` — un verrou Windows résiduel se résout en
+retentant après quelques secondes, rarement besoin de tuer un process node.exe).
 
 Travaille en autonomie par sprints : une modif → validation --strict → mesure au harnais
-→ commit signé (git commit -s) → push sur la branche de travail. Pas de PR sans demande
-explicite. Ne relance un run d'agents que s'il peut trouver une classe de défaut nouvelle.
-
-Vérifie d'abord si WebSearch/WebFetch sont disponibles dans cette session (ça a varié d'une
-session à l'autre) — si oui, ça permet de sourcer du matériel dur réel comme pour #24.
-
-#24, #25 et leur contrôle de non-régression sont clos ; le backlog agent-faisable identifié
-sans pilote est **épuisé** pour ce cycle (le gate D20 a aussi été groomé — déjà résolu par
-ADR 0001, juste pas re-documenté). Vérifie d'abord s'il reste un levier agent-faisable non
-identifié dans le board GitHub (issues ouvertes non listées dans STATUS.md) avant de conclure
-au mur humain. Sinon, le seul vrai prochain pas est le mur humain (#1, 5 pilotes) — pas à la
-main d'un agent : dis-le clairement plutôt que d'inventer du travail marginal.
-
-Le gold set IATS confidentiel (~88 US) est **abandonné pour de bon** (D49, décision fondateur) :
-ne pas proposer de le récupérer via Tuleap/ZIP Notion sauf si le fondateur relance
-explicitement le sujet.
-
-Prompt management engagé sur les 23 skills (précision/format/exemples) : 1 bug de
-numérotation corrigé (need-understanding), 1 test A/B fait (prioritize, résultat négatif
-honnête, rien appliqué — D52). `eval/tools/second_judge.py` ajouté : second juge LLM
-indépendant en repli gratuit (Gemini/Groq/HF), outillage mainteneur uniquement (jamais dans
-le produit, D29 intact), vérifié en live sur les 3 fournisseurs (D51). Secrets dans `.env`
-(gitignored) — si absent/vide en reprise, les credentials ne sont plus valides (déjà exposés
-en chat, jamais réutiliser une clé qui a transité en clair) ; redemander au fondateur si le
-second juge doit être réactivé. Candidat suivant si le prompt management continue : `qaia`
-(méta-agent ReAct), identifié comme le skill le plus vague du corpus (pas d'exemple concret
-de ce qu'un bon raisonnement ReAct produit).
-
-**Corpus élargi 24 cas : TERMINÉ (D58-D64)**, plan `eval/goldset-hardened/corpus-24-plan.md`,
-preuve complète et bilan global `eval/baselines/corpus-24-depth.md`. Ne pas relancer de
-nouveaux lots sans une demande explicite du fondateur — le plan à 24 cas est épuisé.
-**Correctif `VAGUE_RE`/`HOLLOW_RE` fait (D65)** : les 2 vrais gaps (C5, C18) sont corrigés et
-vérifiés sans régression (7 fixtures + 15 fichiers réels du corpus) ; le 3e cas (C10) s'est
-avéré ne pas être un vrai bug à l'examen. Nouvelle fixture `eval/goldset-hardened/paraphrased-vague.feature`.
-Limite résiduelle assumée et non corrigée : `ASSERT_RE` trop permissif sur les guillemets
-autour d'un identifiant d'entité (masque un `Then` par ailleurs vague) — à reprendre si un
-futur cas la reproduit.
-
-**Merge vers `main` : FAIT (2026-07-25, D66).** Le fondateur a explicitement demandé de le
-faire malgré la réserve propriétaire (M0-CHECKLIST #3) ; push d'abord bloqué par le
-classificateur du mode auto, refait après autorisation explicite, réussi (`main` = `ec0529e`,
-squash, historique complet conservé sur la branche source). Reste M0-CHECKLIST #3 côté
-suppression de la branche source — pas fait, à décider séparément.
-
-**Backlog GitHub resynchronisé (D66).** Le connecteur MCP GitHub a été connecté (PAT
-personnel — un premier token collé en clair dans le chat a été traité comme compromis et
-jamais utilisé, conformément à D51). 6 issues fermées (#6, #24, #25, #26, #27, #28), 2
-nouvelles ouvertes reprenant le backlog technique de cette session : **#31** (limite
-résiduelle `ASSERT_RE` trop permissif sur les guillemets) et **#32** (Hugging Face jamais
-mesuré sur C10-C20, crédit épuisé). Le board GitHub est de nouveau la source de vérité pour
-ce backlog — ne pas le dupliquer ici.
-
-Autre piste ouverte, pas encore en issue : le prompt management (`qaia` méta-agent, candidat
-identifié en D51-D52) reste disponible si le fondateur veut continuer sur ce terrain plutôt
-que le corpus.
+→ commit signé → push sur main (déjà autorisé explicitement par le fondateur cette session
+pour du travail vérifié). Pas de PR sans demande explicite.
 
 Vérifie d'abord si `.env` contient toujours des credentials valides pour Gemini/Groq/HF/
-Mistral (secrets jamais réutilisés une fois exposés en clair — redemander au fondateur si
-absents/expirés) avant de relancer quoi que ce soit qui appelle `multi_model_generate.py`.
-Vérifie aussi si `GITHUB_PERSONAL_ACCESS_TOKEN` est toujours valide dans `~/.claude/settings.json`
-avant de compter sur le connecteur GitHub.
+Mistral avant de relancer `multi_model_generate.py`/`second_judge.py`, et si
+GITHUB_PERSONAL_ACCESS_TOKEN est toujours valide dans ~/.claude/settings.json avant de
+compter sur le connecteur GitHub MCP (`plugin:github:github`).
+
+Le gold set IATS confidentiel (~88 US) reste abandonné pour de bon (D49) ; ne pas relancer de
+nouveaux lots du corpus élargi 24 cas sans demande explicite (D58-D64, plan épuisé).
 ```
