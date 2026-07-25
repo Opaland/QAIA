@@ -143,9 +143,25 @@ GitLab CE + 20 clean-room par format/domaine) : `eval/goldset-hardened/corpus-24
 | Nouvelle fixture de régression (2 cas FAIL attendus + 1 cas concret + 1 cas config-driven légitime qui ne doit jamais être flagué) | `eval/goldset-hardened/paraphrased-vague.feature` |
 | 3e cas documenté (C10) réexaminé : pas un vrai bug, le scénario est racheté par des lignes `And` concrètes — noté honnêtement, pas compté comme corrigé | idem |
 
-**Reste (backlog, non fait)** : retenter Hugging Face sur C10-C20 (11 cas jamais mesurés pour
-ce fournisseur) si le crédit gratuit se reconstitue ; limite résiduelle `ASSERT_RE` trop
-permissif sur les guillemets (D65) à reprendre si un futur cas la reproduit.
+**Reste (backlog, non fait)**, désormais tracé en issues GitHub : retenter Hugging Face sur
+C10-C20 ([#32](https://github.com/Opaland/QAIA/issues/32)) ; limite résiduelle `ASSERT_RE`
+trop permissif sur les guillemets ([#31](https://github.com/Opaland/QAIA/issues/31)).
+
+## Backlog GitHub resynchronisé (2026-07-25)
+
+Le connecteur MCP GitHub a été connecté cette session (PAT personnel). Recoupement du board
+avec `docs/DECISIONS.md`/`docs/KANBAN.md` :
+
+| Action | Issues | Preuve |
+|---|---|---|
+| Fermées (livrées, preuve citée en commentaire) | [#25](https://github.com/Opaland/QAIA/issues/25), [#26](https://github.com/Opaland/QAIA/issues/26), [#27](https://github.com/Opaland/QAIA/issues/27), [#28](https://github.com/Opaland/QAIA/issues/28) | D43, D47, D65 |
+| Fermée (obsolète, superseded par des campagnes bien plus larges) | [#6](https://github.com/Opaland/QAIA/issues/6) | — |
+| Fermée (harnais de gap #24, corpus 24 cas) | [#24](https://github.com/Opaland/QAIA/issues/24) | D44-D48, D58-D64 |
+| Ouvertes (backlog agent-faisable identifié cette session) | [#31](https://github.com/Opaland/QAIA/issues/31), [#32](https://github.com/Opaland/QAIA/issues/32) | D65 |
+
+**Constat** : plusieurs chantiers étaient marqués "TERMINÉ" dans ce fichier depuis des
+sessions antérieures sans que l'issue GitHub correspondante soit fermée — les deux avaient
+dérivé. Resynchronisé maintenant ; à surveiller pour ne pas reproduire l'écart.
 
 ## Sprint 16 — Balayage multi-modèles Phases 2 & 3 (8/8, qaia-playwright + qaia-score) ✅ TERMINÉ (2026-07-24 ter, suite 11)
 

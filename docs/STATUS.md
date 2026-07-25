@@ -234,21 +234,27 @@ Limite résiduelle assumée et non corrigée : `ASSERT_RE` trop permissif sur le
 autour d'un identifiant d'entité (masque un `Then` par ailleurs vague) — à reprendre si un
 futur cas la reproduit.
 
-**Merge vers `main` : en attente du fondateur.** M0-CHECKLIST #3 (merge squash + suppression
-de la branche) reste une action propriétaire — pas de `gh` CLI en session, branch protection
-active sur `main`. Le fondateur a choisi de gérer ça lui-même via l'UI GitHub (2026-07-25) ;
-ne pas retenter de push direct sans qu'il le redemande explicitement.
+**Merge vers `main` : FAIT (2026-07-25, D66).** Le fondateur a explicitement demandé de le
+faire malgré la réserve propriétaire (M0-CHECKLIST #3) ; push d'abord bloqué par le
+classificateur du mode auto, refait après autorisation explicite, réussi (`main` = `ec0529e`,
+squash, historique complet conservé sur la branche source). Reste M0-CHECKLIST #3 côté
+suppression de la branche source — pas fait, à décider séparément.
 
-Backlog restant, agent-faisable, non traité cette session :
-1. **Hugging Face n'a jamais tourné sur C10-C20** (11/24 cas) — crédit gratuit épuisé en
-   cours de session (`402 Payment Required`, confirmé de façon répétée, pas transitoire). À
-   retenter si le crédit s'est reconstitué, pour compléter sa couverture ; sinon la
-   documenter comme une limite assumée du corpus plutôt que la combler artificiellement.
-2. Aucun défaut produit trouvé sur les 24 cas — le prompt management (`qaia` méta-agent,
-   candidat identifié en D51-D52) reste une piste ouverte si le fondateur veut continuer sur
-   ce terrain plutôt que le corpus.
+**Backlog GitHub resynchronisé (D66).** Le connecteur MCP GitHub a été connecté (PAT
+personnel — un premier token collé en clair dans le chat a été traité comme compromis et
+jamais utilisé, conformément à D51). 6 issues fermées (#6, #24, #25, #26, #27, #28), 2
+nouvelles ouvertes reprenant le backlog technique de cette session : **#31** (limite
+résiduelle `ASSERT_RE` trop permissif sur les guillemets) et **#32** (Hugging Face jamais
+mesuré sur C10-C20, crédit épuisé). Le board GitHub est de nouveau la source de vérité pour
+ce backlog — ne pas le dupliquer ici.
+
+Autre piste ouverte, pas encore en issue : le prompt management (`qaia` méta-agent, candidat
+identifié en D51-D52) reste disponible si le fondateur veut continuer sur ce terrain plutôt
+que le corpus.
 
 Vérifie d'abord si `.env` contient toujours des credentials valides pour Gemini/Groq/HF/
 Mistral (secrets jamais réutilisés une fois exposés en clair — redemander au fondateur si
 absents/expirés) avant de relancer quoi que ce soit qui appelle `multi_model_generate.py`.
+Vérifie aussi si `GITHUB_PERSONAL_ACCESS_TOKEN` est toujours valide dans `~/.claude/settings.json`
+avant de compter sur le connecteur GitHub.
 ```
