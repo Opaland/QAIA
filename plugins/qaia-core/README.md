@@ -2,7 +2,7 @@
 
 QAIA core plugin: from user story to prioritized, traceable, atomic Gherkin test books.
 
-**Status: 0.1.0 — pre-alpha.** The journey skills exist in preview; none has shipped through an evaluated release yet (see `eval/` at the repo root).
+**Status: 0.2.14.** Proven end-to-end on two independent domains (medical — `examples/medibook/` — and non-medical — `examples/expense-demo/`), plus a 24-case multi-model robustness corpus (`eval/baselines/corpus-24-depth.md`). See `eval/` at the repo root for the full evaluation trail.
 
 ## Install
 
@@ -28,7 +28,7 @@ From Claude Code:
 | `istqb-design` | 5. Techniques chosen and justified per AC | medium |
 | `prioritize` | 6. Risk scores proposed, human arbitrated | small |
 | `testbook-generate` | 7. Atomic Gherkin book, stable IDs, matrix, ratio check; diff-based regeneration | large |
-| `testbook-export` | 8. `.feature` + XLSX + Markdown synthesis | medium |
+| `testbook-export` | 8. `.feature` + XLSX + Markdown synthesis; opt-in Xray CSV export (git-master, file-only — issue #35) | medium |
 | `feedback` | 9. Corrections captured, validated promotion to rules | small |
 | `oracle-generate` | Standards as generation oracles (Luhn, ISO 8601, HTTP, RFC 5322…) → grounded cases + expected results, tagged `@oracle:*` | small |
 
@@ -36,7 +36,7 @@ From Claude Code:
 
 ## Token budget — ordre de grandeur (issue #7)
 
-**Version 0.2.13 — daté 2026-07-25. Partiellement instrumenté.** 5 skills ont une mesure
+**Version 0.2.14 — daté 2026-07-25. Partiellement instrumenté.** 5 skills ont une mesure
 réelle (méthode ci-dessous) ; le reste demeure estimé (marqué explicitement) — instrumenter
 les skills restantes reste ouvert (issue #7, portée réduite au solde non mesuré).
 
