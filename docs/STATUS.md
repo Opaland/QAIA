@@ -13,6 +13,31 @@ code. Ce document donne l'état honnête du projet et un **prompt prêt à colle
 le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup
 est immédiat).
 
+## Sprint 20 — reliquat + fiabilisation (2026-07-25, D89-D93) — TERMINÉ
+
+Enchaînement direct après le mandat post-M0 : le fondateur a demandé de compléter le reliquat
+honnête déjà identifié plutôt que d'attendre un nouveau levier, puis un nouveau passage de veille
+concurrentielle pour re-chercher du carburant de backlog.
+
+- **#35 fermée** — connecteur d'export TestRail livré (Xray déjà livré en D86), même discipline
+  d'honnêteté, vérifié indépendamment (D89).
+- **#7 fermée** — les 14 skills de `qaia-core` ont désormais une mesure réelle de budget token
+  (9 nouvelles cette session). Gain méthodologique réutilisable : la notification de fin de
+  tâche d'un agent délégué porte son vrai total de tokens (`subagent_tokens`), lisible
+  directement par l'orchestrateur (D91, D92).
+- **#46 ouverte puis fermée le jour même** — trouvée en exerçant `testbook-validate`/`report` en
+  conditions réelles (effet de bord d'une mesure de budget token, pas cherchée) : `testbook-generate`
+  pouvait asserter un total de conversion de devise précis au centime sans source de taux tracée.
+  Corrigé (garde-fou ajouté + fixture réparée), vérifié indépendamment (D93).
+- **Re-veille concurrentielle (même jour)** : un chemin prometteur (IEC 62304 Edition 2 vs
+  AI-comme-outil-de-développement) **n'a pas résisté à la vérification directe** de la source —
+  l'article ne couvre que l'IA embarquée dans le dispositif médical, pas l'IA utilisée comme
+  outil de développement/test, et reste de toute façon en brouillon. Écarté honnêtement plutôt
+  que forcé en backlog. **Aucun nouveau levier trouvé** — le paysage n'a pas bougé depuis D67
+  (quelques heures plus tôt le même jour).
+- **Board GitHub re-vérifié** : 10 issues ouvertes, toutes bloquées exactement comme documenté
+  ci-dessous — aucune n'est devenue agent-faisable entre-temps.
+
 ## Mandat post-M0 (D67-D88, 2026-07-25) — TERMINÉ
 
 Le fondateur a levé le gate G2 (5 pilotes réels) et donné un mandat élargi : veille
@@ -60,7 +85,7 @@ ci-dessous.
 ## Où on en est
 
 **Le produit existe et est éprouvé (en automatique, et maintenant aussi sur du matériel dur réel). Quatre plugins.**
-- **`qaia-core` 0.2.14** — 15 skills : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding`, `rag-build`, `istqb-design` [RAG-in-use + amendements #24/#43/#45], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé, +signal git-history #36], `testbook-generate`, `report` [manifeste standardisé], `testbook-export` [+ export Xray opt-in #35], `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
+- **`qaia-core` 0.2.16** — 15 skills, **budget token intégralement mesuré (issue #7 fermée)** : parcours complet US → cahier Gherkin (`us-ingest` [+ connecteur Jira #9], `us-review`, `need-understanding`, `rag-build`, `istqb-design` [RAG-in-use + amendements #24/#43/#45], `oracle-generate` [+ oracle projet OpenAPI #16, durci #25], `prioritize` [audité, A/B testé, +signal git-history #36], `testbook-generate` [garde-fou anti-fabrication étendu aux valeurs calculées non sourcées, #46], `report` [manifeste standardisé], `testbook-export` [+ export Xray et TestRail opt-in, #35 fermée], `feedback`) + `qaia` (méta-agent ReAct), `qaia-help`, `testbook-validate` [+ pass structurel déterministe, D45], `hello`.
 - **`qaia-playwright` 0.1.7** — 8 skills : `automate` (Gherkin → Playwright POM + pipeline CI, +lint anti-assertions-creuses #41), `a11y-audit`, `visual-check` (régression visuelle, audité #40), `perf-check`, `security-surface`, `run-report`, `flaky-detect` (#34), `locator-repair` (#37), `traffic-replay` (HAR → non-régression, #39).
 - **`qaia-score` 0.1.4** — score uniquement, lecture seule : `testbook-score` (rubrique ISTQB /20 + top-3, pass structurel DÉTERMINISTE step 0, sniffer anti-fabrication #27, détecteurs C1/C2 #28), `aptitude-gate` (PASS/CONCERNS/FAIL/WAIVED, +recalcul du total #21, +signal `flakiness` #44). N'écrit que le bloc `gate` ; aucun producteur ne se score lui-même.
 - **`qaia-testdata` 0.1.0** (nouveau, #15) — 1 skill : `dataset-generate` (jeux de données synthétiques cohérents métier, injectables via fixtures Playwright, jamais de données réelles/PII).
@@ -237,36 +262,45 @@ Security Advisories ; GitHub Projects.
 Reprends le projet QAIA (plateforme QA agentic open source, plugins Claude Code).
 Lis d'abord docs/STATUS.md, docs/DECISIONS.md et docs/KANBAN.md pour le contexte complet.
 
-État (2026-07-25) : QUATRE plugins validés --strict — qaia-core 0.2.14 (15 skills),
-qaia-playwright 0.1.7 (8 skills, dont traffic-replay tout neuf), qaia-score 0.1.4 (2 skills),
-qaia-testdata 0.1.0 (1 skill, tout neuf). Éprouvé en automatique (gold set 19/20, robustesse,
-éval vérité-terrain ~93 % précision), sur du matériel dur réel (harnais #24, corpus élargi 24
-cas D58-D64 : Claude 24/24 sans défaut), ET maintenant bout-en-bout sur DEUX domaines
+État (2026-07-25) : QUATRE plugins validés --strict — qaia-core 0.2.16 (15 skills, budget
+token intégralement mesuré), qaia-playwright 0.1.7 (8 skills, dont traffic-replay), qaia-score
+0.1.4 (2 skills), qaia-testdata 0.1.0 (1 skill). Éprouvé en automatique (gold set 19/20,
+robustesse, éval vérité-terrain ~93 % précision), sur du matériel dur réel (harnais #24, corpus
+élargi 24 cas D58-D64 : Claude 24/24 sans défaut), ET bout-en-bout sur DEUX domaines
 indépendants (santé — examples/medibook/, 31 tests verts ; finance/RH — examples/expense-demo/,
-40 tests verts, 3 vrais bugs trouvés et corrigés pendant l'automatisation — D68).
+40 tests verts).
 
-**Mandat post-M0 (D67-D88) TERMINÉ.** Le fondateur a levé la gate G2 (2026-07-25, "la
-validation humaine est validée, on peut commencer") et donné un mandat élargi : veille
-concurrentielle (docs/COMPETITIVE-ANALYSIS.md), remodelage du backlog (10 issues #33-#42),
-extension hors médical, développement en autonomie continue. **8 chantiers livrés et
-vérifiés indépendamment cette session** (pas seulement pris au mot de l'agent constructeur —
-tests rejoués, diffs isolés relus, valeurs sensibles grep-ées) : #45 (istqb-design décompose
-les règles composites), #40 (audit visual-check, 1 lacune doc corrigée), #31 (structural_score.py,
-limite ASSERT_RE/guillemets corrigée), #5 (1re validation conversationnelle simulée avec
-arbitrage humain réellement exercé), #7 (2 mesures token réelles de plus, 5/12 skills
-mesurées), #35 (export Xray git-master, TestRail non couvert), #15 (nouveau plugin
-qaia-testdata), #39 (nouvelle skill traffic-replay, masquage PII vérifié sans fuite).
-Décisions D67-D88 dans docs/DECISIONS.md.
+**Mandat post-M0 (D67-D88) puis Sprint 20 (D89-D93) TERMINÉS.** Le fondateur a levé la gate G2
+(2026-07-25) et donné un mandat élargi (veille concurrentielle, remodelage backlog #33-#42,
+extension hors médical), livré en 8 chantiers (D81-D88), puis un Sprint 20 de reliquat +
+fiabilisation : **#35 fermée** (export Xray + TestRail, tous deux fichier-only), **#7 fermée**
+(14/14 skills `qaia-core` mesurées en tokens réels — gain méthodologique : la notification de
+fin de tâche d'un agent délégué porte son vrai total via `subagent_tokens`, lisible par
+l'orchestrateur), **#46 ouverte et fermée le même jour** (défaut trouvé en effet de bord d'une
+mesure : `testbook-generate` pouvait asserter un total de conversion de devise non sourcé,
+corrigé par un garde-fou). Une re-veille concurrentielle le même jour n'a rien trouvé de neuf
+(un chemin prometteur — IEC 62304 Edition 2 — n'a pas résisté à la vérification directe de la
+source, écarté honnêtement). Décisions D67-D93 dans docs/DECISIONS.md.
 
-**Le backlog agent-faisable de ce cycle est ÉPUISÉ.** Tout ce qui reste ouvert sur le board
-GitHub est bloqué sur : (a) le mur humain — #1 (5 vrais pilotes), #10/#12/#13/#14/#18 (T17 sur
-app pilote réelle, D79 : expense-demo ne suffit pas littéralement) ; (b) une ressource externe
-— #32 (crédit Hugging Face épuisé) ; (c) un cadrage fondateur explicitement requis avant tout
-code — #29/#30 (tier opt-in, ADR 0002 dit encore "post-pilote uniquement" dans son propre
-texte malgré D67), #42 (son critère d'acceptation exige un tranchage acté dans DECISIONS.md
-avant implémentation) ; (d) propriétaire seul — #2 (transfert d'org). **Vérifie d'abord le
-board GitHub pour un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu
-être ouverte depuis) — sinon dis-le clairement plutôt que d'inventer du travail marginal.
+**Le backlog agent-faisable de ce cycle reste ÉPUISÉ (re-vérifié D89-D93).** Tout ce qui reste
+ouvert sur le board GitHub (10 issues) est bloqué sur : (a) le mur humain — #1 (5 vrais
+pilotes), #10/#12/#13/#14/#18 (T17 sur app pilote réelle, D79 : expense-demo ne suffit pas
+littéralement) ; (b) une ressource externe — #32 (crédit Hugging Face épuisé) ; (c) un cadrage
+fondateur explicitement requis avant tout code — #29/#30 (tier opt-in, ADR 0002 dit encore
+"post-pilote uniquement" dans son propre texte malgré D67), #42 (son critère d'acceptation
+exige un tranchage acté dans DECISIONS.md avant implémentation) ; (d) propriétaire seul — #2
+(transfert d'org). **Vérifie d'abord le board GitHub ET fais un tour rapide de veille
+concurrentielle pour un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu
+être ouverte depuis, le paysage concurrentiel évolue vite) — mais vérifie toute piste trouvée en
+allant lire la source directement avant de l'ajouter au backlog (un lead prometteur sur IEC
+62304 ne tenait pas la route une fois la source réelle lue, D93) — sinon dis-le clairement
+plutôt que d'inventer du travail marginal.
+
+**Coût agent (nouveau, D93 mandat) : par défaut, préfère l'édition directe (Read/Edit/Bash) à un
+dispatch d'agent en sous-tâche pour du travail déjà bien cadré** — ne réserve le dispatch d'agent
+(surtout en `isolation: "worktree"`, ~40-140k tokens par agent observé) qu'aux tâches vraiment
+parallélisables ou nécessitant une exécution isolée/indépendante (ex. une mesure qui doit être
+un run réel séparé). Le fondateur a explicitement demandé cette discipline en cours de session.
 
 Principes non négociables : distribution 100 % skill (Markdown, sans clé API) ; Python EN
 SESSION généré par un skill autorisé (déterminisme sans shipper de code, ADR 0002/D42) ;
