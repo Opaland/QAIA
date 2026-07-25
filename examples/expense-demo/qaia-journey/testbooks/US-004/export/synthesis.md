@@ -60,7 +60,7 @@ held for the ingested slice.
 
 ## Review order
 
-`@low-confidence` first (scenarios 007, 009, 010, 014, 015, 016, 023, 025, 026, 027 — 10
+`@low-confidence` first (scenarios 007, 009, 010, 014, 015, 016, 018, 023, 025, 026, 027 — 11
 scenarios; note 027 is `@low-confidence` for Q7 but structurally also depends on Q2/Q4, so it
 is the single highest-review-priority scenario in the book), then P1 → P2 → P3.
 
