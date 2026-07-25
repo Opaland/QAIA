@@ -145,3 +145,51 @@ de résultat réellement asserté) et masque le nouveau match `VAGUE_RE` sur "co
 n'est pas un défaut du fix ajouté ici mais une limite préexistante d'`ASSERT_RE` (trop
 permissif sur les guillemets) — non traité dans ce correctif, à reprendre si un futur cas du
 corpus la reproduit.
+
+## Correctif de la limite résiduelle ci-dessus (2026-07-25, issue #31, P3)
+
+La limite D65/D71 ci-dessus est corrigée : `structural_score.py` ajoute `has_strict_assertion()`,
+une variante resserrée d'`ASSERT_RE` qui n'accorde une valeur de résultat concrète à un littéral
+entre guillemets que s'il est **immédiatement adjacent à un verbe d'état/assertion**
+(`is/are/est/sont/shows/displays/equals/contains/returns/redirects`…) — un identifiant cité en
+passant dans une phrase sans rapport (`between "P1" and "P2"`) ne compte plus. Un digit **à
+l'intérieur** d'un littérale cité (le `1` de `"P1"`) est également neutralisé (les segments entre
+guillemets sont effacés avant le test du `\d` nu), sinon la règle numérique nue rouvrait la même
+faille par un autre chemin.
+
+**Vérifié sur le cas C5 exact** : `the order between "P1" and "P2" is consistent (e.g., by
+player name)`, testé isolément, bascule maintenant en `vague/non-verifiable Then (C2)` → gate
+`FAIL`, `forced_stop: true` (auparavant : `PASS`/`score 100`, aucun finding). Fixture de
+régression permanente ajoutée : scénario 5 de
+`eval/goldset-hardened/paraphrased-vague.feature` (`@QAIA-BILL-005`), reprenant le libellé exact
+du second `Then` de C5. Score du fichier : 78 → **76**/FAIL (5 scénarios au lieu de 4, gate
+inchangé), avec le nouveau scénario listé dans le finding `vague/non-verifiable Then (C2)`.
+
+**Décision de conception, documentée honnêtement (compromis assumé)** : `has_strict_assertion()`
+n'est branchée que dans le calcul de `vague` (C2), **pas** dans `ASSERT_RE`/`covers()` qui reste
+inchangée. Un premier essai de resserrement direct d'`ASSERT_RE` elle-même (donc aussi dans
+`covers()`) a été testé et **rejeté** : il fait basculer ~15 assertions légitimes et déjà
+publiées à "aucun signal concret" dans des fixtures réelles non fabriquées —
+`eval/concerns-zone-fixtures/{m1,m2,m3,m4}-*/booking.feature` (ex. `the slot with "Dr. Ben
+Osei" is not listed`, `only slots ... "Dermatology" ... are shown`), `eval/baselines/
+multi-judge-median-testbook/booking.feature` (ex. `the confirmation shows the practitioner name
+"Dr. Alia Novak"`) et `eval/baselines/rag-recall-gain/run-a.feature` — une régression réelle sans
+contrepartie, puisqu'aucune de ces lignes ne déclenche par ailleurs `VAGUE_RE` (le seul contexte
+où la permissivité des guillemets nus pose un vrai problème). Le fix reste donc **partiel par
+construction** : il ferme le trou C2 documenté sans toucher au calcul de `completeness`/`covers()`
+ailleurs ; un identifiant cité entre guillemets juxtaposé à un mot `VAGUE_RE` dans une formulation
+non anticipée par `has_strict_assertion()` pourrait encore passer au travers — non revendiqué
+comme exhaustif.
+
+**Vérifié sans régression (2026-07-25)** : les 8 fixtures de `eval/goldset-hardened/*.feature`
+(les 7 originales + `paraphrased-vague.feature`, désormais 5 scénarios) produisent des scores,
+gates et findings **strictement identiques** avant/après pour les 7 fixtures inchangées ; seule
+`paraphrased-vague.feature` change, et uniquement à cause du 5ème scénario ajouté exprès (78 →
+76, toujours FAIL). Vérifié également, au-delà du périmètre strict de la mission, sur les 8
+autres fichiers `.feature` du dépôt qui ne sont pas dans `eval/goldset-hardened/`
+(`eval/concerns-zone-fixtures/{m1,m2,m3,m4}-*/booking.feature`, `eval/baselines/
+multi-judge-median-testbook/{booking,cancellation}.feature`, `eval/baselines/
+rag-recall-gain/run-{a,b}.feature`) : **score, gate et findings identiques avant/après sur les 8**
+— ces fixtures ne sont pas des baselines documentées de `structural_score.py` (elles servent à
+d'autres expériences, cf. `eval/baselines/concerns-zone-calibration.md`), mais la stabilité totale
+observée confirme que le correctif ne déborde pas de son périmètre voulu.
