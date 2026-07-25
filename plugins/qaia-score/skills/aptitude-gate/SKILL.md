@@ -49,6 +49,15 @@ Evaluate top to bottom; the **first** matching band is the verdict.
 1. **Read the manifest** — `design`, `execution` (if any), `gate.score`/`dimensions`, and
    `openArbitrations`. Note the `contract` major version; treat any absent field as absent, not
    as a failure (degraded mode).
+   **Recompute the rubric total from the 10 `dimensions` scores yourself — never trust
+   `gate.score` as given.** #21 calibration found a real case: a judge's own listed dimension
+   scores summed to 15, but the recorded total said 16 — an arithmetic slip that silently
+   flipped a CONCERNS candidate to PASS right at the release threshold, undetected because
+   nothing downstream recomputed it. Same discipline already applied to the negative-ratio
+   count (D50, `structural_score.py`): a self-reported number that gates a release decision is
+   verified, not assumed. If the recomputed total disagrees with `gate.score`, use the
+   recomputed value for every band comparison below and add a `reasons` line naming the
+   discrepancy (`"score mismatch: dimensions sum to 15, manifest said 16 — using 15"`).
 2. **Apply the verdict rules** above, in order. Collect the concrete `reasons` — one line each,
    each citing the evidence (`"AC4 uncovered (matrix row 4)"`, `"Q5 open: cancellation < 4h"`,
    `"dim 3 = 1: req-neg AC4-C2 uncovered"`). A PASS lists the gates it cleared.
