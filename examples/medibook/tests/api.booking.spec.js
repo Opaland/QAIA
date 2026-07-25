@@ -66,8 +66,16 @@ test.describe('MediBook API (US-001)', () => {
   test('@QAIA-US-001-108 @AC8 booking is recorded in the audit trail', async ({ request }) => {
     const t = await login(request, 'patient@demo');
     await request.post(B + '/api/book', { headers: { Authorization: 'Bearer ' + t }, data: { slotId: 's1' } });
-    const a = await request.get(B + '/api/audit');
+    // /api/audit now requires auth (external audit finding, 2026-07-26: it was unauthenticated,
+    // leaking every patient's email/booking activity -- fixed in server.js).
+    const a = await request.get(B + '/api/audit', { headers: { Authorization: 'Bearer ' + t } });
+    expect(a.status()).toBe(200);
     const events = (await a.json()).audit.map(e => e.action);
     expect(events).toContain('book');
+  });
+
+  test('@QAIA-US-001-109 @AC8 @negative reading the audit trail without authentication is refused', async ({ request }) => {
+    const r = await request.get(B + '/api/audit');
+    expect(r.status()).toBe(401);
   });
 });

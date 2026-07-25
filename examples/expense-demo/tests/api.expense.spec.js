@@ -273,7 +273,10 @@ test.describe('ExpenseFlow API (US-004)', () => {
     const mgr = await apiLogin(request, B, 'manager@demo');
     const { id } = await apiCreateSubmittedReport(request, B, emp, { lines: [{ category: 'x', amount: 20, date: todayISO(), receipt: true }] });
     await apiDecide(request, B, mgr, id, 'approve');
-    const a = await request.get(B + '/api/audit');
+    // /api/audit now requires auth (external audit finding, 2026-07-26: it was unauthenticated,
+    // leaking every user's email/report totals/rejection comments -- fixed in server.js).
+    const a = await request.get(B + '/api/audit', { headers: { Authorization: 'Bearer ' + emp } });
+    expect(a.status()).toBe(200);
     const events = (await a.json()).audit;
     const submitEvt = events.find(e => e.action === 'submit' && e.who === 'employee@demo');
     const approveEvt = events.find(e => e.action === 'approve' && e.who === 'manager@demo');
@@ -281,6 +284,15 @@ test.describe('ExpenseFlow API (US-004)', () => {
     expect(approveEvt).toBeTruthy();
     expect(typeof submitEvt.at).toBe('number');
     expect(typeof approveEvt.at).toBe('number');
+  });
+
+  // External audit finding (2026-07-26): GET /api/audit had no auth check at all, exposing
+  // every user's email, report totals, and rejection comments to an unauthenticated caller.
+  // AC8 never specified who may read the trail back -- silently resolved as fully open instead
+  // of defaulting to authenticated-only. Fixed in server.js; this is the regression test.
+  test('@QAIA-US-004-042 @AC8 @P1 @negative reading the audit trail without authentication is refused', async ({ request }) => {
+    const r = await request.get(B + '/api/audit');
+    expect(r.status()).toBe(401);
   });
 
   // --- cross-cutting authorization (3c systematic expansion) ---

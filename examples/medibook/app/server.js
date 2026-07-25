@@ -99,7 +99,15 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, { appointments: db.appointments.filter(x => x.patientId === a.user.id) });
   }
 
-  if (p === '/api/audit' && req.method === 'GET') return json(res, 200, { audit: db.audit }); // AC8 (demo-open)
+  if (p === '/api/audit' && req.method === 'GET') {
+    // Auth fix (found by the 2026-07-26 external audit workflow, live curl reproduction):
+    // AC8 requires transitions to BE recorded (who/when) but never specifies WHO may read the
+    // trail back -- silently resolved as fully open instead of authenticated-only, exposing
+    // every patient's email and booking/cancellation activity to an unauthenticated caller.
+    // Same class as expense-demo's identical gap (D96 IDOR lineage); same fix: default-deny.
+    const a = auth(req); if (!a) return json(res, 401, { error: 'unauthenticated' });
+    return json(res, 200, { audit: db.audit });
+  }
 
   // --- static ------------------------------------------------------------
   let file = p === '/' ? '/index.html' : p;

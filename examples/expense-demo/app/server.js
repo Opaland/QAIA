@@ -246,7 +246,16 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, { report: rpt });
   }
 
-  if (p === '/api/audit' && req.method === 'GET') return json(res, 200, { audit: db.audit }); // AC8 (demo-open, like MediBook)
+  if (p === '/api/audit' && req.method === 'GET') {
+    // Auth fix (found by the 2026-07-26 external audit workflow, live curl reproduction):
+    // AC8 requires transitions to BE recorded (who/when on every event) but never specifies
+    // WHO may read the trail back -- that gap was silently resolved as fully open ("demo-open")
+    // instead of defaulting to authenticated-only, exposing every user's email, report totals
+    // and rejection comments to an unauthenticated caller. Same class of silent-permissive
+    // resolution as the D96 IDOR gap; same fix posture: default-deny, require a valid session.
+    const a = authFrom(req); if (!a) return json(res, 401, { error: 'unauthenticated' });
+    return json(res, 200, { audit: db.audit });
+  }
 
   if (p === '/api/whoami-clock' && req.method === 'GET') return json(res, 200, { now: NOW(), isoDaysAgo90: isoDaysAgo(90) }); // deterministic test helper
 
