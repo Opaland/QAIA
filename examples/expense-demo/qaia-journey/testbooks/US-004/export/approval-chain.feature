@@ -75,11 +75,14 @@ Feature: Approval chain routing
 
   @QAIA-US-004-024 @AC6 @P1 @ep
   # condition: AC6-C1 — priority P1
+  # rate-assumption: input chosen (543.00 USD) so its converted total crosses the 500 EUR
+  # band threshold at a fixture rate of ~0.9210 — the rate itself is not sourced anywhere
+  # in the US/design, so no converted-total figure is asserted below, only the band
+  # behavior the AC actually requires (issue #46)
   Scenario: A non-EUR report's converted total drives the approval band
     Given "employee@demo" has a draft report in "USD" with one line "hotel" of 543.00 dated 2026-07-21, receipt attached
     When "employee@demo" submits the report
-    Then the report's converted total is approximately 500.10 EUR
-    And the report awaits approval from "manager" and "finance"
+    Then the report awaits approval from "manager" and "finance"
 
   @QAIA-US-004-025 @AC6 @P1 @negative @error-guessing @low-confidence
   # condition: AC6-C2 [req-neg] — priority P1 — open: Q4 (rate source undefined; no
@@ -92,11 +95,13 @@ Feature: Approval chain routing
   @QAIA-US-004-026 @AC6 @P1 @error-guessing @low-confidence
   # condition: AC6-C3 — priority P1 — open: Q4 (fallback: an expense date in a
   # weekend/holiday gap uses the last available prior rate and is flagged stale)
+  # rate-assumption: no converted-total figure is asserted — the fallback rate itself is
+  # not sourced anywhere in the US/design, only the staleness flag the AC requires is a
+  # grounded behavior (issue #46)
   Scenario: An expense dated in a weekend rate gap uses the last available rate
     Given "employee@demo" has a draft report in "USD" with one line "hotel" of 100.00 dated 2026-07-25, receipt attached
     When "employee@demo" submits the report
     Then the report is flagged as using a stale exchange rate
-    And the report's converted total is approximately 91.90 EUR
 
   @QAIA-US-004-027 @AC2 @AC3 @AC6 @P1 @decision-table @low-confidence
   # condition: AC6-C4 — priority P1 — open: Q7 (triple intersection AC2×AC3×AC6: a
