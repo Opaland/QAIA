@@ -2,7 +2,7 @@
 
 > 🇫🇷 [Version française ci-dessous](#-français)
 
-**Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.10, 15 skills), automation (`qaia-playwright` 0.1.2, 6 skills) and scoring (`qaia-score` 0.1.1, 2 skills) plugins exist, validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 31 green Playwright tests) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 40 green Playwright tests, real bugs found and fixed during automation). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
+**Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.14, 15 skills), automation (`qaia-playwright` 0.1.6, 8 skills), scoring (`qaia-score` 0.1.4, 2 skills) and test-data (`qaia-testdata` 0.1.0, 1 skill) plugins exist, validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 31 green Playwright tests) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 40 green Playwright tests, real bugs found and fixed during automation) — plus a 24-case multi-model robustness corpus ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
 
 QAIA turns user stories into prioritized, traceable **Gherkin test books** and then into **native Playwright tests** — distributed as **skills and plugins** that run inside *your* Claude session. No API key, no backend, no data leaves your session beyond what you already send to Claude.
 
@@ -55,6 +55,7 @@ Proven twice end-to-end, on two unrelated domains (see [`examples/`](examples/))
 | [`plugins/qaia-core/`](plugins/qaia-core/) | Core plugin: US → prioritized Gherkin test book (15 skills, incl. oracle-generate + report) |
 | [`plugins/qaia-playwright/`](plugins/qaia-playwright/) | Automation plugin: test book → native Playwright + CI pipeline (E2E/API/a11y/perf/security) |
 | [`plugins/qaia-score/`](plugins/qaia-score/) | Scoring plugin (read-only): 10-dimension rubric (/20) + PASS/CONCERNS/FAIL/WAIVED gate |
+| [`plugins/qaia-testdata/`](plugins/qaia-testdata/) | Test-data plugin: rich, business-coherent synthetic datasets injectable via fixtures (never real data) |
 | [`docs/OUTPUT-CONTRACT.md`](docs/OUTPUT-CONTRACT.md) | Standardized run manifest every plugin shares (D39) |
 | [`eval/`](eval/) | Evaluation harness: gold set + rubric + scored baselines + robustness campaign |
 | [`examples/medibook/`](examples/medibook/) | Worked end-to-end example: real app + POM Playwright automation (24 tests green) |
@@ -77,7 +78,7 @@ License: [MIT](LICENSE).
 
 ## 🇫🇷 Français
 
-**Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.10, 15 skills), automatisation (`qaia-playwright` 0.1.2, 6 skills) et score (`qaia-score` 0.1.1, 2 skills) existent, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 31 tests Playwright verts) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 40 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
+**Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.14, 15 skills), automatisation (`qaia-playwright` 0.1.6, 8 skills), score (`qaia-score` 0.1.4, 2 skills) et jeux de données (`qaia-testdata` 0.1.0, 1 skill) existent, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 31 tests Playwright verts) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 40 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation) — plus un corpus de robustesse multi-modèles à 24 cas ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
 
 QAIA transforme des user stories en **cahiers de test Gherkin** priorisés et traçables, puis en **tests Playwright natifs** — distribués en **skills et plugins** qui s'exécutent dans *votre* session Claude. Pas de clé API, pas de backend : aucune donnée ne quitte votre session au-delà de ce que vous envoyez déjà à Claude.
 
