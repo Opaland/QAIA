@@ -28,7 +28,7 @@ From Claude Code:
 | `istqb-design` | 5. Techniques chosen and justified per AC | medium |
 | `prioritize` | 6. Risk scores proposed, human arbitrated | small |
 | `testbook-generate` | 7. Atomic Gherkin book, stable IDs, matrix, ratio check; diff-based regeneration | large |
-| `testbook-export` | 8. `.feature` + XLSX + Markdown synthesis | medium |
+| `testbook-export` | 8. `.feature` + XLSX + Markdown synthesis; opt-in Xray CSV export (git-master, file-only — issue #35) | medium |
 | `feedback` | 9. Corrections captured, validated promotion to rules | small |
 | `oracle-generate` | Standards as generation oracles (Luhn, ISO 8601, HTTP, RFC 5322…) → grounded cases + expected results, tagged `@oracle:*` | small |
 
