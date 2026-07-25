@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>visual-check audit fixture</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 24px; background: #f4f5f7; }
+  .region { background: #fff; border: 1px solid #d0d3d8; border-radius: 6px; padding: 16px; margin-bottom: 24px; }
+  h2 { margin: 0 0 12px; font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* --- Case A: rendering noise (anti-aliasing), NOT a real change --- */
+  #case-a { width: 420px; height: 140px; }
+  #noise-text {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    display: inline-block;
+  }
+  #noise-sub {
+    font-size: 15px;
+    color: #555;
+    margin-top: 8px;
+  }
+
+  /* --- Case B: dynamic content (clock), varies by nature --- */
+  #case-b { width: 420px; height: 140px; }
+  #clock { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; color: #0a5; }
+  #clock-label { font-size: 13px; color: #777; margin-top: 4px; }
+
+  /* --- Case C: real, significant visual change --- */
+  #case-c { width: 420px; height: 180px; position: relative; }
+  #action-btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 4px;
+    background: #2b6cb0; /* baseline: blue */
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+  }
+  #card {
+    margin-top: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+  }
+  body.variant-broken #action-btn { background: #c53030; } /* real change: red */
+  body.variant-broken #card { margin-top: -14px; position: relative; left: 40px; } /* real change: layout shift/overlap */
+</style>
+</head>
+<body>
+  <div class="region" id="case-a">
+    <h2>Case A — texte statique (bruit de rendu attendu)</h2>
+    <div id="noise-text">Enregistrer les modifications</div>
+    <div id="noise-sub">Ce libellé ne change jamais de contenu.</div>
+  </div>
+
+  <div class="region" id="case-b">
+    <h2>Case B — contenu dynamique (horloge)</h2>
+    <div id="clock">00:00:00</div>
+    <div id="clock-label">Heure locale, se met à jour chaque seconde</div>
+  </div>
+
+  <div class="region" id="case-c">
+    <h2>Case C — changement visuel réel</h2>
+    <div id="action-btn">Confirmer la réservation</div>
+    <div id="card">Résumé de la réservation (carte)</div>
+  </div>
+
+<script>
+  // Variant switch via ?variant=broken to simulate a real regression (color + layout).
+  const params = new URLSearchParams(location.search);
+  if (params.get('variant') === 'broken') {
+    document.body.classList.add('variant-broken');
+  }
+
+  // Case A: sub-pixel jitter on every page load — simulates anti-aliasing / font
+  // rendering noise between two captures of the SAME unchanged content. This is
+  // not seeded on purpose: it must differ slightly run to run, like real rendering
+  // noise (subpixel text positioning, hinting) would.
+  (function () {
+    const el = document.getElementById('noise-text');
+    const jitter = (Math.random() - 0.5) * 0.8; // -0.4px..0.4px
+    el.style.transform = `translateX(${jitter}px)`;
+    const sub = document.getElementById('noise-sub');
+    const jitter2 = (Math.random() - 0.5) * 0.8;
+    sub.style.transform = `translateX(${jitter2}px)`;
+  })();
+
+  // Case B: live clock, updates every second — genuinely dynamic, must be masked
+  // or frozen, not "fixed" by seeding/tolerance alone.
+  (function () {
+    const el = document.getElementById('clock');
+    function tick() {
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const ss = String(d.getSeconds()).padStart(2, '0');
+      el.textContent = `${hh}:${mm}:${ss}`;
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+</body>
+</html>
