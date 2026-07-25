@@ -1,15 +1,29 @@
 # QAIA — état du projet & prompt de reprise
 
-Dernière session : 2026-07-25 (merge vers `main` fait, backlog GitHub resynchronisé, **mandat élargi post-M0** : gate G2 levée par le fondateur — D67 —, veille concurrentielle faite, backlog remodelé, démonstration hors médical en cours). Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup est immédiat).
+Dernière session : 2026-07-25 (merge vers `main` fait, backlog GitHub resynchronisé, **mandat élargi post-M0** : gate G2 levée par le fondateur — D67 —, veille concurrentielle faite, backlog remodelé, **première démonstration bout-en-bout hors médical livrée et vérifiée — D68**). Ce document donne l'état honnête du projet et un **prompt prêt à coller** pour reprendre le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup est immédiat).
 
-## Mandat en cours (D67, 2026-07-25)
+## Mandat en cours (D67-D68, 2026-07-25)
 
 Le fondateur a levé le gate G2 (5 pilotes réels) et donné un mandat élargi : veille
-concurrentielle (faite, `docs/COMPETITIVE-ANALYSIS.md`), remodelage du backlog (fait — #1/#5/#23
-fermées ou reformulées, #29/#30 débloquées, 10 nouvelles issues #33-#42), extension du produit
-à un domaine non-médical (en cours, `examples/expense-demo/` sur US-004), puis relance du
-développement en autonomie sur le backlog remodelé. Objectif final : un projet montrable,
-docs à jour, diffusable, sans bug évident — pas seulement sur le médical.
+concurrentielle (faite, `docs/COMPETITIVE-ANALYSIS.md`), remodelage du backlog (fait —
+#1/#5/#23 fermées ou reformulées, #29/#30 débloquées, 10 nouvelles issues #33-#42),
+extension du produit à un domaine non-médical (**faite**, `examples/expense-demo/` sur
+US-004 — notes de frais, finance/HR), puis relance du développement en autonomie sur le
+backlog remodelé.
+
+**Démonstration hors médical (D68)** : app réelle self-hostée + parcours QAIA complet (38
+scénarios Gherkin) + automatisation Playwright — **40/40 tests verts, re-vérifié
+indépendamment** (pas seulement le rapport de l'agent constructeur), score structurel
+déterministe 4/4 fichiers PASS. **3 vrais défauts trouvés et corrigés pendant
+l'automatisation** (une vraie violation WCAG, une course de test induite par le correctif,
+une erreur arithmétique dans le cahier généré). **1 vrai défaut produit resté ouvert** :
+`istqb-design` sous-classifie parfois une ambiguïté métier en `[assumption]` plutôt que
+`[open]` quand une convention de machine à états comble le vide silencieusement — tracé en
+[#43](https://github.com/Opaland/QAIA/issues/43), pas corrigé.
+
+Objectif final du mandat : un projet montrable, docs à jour, diffusable, sans bug évident —
+pas seulement sur le médical. **Reste** : relancer le développement sur le backlog remodelé
+(#33-#43), puis vérification finale definition-of-done.
 
 ## Où on en est
 

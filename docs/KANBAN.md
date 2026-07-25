@@ -17,11 +17,12 @@ hors du seul domaine médical.
 | **Gate G2 levée** — #1 (recrutement pilotes), #23 (gel connecteurs) fermées comme superseded ; #29/#30 (tier opt-in "post-pilote") débloqués ; #5 (validation conversationnelle) reformulée sans blocage strict | décision D67 |
 | **Veille concurrentielle** — paysage (Agentic QE Fleet et 7 autres catégories), angles morts, différenciation réelle de QAIA, 10 pistes de backlog | `docs/COMPETITIVE-ANALYSIS.md` |
 | **10 nouvelles issues ouvertes** depuis la veille (#33-#42), priorisées P1-P3 | idem |
-| **Démonstration hors médical en cours** — US-004 (notes de frais, gold set existant, domaine finance/HR), app réelle + parcours QAIA complet + automatisation Playwright réelle | `examples/expense-demo/` (en cours) |
+| **Démonstration hors médical livrée et vérifiée indépendamment** — US-004 (notes de frais, finance/HR), app réelle + parcours QAIA complet (38 scénarios) + automatisation Playwright réelle : 40/40 tests verts (re-vérifié soi-même, pas seulement le rapport de l'agent), score déterministe 4/4 PASS (85/97/94/94) | `examples/expense-demo/`, D68 |
+| **3 vrais défauts trouvés et corrigés pendant l'automatisation** (pas simulés) : violation WCAG réelle, course de test induite par le correctif, erreur arithmétique dans le cahier généré attrapée par un test API en échec | idem |
+| **1 vrai défaut produit trouvé** : `istqb-design` classe parfois `[assumption]` une ambiguïté métier qui aurait dû rester `[open]` (convention de machine à états trop généreuse) — pas corrigé, tracé | D68, [#43](https://github.com/Opaland/QAIA/issues/43) |
 
-**Reste (en cours)** : intégrer le résultat de la démo hors médical une fois livrée ; relancer
-le développement sur le backlog remodelé ; vérification finale (montrable, docs à jour,
-diffusable, sans bug évident).
+**Reste** : relancer le développement sur le backlog remodelé (#33-#43) ; corriger #43 ;
+vérification finale (montrable, docs à jour, diffusable, sans bug évident).
 
 ## Sprint 10 — Harnais de gap #24 sur matériel réel (accès web) ✅ TERMINÉ (2026-07-24 ter)
 
