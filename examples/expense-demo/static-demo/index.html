@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ExpenseFlow — Expense report approval (static demo)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; color: #1c2b1e; }
+    header { background: #1c2b1e; color: #fff; padding: 1rem; }
+    main { max-width: 780px; margin: 1rem auto; padding: 0 1rem; }
+    .card { border: 1px solid #ccc; border-radius: 8px; padding: .75rem; margin: .5rem 0; }
+    button { background: #1c2b1e; color: #fff; border: 0; border-radius: 6px; padding: .5rem .9rem; cursor: pointer; margin-right: .3rem; }
+    button:disabled { background: #9aa; cursor: not-allowed; }
+    label { display: block; margin: .5rem 0 .2rem; }
+    input, select, textarea { padding: .5rem; width: 100%; box-sizing: border-box; }
+    .msg { padding: .6rem; border-radius: 6px; margin: .6rem 0; }
+    .msg.error { background: #fde8e8; color: #9b1c1c; }
+    .msg.ok { background: #e6f4ea; color: #1e6b34; }
+    .line-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: .3rem; align-items: center; margin: .3rem 0; }
+    .status { font-weight: 600; text-transform: uppercase; font-size: .8rem; padding: .1rem .4rem; border-radius: 4px; background: #eee; }
+    .status-approved { background: #e6f4ea; color: #1e6b34; }
+    .status-rejected { background: #fde8e8; color: #9b1c1c; }
+    .status-submitted { background: #eef3fd; color: #1c3d9b; }
+    .status-draft { background: #f2f2f2; color: #555; }
+    .status-changes-requested { background: #fff4de; color: #8a5a00; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .demo-banner { background: #8a5a00; color: #fff; padding: .5rem 1rem; font-size: .85rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">Static demo fixture (GitHub Pages) — data is an in-memory mock, resets on page reload. Same UI as the real app in <code>examples/expense-demo/app/</code>, for QAIA skill testing only (usability-heuristic-review, a11y-audit, visual-check). Demo accounts: employee@demo / manager@demo / finance@demo / director@demo, password <code>demo1234</code>.</div>
+  <header><h1>ExpenseFlow</h1></header>
+  <main>
+    <section id="login-section" aria-labelledby="login-h">
+      <h2 id="login-h">Sign in</h2>
+      <label for="email">Email</label>
+      <input id="email" data-testid="email" type="email" autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" data-testid="password" type="password" autocomplete="current-password" />
+      <p><button data-testid="login-btn" id="login-btn">Sign in</button></p>
+    </section>
+
+    <section id="app-section" hidden>
+      <p>Signed in as <strong data-testid="whoami" id="whoami"></strong> (<span data-testid="role" id="role"></span>) · <button data-testid="logout-btn" id="logout-btn">Sign out</button></p>
+      <div id="message" role="status" aria-live="assertive"></div>
+
+      <section aria-labelledby="new-h">
+        <h2 id="new-h">New expense report</h2>
+        <button data-testid="new-report-btn" id="new-report-btn">Start a draft</button>
+      </section>
+
+      <section aria-labelledby="draft-h" id="draft-section" hidden>
+        <h2 id="draft-h">Draft <span id="draft-id"></span></h2>
+        <label for="currency">Currency</label>
+        <select id="currency" data-testid="currency">
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="GBP">GBP</option>
+        </select>
+        <div id="lines" data-testid="lines"></div>
+        <button data-testid="add-line-btn" id="add-line-btn" type="button">Add line</button>
+        <p><button data-testid="submit-report-btn" id="submit-report-btn" type="button">Submit for approval</button></p>
+      </section>
+
+      <section aria-labelledby="mine-h">
+        <h2 id="mine-h">My reports</h2>
+        <div id="mine" data-testid="mine" role="list"></div>
+      </section>
+
+      <section aria-labelledby="inbox-h">
+        <h2 id="inbox-h">Approval inbox (<span id="role2"></span>)</h2>
+        <div id="inbox" data-testid="inbox" role="list"></div>
+      </section>
+    </section>
+  </main>
+  <script src="mock-backend.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

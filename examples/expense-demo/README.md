@@ -24,6 +24,19 @@ cd tests && npm install
 npx playwright test               # 40 tests: e2e, api, a11y
 ```
 
+## Static demo (GitHub Pages)
+
+`static-demo/` is a **separate, client-side-mocked copy** of this UI, published via GitHub
+Pages (`.github/workflows/pages.yml`) — GitHub Pages serves static files only and cannot run
+`app/server.js`'s real Node backend, so `static-demo/mock-backend.js` ports the same business
+logic (auth, FX conversion, approval chain, the D96 IDOR fix) to run in-browser, in-memory,
+reset on every page reload. It exists **only** so `usability-heuristic-review`/`a11y-audit`/
+`visual-check` (which review rendered UI, not backend behavior) have a real hosted target to
+test against without needing a local server. Skills that need a live backend to mean anything
+(`security-surface`, `perf-check`, `automate`) are still tested against `node app/server.js`
+locally — never against the static build, which does not claim to be a security/perf-testable
+target (see the banner on the page itself).
+
 ## What it demonstrates
 
 | Test type | File | Coverage |
