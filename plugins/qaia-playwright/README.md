@@ -22,6 +22,7 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 | `perf-check` | latency budgets + concurrency integrity; k6 for real load — **self-hosted only** |
 | `security-surface` | passive checks (auth, IDOR, error handling, enumeration) + ZAP baseline — **authorized self-hosted only** |
 | `run-report` | JUnit XML + Cucumber JSON + HTML, with traceability |
+| `flaky-detect` | Detect pass/fail verdict variance across N ≥ 3 runs of the same code — flag with evidence only, never auto-retry/fix |
 
 ## Design commitments
 
