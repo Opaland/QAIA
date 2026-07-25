@@ -109,4 +109,44 @@ Sources : [Agentic QE Fleet](https://github.com/proffesor-for-testing/agentic-qe
    `qaia-score` pour ne pas contredire "aucun producteur ne s'auto-note".
 10. Bridge MCP optionnel pour Cursor/Copilot, sans casser "zéro clé API dans le cœur".
 
+## Veille élargie hors médical, recherche globale (2026-07-26)
+
+Demande fondateur : sortir explicitement du seul angle médical/réglementé et regarder plus large
+— GitHub (recherche directe de dépôts, pas seulement les noms déjà connus) et le web en général.
+
+**GitHub — recherche directe** (`search_repositories`, plusieurs requêtes : génération Gherkin/BDD
+depuis des US, générateurs de cas de test LLM, marketplaces de plugins Claude Code pour la QA) :
+aucun concurrent à l'échelle d'Agentic QE Fleet (421★, déjà connu) n'est apparu. En revanche,
+**l'écosystème de plugins Claude Code dédiés QA s'est nettement densifié depuis la veille du
+2026-07-25** : une douzaine de petits dépôts (0-2★, tous créés/mis à jour en 2026), par exemple
+`orbit` (équipe QA WordPress à 10 agents, 116 skills), `testforge` (génération de cas de test
+Azure DevOps, 3 agents, Gherkin via Claude/Gemini/Ollama), `quality-engineering-skills`
+(marketplace groupant qavajs/Vividus/Tosca/ServiceNow ATF), `web-tester-marketplace` (Playwright
+E2E + hooks de sécurité). Aucun ne combine génération Gherkin-depuis-US **et** score déterministe
+séparé **et** preuve multi-domaine comme QAIA — mais le signal de marché est clair : la niche se
+peuple vite, pas seulement chez les gros acteurs SaaS.
+
+**Web — recherche générale** : le marché confirme sa taille (test automation ~24 Mds$ en 2026,
+IA de test ~687 M$ en 2025→3,8 Mds$ visés en 2035) et une poignée de nouveaux entrants financés
+(Ranger, Drizz, Skyramp) — tous des SaaS cloud nécessitant une clé API/compte, aucun ne reprend
+la posture "zéro clé API, 100 % skills" de QAIA. Différenciation D67 toujours tenable.
+
+**Une trouvaille distincte, `chaos-qa`** (`keithalindsay/chaos-qa`, très récent — créé
+2026-07-21, 2 commits, 0★, vérifié directement plutôt que pris au mot d'un résumé de recherche) :
+suite de skills Claude Code qui **sonde adversarialement** un projet en confrontant son
+comportement réel au contrat documenté (README/aide), pas seulement « est-ce que ça plante » —
+puis **convertit chaque défaut trouvé en test de régression** dans le framework existant du
+projet. Aucune clé API, aucune exécution non contrôlée (skills Claude Code classiques). Angle
+**complémentaire, pas concurrent direct** : QAIA part de la spécification (US → Gherkin →
+automatisation, en amont), `chaos-qa` part du comportement observé d'un système déjà vivant (en
+aval) — les deux directions sont utiles et ne se recouvrent pas. QAIA n'a aujourd'hui aucune
+skill qui sonde activement un système en confrontant son comportement à son contrat documenté
+(`security-surface` est passif/ciblé auth-erreurs, `flaky-detect` détecte la variance entre runs,
+pas la conformité au contrat) — gap réel, converti en piste de backlog ci-dessous.
+
+11. **Sondage adversarial de contrat** (README/aide → comportement réel, jamais destructif,
+    self-host uniquement comme le reste du shift-right — cf. `security-surface`/D26/D35) →
+    conversion des défauts trouvés en scénarios de régression Gherkin taggués. Complémentaire au
+    parcours spec-first existant, pas un remplacement. Voir issue GitHub correspondante.
+
 Voir les issues GitHub correspondantes pour le détail et le suivi.
