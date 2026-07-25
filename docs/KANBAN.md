@@ -6,6 +6,29 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 20 — Reliquat post-mandat : connecteur TestRail, budget token complet, fiabilisation veille (2026-07-25, D89-D92) ✅ TERMINÉ
+
+Demande fondateur, après constat que le backlog GitHub agent-faisable était épuisé (Sprint 19) :
+compléter le reliquat honnête déjà identifié (#35 TestRail, #7 mesures restantes) plutôt que
+d'attendre un nouveau levier fondateur, plus une passe de fiabilisation sur la veille
+concurrentielle déjà publiée.
+
+| Livré | Preuve |
+|---|---|
+| **Citation Agentic QE Fleet vérifiée** (421★/75 forks, re-fetch direct) — la réserve "non revérifié avant citation publique" explicitement levée, chiffre confirmé exact | D (commit `0a16383`) |
+| **Connecteur d'export TestRail** — ferme #35 en totalité (Xray D86 + TestRail ici), même discipline d'honnêteté (doc TestRail réelle lue en direct, réserves explicites), vérifié indépendamment (38 lignes/ID, distribution priorité identique à l'export Xray du même cahier, zéro fuite de commentaire, `--strict` vert) | D89, [#35](https://github.com/Opaland/QAIA/issues/35) fermée |
+| **Budget token : 14/14 skills de `qaia-core` désormais mesurées** (9 nouvelles mesures réelles cette session : `hello`, `qaia-help`, `us-review`, `need-understanding`, `oracle-generate`, `prioritize`, `feedback`, `testbook-validate`, `report`) — ferme #7 en totalité | D91, D92, [#7](https://github.com/Opaland/QAIA/issues/7) fermée |
+| **Gain méthodologique réutilisable** : confirmé que la notification de fin de tâche d'un agent délégué porte le vrai total de tokens (`subagent_tokens`), exploitable directement par l'orchestrateur — plus besoin de deviner si l'infra expose le chiffre pour toute mesure future | D91 |
+| **Correctif `hello`** : ne fige plus une description "0.1.0 pre-alpha" périmée (trouvaille incidente) | D90 |
+| **2 défauts trouvés en exerçant `testbook-validate`/`report` en conditions réelles sur le cahier US-004** : `synthesis.md` omettait un scénario `@low-confidence` de sa liste (corrigé directement) ; 2 totaux de conversion de devise assertés au centime sans source de taux tracée, flagués à raison par le sniffer anti-fabrication (tracé, pas patché à la va-vite) | D92, [#46](https://github.com/Opaland/QAIA/issues/46) ouverte |
+
+**Pattern d'exécution** : agents en `isolation: "worktree"` en parallèle, réutilisant l'état déjà
+produit pour US-004 (`examples/expense-demo/`) comme prérequis plutôt que de régénérer un
+parcours complet à chaque mesure — limite le coût réel de la mesure elle-même. Chaque livraison
+vérifiée indépendamment avant merge (re-grep, re-parse, re-run du scoreur déterministe).
+
+---
+
 ## Sprint 19 — Mandat élargi post-M0 : gate G2 levée, veille concurrentielle, backlog remodelé (2026-07-25, D67-D88) ✅ TERMINÉ
 
 Demande fondateur : la validation humaine (gate G2) est considérée franchie, le développement
