@@ -13,6 +13,31 @@ code. Ce document donne l'état honnête du projet et un **prompt prêt à colle
 le travail plus tard (y compris en Claude Code **local** : tout est poussé sur `main`, le pickup
 est immédiat).
 
+## Sprint 22 — audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) — TERMINÉ
+
+**L'audit lancé en fin de Sprint 21 a rendu son verdict** : *« Prototype d'ingénierie avancé —
+à mi-chemin vers un MVP crédible. Non validé en production, non prêt pour une adoption pilote
+sans conditions. »* Moyenne 2,4/5 sur 13 personas (8 ISTQB couverts + 5 hors périmètre), après
+revue adversariale à 3 sceptiques ayant reproduit >90% des claims en direct (curl, suites
+rejouées, tokens recalculés). **Rapport complet : `eval/baselines/audit-report.html`.**
+
+- **Faille critique trouvée et corrigée le jour même (D99)** : `GET /api/audit` non authentifié
+  dans `expense-demo` ET `medibook`, exposait emails/montants/commentaires de rejet — reproduite
+  en direct par les 3 sceptiques de l'audit.
+- **8 items P0/P1 du plan d'action corrigés directement (D100-D103)** : 3 citations internes
+  cassées rétro-documentées, portabilité Chromium/BASE_URL corrigée, preuve `flaky-detect`
+  dégonflée (×3→réel), politique retry/quarantaine rendue concrète, trou de couverture CT-MBT
+  symétrique comblé (`approved` jamais testé comme terminal, contrairement à `rejected`).
+- **9 nouvelles issues (#49-#57)** pour le reliquat P1-P3 (benchmark coût/paliers, benchmark
+  "QAIA vs prompt direct" — jugé le plus menaçant par l'audit, moteur k6 réel, démo IA/ML,
+  taxonomie CTAL-TA v4.0, décisions de scope à trancher : white-box, exploratoire, niche
+  médicale réglementée, multi-devs concurrent).
+- **#1/#2 mis à jour** : l'audit les cite explicitement comme 2 des 3 faits bloquants du
+  verdict final (gate G2 jamais franchie, bus factor = 1 non résolu).
+
+**Le prochain point de départ n'est plus une veille à froid — c'est ce plan d'action.** Avant
+de chercher un nouveau levier, lire le verdict complet et vérifier l'état des issues #49-#57.
+
 ## Sprint 21 — élargissement ISTQB global, IDOR trouvé, démo statique (2026-07-26, D94-D98) — TERMINÉ
 
 Enchaînement après Sprint 20 : demande fondateur de sortir du seul angle médical pour la veille
@@ -318,29 +343,26 @@ démo statique GitHub Pages publiée et vérifiée à deux niveaux — logique N
 réel (D97), nouvelle skill `contract-probe` fermant #47 (D98). Décisions D67-D98 dans
 docs/DECISIONS.md.
 
-**Un audit externe multi-persona a été lancé en `Workflow` en fin de Sprint 21** (cabinet fictif,
-8 personas ISTQB sur les disciplines couvertes + 5 personas sur les disciplines non couvertes,
-revue adversariale à 3 sceptiques, synthèse — scorecard/SWOT/plan d'action/roadmap/verdict).
-**Si tu reprends une session interrompue avant que ce workflow ait fini** : vérifie d'abord s'il
-a terminé (la notification de tâche de fond arrive automatiquement si la session a continué ;
-sinon le run_id est dans l'historique de conversation ou `/workflows`) et lis son verdict avant
-toute chose — il peut changer les priorités du prochain sprint plus que ce document ne le fait.
+**Sprint 22 (D99-D103) : l'audit externe multi-persona a rendu son verdict.** *« Prototype
+d'ingénierie avancé, non prêt pour une adoption pilote sans conditions. »* Moyenne 2,4/5 sur
+13 personas. **Lire le rapport complet avant toute chose** (`eval/baselines/audit-report.html`)
+si tu ne l'as pas déjà en contexte — il est plus informatif que ce résumé. Une faille critique
+trouvée (IDOR sur `GET /api/audit`) a été corrigée le jour même (D99), 8 items P0/P1 du plan
+d'action ont été corrigés directement (D100-D103), 9 nouvelles issues ouvertes pour le reliquat
+(#49-#57, voir ci-dessous).
 
-**Le backlog agent-faisable de ce cycle reste ÉPUISÉ (re-vérifié D94-D98, 10 issues ouvertes,
-les mêmes qu'avant Sprint 21 — #47/#48 ouvertes ce sprint sont refermées).** Tout ce qui reste
-ouvert sur le board GitHub est bloqué sur : (a) le mur humain — #1 (5 vrais pilotes),
-#10/#12/#13/#14/#18 (T17 sur app pilote réelle, D79 : expense-demo ne suffit pas littéralement) ;
-(b) une ressource externe — #32 (crédit Hugging Face épuisé) ; (c) un cadrage fondateur
-explicitement requis avant tout code — #29/#30 (tier opt-in, ADR 0002 dit encore "post-pilote
-uniquement" dans son propre texte malgré D67), #42 (son critère d'acceptation exige un
-tranchage acté dans DECISIONS.md avant implémentation) ; (d) propriétaire seul — #2 (transfert
-d'org). **Vérifie d'abord le board GitHub ET fais un tour rapide de veille concurrentielle pour
-un nouveau levier agent-faisable avant de conclure au mur** (une issue a pu être ouverte depuis,
-le paysage concurrentiel évolue vite) — mais vérifie toute piste trouvée en allant lire la
-source directement avant de l'ajouter au backlog (un lead prometteur sur IEC 62304 ne tenait pas
-la route une fois la source réelle lue, D101) — sinon dis-le clairement plutôt que d'inventer du
-travail marginal. **Regarde aussi en premier le verdict de l'audit externe** (voir ci-dessus) —
-son plan d'action peut être un meilleur point de départ qu'une nouvelle veille à froid.
+**Le backlog agent-faisable N'EST PLUS épuisé — 9 issues fraîches (#49-#57) attendent, plus le
+reliquat pré-existant (10 issues, toujours bloquées comme avant).** Priorité suggérée par le
+compte-rendu d'audit lui-même : **#51 (benchmark "QAIA vs prompt direct à Claude Code")** avant
+d'étendre encore la couverture fonctionnelle — c'est l'angle que l'audit juge le plus menaçant
+pour la valeur même du produit, et rien d'autre dans le backlog ne le remplace. Les autres
+issues fraîches (#49 coût/paliers, #50 taxonomie CTAL-TA v4.0, #52 moteur k6 réel, #53 démo
+IA/ML, #54-#57 décisions de scope à trancher) sont documentées avec un critère d'acceptation
+clair. Le reliquat pré-existant reste bloqué sur : (a) le mur humain — #1 (5 vrais pilotes,
+confirmé bloquant par l'audit), #10/#12/#13/#14/#18 (T17, D79) ; (b) une ressource externe —
+#32 (crédit Hugging Face épuisé) ; (c) un cadrage fondateur — #29/#30/#42 ; (d) propriétaire
+seul — #2 (transfert d'org, confirmé bloquant par l'audit). **Vérifie le board GitHub avant de
+piocher** — l'état ci-dessus est celui de la fin de Sprint 22, une issue a pu bouger depuis.
 
 **Coût agent (D102, réappliqué tout le Sprint 21) : par défaut, préfère l'édition directe
 (Read/Edit/Bash) à un dispatch d'agent en sous-tâche pour du travail déjà bien cadré** — ne

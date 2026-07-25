@@ -6,6 +6,28 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
+
+Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,
+revue adversariale) pour challenger QAIA dans son ensemble, puis mettre à jour les issues et
+corriger ce qui est agent-faisable le jour même.
+
+| Livré | Preuve |
+|---|---|
+| **Audit externe multi-persona exécuté** (`Workflow`, 17 agents : 13 personas + 3 sceptiques + synthèse, ~1,77M tokens, 23 min). Verdict : **prototype d'ingénierie avancé, non prêt pour adoption pilote sans conditions** — moyenne 2,4/5 sur 13 personas | `eval/baselines/audit-report.html` (aussi publié en artifact) |
+| **Faille critique trouvée et corrigée le jour même** : `GET /api/audit` non authentifié dans `expense-demo` ET `medibook`, exposait emails/montants/commentaires de rejet — reproduite en direct par les 3 sceptiques | D99 |
+| **8 items P0/P1 du plan d'action corrigés directement** : 3 citations internes cassées (D50/D93 mal attribuées, rétro-documentées en D100/D101/D102), chemin Chromium codé en dur dans medibook, BASE_URL non câblé, `flaky-detect` gonflait sa preuve ×3, politique retry/quarantaine rendue concrète (3 templates CI), trou de couverture CT-MBT symétrique comblé (`approved` jamais testé comme terminal) | D103 |
+| **Démo statique GitHub Pages testée en navigateur réel** (Playwright reconnecté en cours de session) : flux complet employee→manager rejoué, captures d'écran, zéro erreur console | `eval/baselines/static-demo-accounts-verification.md` |
+| **9 nouvelles issues créées** pour le reliquat du plan d'action (P1-P3, benchmark coût/valeur, moteur k6 réel, démo IA/ML, taxonomie CTAL-TA v4.0, décisions de scope à trancher) | [#49](https://github.com/Opaland/QAIA/issues/49)-[#57](https://github.com/Opaland/QAIA/issues/57) |
+| **#1/#2 mis à jour** avec la confirmation de l'audit (2 des 3 faits bloquants du verdict final) | Commentaires ajoutés |
+
+**Pattern de cette session** : un audit multi-agent avec revue adversariale a trouvé, en une
+session, une vraie vulnérabilité active que le développement initial n'avait pas détectée —
+corrigée le jour même de sa découverte, pas laissée pour plus tard. Les items nécessitant une
+action fondateur ou un effort substantiel sont tracés en issues plutôt que bâclés.
+
+---
+
 ## Sprint 21 — Élargissement ISTQB global, IDOR trouvé, démo statique GitHub Pages (2026-07-26, D94-D98) ✅ TERMINÉ
 
 Demande fondateur : veille concurrentielle élargie hors médical (regard global, GitHub +
