@@ -36,18 +36,26 @@ From Claude Code:
 
 ## Token budget — ordre de grandeur (issue #7)
 
-**Version 0.1.0 — daté 2026-07-24. Estimé, non instrumenté.** Ces ordres de grandeur sont
-dérivés de la taille des prompts de skill et d'un nombre typique de tours sur le gold set — ils
-**ne proviennent pas encore d'une instrumentation par commande**. À traiter comme un plancher
-indicatif, pas comme une mesure. L'instrumentation réelle reste ouverte (issue #7).
+**Version 0.2.11 — daté 2026-07-25. Partiellement instrumenté.** 3 skills ont une mesure
+réelle (méthode ci-dessous) ; le reste demeure estimé (marqué explicitement) — instrumenter
+les skills restantes reste ouvert (issue #7, portée réduite au solde non mesuré).
 
-| Commande | Ordre de grandeur (tokens, aller-retour) | Ce qui fait varier |
-|---|---|---|
-| `hello`, `qaia-help` | ~1–5k | lecture seule, un tour |
-| `us-ingest`, `us-review`, `prioritize`, `feedback` | ~5–20k | taille de l'US, gates |
-| `need-understanding`, `istqb-design`, `rag-build`, `oracle-generate` | ~20–60k | ambiguïté, nb d'AC, échanges Q&A |
-| `testbook-generate` | ~40–150k+ | nb d'AC × techniques ; parallélisation sous-agents en amplifie le débit **et** le coût |
-| `testbook-export`, `testbook-validate`, `report` | ~10–40k | volume du test book |
+**Méthode de mesure** : chaque skill mesuré a été appliqué fidèlement, du début à la fin, par
+un agent dédié sur une US du gold set (pas de raccourci) ; le chiffre rapporté est le total de
+tokens réellement consommé par cet agent pour la tâche complète (input+output, tel que rapporté
+par l'infrastructure d'orchestration — pas une auto-déclaration de l'agent lui-même, qui n'a
+aucun accès fiable à son propre compteur, une limite découverte en tentant de le lui demander
+directement). Un seul run par skill mesurée — pas encore de moyenne/variance.
+
+| Commande | Ordre de grandeur (tokens, aller-retour) | Mesuré ? | Ce qui fait varier |
+|---|---|---|---|
+| `hello`, `qaia-help` | ~1–5k | Estimé | lecture seule, un tour |
+| `us-ingest` | **44,9k mesuré** (US-002, 2026-07-25) | ✅ Mesuré | taille de l'US, gates — **la mesure réelle dépasse nettement l'ancienne estimation (~5-20k) : rapporté honnêtement, pas lissé** |
+| `us-review`, `prioritize`, `feedback` | ~5–20k | Estimé | taille de l'US, gates |
+| `istqb-design` | **40,1k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb d'AC, expansion 3c — cohérent avec l'ancienne estimation |
+| `need-understanding`, `rag-build`, `oracle-generate` | ~20–60k | Estimé | ambiguïté, nb d'AC, échanges Q&A |
+| `testbook-generate` | **112,5k mesuré** (US-005, 2026-07-25), plage indicative ~40–150k+ | ✅ Mesuré | nb d'AC × techniques ; parallélisation sous-agents en amplifie le débit **et** le coût |
+| `testbook-export`, `testbook-validate`, `report` | ~10–40k | Estimé | volume du test book |
 
 Le coût utilisateur est en **quota d'abonnement** (Q22), pas en facturation API. Télémétrie
 disponible côté mainteneur : les campagnes d'évaluation consomment ~115k à 1.76M tokens (workflow
