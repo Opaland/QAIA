@@ -24,6 +24,7 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 | `run-report` | JUnit XML + Cucumber JSON + HTML, with traceability |
 | `flaky-detect` | Detect pass/fail verdict variance across N ≥ 3 runs of the same code — flag with evidence only, never auto-retry/fix |
 | `locator-repair` | Diagnose a test failing on a broken `getByRole`/`getByTestId` locator and propose a candidate fix as a reviewable diff — never applied automatically |
+| `traffic-replay` | Derive non-regression conditions (status, response shape, headers, timing) from a user-provided HAR file — PII/secrets masked before any write, never a live capture |
 
 ## Design commitments
 
@@ -32,5 +33,8 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 - **Web-first** (D50): mobile = browser emulation; native iOS/Android is out of scope (would need Appium).
 - **Self-hosted for security & load** (D35): shared public demos forbid them.
 - Generated tests are **autonomous outside the Claude session** — they run in the user's own CI.
+- **`traffic-replay` never captures live traffic** (issue #39): input is a HAR the user already
+  has, never a proxy/MITM/browser automation run by the skill; PII and secrets are masked
+  before any write (D37 discipline extended to HTTP traffic).
 
 See [`examples/medibook/`](../../examples/medibook) for the full worked reference.

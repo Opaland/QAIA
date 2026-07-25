@@ -1,0 +1,87 @@
+{
+  "contract": "1.0",
+  "usId": "US-DEMO-TRAFFIC",
+  "title": "traffic-replay fixture (TaskFlow demo HAR)",
+  "status": "review",
+  "generatedAt": "2026-07-25T09:05:00Z",
+  "base": ".qaia",
+
+  "producers": [
+    { "plugin": "qaia-playwright", "version": "0.1.6", "skill": "automate", "at": "2026-07-25T09:04:00Z" },
+    { "plugin": "qaia-playwright", "version": "0.1.7", "skill": "traffic-replay", "at": "2026-07-25T09:10:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "execution", "format": "junit", "path": "fixture/output/junit-placeholder.xml" },
+    { "kind": "trafficReplay", "format": "json", "path": "fixture/output/traffic-findings.json" },
+    { "kind": "trafficReplay", "format": "markdown", "path": "fixture/output/traffic-findings.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 7, "byPriority": { "P1": 4, "P2": 3 }, "negative": 1, "smoke": 0, "outlines": 0 }
+  },
+
+  "execution": {
+    "total": 7, "passed": 7, "failed": 0, "blocked": 0,
+    "byType": { "api": 7 },
+    "traceability": { "scenariosAutomated": 7, "scenariosTotal": 7 }
+  },
+
+  "trafficReplay": {
+    "harSource": "demo-traffic.har",
+    "entriesTotal": 8,
+    "conditionsTotal": 7,
+    "piiMasked": {
+      "auth-header": 7, "card": 1, "cookie": 3, "email": 2,
+      "name": 2, "phone": 1, "query-token": 1, "secret": 2
+    },
+    "conditions": [
+      { "id": "@QAIA-TRAFFIC-001", "method": "POST", "path": "/api/login", "queryParamNames": [],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 200, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "token": "string", "userId": "number", "email": "string" },
+        "timingMs": [182] },
+      { "id": "@QAIA-TRAFFIC-002", "method": "GET", "path": "/api/tasks", "queryParamNames": [],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 200, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "tasks": "array", "total": "number" },
+        "timingMs": [95] },
+      { "id": "@QAIA-TRAFFIC-003", "method": "GET", "path": "/api/tasks", "queryParamNames": ["status", "token"],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 200, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "tasks": "array", "total": "number" },
+        "timingMs": [88] },
+      { "id": "@QAIA-TRAFFIC-004", "method": "POST", "path": "/api/tasks", "queryParamNames": [],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 201, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "id": "number", "title": "string", "done": "boolean", "assignee": "string" },
+        "timingMs": [140] },
+      { "id": "@QAIA-TRAFFIC-005", "method": "GET", "path": "/api/tasks/1", "queryParamNames": [],
+        "sampleCount": 2, "singleSample": false,
+        "observedStatuses": [ { "status": 200, "samples": 2, "of": 2 } ],
+        "responseShapeKeys": { "id": "number", "title": "string", "done": "boolean" },
+        "timingMs": [40, 250] },
+      { "id": "@QAIA-TRAFFIC-006", "method": "DELETE", "path": "/api/tasks/999", "queryParamNames": [],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 404, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "error": "string" },
+        "timingMs": [30] },
+      { "id": "@QAIA-TRAFFIC-007", "method": "POST", "path": "/api/checkout", "queryParamNames": [],
+        "sampleCount": 1, "singleSample": true,
+        "observedStatuses": [ { "status": 200, "samples": 1, "of": 1 } ],
+        "responseShapeKeys": { "status": "string", "transactionId": "string" },
+        "timingMs": [310] }
+    ]
+  },
+
+  "openArbitrations": [],
+
+  "gate": {
+    "verdict": "PASS",
+    "score": 19, "max": 20,
+    "scoredBy": "qaia-score/testbook-score", "at": "2026-07-25T09:04:30Z",
+    "dimensions": [],
+    "reasons": ["7 of 7 tests passed"],
+    "waiver": null
+  }
+}
