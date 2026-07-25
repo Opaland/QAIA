@@ -36,7 +36,7 @@ From Claude Code:
 
 ## Token budget — ordre de grandeur (issue #7)
 
-**Version 0.2.11 — daté 2026-07-25. Partiellement instrumenté.** 3 skills ont une mesure
+**Version 0.2.13 — daté 2026-07-25. Partiellement instrumenté.** 5 skills ont une mesure
 réelle (méthode ci-dessous) ; le reste demeure estimé (marqué explicitement) — instrumenter
 les skills restantes reste ouvert (issue #7, portée réduite au solde non mesuré).
 
@@ -53,9 +53,11 @@ directement). Un seul run par skill mesurée — pas encore de moyenne/variance.
 | `us-ingest` | **44,9k mesuré** (US-002, 2026-07-25) | ✅ Mesuré | taille de l'US, gates — **la mesure réelle dépasse nettement l'ancienne estimation (~5-20k) : rapporté honnêtement, pas lissé** |
 | `us-review`, `prioritize`, `feedback` | ~5–20k | Estimé | taille de l'US, gates |
 | `istqb-design` | **40,1k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb d'AC, expansion 3c — cohérent avec l'ancienne estimation |
-| `need-understanding`, `rag-build`, `oracle-generate` | ~20–60k | Estimé | ambiguïté, nb d'AC, échanges Q&A |
+| `rag-build` | **67,6k mesuré** (base de connaissance neuve, domaine covoiturage, 2026-07-25) | ✅ Mesuré | initialisation complète (5 fichiers) vs. ajout incrémental à une base existante, nb de règles métier — au-dessus de l'ancienne estimation ~20-60k, cohérent avec un run d'initialisation (le cas le plus coûteux du spectre) |
+| `need-understanding`, `oracle-generate` | ~20–60k | Estimé | ambiguïté, nb d'AC, échanges Q&A |
 | `testbook-generate` | **112,5k mesuré** (US-005, 2026-07-25), plage indicative ~40–150k+ | ✅ Mesuré | nb d'AC × techniques ; parallélisation sous-agents en amplifie le débit **et** le coût |
-| `testbook-export`, `testbook-validate`, `report` | ~10–40k | Estimé | volume du test book |
+| `testbook-export` | **77,6k mesuré** (projection du cahier US-004, 4 fichiers/38 scénarios, 2026-07-25) | ✅ Mesuré | volume du test book, nb de livrables produits (XLSX ajoute un coût réel) — au-dessus de l'ancienne estimation ~10-40k |
+| `testbook-validate`, `report` | ~10–40k | Estimé | volume du test book |
 
 Le coût utilisateur est en **quota d'abonnement** (Q22), pas en facturation API. Télémétrie
 disponible côté mainteneur : les campagnes d'évaluation consomment ~115k à 1.76M tokens (workflow
