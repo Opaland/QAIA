@@ -1,0 +1,153 @@
+Raw output of eval/tools/structural_score.py, run per .feature file (step 2 of
+plugins/qaia-core/skills/testbook-validate/SKILL.md), against
+examples/expense-demo/qaia-journey/testbooks/US-004/. Reproduce with:
+
+  python eval/tools/structural_score.py <file> --acs AC1,AC2,AC3,AC4,AC5,AC6,AC7,AC8 --source <US-004-source-for-sniffer.md>
+
+--source content = US-004's "User story" + "Acceptance criteria" sections only
+(eval/gold-set/US-004-expense-approval.md), EXCLUDING the "Judge reference — planted
+ambiguities" section, per that file's own instruction that the section is
+"NOT part of the US text given to the skills".
+
+Command run once per file (per-file --acs completeness is therefore partial by
+construction — see the book-wide aggregate recomputation at the end of this file for the
+whole-book coverage figure actually used in the checklist's Coverage dimension).
+
+=== approval-chain.feature ===
+{
+  "file": "approval-chain.feature",
+  "scenarios": 13,
+  "readability": 25.0,
+  "completeness": 11.2,
+  "coherence": 20.0,
+  "traceability": 25.0,
+  "penalties": { "markers": 0, "sniffer": 25, "redundancy": 15 },
+  "score": 41,
+  "gate": "FAIL",
+  "forced_stop": true,
+  "findings": [
+    "fabrication sniffer: 11 untraceable technical literal(s) (full list below)",
+    "pesticide paradox: 3 near-duplicate group(s) (same Given/When shape) -> -15"
+  ],
+  "tag_audit": {
+    "missing_priority_tag": [],
+    "technique_tag_violations": [],
+    "negative_scenarios": 3,
+    "non_smoke_scenarios": 13,
+    "negative_ratio_recomputed_pct": 23.1
+  }
+}
+
+Full sniffer hit list (scenario, literal) for approval-chain.feature (11 hits, forces
+STOP at >=3):
+  ("A report just under EUR500 needs only the manager's approval", '499.99 EUR')
+  ('A report of exactly EUR500.00 needs manager then finance', '500.00 EUR')
+  ('A report of exactly EUR5000.00 still needs only manager then finance', '5000.00 EUR')
+  ('A report just above EUR5000 needs manager, finance, then director', '5000.01 EUR')
+  ('An approver acting out of chain order is refused', '5000.01 EUR')
+  ('An approver cannot decide on their own report', '499.99 EUR')
+  ("A manager's own small report escalates directly to finance", '100.00 EUR')
+  ("A manager's own large report skips the manager step but keeps finance and director", '5000.01 EUR')
+  ("A finance user's own large report escalates the finance step to director", '5000.01 EUR')
+  ("A non-EUR report's converted total drives the approval band", '500.10 EUR')
+  ('An expense dated in a weekend rate gap uses the last available rate', '91.90 EUR')
+
+Full redundancy groups (same Given/When shape, literal-only diff) for approval-chain.feature:
+  ["A report just under EUR500 needs only the manager's approval", "A manager's own small report escalates directly to finance"]
+  ['A report of exactly EUR500.00 needs manager then finance', "A manager's own large report skips the manager step but keeps finance and director", "A finance user's own large report escalates the finance step to director"]
+  ["A non-EUR report's converted total drives the approval band", 'Submitting in a currency with no resolvable rate is refused', 'An expense dated in a weekend rate gap uses the last available rate', "A manager's stale-rate foreign report still drives band and escalation together"]
+
+=== audit-and-auth.feature ===
+{
+  "file": "audit-and-auth.feature",
+  "scenarios": 9,
+  "readability": 25.0,
+  "completeness": 3.8,
+  "coherence": 20.0,
+  "traceability": 25.0,
+  "penalties": { "markers": 0, "sniffer": 5, "redundancy": 0 },
+  "score": 69,
+  "gate": "CONCERNS",
+  "forced_stop": false,
+  "findings": [
+    "fabrication sniffer: 1 untraceable technical literal(s): [('Approving a report does not require a comment', '499.99 EUR')]"
+  ],
+  "tag_audit": {
+    "missing_priority_tag": [],
+    "technique_tag_violations": [],
+    "negative_scenarios": 5,
+    "non_smoke_scenarios": 9,
+    "negative_ratio_recomputed_pct": 55.6
+  }
+}
+
+=== line-items.feature ===
+{
+  "file": "line-items.feature",
+  "scenarios": 7,
+  "readability": 25.0,
+  "completeness": 11.2,
+  "coherence": 20.0,
+  "traceability": 25.0,
+  "penalties": { "markers": 0, "sniffer": 0, "redundancy": 6 },
+  "score": 75,
+  "gate": "CONCERNS",
+  "forced_stop": false,
+  "findings": [
+    "pesticide paradox: 1 near-duplicate group(s) (same Given/When shape) -> -6: [['A line just under the receipt threshold needs no receipt', 'A line at exactly the receipt threshold without a receipt is refused']]"
+  ],
+  "tag_audit": {
+    "missing_priority_tag": [],
+    "technique_tag_violations": [],
+    "negative_scenarios": 4,
+    "non_smoke_scenarios": 7,
+    "negative_ratio_recomputed_pct": 57.1
+  }
+}
+
+=== workflow-state-machine.feature ===
+{
+  "file": "workflow-state-machine.feature",
+  "scenarios": 9,
+  "readability": 25.0,
+  "completeness": 15.0,
+  "coherence": 20.0,
+  "traceability": 25.0,
+  "penalties": { "markers": 0, "sniffer": 0, "redundancy": 6 },
+  "score": 79,
+  "gate": "CONCERNS",
+  "forced_stop": false,
+  "findings": [
+    "pesticide paradox: 1 near-duplicate group(s) (same Given/When shape) -> -6: [['End-to-end journey - draft to first approval on a small report', 'A complete draft is submitted successfully']]"
+  ],
+  "tag_audit": {
+    "missing_priority_tag": [],
+    "technique_tag_violations": [],
+    "negative_scenarios": 5,
+    "non_smoke_scenarios": 8,
+    "negative_ratio_recomputed_pct": 62.5
+  }
+}
+
+=== Book-wide aggregate (independent recomputation, not in the per-file tool output) ===
+
+Total scenarios across the 4 files: 38 (matches coverage-matrix.md's stated 38: 1 journey
++ 37 condition scenarios).
+
+Negative ratio, recomputed book-wide from the .feature files directly (not trusted from
+coverage-matrix.md's self-reported 45.9%, per structural_score.py's own "no producer
+scores/validates itself" rule): sum(negative)=3+5+4+5=17, sum(non-smoke)=13+9+7+8=37 ->
+17/37 = 45.9%. MATCHES coverage-matrix.md exactly. ADR 0001 threshold (>=40%) independently
+confirmed met, not just self-reported.
+
+Book-wide AC completeness (covers()==true scenario tagged with the AC, per-file --acs run
+above understates this by construction since each file only contains a subset of the 8
+declared ACs): AC1..AC8 all covered by >=1 scenario with a real Then-assertion -> 8/8 ->
+completeness 30.0/30 at the book level.
+
+One scenario found with no ASSERT_RE-recognized concrete token in its Then: "An employee
+with no reports sees an empty 'My reports' list" (@AC-list, not one of the 8 declared
+ACs so it does not affect the completeness score) -- "Then the list is empty" is a
+concrete, verifiable assertion in plain English but ASSERT_RE's closed keyword list does
+not include "empty". Tool-limitation note, not a book defect: does not trigger empty_then/
+hollow/vague (none of those patterns match either), so no gate impact.
