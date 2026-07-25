@@ -6,9 +6,13 @@ réelle (WebSearch/WebFetch, ~10 sources), pas de mémoire — le terrain évolu
 
 **Limites assumées** : plusieurs sources sont des articles de blog marketing (TestQuality,
 Shiplight AI, QASkills.sh, Agensi.io) dont l'indépendance éditoriale n'est pas vérifiée — à
-lire comme indicatif, pas comme benchmark neutre. Les chiffres du repo `agentic-qe` (étoiles,
-forks) proviennent d'un résumé WebFetch, pas d'une lecture de code — à revérifier avant toute
-citation publique.
+lire comme indicatif, pas comme benchmark neutre.
+
+**Vérification (2026-07-25, sprint 20)** : le chiffre `~421★` cité pour `agentic-qe` avait été
+noté comme non revérifié avant citation publique (`README.md` le cite). Re-fetch direct de
+`github.com/proffesor-for-testing/agentic-qe` : **421 étoiles, 75 forks, licence MIT confirmée**
+— le chiffre initial était exact, pas une fabrication. Fork count (75) ajouté ici car jamais
+publié avant.
 
 ## Paysage concurrentiel
 
