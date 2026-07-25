@@ -7,6 +7,10 @@ description: Capture the tester's corrections on a generated test book, store th
 
 Follow the shared contract in `../README.md`. "Learning" here means enriching the local knowledge base and example store (README's honest positioning) — nothing else. Promotion is **always human-validated** (D22).
 
+## Prerequisite
+
+A generated test book to compare against (`.qaia/testbooks/<US-ID>/`, from `testbook-generate`). If none exists — no checkpoint, no test book — say so and offer `us-ingest` to start the journey instead of asking for corrections that have nothing to be diffed against.
+
 ## Steps
 
 1. **Collect.** Ask what the user changed or rejected in the test book (or diff the edited `.feature` files against the generated version if both exist). For each correction, capture: scenario ID, what was wrong, the corrected form, and **why** — the why is the valuable part.
