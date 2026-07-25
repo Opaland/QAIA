@@ -1,0 +1,6 @@
+node_modules/
+test-results/
+results.json
+playwright-report/
+package-lock.json
+npm.log
