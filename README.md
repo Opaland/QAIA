@@ -2,11 +2,21 @@
 
 > 🇫🇷 [Version française ci-dessous](#-français)
 
-**Status: pre-alpha.** Core (`qaia-core` 0.2.6), automation (`qaia-playwright` 0.1.1) and scoring (`qaia-score` 0.1.0) plugins exist and validate; not yet proven by real pilots. See [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
+**Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.10, 15 skills), automation (`qaia-playwright` 0.1.2, 6 skills) and scoring (`qaia-score` 0.1.1, 2 skills) plugins exist, validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 31 green Playwright tests) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 40 green Playwright tests, real bugs found and fixed during automation). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
 
 QAIA turns user stories into prioritized, traceable **Gherkin test books** and then into **native Playwright tests** — distributed as **skills and plugins** that run inside *your* Claude session. No API key, no backend, no data leaves your session beyond what you already send to Claude.
 
-Built with and for testers: ISTQB techniques applied and justified, requirement→test traceability designed for **regulated environments** (medical software first), and a conversational workflow where the tester validates every step.
+Built with and for testers: ISTQB techniques applied and justified, requirement→test traceability designed for **regulated environments** (proven on healthcare) as well as ordinary business workflows (proven on finance/HR), and a conversational workflow where the tester validates every step. Goal: let teams use AI for test activities across the whole development cycle — **shift-left** (from the spec/user story, before code exists) and **shift-right** (against real execution/production signal), not just isolated test-case generation.
+
+## Why not just another agentic QA tool?
+
+The AI-for-testing space is crowded in 2026 — SaaS platforms (testRigor, Mabl, Applitools, Tricentis), open-source LLM-driven browser agents (BrowserUse, Stagehand, Skyvern), and Claude-Code-native fleets like [Agentic QE Fleet](https://github.com/proffesor-for-testing/agentic-qe) (a 60-agent autonomous swarm). Nearly all of them require an LLM API key at runtime and/or auto-register an MCP server that executes on its own. QAIA makes the opposite bet, deliberately:
+
+- **Zero API key in the shipped product, zero auto-executed hooks/agents/MCP servers.** 100% Markdown skills, invoked on demand inside your own Claude session — a portability and supply-chain posture, not a missing feature.
+- **A deterministic structural score, separate from the semantic LLM judge, and no producer ever scores itself** (`qaia-score` is a dedicated, read-only plugin).
+- **The AI proposes, the human arbitrates** — every risk score, every ambiguity, every assumption is surfaced and tagged, never silently resolved.
+
+See [`docs/COMPETITIVE-ANALYSIS.md`](docs/COMPETITIVE-ANALYSIS.md) for the full landscape review, QAIA's blind spots, and what genuinely differentiates it (not just marketing).
 
 ## Honest positioning (read this first)
 
@@ -15,7 +25,7 @@ Built with and for testers: ISTQB techniques applied and justified, requirement�
 - **Claude Code first, portable by design.** The core (US → test book) is written as portable skills; automation (Playwright) requires Claude Code + Playwright MCP.
 - **Web-first automation.** Mobile coverage means browser emulation, not native iOS/Android.
 
-## What v1 will do
+## What QAIA does today
 
 1. Ingest a user story (file, URL, Jira) — you validate the source
 2. Verify extraction, reformulate the need, surface ambiguities
@@ -25,8 +35,10 @@ Built with and for testers: ISTQB techniques applied and justified, requirement�
 6. Generate an **atomic Gherkin test book** with stable scenario IDs (`@QAIA-xxx`), a requirement coverage matrix, and a ≥40 % negative/boundary scenario ratio
 7. Export (`.feature` + XLSX/Markdown), report, and **regenerate by scenario-level diff** when the US evolves — your manual edits are preserved
 8. Learn from your corrections (validated promotion of recurring feedback into rules)
+9. Turn the test book into **native Playwright automation** (E2E, API, mobile-web emulation, accessibility, visual, performance, security-surface) — real code, runs in your own CI, no QAIA dependency at runtime
+10. **Score, separately**: a deterministic structural pass + an ISTQB rubric judged fresh, gating PASS/CONCERNS/FAIL/WAIVED — the generator never grades its own output
 
-Then: native Playwright automation (E2E, API, mobile-web), and perf / security / accessibility plugins.
+Proven twice end-to-end, on two unrelated domains (see [`examples/`](examples/)) — not just measured in the abstract.
 
 ## Repository map
 
@@ -50,6 +62,9 @@ Then: native Playwright automation (E2E, API, mobile-web), and perf / security /
 | [`examples/scoring-demo/`](examples/scoring-demo/) | Output contract + qaia-score walk-through (manifest, scorecard, gate) |
 | [`examples/rag-demo/`](examples/rag-demo/) | The RAG in use: a knowledge base breaking the recall ceiling on a thin US (D38) |
 | [`examples/jira-demo/`](examples/jira-demo/) | Jira connector: a REST v3 issue export → validated QAIA capture (D9, #9) |
+| [`examples/expense-demo/`](examples/expense-demo/) | Worked end-to-end example, non-medical: real finance/HR app + Playwright automation (40 tests green, 3 real bugs found during automation) |
+| [`docs/COMPETITIVE-ANALYSIS.md`](docs/COMPETITIVE-ANALYSIS.md) | Landscape review (2026): where QAIA sits vs SaaS and open-source agentic QA tools |
+| [`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md) | 24-case statistical depth study across 5 LLM providers and 8 business domains |
 | [`docs/DEMO-TARGETS.md`](docs/DEMO-TARGETS.md) | Vetted catalog of demo/practice apps to exercise QAIA on |
 
 ## Contributing
@@ -62,14 +77,16 @@ License: [MIT](LICENSE).
 
 ## 🇫🇷 Français
 
-**Statut : pré-alpha (jalon M0 — fondations).** Rien n'est encore installable pour un usage réel.
+**Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.10, 15 skills), automatisation (`qaia-playwright` 0.1.2, 6 skills) et score (`qaia-score` 0.1.1, 2 skills) existent, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 31 tests Playwright verts) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 40 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
 
 QAIA transforme des user stories en **cahiers de test Gherkin** priorisés et traçables, puis en **tests Playwright natifs** — distribués en **skills et plugins** qui s'exécutent dans *votre* session Claude. Pas de clé API, pas de backend : aucune donnée ne quitte votre session au-delà de ce que vous envoyez déjà à Claude.
 
-Construit avec et pour les testeurs : techniques ISTQB appliquées et justifiées, traçabilité exigence→test pensée pour les **environnements réglementés** (logiciel médical d'abord), et un mode conversationnel où le testeur valide chaque étape.
+Construit avec et pour les testeurs : techniques ISTQB appliquées et justifiées, traçabilité exigence→test pensée pour les **environnements réglementés** (prouvé en santé) comme pour des workflows métier ordinaires (prouvé en finance/RH), et un mode conversationnel où le testeur valide chaque étape. Objectif : permettre aux équipes d'utiliser l'IA pour le test sur tout le cycle de développement — **shift-left** (dès la spec/l'US, avant le code) et **shift-right** (contre l'exécution/la production réelle), pas seulement de la génération de cas isolée.
+
+**Pourquoi pas juste un autre outil QA agentic ?** Le marché 2026 est dense (SaaS testRigor/Mabl/Applitools/Tricentis, agents navigateur open source BrowserUse/Stagehand/Skyvern, essaims natifs Claude Code comme [Agentic QE Fleet](https://github.com/proffesor-for-testing/agentic-qe), 60 agents autonomes). Presque tous exigent une clé API LLM au runtime et/ou auto-enregistrent un serveur MCP qui s'exécute seul. QAIA fait le pari inverse, assumé : zéro clé API dans le produit livré, zéro exécution automatique de hooks/agents/MCP (100% skills Markdown invoqués à la demande) ; score structurel déterministe séparé du juge LLM sémantique, aucun producteur ne s'auto-note ; l'IA propose, l'humain arbitre — jamais de résolution silencieuse. Détail complet : [`docs/COMPETITIVE-ANALYSIS.md`](docs/COMPETITIVE-ANALYSIS.md).
 
 **Positionnement honnête** : l'outil consomme votre quota d'abonnement Claude (un coût indicatif par commande est publié par plugin, mesuré sur notre gold set) ; « l'apprentissage » = enrichissement d'une base de connaissance locale versionnée dans votre repo (pas d'entraînement de modèle) ; cœur portable en skills, automatisation via Claude Code + Playwright MCP ; mobile = émulation navigateur (web-first).
 
-Le parcours v1 : ingestion validée de l'US → contrôle d'extraction → compréhension du besoin → RAG d'équipe versionné git → techniques ISTQB justifiées → priorisation par risque arbitrée → cahier Gherkin atomique (IDs stables, matrice de couverture, ≥ 40 % de scénarios négatifs) → exports `.feature` + XLSX/Markdown → **régénération par diff sans perdre vos retouches** → feedback promu en règles après validation. Ensuite : automatisation Playwright native (E2E, API, mobile-web) et plugins perf / sécurité / accessibilité.
+Le parcours aujourd'hui livré : ingestion validée de l'US → contrôle d'extraction → compréhension du besoin → RAG d'équipe versionné git → techniques ISTQB justifiées → priorisation par risque arbitrée → cahier Gherkin atomique (IDs stables, matrice de couverture, ≥ 40 % de scénarios négatifs) → exports `.feature` + XLSX/Markdown → **régénération par diff sans perdre vos retouches** → feedback promu en règles après validation → **automatisation Playwright native** (E2E, API, mobile-web, a11y, visuel, perf, sécurité) → **score séparé** (structurel déterministe + rubrique ISTQB, gate PASS/CONCERNS/FAIL/WAIVED).
 
 Contribuer : lire [`CONTRIBUTING.md`](CONTRIBUTING.md) (DCO obligatoire, revue adversariale par agent pour toute PR touchant un plugin). Signalements de sécurité : voir [`SECURITY.md`](SECURITY.md). Licence [MIT](LICENSE).
