@@ -58,6 +58,31 @@ does not remove or contradict anything the AC-alone pass already found. Added on
 plus 1 assumption-to-fact confirmation (AC3-C7) tracked separately so the headline number isn't
 inflated by re-stating something Run A already covered.
 
+### Follow-up (issue #45) — BR-KB-203 composite-rule decomposition
+
+Independent judge review (see `../rag-recall-gain.md` "Défaut trouvé") found `BR-KB-203`
+realized only 3 of its 7 distinct sub-clauses above (AC1-C11 insufficient-credits enforcement,
+AC1-C12 rollover cap, AC1-C13 daily cap) — the flatter baseline facts (Basic's base 8-credit
+grant, Basic's no-rollover property, Premium's base 20-credit grant, Unlimited's uncapped
+property) were skipped even though the rule was matched, open, and cited. `istqb-design` step
+3d was hardened to require explicit sub-clause decomposition before deriving conditions from a
+composite rule item. Re-applying the corrected step 3d to `BR-KB-203` alone yields:
+
+| ID | Condition | Technique | Rule | Kind |
+|---|---|---|---|---|
+| AC1-C15 | A Basic-tier member's monthly allowance grants exactly 8 credits | EP | `BR-KB-203` | positive (new) |
+| AC1-C16 | A Basic-tier member's unused credits do not roll over — next month's balance is 8, not 8+carryover | EP | `BR-KB-203` | positive/penalty, not a refusal (new) |
+| AC1-C17 | A Premium-tier member's monthly allowance grants exactly 20 credits (baseline, before rollover) | EP | `BR-KB-203` | positive (new) |
+| AC1-C18 | An Unlimited-tier member's credits are uncapped — booking is never rejected for lack of credits | EP | `BR-KB-203` | positive (new) |
+
+**BR-KB-203 is now 7/7 sub-clauses realized** (3 pre-existing + 4 added: AC1-C15..C18, blocks
+`QAIA-FIT-118-029..032` in `run-b.feature`). No other rule's conditions were touched — AC1-C9,
+C10, C11..C14, and every AC2/AC3 condition from `BR-KB-201`, `BR-KB-202`, `BR-KB-204`,
+`BR-KB-205` are unchanged, so this is a pure addition (D18), not a revision of the original
+measurement. Net-new condition count for the corpus is now **17** (13 original + 4 follow-up);
+the original 13 stands as the historical Run B figure cited in `rag-recall-gain.md`'s headline
+— the follow-up is tracked separately, same convention as the AC3-C7 confirmation above.
+
 `knowledgeApplied`: `[BR-KB-201, BR-KB-202, BR-KB-203, BR-KB-204, BR-KB-205]` — all five rules
 in the base were matched and applied; none contradicted the source (no question raised back to
 `need-understanding`).
@@ -91,3 +116,8 @@ each citing its rule ID — none of the numbers (1/2 credits, 4h, 8/20/10, 3-in-
   boundary-worthy sub-clauses but skipped the flatter baseline ones. See
   `../rag-recall-gain.md` "Défaut trouvé" for the write-up; flagged here for traceability, not
   patched retroactively (patching after the judge caught it would understate the finding).
+  **Resolved (issue #45)**: `istqb-design` step 3d hardened to require explicit sub-clause
+  decomposition of composite rule items; see "Follow-up (issue #45)" above — BR-KB-203 is now
+  7/7. The original 3/7 finding is left intact above rather than rewritten, per the same
+  no-retroactive-patching principle: this note records that it was later closed, not that it
+  never happened.

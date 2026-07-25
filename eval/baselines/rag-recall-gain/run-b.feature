@@ -1,14 +1,21 @@
 # Run B — FIT-118, generated WITH knowledge/business-rules.md (BR-KB-201..205).
 # Additive to run-a.feature (IDs 001-016 unchanged, never renumbered — D18). This file holds
-# only the NEW scenario blocks step 3d derived from the knowledge base, IDs 017-028.
-# 11 new blocks realize 13 net-new conditions (017 and 022 are Outlines merging 2 conditions
+# only the NEW scenario blocks step 3d derived from the knowledge base, IDs 017-032.
+# 11 blocks realize 13 net-new conditions (017 and 022 are Outlines merging 2 conditions
 # each per D20 — same behavior, same priority, same confidence, only the example row differs);
 # ID 028 is the Q5 assumption-to-fact confirmation, tracked separately (not counted in the
 # recall headline). See run-b-journey.md for the condition-by-condition table.
 # CORRECTED after independent judge review: an earlier draft of this header said "12
 # conditions" — off by one against the actual `# condition:` tag count. Fixed here; see
 # rag-recall-gain.md "Defects found" for the judge's finer-grained finding this review also
-# surfaced (BR-KB-203 is only partially realized even in this run).
+# surfaced (BR-KB-203 was only partially realized even in this run: 3 of its 7 distinct
+# sub-clauses covered).
+# FOLLOW-UP (issue #45, istqb-design step 3d hardened for composite-rule decomposition): IDs
+# 029-032 close the BR-KB-203 residue above — the 4 previously-missing sub-clauses (Basic's
+# base 8-credit grant, Basic's no-rollover property, Premium's base 20-credit grant, Unlimited's
+# uncapped-credits property) now each have their own cited condition (AC1-C15..C18). BR-KB-203
+# is now 7/7 sub-clauses realized. Conditions AC1-C11..C14 and all others below are unchanged
+# from the original run — this is a pure addition, nothing renumbered or removed (D18).
 
 Feature: Class booking — credits, cancellation penalties, waitlist timing (FIT-118, with knowledge base)
 
@@ -125,3 +132,45 @@ Feature: Class booking — credits, cancellation penalties, waitlist timing (FIT
     And a spot on "Vinyasa Flow" frees up
     When the waitlist is processed for promotion
     Then Jordan is offered or promoted before Sam
+
+  # --- BR-KB-203 composite-rule decomposition follow-up (issue #45) ---
+  # BR-KB-203 bundles 7 distinct sub-facts in one paragraph (Basic grant, Basic no-rollover,
+  # Premium grant, Premium rollover cap+forfeiture, Unlimited uncapped, Unlimited daily cap,
+  # plus the tier-agnostic "insufficient credits blocks booking" enforcement already covered by
+  # AC1-C11). Before this follow-up only 3 were realized as conditions (AC1-C11 insufficient
+  # credits, AC1-C12 rollover cap, AC1-C13 daily cap). The 4 blocks below add the 4 that step 3d
+  # skipped — the flatter baseline grants/properties, as opposed to the boundary-shaped ones.
+
+  @QAIA-FIT-118-029 @AC1 @P2 @ep
+  # condition: AC1-C15 | rule: BR-KB-203
+  Scenario: A Basic-tier member's monthly allowance grants exactly 8 credits
+    Given a new billing month starts for Alex on the Basic tier
+    And Alex had 0 credits carried from the previous month
+    When the monthly credit grant runs
+    Then Alex's credit balance is 8
+
+  @QAIA-FIT-118-030 @AC1 @P2 @ep
+  # condition: AC1-C16 | rule: BR-KB-203
+  Scenario: A Basic-tier member's unused credits do not roll over
+    Given Alex is on the Basic tier with 3 unused credits at month end
+    When the monthly credit grant runs
+    Then Alex's new credit balance is 8
+    And the 3 unused credits are forfeited, not carried over
+
+  @QAIA-FIT-118-031 @AC1 @P2 @ep
+  # condition: AC1-C17 | rule: BR-KB-203
+  Scenario: A Premium-tier member's monthly allowance grants exactly 20 credits
+    Given a new billing month starts for Alex on the Premium tier
+    And Alex had 0 unused credits at the previous month's end
+    When the monthly credit grant runs
+    Then Alex's credit balance is 20
+
+  @QAIA-FIT-118-032 @AC1 @P2 @ep
+  # condition: AC1-C18 | rule: BR-KB-203
+  Scenario: An Unlimited-tier member's credits are uncapped
+    Given Alex is on the Unlimited tier with a high volume of bookings already made this month
+    And Alex has no active booking today
+    And "Vinyasa Flow" has 3 remaining spots
+    When Alex books "Vinyasa Flow"
+    Then the booking is confirmed
+    And Alex's booking is never rejected for lack of credits

@@ -143,6 +143,18 @@ correction dans le fichier). Une scène (`AC3-C6` "l'offre expire, passe au suiv
 refus au sens strict D20) — retiré, et la condition reçoit son propre ID (`AC3-C8`) plutôt que
 de partager celui d'`AC3-C6`, pour ne pas fausser la traçabilité condition→scénario.
 
+**Suivi (issue #45)** : le défaut `BR-KB-203` (règle composite, 4/7 sous-clauses non dérivées)
+ci-dessus a été traité comme un défaut de `istqb-design` step 3d — cette étape ne forçait pas
+la décomposition explicite d'une règle qui empile plusieurs sous-faits sous un même item
+numéroté. Step 3d durci (`plugins/qaia-core/skills/istqb-design/SKILL.md`) pour exiger cette
+décomposition avant dérivation. Reproduction : réapplication du step 3d corrigé sur `BR-KB-203`
+seule → les 4 sous-clauses manquantes (octroi Basic 8/mois, absence de report Basic, octroi
+Premium 20/mois, illimité Unlimited) obtiennent chacune leur condition citée (`AC1-C15..C18`,
+`run-b.feature` blocs 029-032). BR-KB-203 passe de 3/7 à **7/7** sous-clauses réalisées. Aucune
+régression sur les conditions déjà dérivées des autres règles (`BR-KB-201/202/204/205`,
+`AC1-C9/C10`, `AC2-C5..C8`, `AC3-C5..C8`) — inchangées, vérifiées. Détail dans
+`rag-recall-gain/run-b-journey.md` "Follow-up (issue #45)".
+
 ## Réserve de bruit du juge — N=1, pas une moyenne
 
 Ce delta (+79 points de rappel de classe A, 0 %→79 %) est mesuré **une seule fois**, un seul
