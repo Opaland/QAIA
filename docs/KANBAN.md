@@ -20,8 +20,9 @@ hors du seul domaine médical.
 | **Démonstration hors médical livrée et vérifiée indépendamment** — US-004 (notes de frais, finance/HR), app réelle + parcours QAIA complet (38 scénarios) + automatisation Playwright réelle : 40/40 tests verts (re-vérifié soi-même, pas seulement le rapport de l'agent), score déterministe 4/4 PASS (85/97/94/94) | `examples/expense-demo/`, D68 |
 | **3 vrais défauts trouvés et corrigés pendant l'automatisation** (pas simulés) : violation WCAG réelle, course de test induite par le correctif, erreur arithmétique dans le cahier généré attrapée par un test API en échec | idem |
 | **1 vrai défaut produit trouvé** : `istqb-design` classe parfois `[assumption]` une ambiguïté métier qui aurait dû rester `[open]` (convention de machine à états trop généreuse) — pas corrigé, tracé | D68, [#43](https://github.com/Opaland/QAIA/issues/43) |
+| **Skill `flaky-detect` livrée** (qaia-playwright 0.1.2→0.1.3), comble le gap #1 de la veille — détecte le pass/fail variable entre N≥3 runs à code inchangé depuis JUnit/Cucumber déjà produits par `run-report`, fusion manifeste `flakiness` (jamais `execution`/`design`/`gate`/`status`), zéro auto-retry/fix. Validée sur fixture autonome, 5 runs réels : 3 tests correctement flagués flaky, contrôle toujours-vert et contrôle toujours-rouge correctement exclus de la liste flaky | `plugins/qaia-playwright/skills/flaky-detect/`, D69, [#34](https://github.com/Opaland/QAIA/issues/34) |
 
-**Reste** : relancer le développement sur le backlog remodelé (#33-#43) ; corriger #43 ;
+**Reste** : relancer le développement sur le backlog remodelé (#33-#43, #34 fait) ; corriger #43 ;
 vérification finale (montrable, docs à jour, diffusable, sans bug évident).
 
 ## Sprint 10 — Harnais de gap #24 sur matériel réel (accès web) ✅ TERMINÉ (2026-07-24 ter)
