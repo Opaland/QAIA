@@ -1,0 +1,65 @@
+{
+  "contract": "1.0",
+  "usId": "US-004",
+  "title": "Expense report approval workflow",
+  "status": "review",
+  "generatedAt": "2026-07-28T00:00:00Z",
+  "base": "eval/baselines/benchmark-51/qaia-arm",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "us-ingest", "at": "2026-07-28T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "us-review", "at": "2026-07-28T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "need-understanding", "at": "2026-07-28T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "istqb-design", "at": "2026-07-28T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "testbook-generate", "at": "2026-07-28T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "benchmark-51-run", "skill": "report", "at": "2026-07-28T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/lifecycle.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/approval-routing.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/line-items.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/currency-conversion.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/audit-trail.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/authorization.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-004/journey.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-004/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/US-004/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 51, "byPriority": { "P1": 24, "P2": 23, "P3": 3 },
+                   "negative": 20, "smoke": 1, "outlines": 1 },
+    "coverage": { "acTotal": 8, "acCovered": 8,
+                  "reqNegTotal": 20, "reqNegCovered": 20,
+                  "negativeRatio": 0.40 },
+    "confidence": { "lowConfidence": 14, "openQuestions": 6, "assumptions": 3, "simulated": 1 },
+    "techniques": ["state-transition", "boundary", "decision-table", "domain-analysis", "ep",
+                   "metamorphic", "error-guessing", "crud", "use-case"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "open", "about": "€500/€5000 exact-boundary tier ownership (AC2, AC6)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q2", "kind": "open", "about": "scope of \"skip to next level up\" for a manager-submitter (AC3)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q3", "kind": "open", "about": "manager submits own report under €500 — possible zero-approval path (AC1×AC2×AC3)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q5", "kind": "open", "about": "no per-level pending-approver tracking in the submitted state (AC1×AC2)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q7", "kind": "open", "about": "€25 receipt threshold applied pre- or post-conversion (AC5×AC6)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q8", "kind": "open", "about": "currency rate source and weekend/holiday fallback (AC6)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q6", "kind": "simulated", "about": "90-day reference clock default (server UTC at submission)",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q9", "kind": "simulated", "about": "approved treated as terminal, like rejected",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "Q10", "kind": "simulated", "about": "self-approval-skip rule generalized beyond the manager example",
+      "sourceCheckpoint": "state/US-004/02-understanding.md" },
+    { "id": "04-priorities", "kind": "simulated", "about": "lightweight risk-based priority assignment run in place of the prioritize skill (deviation)",
+      "sourceCheckpoint": "state/US-004/04-priorities.md" }
+  ]
+}

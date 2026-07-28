@@ -1,5 +1,39 @@
 # QAIA — état du projet & prompt de reprise
 
+## Sprint 24 — #51/#52/#58 livrés : benchmark, k6, adapter multi-LLM (2026-07-28, D105-D107) — TERMINÉ
+
+Enchaînement direct après Sprint 23 : demande fondateur "fait 51 puis 52 puis 58" (les 3 items
+les plus prioritaires du plan d'action des audits externes).
+
+- **#52 fermée** — vrai script k6 (`perf-check/k6/load.js`), exécuté réellement contre
+  `examples/expense-demo` (10 VUs/20s, 1981 req, 0 échec, p95=2,23ms). `qaia-playwright`
+  0.1.10→0.1.11. D105.
+- **#58 fermée** — premier adapter multi-LLM (`prompts/adapters/gemini/testbook-generate.md`),
+  exécuté réellement contre Gemini/Groq/Mistral sur US-004. Résultat honnête et mitigé : 1/4
+  ambiguïtés plantées repérées par Gemini (contre 4/4 pour QAIA), plus une fabrication de rôle
+  inexistant ("Executive Board"). D106.
+- **#51 fermée** — le chantier le plus attendu : benchmark chiffré QAIA vs un bon prompt direct
+  à Claude Code, deux bras exécutés à froid en isolation sur le même ticket (US-004).
+  **Résultat honnête, pas une victoire nette pour QAIA** : coût ~2,9× plus élevé côté QAIA
+  (133,1k vs 46,5k tokens) ; score structurel déterministe meilleur en moyenne côté QAIA
+  (~72 vs 47/100) mais 2/7 fichiers QAIA échouent quand même au gate structurel (assertions
+  narratives non vérifiables) ; sur le rappel des 4 ambiguïtés plantées du gold set, le prompt
+  direct égale ou fait légèrement mieux que QAIA **sur ce run précis** (variance de génération
+  déjà documentée, D62). Le différenciateur le plus solide n'est pas "QAIA trouve plus" mais
+  **QAIA est vérifiable/gaté/traçable** (couverture négative auditée contre ADR 0001, manifeste
+  validé par schema D104, zéro règle métier fabriquée côté QAIA contre 4 inventées et non
+  signalées côté prompt direct). D107, `eval/baselines/qaia-vs-direct-prompt-benchmark-2026-07-28.md`.
+- **1 run rejeté et refait proprement** : le premier bras "prompt direct" du benchmark #51
+  avait accidentellement lu la réponse cachée du gold set (outil `Read`, pas de lecture
+  partielle possible) — signalé, invalidé, re-exécuté sans laisser l'agent toucher le fichier
+  source.
+
+**Prochain point de départ** : le backlog agent-faisable venant d'un audit externe est
+maintenant traité pour ses items les plus prioritaires (#51/#52/#58). Reliquat P2/P3 restant
+des deux audits (taxonomie CTAL-TA v4.0 #50, démo IA/ML #53, décisions de scope #54-#57) —
+vérifier le board GitHub avant de piocher, pas de nouveau levier majeur identifié à la date de
+cette session au-delà de ce reliquat déjà tracé.
+
 ## Sprint 23 — second audit externe (Gemini), recoupement, JSON Schema (2026-07-28, D104) — TERMINÉ
 
 Le fondateur a transmis un rapport d'audit produit par **Gemini** (3 personas : ISTQB, IA/Prompt
@@ -354,15 +388,20 @@ Security Advisories ; GitHub Projects.
 Reprends le projet QAIA (plateforme QA agentic open source, plugins Claude Code).
 Lis d'abord docs/STATUS.md, docs/DECISIONS.md et docs/KANBAN.md pour le contexte complet.
 
-**Sprint 23 (D104, 2026-07-28) TERMINÉ** depuis la dernière reprise ci-dessous : un second audit
-externe (Gemini) a été reçu et recoupé contre un audit indépendant Claude 3-personas — voir
-`eval/baselines/audit-report-gemini-2026-07-28.md` et
-`eval/baselines/audit-report-claude-3persona-2026-07-28.md`. Livré le jour même : JSON Schema
-formel du contrat de sortie (`docs/schemas/output-contract-v1.schema.json` +
-`eval/tools/validate_manifest.py`), qui a trouvé et corrigé un vrai bug de dérive en cours de
-construction. 1 nouvelle issue [#58](https://github.com/Opaland/QAIA/issues/58) (adapters
-multi-LLM). **Priorité confirmée inchangée : #51** (benchmark QAIA vs prompt direct), toujours
-la plus haute valeur du backlog agent-faisable selon les deux audits externes.
+**Sprint 23 (D104) puis Sprint 24 (D105-D107), 2026-07-28, TERMINÉS** depuis la dernière reprise
+ci-dessous : un second audit externe (Gemini) a été reçu et recoupé contre un audit indépendant
+Claude 3-personas — voir `eval/baselines/audit-report-gemini-2026-07-28.md` et
+`eval/baselines/audit-report-claude-3persona-2026-07-28.md`. JSON Schema formel du contrat de
+sortie livré (`docs/schemas/output-contract-v1.schema.json` + `eval/tools/validate_manifest.py`,
+D104). Puis, sur demande explicite du fondateur, les 3 items les plus prioritaires du plan
+d'action des deux audits ont été traités dans l'ordre : **#52** (script k6 réel, exécuté
+réellement, D105), **#58** (adapter multi-LLM, exécuté réellement contre Gemini/Groq/Mistral,
+résultat mitigé honnête, D106), **#51** (benchmark QAIA vs prompt direct — le chantier le plus
+attendu des deux audits, résultat honnête et **pas une victoire nette pour QAIA** : coût ~2,9×
+plus élevé, score structurel meilleur en moyenne mais pas parfait, rappel d'ambiguïté égal ou
+légèrement en faveur du prompt direct sur ce run précis ; le vrai différenciateur mesuré est la
+vérifiabilité/traçabilité, pas la couverture brute — D107). **#49/#50/#53-#57 restent ouvertes**
+(reliquat P2/P3, pas traité cette session, pas un nouveau levier majeur identifié).
 
 État (2026-07-26) : QUATRE plugins validés --strict — qaia-core 0.2.17 (15 skills, budget
 token intégralement mesuré, palette de techniques élargie CTFL+Test Analyst+CT-AI), qaia-playwright

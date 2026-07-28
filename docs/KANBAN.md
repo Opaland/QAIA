@@ -32,6 +32,28 @@ directement de l'utilisateur, ne l'est pas automatiquement — signalée avant d
 
 ---
 
+## Sprint 24 — Plan d'action de l'audit externe : #51/#52/#58 livrés (2026-07-28, D105-D107) ✅ TERMINÉ
+
+Demande fondateur, enchaînement direct après Sprint 23 : "fait 51 puis 52 puis 58" — les 3
+items les plus prioritaires du plan d'action des audits externes (Sprint 22 + Gemini).
+
+| Livré | Preuve |
+|---|---|
+| **#52 — vrai script k6, exécuté pour de vrai** : `k6` installé, `perf-check/k6/load.js` livré et exécuté contre `examples/expense-demo` (10 VUs/20s, 1981 requêtes, 0 échec, p95=2,23ms) | D105, `eval/baselines/perf-check-k6-load-2026-07-28.md`, `qaia-playwright` 0.1.10→0.1.11 |
+| **#58 — premier adapter multi-LLM, exécuté réellement** contre Gemini/Groq/Mistral sur US-004 — résultat honnête et mitigé (25 scénarios, ratio 40,0% recalculé, mais 1/4 ambiguïtés plantées repérées contre 4/4 pour QAIA, + fabrication d'un rôle inexistant) | D106, `eval/baselines/multi-llm-adapter-gemini-benchmark-2026-07-28.md` |
+| **#51 — benchmark QAIA vs prompt direct, résultat honnête publié** : coût QAIA ~2,9× plus élevé (133,1k vs 46,5k tokens) ; score structurel déterministe meilleur en moyenne côté QAIA (~72 vs 47/100) mais 2/7 fichiers QAIA échouent quand même au gate ; rappel des 4 ambiguïtés plantées **égal ou légèrement en faveur du prompt direct sur ce run** (variance confirmée, D62) ; différenciateur le plus solide = vérifiabilité/traçabilité (gate ADR 0001, schema D104, zéro fabrication de règle côté QAIA vs 4 côté prompt direct), pas "plus de couverture" | D107, `eval/baselines/qaia-vs-direct-prompt-benchmark-2026-07-28.md` |
+| **1 run de benchmark rejeté et refait proprement** : le premier bras "prompt direct" avait accidentellement lu la réponse cachée (section judge-reference) via l'outil `Read` — invalidé, conservé pour trace, re-exécuté sans laisser l'agent toucher le fichier source | D107 |
+
+**Pattern de cette session** : les 3 chantiers ont été traités par exécution réelle (agents en
+`isolation: "worktree"`, `k6` installé et lancé pour de vrai, appels API réels aux fournisseurs
+externes) plutôt que par description — et le résultat le plus significatif (#51) est publié
+tel quel, y compris ce qui ne va pas dans le sens de QAIA (2/7 fichiers structurellement en
+échec, rappel d'ambiguïté pas meilleur qu'un bon prompt direct sur ce run), cohérent avec D38.
+Une contamination méthodologique détectée en cours de route (le premier run #51) a été
+signalée et corrigée plutôt que silencieusement ignorée.
+
+---
+
 ## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
 
 Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,
