@@ -79,6 +79,16 @@ plus #58 : #49-#58 toutes closes).
 
 ---
 
+## Sprint 26 — Transfert d'org + bridge MCP (2026-07-28/29, D115-D116) ✅ TERMINÉ
+
+| Livré | Preuve |
+|---|---|
+| **Dépôt transféré vers l'organisation `QAIA-Project`** (action du fondateur) — URLs mises à jour partout dans le produit et la doc courante | D115 |
+| **Bridge MCP livré (A+B), tier opt-in, engagement explicite du fondateur de construire avant pilote** — `mcp-bridge/`, hors de `plugins/`, jamais auto-installé ; testé réellement (8 tests unitaires + 1 end-to-end via vrai client MCP), revue adversariale faite, 1 vrai bug trouvé et corrigé en testant (CRLF) | D116, `docs/adr/0003-mcp-bridge-scoping.md` |
+| **#32 retesté, toujours épuisé** (message HF explicite : crédit mensuel épuisé) — fondateur a choisi d'attendre le renouvellement | — |
+
+---
+
 ## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
 
 Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,
