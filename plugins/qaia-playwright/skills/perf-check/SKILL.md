@@ -18,6 +18,11 @@ Reference: `examples/medibook/tests/perf.slots.spec.js` (p95 latency + no-overse
    - **Soak / endurance** — a long, steady stage (minutes-to-hours, scoped to what's practical in-session); watches for degradation over time (rising latency, memory growth via repeated measurement) that a short run can't reveal — flag honestly if the session can only run a short proxy of a real soak window.
    - **Scalability / capacity** — repeat the load stage at increasing concurrency levels and report where the budget first breaks, rather than asserting a single pass/fail — a capacity curve, not a gate.
    - Volume, configuration, and baseline testing (CT-PT) are named but not separately scripted here — volume folds into the concurrency-integrity check above (large N), configuration/baseline are a documentation concern (record the environment the numbers were measured against), not a distinct k6 shape.
+   - `k6/load.js` (this skill's directory) is a real, executable **load**-type template (#52,
+     D105) — `BASE_URL`/`LATENCY_BUDGET_MS`/`VUS`/`DURATION` are the only parts a generated
+     test needs to change to point at a different self-hosted target. Use it as the starting
+     shape for load; stress/spike/soak/scalability still need their own script per the forms
+     above (none scripted yet — extend from `load.js`'s structure, not from scratch).
 4. Tag `@QAIA-PERF-<NNN>`, plus the CT-PT type tag `@perf:load` / `@perf:stress` / `@perf:spike` / `@perf:soak` / `@perf:scalability`; report real numbers, never a budget you did not actually measure.
 
 ## Guardrails
