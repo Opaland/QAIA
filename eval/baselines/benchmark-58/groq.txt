@@ -1,0 +1,106 @@
+## STEP 1: AMBIGUITY & BOUNDARY ANALYSIS
+
+Based on the provided acceptance criteria, the following boundaries, refusal rules, and ambiguities are identified:
+
+- **Numeric/Date/Currency Boundaries:**
+  - €500 (total report amount threshold for single approval)
+  - €5000 (total report amount threshold for additional approvals)
+  - 90 days (line item date threshold)
+  - €25 (single line item amount threshold for mandatory receipt)
+
+- **Explicit or Implicit Refusal/Rejection Rules:**
+  - A report with a line item outside the last 90 days is blocked at submission.
+  - Submission is refused if a line item ≥ €25 has no attached receipt.
+  - An approver cannot approve their own report.
+  - A rejected report is terminal and cannot be edited or re-submitted.
+
+- **Ambiguities or Undefined Interactions:**
+  - What happens if an approver is unavailable (e.g., on leave) and their approval is required? Is there an escalation process?
+  - How does the system handle a report that requires approval from a director who is also the submitter's direct manager?
+  - The process for handling currency conversion errors or discrepancies is not specified.
+  - The criteria for determining who can edit a report in the `changes-requested` state are not clearly defined.
+
+- **Projected Negative-Scenario Ratio:**
+  Given the emphasis on refusal rules such as blocking submissions due to outdated line items, missing receipts for significant expenses, and the inability of an approver to approve their own reports, it's anticipated that the negative-scenario ratio will be substantial. The acceptance criteria explicitly define several scenarios where the system must prevent or reject certain actions, suggesting that a significant portion of the test scenarios will be negative, likely exceeding the 40% threshold required by CRITICAL_RULE_2.
+
+## STEP 2: OUTPUT GENERATION
+
+Below is the Gherkin test book generated based on the analysis above, following CRITICAL_RULE_1 through CRITICAL_RULE_5:
+
+```gherkin
+Rule: Expense Report Approval Workflow
+
+  @US-004-AC1-01 @AC1 @state-transition @P1
+  Scenario: Report moves from draft to submitted
+    Given a report in draft state
+    When the employee submits the report
+    Then the report moves to the submitted state
+
+  @US-004-AC1-02 @AC1 @state-transition @P1
+  Scenario: Report moves from submitted to approved
+    Given a report in submitted state
+    And the total report amount is under €500
+    When the direct manager approves the report
+    Then the report moves to the approved state
+
+  @US-004-AC2-01 @AC2 @decision-table @P1
+  Scenario: Report approval chain for amount under €500
+    Given a report with a total amount under €500
+    When the report is submitted
+    Then the report requires approval from the employee's direct manager
+
+  @US-004-AC2-02 @AC2 @decision-table @P1
+  Scenario: Report approval chain for amount between €500 and €5000
+    Given a report with a total amount between €500 and €5000
+    When the report is submitted
+    Then the report requires approval from the employee's direct manager and then finance
+
+  @US-004-AC2-03 @AC2 @decision-table @P1
+  Scenario: Report approval chain for amount above €5000
+    Given a report with a total amount above €5000
+    When the report is submitted
+    Then the report requires approval from the employee's direct manager, then finance, and then a director
+
+  @US-004-AC3-01 @AC3 @error-guessing @negative @P1
+  Scenario: Approver cannot approve their own report
+    Given a report submitted by an approver
+    When the approver attempts to approve the report
+    Then the system prevents the approval and displays an error message
+
+  @US-004-AC4-01 @AC4 @boundary @negative @P1
+  Scenario: Line item outside 90-day window is blocked
+    Given a report with a line item dated more than 90 days ago
+    When the employee submits the report
+    Then the system blocks the submission and displays an explanatory message
+
+  @US-004-AC5-01 @AC5 @boundary @negative @P1
+  Scenario: Submission refused due to missing receipt for line item ≥ €25
+    Given a report with a line item of €25 or more without a receipt
+    When the employee submits the report
+    Then the system refuses the submission
+
+  @US-004-AC6-01 @AC6 @use-case @P2
+  Scenario: Currency conversion for expenses
+    Given a report with expenses in a currency other than EUR
+    When the report is submitted
+    Then the system converts the expenses to EUR using the expense date's rate
+
+  @US-004-AC7-01 @AC7 @state-transition @negative @P1
+  Scenario: Rejected report cannot be edited or re-submitted
+    Given a report that has been rejected
+    When the employee attempts to edit or re-submit the report
+    Then the system prevents any changes and indicates the report is terminal
+
+  @US-004-AC8-01 @AC8 @use-case @P1
+  Scenario: State transition records who, when, and comment for rejections
+    Given a report that is rejected
+    When the rejection is recorded
+    Then the system captures who rejected it, when, and includes a comment of at least 10 characters
+
+# AMBIGUITY:
+# The handling of unavailable approvers and the process for escalating approvals are not defined.
+# A scenario for this ambiguity could be written but would be tagged @low-confidence due to the ambiguity.
+
+```
+
+This Gherkin test book aims to cover the acceptance criteria with a focus on the critical rules provided, ensuring traceability, appropriate use of test design techniques, and a significant number of negative scenarios to test the refusal paths of the system.

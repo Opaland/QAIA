@@ -1,0 +1,252 @@
+### STEP 1: AMBIGUITY & BOUNDARY ANALYSIS
+
+#### 1. Numeric / Date / Currency Boundaries
+- **AC2 Approval Thresholds (Total EUR):**
+  - Direct Manager only: Total < €500.00 (Boundary test: €499.99)
+  - Manager + Finance: Total €500.00 to €5000.00 (Boundary tests: €500.00, €5000.00)
+  - Manager + Finance + Director: Total > €5000.00 (Boundary test: €5000.01)
+- **AC4 Expense Date Window:**
+  - Valid window: 0 to 90 days ago (Boundary tests: 0 days / today, 90 days ago)
+  - Invalid window: > 90 days ago (Boundary test: 91 days ago) or future date (Boundary test: +1 day)
+- **AC5 Receipt Mandatory Threshold:**
+  - Receipt optional / not mandatory: Line amount < €25.00 (Boundary test: €24.99)
+  - Receipt mandatory: Line amount ≥ €25.00 (Boundary test: €25.00)
+- **AC8 Transition Comment Length:**
+  - Valid comment length: ≥ 10 characters (Boundary test: 10 characters, e.g., `"1234567890"`)
+  - Invalid comment length: < 10 characters (Boundary test: 9 characters, e.g., `"123456789"`)
+
+#### 2. Explicit & Implicit Refusal Rules
+- AC4: Refuse submission if any line item date is older than 90 days (or in the future).
+- AC5: Refuse submission if any line item ≥ €25 has no receipt attached.
+- AC3: Refuse self-approval by the submitter.
+- AC7: Refuse edits or re-submission attempts on a `rejected` report (terminal state).
+- AC8: Refuse `rejected` or `changes-requested` transition if comment is missing or < 10 characters.
+- Implicit: Refuse state transitions not allowed by the state machine (e.g., `draft` straight to `approved`).
+
+#### 3. Ambiguities & Undefined Interactions
+- **AC3 Submitter is Director (Top Level):** When a Director submits a report > €5000, who acts as the final approver? 
+  - *Stated Default:* Reports submitted by a Director skip the direct manager step and require Finance + VP/C-Level approval.
+- **AC4 Future Dates:** AC4 specifies "within the last 90 days", but does not explicitly state if future dates are permitted.
+  - *Stated Default:* Future-dated expenses (e.g., expense date > today) are blocked at submission.
+- **AC6 Non-EUR Currency Exchange Rates:** The AC does not specify how weekend/non-trading day exchange rates or missing conversion service responses are handled.
+  - *Stated Default:* Convert using the last published official exchange rate for that date.
+- **AC1 Editing in `submitted` state:** AC1 mentions editing in `draft` and `changes-requested`, but not whether editing is blocked during `submitted`.
+  - *Stated Default:* Reports in `submitted` state are read-only and cannot be edited.
+
+#### 4. Projected Negative Scenario Ratio
+- Total planned scenarios: 22
+- Planned negative scenarios: 10 (`US-004-AC1-03`, `US-004-AC4-02`, `US-004-AC4-03`, `US-004-AC5-02`, `US-004-AC7-01`, `US-004-AC7-02`, `US-004-AC8-03`, `US-004-AC8-04`, `US-004-AC8-05`, `US-004-AC1-04`)
+- Projected ratio: 10 / 22 = **45.4%** (meets the ≥ 40% floor requirement).
+
+---
+
+### STEP 2: OUTPUT GENERATION
+
+```gherkin
+Feature: Expense report approval workflow
+  As an employee
+  I want to submit an expense report and have it approved through the right chain
+  So that I get reimbursed correctly and the company keeps an auditable trail
+
+  Rule: State transitions and lifecycle (AC1)
+
+    @US-004-AC1-01 @AC1 @state-transition @P1
+    Scenario: Happy path lifecycle from draft to approved
+      Given an employee has an expense report in "draft" state
+      When the employee submits the expense report
+      Then the report status changes to "submitted"
+      When the required approver approves the report
+      Then the report status changes to "approved"
+
+    @US-004-AC1-02 @AC1 @state-transition @P1
+    Scenario: Changes requested flow allows editing and re-submission
+      Given an expense report is in "submitted" state
+      When the approver requests changes with a valid comment "Please upload clearer itemized receipt"
+      Then the report status changes to "changes-requested"
+      When the employee updates the expense report
+      Then the report returns to "draft" state
+      When the employee submits the report again
+      Then the report status changes to "submitted"
+
+    @US-004-AC1-03 @AC1 @state-transition @negative @P2
+    Scenario: Invalid transition directly from draft to approved
+      Given an employee has an expense report in "draft" state
+      When an administrative action attempts to set status directly to "approved"
+      Then the transition is rejected as invalid
+
+    # AMBIGUITY: AC1 does not explicitly state whether an expense report in 'submitted' status can be edited before approval.
+    @US-004-AC1-04 @AC1 @state-transition @negative @low-confidence @P2
+    Scenario: Report cannot be edited while in submitted state
+      Given an expense report is in "submitted" state
+      When the employee attempts to edit line items
+      Then the edit operation is refused with error "Cannot edit a report in submitted state"
+
+
+  Rule: Approval hierarchy thresholds (AC2)
+
+    @US-004-AC2-01 @AC2 @boundary @P1
+    Scenario: Report total of 499.99 EUR requires manager approval only
+      Given an expense report has a total value of 499.99 EUR
+      When the employee submits the report
+      Then the required approval sequence is ["Direct Manager"]
+
+    @US-004-AC2-02 @AC2 @boundary @P1
+    Scenario: Report total of 500.00 EUR requires manager then finance approval
+      Given an expense report has a total value of 500.00 EUR
+      When the employee submits the report
+      Then the required approval sequence is ["Direct Manager", "Finance"]
+
+    @US-004-AC2-03 @AC2 @boundary @P1
+    Scenario: Report total of 5000.00 EUR requires manager then finance approval
+      Given an expense report has a total value of 5000.00 EUR
+      When the employee submits the report
+      Then the required approval sequence is ["Direct Manager", "Finance"]
+
+    @US-004-AC2-04 @AC2 @boundary @P1
+    Scenario: Report total of 5000.01 EUR requires manager, finance, then director approval
+      Given an expense report has a total value of 5000.01 EUR
+      When the employee submits the report
+      Then the required approval sequence is ["Direct Manager", "Finance", "Director"]
+
+
+  Rule: Self-approval restriction and submitter hierarchy skipping (AC3)
+
+    @US-004-AC3-01 @AC3 @decision-table @P1
+    Scenario: Manager submitter report skips direct manager step to next level
+      Given the submitter is a "Manager"
+      And the expense report total is 1200.00 EUR
+      When the report is submitted
+      Then the initial approver assigned is "Finance"
+      And the "Direct Manager" approval step is bypassed
+
+    @US-004-AC3-02 @AC3 @decision-table @P1
+    Scenario: Approver cannot approve their own expense report
+      Given a manager submits an expense report
+      When the manager attempts to approve their own report
+      Then the action is blocked with error "Self-approval is not permitted"
+
+    # AMBIGUITY: AC3 does not specify who approves a report above 5000 EUR submitted by a Director.
+    @US-004-AC3-03 @AC3 @decision-table @low-confidence @P2
+    Scenario: Director submitter report above 5000 EUR skips director level to executive board
+      Given the submitter is a "Director"
+      And the expense report total is 6000.00 EUR
+      When the report is submitted
+      Then the required approval sequence is ["Finance", "Executive Board"]
+
+
+  Rule: Line item validation and 90-day window (AC4)
+
+    @US-004-AC4-01 @AC4 @boundary @P1
+    Scenario: Line items dated exactly 90 days ago are accepted
+      Given an expense report with a valid category and amount
+      And a line item dated 90 days ago from today
+      When the employee submits the report
+      Then the submission is accepted
+
+    @US-004-AC4-02 @AC4 @boundary @negative @P1
+    Scenario: Line items dated 91 days ago are blocked at submission
+      Given an expense report with a valid category and amount
+      And a line item dated 91 days ago from today
+      When the employee attempts to submit the report
+      Then the submission is blocked
+      And an explanatory message "Line item date exceeds maximum allowed age of 90 days" is displayed
+
+    # AMBIGUITY: AC4 mentions 'within the last 90 days' but does not explicitly mention future-dated expense lines.
+    @US-004-AC4-03 @AC4 @error-guessing @negative @low-confidence @P2
+    Scenario: Line items with future dates are blocked at submission
+      Given an expense report with a valid category and amount
+      And a line item dated 1 day in the future
+      When the employee attempts to submit the report
+      Then the submission is blocked
+      And an explanatory message "Expense date cannot be in the future" is displayed
+
+
+  Rule: Receipt requirements (AC5)
+
+    @US-004-AC5-01 @AC5 @boundary @P1
+    Scenario: Line item of 24.99 EUR without receipt is accepted
+      Given an expense report line item of 24.99 EUR with no receipt attached
+      When the employee submits the report
+      Then the submission succeeds
+
+    @US-004-AC5-02 @AC5 @boundary @negative @P1
+    Scenario: Line item of 25.00 EUR without receipt is refused
+      Given an expense report line item of 25.00 EUR with no receipt attached
+      When the employee attempts to submit the report
+      Then the submission is refused
+      And an error message "Receipt mandatory for line items of 25.00 EUR or greater" is displayed
+
+    @US-004-AC5-03 @AC5 @boundary @P2
+    Scenario: Line item of 25.00 EUR with attached receipt is accepted
+      Given an expense report line item of 25.00 EUR with a valid receipt attached
+      When the employee submits the report
+      Then the submission succeeds
+
+
+  Rule: Currency conversion and threshold evaluation (AC6)
+
+    @US-004-AC6-01 @AC6 @use-case @P1
+    Scenario: Non-EUR currency is converted at expense date rate to evaluate approval thresholds
+      Given an expense line item of 550.00 USD dated "2026-03-01"
+      And the USD to EUR exchange rate on "2026-03-01" was 0.92
+      When the report is submitted
+      Then the converted total is calculated as 506.00 EUR
+      And the report requires approval sequence ["Direct Manager", "Finance"]
+
+
+  Rule: Terminal state for rejected reports (AC7)
+
+    @US-004-AC7-01 @AC7 @state-transition @negative @P1
+    Scenario: Rejected report cannot be edited
+      Given an expense report is in "rejected" state
+      When the employee attempts to modify any line item
+      Then the action is refused with error "Rejected reports are final and cannot be edited"
+
+    @US-004-AC7-02 @AC7 @state-transition @negative @P1
+    Scenario: Rejected report cannot be re-submitted
+      Given an expense report is in "rejected" state
+      When the employee attempts to resubmit the report
+      Then the action is refused with error "Rejected reports cannot be re-submitted; please create a new report"
+
+
+  Rule: Audit trail and mandatory comments (AC8)
+
+    @US-004-AC8-01 @AC8 @use-case @P1
+    Scenario: State transition records user identity, timestamp, and action
+      Given a user "mgr_smith" performs an approval transition
+      When the status changes from "submitted" to "approved"
+      Then an audit log entry is created recording:
+        | Field     | Value          |
+        | actor     | mgr_smith      |
+        | timestamp | current_time   |
+        | fromState | submitted      |
+        | toState   | approved       |
+
+    @US-004-AC8-02 @AC8 @boundary @P2
+    Scenario: Rejection succeeds with comment of exactly 10 characters
+      Given an expense report in "submitted" state
+      When the approver rejects the report with comment "1234567890"
+      Then the report status changes to "rejected"
+      And the audit log records the comment "1234567890"
+
+    @US-004-AC8-03 @AC8 @boundary @negative @P1
+    Scenario: Rejection fails with comment under 10 characters
+      Given an expense report in "submitted" state
+      When the approver attempts to reject the report with comment "Too short"
+      Then the rejection action is blocked
+      And an error message "Comment must be at least 10 characters long" is displayed
+
+    @US-004-AC8-04 @AC8 @boundary @negative @P1
+    Scenario: Changes-requested fails with comment under 10 characters
+      Given an expense report in "submitted" state
+      When the approver attempts to request changes with comment "Fix this!"
+      Then the action is blocked
+      And an error message "Comment must be at least 10 characters long" is displayed
+
+    @US-004-AC8-05 @AC8 @state-transition @negative @P2
+    Scenario: Rejection fails when comment is omitted
+      Given an expense report in "submitted" state
+      When the approver attempts to reject the report without providing a comment
+      Then the rejection action is blocked
+      And an error message "Comment is required for rejection" is displayed
+```

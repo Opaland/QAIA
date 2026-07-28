@@ -1,0 +1,211 @@
+Here is the 2-step chain-of-thought response for the given user story:
+
+---
+
+### **STEP 1: AMBIGUITY & BOUNDARY ANALYSIS**
+
+#### **Numeric/Date/Currency Boundaries**
+1. **Approval thresholds (AC2):**
+   - €500 (exact boundary: ≤€500 vs. >€500)
+   - €5000 (exact boundary: ≤€5000 vs. >€5000)
+   - €25 (receipt threshold: ≥€25 vs. <€25)
+2. **Date boundaries (AC4):**
+   - 90 days (exact boundary: ≤90 days vs. >90 days)
+3. **Comment length (AC8):**
+   - 10 characters (exact boundary: ≥10 vs. <10)
+
+#### **Explicit/Implicit Refusal Rules**
+1. **Report rejection paths:**
+   - Report rejected → terminal (AC7)
+   - Line item >90 days → submission blocked (AC4)
+   - Line item ≥€25 without receipt → submission refused (AC5)
+   - Approver cannot approve own report (AC3)
+2. **State transitions:**
+   - `changes-requested` → `draft` (AC1)
+   - `rejected` → terminal (AC7)
+3. **Approval chain skips:**
+   - Submitter is a manager → skip to next level (AC3)
+
+#### **Ambiguities/Interactions**
+1. **AC3:** "If the submitter is themselves a manager, their report skips straight to the next level up."
+   - **Interpretation:** Does "next level up" mean skipping the manager approval entirely (e.g., manager → finance) or skipping to the next approver in the chain (e.g., manager → director if finance is the next level)?
+   - **Default:** Assume "next level up" means skipping the immediate manager approval and proceeding to the next approver in the chain (e.g., manager → finance → director).
+   - **Tag:** `@low-confidence` for scenarios relying on this interpretation.
+
+2. **AC6:** "Currency other than EUR is converted at the rate of the expense date."
+   - **Ambiguity:** Is the conversion rate fixed (e.g., daily ECB rate) or dynamic (e.g., real-time market rate)?
+   - **Default:** Assume a fixed daily conversion rate (e.g., ECB reference rate) for testing purposes.
+   - **Tag:** `@low-confidence` for scenarios involving currency conversion.
+
+3. **AC8:** "Mandatory comment of at least 10 characters."
+   - **Ambiguity:** Is the comment required for all state transitions or only for rejections/changes-requested?
+   - **Default:** Assume the comment is required for all state transitions (as per "every state transition records... a mandatory comment").
+   - **Tag:** `@low-confidence` for scenarios where this interpretation is critical.
+
+#### **Projected Negative-Scenario Ratio**
+- **Total acceptance criteria:** 8
+- **Explicit refusal rules:** AC4, AC5, AC7, AC3 (manager approval skip), AC8 (comment length)
+- **Implicit refusal rules:** AC1 (terminal states), AC2 (approval chain)
+- **Estimated negative scenarios:** ~12 (e.g., blocked submissions, rejected reports, skipped approvals, invalid comments)
+- **Total scenarios (conservative estimate):** ~25
+- **Projected negative ratio:** ~48% (12/25), which meets the ≥40% requirement.
+
+---
+
+### **STEP 2: OUTPUT GENERATION**
+
+```gherkin
+# Gherkin Test Book for US-004 — Expense Report Approval Workflow
+
+# AMBIGUITY: AC3 interpretation (skip to next level vs. skip manager entirely)
+# Default: Skip to next level in approval chain (e.g., manager → finance → director).
+# AMBIGUITY: AC6 interpretation (fixed vs. dynamic conversion rate)
+# Default: Fixed daily conversion rate (e.g., ECB reference rate).
+# AMBIGUITY: AC8 interpretation (comment required for all transitions vs. only rejections/changes-requested)
+# Default: Comment required for all state transitions.
+
+Rule: State transitions and approval chain (AC1, AC2, AC3)
+
+  @US-004-AC1-01 @AC1 @state-transition @P1
+  Scenario: Report moves from draft to submitted
+    Given an employee has a report in draft state
+    When they submit the report
+    Then the report state changes to submitted
+    And the system records the submitter and timestamp
+
+  @US-004-AC1-02 @AC1 @state-transition @P1
+  Scenario: Report moves from submitted to approved (manager only, ≤€500)
+    Given a report in submitted state with total ≤€500
+    And the employee's direct manager is the approver
+    When the manager approves the report
+    Then the report state changes to approved
+    And the system records the approver, timestamp, and approval comment
+
+  @US-004-AC1-03 @AC1 @state-transition @P1
+  Scenario: Report moves from submitted to approved (manager → finance, €500–€5000)
+    Given a report in submitted state with total €500–€5000
+    And the employee's direct manager is the first approver
+    When the manager approves the report
+    Then the report state changes to submitted (pending finance approval)
+    And the system records the manager's approval
+    When the finance approver approves the report
+    Then the report state changes to approved
+    And the system records the finance approver, timestamp, and approval comment
+
+  @US-004-AC1-04 @AC1 @state-transition @P1
+  Scenario: Report moves from submitted to approved (manager → finance → director, >€5000)
+    Given a report in submitted state with total >€5000
+    And the employee's direct manager is the first approver
+    When the manager approves the report
+    Then the report state changes to submitted (pending finance approval)
+    When the finance approver approves the report
+    Then the report state changes to submitted (pending director approval)
+    When the director approves the report
+    Then the report state changes to approved
+    And the system records the director's approval, timestamp, and comment
+
+  @US-004-AC1-05 @AC1 @state-transition @negative @P1
+  Scenario: Approver cannot approve their own report
+    Given an employee who is a manager submits a report
+    When they attempt to approve their own report
+    Then the approval is rejected with an error
+    And the report state remains submitted
+
+  @US-004-AC1-06 @AC1 @state-transition @negative @P1 @low-confidence
+  Scenario: Manager skip to next level (AC3 interpretation)
+    Given an employee who is a manager submits a report with total ≤€500
+    When they submit the report
+    Then the report skips manager approval and moves directly to finance approval
+    And the system records the submission and timestamp
+
+  @US-004-AC1-07 @AC1 @state-transition @negative @P1
+  Scenario: Report rejected by approver
+    Given a report in submitted state
+    When an approver rejects the report with a comment of ≥10 characters
+    Then the report state changes to rejected
+    And the system records the rejecter, timestamp, and comment
+    And the report becomes terminal (no further edits or submissions allowed)
+
+  @US-004-AC1-08 @AC1 @state-transition @negative @P1
+  Scenario: Report changes-requested by approver
+    Given a report in submitted state
+    When an approver requests changes with a comment of ≥10 characters
+    Then the report state changes to changes-requested
+    And the system records the requester, timestamp, and comment
+    And the report returns to draft for editing
+
+Rule: Line item validation (AC4, AC5)
+
+  @US-004-AC4-01 @AC4 @boundary @P1
+  Scenario: Line item date within 90 days is accepted
+    Given a report with a line item dated 89 days ago
+    When the report is submitted
+    Then the submission succeeds
+
+  @US-004-AC4-02 @AC4 @boundary @negative @P1
+  Scenario: Line item date exactly 90 days old is rejected
+    Given a report with a line item dated exactly 90 days ago
+    When the report is submitted
+    Then the submission is blocked with an "expired line item" error
+
+  @US-004-AC4-03 @AC4 @boundary @negative @P1
+  Scenario: Line item date >90 days is rejected
+    Given a report with a line item dated 91 days ago
+    When the report is submitted
+    Then the submission is blocked with an "expired line item" error
+
+  @US-004-AC5-01 @AC5 @boundary @P2
+  Scenario: Line item <€25 without receipt is accepted
+    Given a report with a line item of €24.99 and no receipt
+    When the report is submitted
+    Then the submission succeeds
+
+  @US-004-AC5-02 @AC5 @boundary @negative @P1
+  Scenario: Line item ≥€25 without receipt is rejected
+    Given a report with a line item of €25.00 and no receipt
+    When the report is submitted
+    Then the submission is refused with a "missing receipt" error
+
+  @US-004-AC5-03 @AC5 @boundary @P2
+  Scenario: Line item ≥€25 with receipt is accepted
+    Given a report with a line item of €25.00 and a valid receipt
+    When the report is submitted
+    Then the submission succeeds
+
+Rule: Currency conversion and approval thresholds (AC6)
+
+  @US-004-AC6-01 @AC6 @decision-table @P2 @low-confidence
+  Scenario: USD expense converted to EUR at expense date rate (≤€500 equivalent)
+    Given a report with a line item of $500 (converted to €450 at 1.11 rate)
+    When the report is submitted
+    Then the approval chain requires only manager approval
+
+  @US-004-AC6-02 @AC6 @decision-table @P2 @low-confidence
+  Scenario: USD expense converted to EUR at expense date rate (>€5000 equivalent)
+    Given a report with a line item of $5500 (converted to €5000 at 1.10 rate)
+    When the report is submitted
+    Then the approval chain requires manager, finance, and director approval
+
+Rule: Terminal states and comments (AC7, AC8)
+
+  @US-004-AC7-01 @AC7 @state-transition @negative @P1
+  Scenario: Rejected report cannot be edited or re-submitted
+    Given a report in rejected state
+    When an employee attempts to edit the report
+    Then the edit is refused with a "terminal state" error
+    And when they attempt to submit a new report with the same details
+    Then the submission succeeds (new report created)
+
+  @US-004-AC8-01 @AC8 @boundary @negative @P1
+  Scenario: Approval comment <10 characters is rejected
+    Given a report in submitted state
+    When an approver attempts to approve with a comment of 9 characters
+    Then the approval is rejected with a "comment too short" error
+
+  @US-004-AC8-02 @AC8 @boundary @P1
+  Scenario: Approval comment ≥10 characters is accepted
+    Given a report in submitted state
+    When an approver approves with a comment of 10 characters
+    Then the approval succeeds
+    And the system records the comment
+```
