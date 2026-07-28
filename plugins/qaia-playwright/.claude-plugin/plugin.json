@@ -4,10 +4,10 @@
   "description": "QAIA automation: turn a Gherkin test book into native Playwright tests (Page Object Model as fixtures) with requirement traceability, plus accessibility, performance, risk-based security-surface, usability heuristic review, adversarial contract probing, and captured-traffic regression checks. Web-first.",
   "author": {
     "name": "Cédric Moretti and QAIA contributors",
-    "url": "https://github.com/Opaland/QAIA"
+    "url": "https://github.com/QAIA-Project/QAIA"
   },
-  "homepage": "https://github.com/Opaland/QAIA",
-  "repository": "https://github.com/Opaland/QAIA",
+  "homepage": "https://github.com/QAIA-Project/QAIA",
+  "repository": "https://github.com/QAIA-Project/QAIA",
   "license": "MIT",
   "keywords": ["playwright", "automation", "e2e", "api", "accessibility", "performance", "security", "usability", "contract-testing", "pom", "har", "traffic-replay"]
 }

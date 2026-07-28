@@ -9,7 +9,7 @@ QAIA core plugin: from user story to prioritized, traceable, atomic Gherkin test
 From Claude Code:
 
 ```
-/plugin marketplace add Opaland/QAIA
+/plugin marketplace add QAIA-Project/QAIA
 /plugin install qaia-core@qaia
 /reload-plugins
 ```

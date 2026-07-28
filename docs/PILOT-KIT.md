@@ -14,7 +14,7 @@ Run the QAIA journey on a ready-made user story, get a Gherkin test book, and te
 ## Step 1 — Install the plugin (2 min)
 
 ```
-/plugin marketplace add Opaland/QAIA
+/plugin marketplace add QAIA-Project/QAIA
 /plugin install qaia-core@qaia
 /reload-plugins
 /qaia-core:hello        # should confirm it's installed
@@ -38,7 +38,7 @@ You end with `.qaia/testbooks/US-001/` containing `.feature` files, a coverage m
 
 ## Step 4 — Tell us what's wrong (2 min)
 
-Open [a feedback discussion](https://github.com/Opaland/QAIA/discussions) or fill the short form below and paste it there. **Negative feedback is the most valuable** — where did it guess wrong, miss a case, or annoy you?
+Open [a feedback discussion](https://github.com/QAIA-Project/QAIA/discussions) or fill the short form below and paste it there. **Negative feedback is the most valuable** — where did it guess wrong, miss a case, or annoy you?
 
 ```
 ### QAIA pilot feedback

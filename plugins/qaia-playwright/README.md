@@ -7,7 +7,7 @@ QAIA automation plugin: turn a Gherkin test book into **native Playwright tests*
 ## Install
 
 ```
-/plugin marketplace add Opaland/QAIA
+/plugin marketplace add QAIA-Project/QAIA
 /plugin install qaia-playwright@qaia
 /reload-plugins
 ```

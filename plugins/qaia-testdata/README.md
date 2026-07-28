@@ -14,7 +14,7 @@ and — optionally — the `producers[]`/`artifacts[]` entries of the standard r
 ## Install
 
 ```
-/plugin marketplace add Opaland/QAIA
+/plugin marketplace add QAIA-Project/QAIA
 /plugin install qaia-testdata@qaia
 /reload-plugins
 ```

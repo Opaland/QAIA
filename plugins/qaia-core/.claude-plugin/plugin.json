@@ -4,10 +4,10 @@
   "description": "QAIA core: US ingestion, need understanding, team knowledge base, ISTQB test design, prioritized atomic Gherkin test books with stable IDs and coverage matrix.",
   "author": {
     "name": "Cédric Moretti and QAIA contributors",
-    "url": "https://github.com/Opaland/QAIA"
+    "url": "https://github.com/QAIA-Project/QAIA"
   },
-  "homepage": "https://github.com/Opaland/QAIA",
-  "repository": "https://github.com/Opaland/QAIA",
+  "homepage": "https://github.com/QAIA-Project/QAIA",
+  "repository": "https://github.com/QAIA-Project/QAIA",
   "license": "MIT",
   "keywords": ["qa", "testing", "gherkin", "istqb", "playwright", "test-design"]
 }

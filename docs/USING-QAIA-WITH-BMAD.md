@@ -11,7 +11,7 @@ QAIA and [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) are complementary:
 | Phase 4 — QA / code review | `testbook-validate` | Scored audit + PASS/CONCERNS/FAIL gate on any existing `.feature` set — including books QAIA didn't generate |
 | Retrospective | `feedback` + `rag-build` | Corrections promoted (validated) into a git-versioned team knowledge base reused by the next generation |
 
-Practical setup: install both (BMAD via its installer, QAIA via `/plugin marketplace add Opaland/QAIA`). Point `us-ingest` at the BMAD story file (`story-*.md`) — its AC section is exactly the input QAIA expects. QAIA writes to `.qaia/`, BMAD to `_bmad/`: no collision.
+Practical setup: install both (BMAD via its installer, QAIA via `/plugin marketplace add QAIA-Project/QAIA`). Point `us-ingest` at the BMAD story file (`story-*.md`) — its AC section is exactly the input QAIA expects. QAIA writes to `.qaia/`, BMAD to `_bmad/`: no collision.
 
 ## Differences to keep in mind
 

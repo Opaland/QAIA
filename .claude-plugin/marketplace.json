@@ -14,7 +14,7 @@
       },
       "license": "MIT",
       "category": "testing",
-      "homepage": "https://github.com/Opaland/QAIA"
+      "homepage": "https://github.com/QAIA-Project/QAIA"
     },
     {
       "name": "qaia-playwright",
@@ -25,7 +25,7 @@
       },
       "license": "MIT",
       "category": "testing",
-      "homepage": "https://github.com/Opaland/QAIA"
+      "homepage": "https://github.com/QAIA-Project/QAIA"
     },
     {
       "name": "qaia-score",
@@ -36,7 +36,7 @@
       },
       "license": "MIT",
       "category": "testing",
-      "homepage": "https://github.com/Opaland/QAIA"
+      "homepage": "https://github.com/QAIA-Project/QAIA"
     },
     {
       "name": "qaia-testdata",
@@ -47,7 +47,7 @@
       },
       "license": "MIT",
       "category": "testing",
-      "homepage": "https://github.com/Opaland/QAIA"
+      "homepage": "https://github.com/QAIA-Project/QAIA"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Opaland/QAIA/docs/schemas/output-contract-v1.schema.json",
+  "$id": "https://github.com/QAIA-Project/QAIA/docs/schemas/output-contract-v1.schema.json",
   "title": "QAIA run manifest (output contract 1.0)",
   "description": "Formal JSON Schema for docs/OUTPUT-CONTRACT.md, contract version 1.0. Validates .qaia/reports/<US-ID>/manifest.json. A consumer that needs a field a producer did not write must treat it as absent (degraded mode, shared contract rule 8) -- this schema keeps every section but 'contract'/'usId'/'title'/'status'/'generatedAt'/'base'/'producers'/'artifacts' optional to match that rule.",
   "type": "object",

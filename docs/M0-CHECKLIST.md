@@ -16,12 +16,13 @@ Critère de sortie global : un contributeur externe comprend le projet et peut p
 | CI | Validation JSON, structure plugins, frontmatter des skills, lint Gherkin épinglé, **gardes supply-chain** (hooks/agents/MCP interdits, sources marketplace locales), job **DCO** ; Actions épinglées par SHA (T15) |
 | Harnais d'éval | `eval/RUBRIC.md` (10 dimensions, gate ≥ 16/20) + gold set durci + corpus élargi 24 cas (`eval/goldset-hardened/`, `eval/baselines/`) ; score structurel déterministe (`eval/tools/structural_score.py`) |
 | Discussions activées, branch protection sur `main` (CI requise, pas de push direct), 2FA exigée pour les admins | confirmé dans `docs/STATUS.md` |
+| **Organisation GitHub `QAIA-Project` créée, dépôt transféré** (`Opaland/QAIA` → `QAIA-Project/QAIA`, redirection confirmée) — URLs mises à jour partout (marketplace.json, plugin.json ×4, README×4 (racine+plugins), skill `hello`, `git remote`) | fondateur, 2026-07-28 |
 
 ## ⏳ À faire par le propriétaire (droits que l'agent n'a pas)
 
 | # | Action | Référence |
 |---|---|---|
-| 1 | **Créer l'organisation GitHub** dédiée et y transférer ce dépôt ; ajouter un **second admin** de confiance. Après transfert, mettre à jour les URLs `Opaland/QAIA` codées en dur (marketplace.json, plugin.json, README du plugin, skill hello, README racine) | D14, Q73 |
+| 1 | Ajouter un **second admin** de confiance à l'organisation `QAIA-Project` (bus factor — le transfert lui-même est fait, il reste à ne pas rester seul admin) | D14, Q73 |
 | 2 | Vérifier la **disponibilité du nom QAIA** (produits IA homonymes, npm, domaine) — décider du gel du nom | Q1, D32 |
 | 3 | Merger cette branche dans `main` (**squash**) puis **supprimer la branche** (son nom contient l'ancien acronyme "iats") — nécessite des droits admin que l'agent n'a pas (branch protection active sur `main`, pas de `gh` CLI disponible en session) ; à faire via l'UI GitHub ou en levant temporairement la protection | D1 |
 | 4 | Activer : **GitHub Sponsors**, **Security Advisories** (private vulnerability reporting) — Discussions déjà actif | D27, SECURITY.md |

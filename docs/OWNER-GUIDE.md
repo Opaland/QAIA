@@ -5,9 +5,9 @@ Ces actions demandent ton identité, ton argent, ton jugement juridique ou tes r
 ## 1. Organisation GitHub + second admin (5 min)
 1. https://github.com/organizations/plan → choisir **Free**.
 2. Nommer l'org (ex. `qaia-project` — vérifier la dispo, cf. §2).
-3. Repo `Opaland/QAIA` → **Settings** → tout en bas **Transfer ownership** → saisir le nom de l'org.
+3. Repo `QAIA-Project/QAIA` → **Settings** → tout en bas **Transfer ownership** → saisir le nom de l'org.
 4. Org → **People** → **Invite member** → donner le rôle **Owner** à une personne de confiance (bus factor : ne jamais rester seul admin).
-> Après transfert, préviens-moi : je mets à jour les URLs `Opaland/QAIA` codées en dur (marketplace.json, plugin.json, README, skill hello).
+> Après transfert, préviens-moi : je mets à jour les URLs `QAIA-Project/QAIA` codées en dur (marketplace.json, plugin.json, README, skill hello).
 
 ## 2. Vérifier le nom (5 min)
 - npm : `https://www.npmjs.com/search?q=qaia` · GitHub : barre de recherche · marque : recherche INPI (`data.inpi.fr`) · un produit IA nommé QAIA ? recherche web.

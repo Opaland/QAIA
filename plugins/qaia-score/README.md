@@ -7,7 +7,7 @@ QAIA scoring plugin: **read-only** quality scoring and release-readiness gating 
 ## Install
 
 ```
-/plugin marketplace add Opaland/QAIA
+/plugin marketplace add QAIA-Project/QAIA
 /plugin install qaia-score@qaia
 /reload-plugins
 ```
