@@ -47,6 +47,41 @@ function fxRate(currency, isoDate) {
   return { rate: table[dates[dates.length - 1]], stale: true };
 }
 
+// --- AI/ML-style feature: expense category suggestion (#53) --------------------------------
+// A simple, deterministic keyword-weighted classifier -- NOT a trained ML model, but it plays
+// the same testing-relevant role: given free-text input, it infers a category + a confidence
+// score without an exact expected output being directly statable from the input alone (the
+// precondition CT-AI/metamorphic testing targets). Added specifically so istqb-design's CT-AI
+// techniques (adversarial-input robustness, consistency/back-to-back, metamorphic relations)
+// have a real, executable target in this repo instead of only living in prose (#53).
+const CATEGORY_KEYWORDS = {
+  travel: ['flight', 'flights', 'taxi', 'uber', 'train', 'hotel', 'airfare', 'mileage', 'parking'],
+  meals: ['lunch', 'dinner', 'breakfast', 'restaurant', 'coffee', 'catering', 'meal'],
+  office: ['stapler', 'paper', 'desk', 'chair', 'printer', 'supplies', 'furniture'],
+  software: ['subscription', 'license', 'saas', 'software', 'app', 'cloud', 'hosting'],
+};
+function suggestCategory(description) {
+  if (typeof description !== 'string') return { category: 'other', confidence: 0 };
+  // adversarial-input guard: cap absurdly long input rather than let it degrade unboundedly
+  // (CT-AI robustness expectation -- fail predictably, not silently or catastrophically).
+  const text = description.slice(0, 2000).toLowerCase();
+  const words = text.match(/[a-z]+/g) || [];
+  const scores = {};
+  for (const [cat, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+    scores[cat] = words.filter(w => keywords.includes(w)).length;
+  }
+  let best = 'other', bestScore = 0;
+  for (const [cat, score] of Object.entries(scores)) {
+    if (score > bestScore) { best = cat; bestScore = score; }
+  }
+  const totalMatches = Object.values(scores).reduce((a, b) => a + b, 0);
+  // confidence: fraction of matched keyword-words among all words, bounded (0, 1) -- a genuine
+  // "can't state the exact number directly" output: it depends on both the matched-keyword
+  // density AND total word count, not any single input field in isolation (metamorphic target).
+  const confidence = words.length === 0 ? 0 : Math.round((totalMatches / words.length) * 100) / 100;
+  return { category: best, confidence };
+}
+
 function freshState() {
   return {
     users: {
@@ -258,6 +293,15 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (p === '/api/whoami-clock' && req.method === 'GET') return json(res, 200, { now: NOW(), isoDaysAgo90: isoDaysAgo(90) }); // deterministic test helper
+
+  if (p === '/api/suggest-category' && req.method === 'POST') { // AI/ML-style feature (#53)
+    const a = authFrom(req); if (!a) return json(res, 401, { error: 'unauthenticated' });
+    const b = await body(req);
+    if (typeof b.description !== 'string' || b.description.length === 0) {
+      return json(res, 422, { error: 'description is required' }); // AC-equivalent: no silent guess on empty input
+    }
+    return json(res, 200, suggestCategory(b.description));
+  }
 
   // --- static ------------------------------------------------------------
   let file = p === '/' ? '/index.html' : p;
