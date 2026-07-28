@@ -77,6 +77,47 @@ Le coût utilisateur est en **quota d'abonnement** (Q22), pas en facturation API
 disponible côté mainteneur : les campagnes d'évaluation consomment ~115k à 1.76M tokens (workflow
 multi-agent), ce qui n'est **pas** représentatif d'une commande unique côté utilisateur.
 
+## Coût face aux paliers d'abonnement (issue #49, D108)
+
+**Limite honnête à poser d'abord** : Anthropic ne publie plus de chiffre exact et garanti de
+messages/heures par palier — confirmé en relisant directement la page d'aide officielle
+(support.claude.com, 2026-07-28) : *"Both Pro and Max plans offer usage limits that are shared
+across Claude and Claude Code"*, sans quantifier. Les chiffres ci-dessous sont des **estimations
+tierces, non officielles**, datées et sourcées, à recouper vous-même dans votre compte avant
+d'engager une équipe dessus — pas une garantie contractuelle d'Anthropic.
+
+| Palier | Fenêtre 5h (tiers, 2026-07-28) | Cadence hebdo (tiers) |
+|---|---|---|
+| Pro (~20 $/mois) | ~45 prompts / 5h | pas de plage publiée, usage jugé adapté à 2-5h/semaine de Claude Code sur des tâches contenues |
+| Max 5x (~100 $/mois) | ~225 prompts / 5h | ~140-280h Claude Code/semaine (tiers) |
+| Max 20x (~200 $/mois) | ~900 prompts / 5h | ~240-480h Claude Code/semaine (tiers) |
+
+**Pourquoi le budget token mesuré (tableau ci-dessus) ne se convertit pas 1:1 en "nombre de
+parcours par semaine"** : le quota d'abonnement est compté en **prompts/temps de session**, pas
+en tokens bruts — un appel de skill qui consomme 133k tokens en interne (agent + outils) compte
+généralement comme **un seul prompt** dans la fenêtre de 5h, au même titre qu'un message court.
+Le vrai facteur limitant pour une équipe n'est donc pas le volume de tokens mesuré par skill,
+mais le **nombre d'invocations de skill** (≈ un prompt chacune) et le temps de session cumulé.
+
+**Recommandation d'usage, avec cette réserve explicite** : un parcours QAIA complet (6 skills du
+cœur : `us-ingest` → `us-review` → `need-understanding` → `istqb-design` → `testbook-generate`
+→ `report`) consomme de l'ordre de **6 à 12 prompts** (une skill peut se relancer une fois en cas
+d'arbitrage humain) — largement sous la fenêtre 5h même du palier Pro (~45 prompts). Le facteur
+limitant réel pour un usage équipe (plusieurs développeurs, plusieurs US par semaine) est le
+**temps de session cumulé**, pas le compte de prompts isolé — une équipe de 3-5 développeurs
+lançant 1-2 parcours complets par jour reste dans l'ordre de grandeur d'un usage individuel
+"contenu" par personne, cohérent avec le palier Pro déjà cité comme suffisant pour ce profil par
+les sources tierces ci-dessus ; un usage plus intensif (plusieurs US en parallèle, régénérations
+fréquentes, skills optionnelles ajoutées comme `oracle-generate`/`testbook-validate`) pousse vers
+Max 5x. **Aucun de ces deux profils ne nécessite Max 20x** sur la seule base de ce que QAIA
+consomme — ce palier resterait pertinent pour un usage Claude Code plus large que QAIA seul
+(développement général en parallèle).
+
+**Non fait, honnêtement** : aucune équipe pilote réelle n'a encore rapporté sa consommation de
+quota sur plusieurs semaines (mur humain, #1) — cette section reste une **projection à partir
+du budget token mesuré**, pas une mesure de quota réel épuisé, à corriger dès qu'un retour pilote
+existe.
+
 ## Portability
 
 Skills are plain Markdown following the shared contract in `skills/README.md` — designed to work in any Claude surface with file access (decision D29). Claude Code adds comfort (sub-agent parallelization in `testbook-generate`, XLSX tooling in `testbook-export`); the skills degrade gracefully and honestly without it.

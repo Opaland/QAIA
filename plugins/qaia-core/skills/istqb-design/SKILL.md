@@ -1,27 +1,66 @@
 ---
 name: istqb-design
-description: Choose and justify ISTQB test design techniques (Foundation + Test Analyst + CT-AI) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, use cases, pairwise, domain analysis, metamorphic testing, CRUD, AI/ML-feature testing. Fourth step of the QAIA journey.
+description: Choose and justify ISTQB test design techniques (Foundation + CTAL-TA v4.0 + CT-AI) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, scenario-based testing, combinatorial testing, domain testing, metamorphic testing, CRUD, AI/ML-feature testing. Fourth step of the QAIA journey.
 ---
 
 # istqb-design — technique selection, justified
 
 Follow the shared contract in `../README.md`. Prerequisite: `02-understanding.md` (else offer `need-understanding`).
 
-## Technique palette (D24 — Foundation + Test Analyst + CT-AI, extended D95)
+## Technique palette (D24 — Foundation + Test Analyst + CT-AI, extended D95, reorganized D109)
+
+Grouped by the **official CTAL-TA v4.0 chapter 3 classification** (verified against the primary
+syllabus PDF, `astqb.org`, 2026-07-28 — not a secondary summary, #50/D109). Foundation-level
+(CTFL) techniques are listed first: CTAL-TA v4.0's own chapter 3 does **not** re-classify them
+(equivalence partitioning, boundary value analysis and error guessing are prerequisite CTFL
+knowledge, not part of this syllabus's own data/behavior/rule/experience scheme) — naming that
+honestly rather than forcing them into a v4.0 category they don't officially belong to.
+
+### Foundation Level (CTFL) — prerequisite, not part of CTAL-TA v4.0's own ch.3 taxonomy
 
 | Technique | Fits when the AC involves |
 |---|---|
 | Equivalence partitioning | input/state classes treated the same way |
 | Boundary value analysis | thresholds, limits, sizes, dates (test the exact wording: inclusive/exclusive — use the answers from step 02) |
-| Domain analysis (Test Analyst) | **several related variables each carrying their own boundaries, needing combined coverage** — not each variable's boundaries tested in isolation (plain BVA), but the worst-case/best-case/single-variable-boundary combinations across the set (e.g. a shipping cost driven jointly by weight AND distance bands, each with its own thresholds) |
-| Decision table | combinations of conditions → actions (roles × flags × states) |
-| State transition | lifecycle rules (statuses, allowed/forbidden transitions, events) — **build the explicit state × event table first** (CT-MBT discipline, D95): list every declared state × every declared event, mark each cell valid-target or forbidden, *then* derive conditions from the completed table — never pick transition pairs opportunistically straight from AC prose, which is how gaps like #43's state-machine over-generalization happen |
-| Use case / scenario | end-to-end user goals crossing several rules — **constrained**: at most one journey scenario per US, tagged `@smoke`, whose `Then` asserts the single journey-level outcome (never re-verifying behaviors already covered atomically); excluded from atomicity accounting |
-| Pairwise (Test Analyst) | many independent parameters where full combination explodes |
-| CRUD (Test Analyst v4.0) | full entity lifecycle (create/read/update/delete + inverses) — already derived by the 3c reflex pattern below; tag `@crud` when the technique driving the scenario *is* the lifecycle pattern itself, distinct from a plain state-transition on a single status field |
-| Metamorphic testing (Test Analyst v4.0 / CT-AI) | **the exact expected output can't be stated directly** — it depends on an external or unsourced parameter (an exchange rate, a ranking score, a model output) — but a **relation** between two related inputs/outputs is known and checkable without knowing that parameter (double the input amount → the converted total is ~double; the same input submitted twice → the same classification; reordering independent inputs → an unchanged aggregate). Use this **instead of** asserting a fabricated precise value (the exact defect closed in #46) whenever the AC's real requirement is the *relationship*, not a specific number |
+
+### Data-Based Test Techniques (CTAL-TA v4.0 §3.1)
+
+| Technique | Fits when the AC involves |
+|---|---|
+| Domain Testing (§3.1.1) | **several related variables each carrying their own boundaries, needing combined coverage** — not each variable's boundaries tested in isolation (plain BVA), but the worst-case/best-case/single-variable-boundary combinations across the set (e.g. a shipping cost driven jointly by weight AND distance bands, each with its own thresholds). Renamed from "Domain analysis" (D109) — the syllabus's own term is "Domain Testing" |
+| Combinatorial Testing (§3.1.2, includes pairwise) | many independent parameters where full combination explodes |
+
+### Behavior-Based Test Techniques (CTAL-TA v4.0 §3.2)
+
+| Technique | Fits when the AC involves |
+|---|---|
+| State Transition Testing (§3.2.2) | lifecycle rules (statuses, allowed/forbidden transitions, events) — **build the explicit state × event table first** (CT-MBT discipline, D95): list every declared state × every declared event, mark each cell valid-target or forbidden, *then* derive conditions from the completed table — never pick transition pairs opportunistically straight from AC prose, which is how gaps like #43's state-machine over-generalization happen |
+| Scenario-Based Testing (§3.2.3) | end-to-end user goals crossing several rules — **constrained**: at most one journey scenario per US, tagged `@smoke`, whose `Then` asserts the single journey-level outcome (never re-verifying behaviors already covered atomically); excluded from atomicity accounting. Renamed from "Use case / scenario" (D109) — v4.0 explicitly retired the term "use case testing" (syllabus Appendix C) |
+| CRUD Testing (§3.2.1) | full entity lifecycle (create/read/update/delete + inverses) — already derived by the 3c reflex pattern below; tag `@crud` when the technique driving the scenario *is* the lifecycle pattern itself, distinct from a plain state-transition on a single status field |
+
+### Rule-Based Test Techniques (CTAL-TA v4.0 §3.3)
+
+| Technique | Fits when the AC involves |
+|---|---|
+| Decision Table Testing (§3.3.1) | combinations of conditions → actions (roles × flags × states) |
+| Metamorphic Testing (§3.3.2, also CT-AI) | **the exact expected output can't be stated directly** — it depends on an external or unsourced parameter (an exchange rate, a ranking score, a model output) — but a **relation** between two related inputs/outputs is known and checkable without knowing that parameter (double the input amount → the converted total is ~double; the same input submitted twice → the same classification; reordering independent inputs → an unchanged aggregate). Use this **instead of** asserting a fabricated precise value (the exact defect closed in #46) whenever the AC's real requirement is the *relationship*, not a specific number |
+
+### Experience-Based Testing (CTAL-TA v4.0 §3.4)
+
+| Technique | Fits when the AC involves |
+|---|---|
+| Error guessing / checklist (§3.4.2 sibling, CTFL-level) | error handling, empty states, concurrency — anchored on the ambiguity log |
+
+### CT-AI (separate syllabus, not CTAL-TA — never conflated)
+
+| Technique | Fits when the AC involves |
+|---|---|
 | AI/ML feature under test (CT-AI v2.0) | the AC describes a feature **in the target application** backed by an AI/ML/GenAI model (recommendation, classification, scoring, generation, ranking) — never QAIA testing itself, always the SUT's own AI feature. Derive, as ordinary Gherkin scenarios (never a live attack, never executed against anything but the self-hosted target): **adversarial-input robustness** (malformed/perturbed input degrades gracefully — a documented fallback/error, not a silent wrong answer), **consistency / back-to-back** (the same input stays within a stated tolerance across re-runs or model versions), and the **metamorphic relations** above. Drift/monitoring needs are flagged as an operational gap for the user, never fabricated as a test assertion (D38) |
-| Error guessing / checklist | error handling, empty states, concurrency — anchored on the ambiguity log |
+
+**Not adopted from CTAL-TA v4.0 §3.1.3/§3.4.1/§3.4.3** (Random Testing, Test Charters/Session-Based
+Testing, Crowd Testing) — confirmed to exist in the official syllabus but out of scope here,
+named explicitly rather than silently omitted (same discipline as D95's CTAL-TM/CT-MAT
+exclusions). Session-based/exploratory testing scope is tracked separately (#55).
 
 ## Steps
 
