@@ -1,0 +1,23 @@
+{
+  "name": "@qaia/mcp-bridge",
+  "version": "0.1.0",
+  "description": "OPT-IN MCP bridge exposing QAIA's skill content and deterministic scoring tools to non-Claude MCP clients (Cursor, Copilot, ...). NEVER installed by qaia-core/qaia-playwright/qaia-score/qaia-testdata. See README.md before installing.",
+  "type": "module",
+  "main": "src/server.js",
+  "bin": {
+    "qaia-mcp-bridge": "src/server.js"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/QAIA-Project/QAIA",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  }
+}

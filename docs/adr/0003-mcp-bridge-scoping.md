@@ -1,6 +1,9 @@
 # ADR 0003 — Note de cadrage : bridge MCP optionnel pour Cursor/Copilot (#42)
 
-- **Statut : proposé — en attente d'une décision du fondateur.** Ce document ne tranche rien ;
+- **Statut : accepté (D116, 2026-07-28) — option "Go, Option A+B, construit maintenant".** Le
+  fondateur a explicitement levé la réserve post-pilote pour ce chantier précis (contrairement
+  à #29/#30). Livré : `mcp-bridge/`. Voir D116 pour le détail complet.
+- ~~**Statut : proposé — en attente d'une décision du fondateur.**~~ Ce document ne tranche rien ;
   il pose la faisabilité et la compatibilité avec les garde-fous existants, comme demandé par
   #42 ("À faire (pas de développement avant tranchage) : note de cadrage... **à valider par le
   fondateur avant tout code**"). Aucune ligne de code n'a été écrite pour ce chantier.
@@ -93,7 +96,6 @@ tranche pas :
 
 ## Décision
 
-**[En attente — à remplir par le fondateur.]** Une fois l'option choisie, cette section sera
-mise à jour et une entrée `docs/DECISIONS.md` correspondante sera ajoutée, avec le prochain
-numéro D libre — aucun code n'est écrit avant cette étape, conformément au critère d'acceptation
-de #42.
+**Option "Go, A+B, construit maintenant"** (2026-07-28) — voir D116 dans `docs/DECISIONS.md`
+pour le détail complet de ce qui a été livré, vérifié et revu. `mcp-bridge/README.md` documente
+exactement ce que le composant exécute, conformément à la règle de transparence d'ADR 0002.
