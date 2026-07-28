@@ -54,6 +54,31 @@ signalée et corrigée plutôt que silencieusement ignorée.
 
 ---
 
+## Sprint 25 — Reliquat P1-P3 du plan d'action des audits clos (2026-07-28, D108-D114) ✅ TERMINÉ
+
+Demande fondateur, enchaînement après Sprint 24 : "(#49, #50, #53-#57) enchaîne" — le reliquat
+complet du plan d'action des deux audits externes (Sprint 22 + Gemini).
+
+| Livré | Preuve |
+|---|---|
+| **#49 — coût rapproché des paliers d'abonnement**, honnêtement : source officielle vérifiée d'abord (Anthropic ne publie plus de chiffre exact), chiffres tiers datés/sourcés avec réserve, point clé trouvé (quota compté en prompts/session, pas en tokens bruts) | D108, `plugins/qaia-core/README.md` |
+| **#50 — palette de techniques `istqb-design` réorganisée** selon la vraie taxonomie CTAL-TA v4.0, vérifiée contre le PDF officiel du syllabus (pas une source secondaire) : 2 dérives terminologiques corrigées (Domain Testing, Scenario-Based Testing) + trouvaille que EP/BVA/error-guessing ne relèvent pas du tout de la taxonomie ch.3 du syllabus | D109, `qaia-core` 0.2.17→0.2.18 |
+| **#54/#55 — 2 exclusions de scope documentées honnêtement** (structure-based/white-box, exploratoire/session-based) — silence corrigé en nommant le choix plutôt qu'en le laissant impliqué | D110, D111 |
+| **#57 — conflit multi-devs sur `.qaia/state/` résolu par convention** (un dev par US + garantie git ordinaire de conflit de merge visible), pas de mécanisme dédié construit, disproportionné sans signal d'usage réel | D112 |
+| **#53 — techniques CT-AI exercées pour de vrai** contre une nouvelle fonctionnalité réelle (`POST /api/suggest-category`, classifieur déterministe explicitement non-ML) : 8 scénarios `@ai-feature`/`@metamorphic` exécutés réellement (`curl`) avant d'être écrits, relation métamorphique vérifiée (dilution → confiance strictement plus basse, 0,67→0,18 mesuré), score structurel 65/100 CONCERNS rapporté tel quel | D113 |
+| **#56 — question posée au fondateur plutôt que tranchée seul** (positionnement produit, pas un choix technique) : revendication "logiciel médical / environnements réglementés" retirée du README (FR+EN) sur décision explicite, D2 révisée sans être supprimée | D114 |
+
+**Pattern de cette session** : le seul item nécessitant un arbitrage de positionnement produit
+(#56) a été posé en question au fondateur plutôt que tranché seul par l'agent — cohérent avec
+la distinction déjà établie entre décisions techniques agent-faisables et décisions business
+qui restent la main du fondateur. Les 6 autres items, tous techniques, ont été vérifiés contre
+une source primaire quand une revendication factuelle était en jeu (PDF officiel CTAL-TA v4.0
+pour #50, page d'aide Anthropic pour #49) plutôt que cités de mémoire. **Le plan d'action des
+deux audits externes est maintenant intégralement traité** (19 issues à la fin du Sprint 22,
+plus #58 : #49-#58 toutes closes).
+
+---
+
 ## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
 
 Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,

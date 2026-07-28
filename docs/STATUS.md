@@ -1,5 +1,34 @@
 # QAIA — état du projet & prompt de reprise
 
+## Sprint 25 — reliquat P1-P3 des audits clos : #49/#50/#53-#57 (2026-07-28, D108-D114) — TERMINÉ
+
+Enchaînement direct après Sprint 24 : demande fondateur "(#49, #50, #53-#57) enchaîne" — le
+reliquat complet du plan d'action des deux audits externes.
+
+- **#49 fermée** — coût rapproché des paliers d'abonnement Claude, honnêtement (source
+  officielle vérifiée d'abord : Anthropic ne publie plus de chiffre exact ; le quota est en
+  prompts/session, pas en tokens bruts). D108.
+- **#50 fermée** — palette de techniques `istqb-design` réorganisée selon la vraie taxonomie
+  CTAL-TA v4.0, vérifiée contre le PDF officiel (pas une source secondaire). 2 dérives
+  terminologiques corrigées + trouvaille que EP/BVA/error-guessing ne relèvent pas de la
+  taxonomie ch.3 du syllabus. `qaia-core` 0.2.17→0.2.18. D109.
+- **#54/#55 fermées** — 2 exclusions de scope (structure-based/white-box, exploratoire/
+  session-based) nommées explicitement plutôt que laissées en silence. D110, D111.
+- **#57 fermée** — conflit multi-devs sur `.qaia/state/` résolu par convention (un dev par US +
+  garantie git ordinaire), pas de mécanisme dédié construit. D112.
+- **#53 fermée** — techniques CT-AI enfin exercées pour de vrai : nouvelle fonctionnalité réelle
+  ajoutée à `examples/expense-demo` (classifieur déterministe, explicitement non-ML), 8
+  scénarios exécutés réellement, relation métamorphique vérifiée. Score 65/100 CONCERNS
+  rapporté tel quel. D113.
+- **#56 posée au fondateur, pas tranchée seule** — question de positionnement produit, pas un
+  choix technique. Décision : la revendication "logiciel médical / environnements réglementés"
+  est **retirée** de `README.md` (FR+EN), D2 révisée sans être supprimée. D114.
+
+**Le plan d'action des deux audits externes (Sprint 22 + Gemini) est maintenant intégralement
+traité : #49-#58, toutes closes.** Prochain point de départ à déterminer à la prochaine
+reprise — plus de backlog agent-faisable connu issu de ces deux audits ; revérifier le board
+GitHub avant de conclure à un nouveau mur.
+
 ## Sprint 24 — #51/#52/#58 livrés : benchmark, k6, adapter multi-LLM (2026-07-28, D105-D107) — TERMINÉ
 
 Enchaînement direct après Sprint 23 : demande fondateur "fait 51 puis 52 puis 58" (les 3 items
