@@ -7,6 +7,12 @@ description: Choose and justify ISTQB test design techniques (Foundation + CTAL-
 
 Follow the shared contract in `../README.md`. Prerequisite: `02-understanding.md` (else offer `need-understanding`).
 
+**Scope: black-box only, by design (D110, #54).** No structure-based/white-box technique
+(statement/branch/decision/MC-DC coverage) is in this palette or planned — QAIA proposes from
+the spec (the acceptance criteria), never from the target application's implementation, which
+it never reads. This is an assumed exclusion, not an oversight: see D110 for the full rationale.
+Exploratory/session-based testing is a separate, also-assumed exclusion (D111, #55).
+
 ## Technique palette (D24 — Foundation + Test Analyst + CT-AI, extended D95, reorganized D109)
 
 Grouped by the **official CTAL-TA v4.0 chapter 3 classification** (verified against the primary
