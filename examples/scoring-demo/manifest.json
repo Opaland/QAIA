@@ -27,7 +27,8 @@
                   "negativeRatio": 0.41 },
     "confidence": { "lowConfidence": 3, "openQuestions": 1, "assumptions": 4, "simulated": 1 },
     "techniques": ["ep", "boundary", "decision-table", "state-transition", "use-case"],
-    "oracles": ["iso-8601"]
+    "oracles": ["iso-8601"],
+    "knowledgeApplied": []
   },
 
   "openArbitrations": [

@@ -134,3 +134,21 @@ it needs. Recommended reads:
 
 Changes are logged here and in `docs/DECISIONS.md`. A consumer that needs a field a producer
 did not write treats it as absent (degraded mode, shared contract rule 8), never as an error.
+
+## Programmatic validation
+
+`docs/schemas/output-contract-v1.schema.json` is a formal JSON Schema (draft 2020-12) copy of
+the rules above, and `eval/tools/validate_manifest.py` is a stdlib-only, dependency-free
+validator against the same rules (hand-rolled rather than a generic JSON Schema engine, to stay
+consistent with `structural_score.py`/`second_judge.py`: maintainer eval tooling, never shipped
+to installers). Both are a second, executable copy of this document, not a new source of
+truth — if they ever disagree with the prose above, the prose wins and the tooling is a bug.
+
+```
+python3 eval/tools/validate_manifest.py .qaia/reports/US-001/manifest.json
+python3 eval/tools/validate_manifest.py --batch .qaia/reports/   # recursive
+```
+
+D104 (2026-07-28): added in response to the external Gemini audit's Phase 1 recommendation to
+formalize a validation schema for this contract, so a producer's drift from the documented
+shape is caught by a linter before a commit rather than discovered later by a consumer.

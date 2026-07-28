@@ -6,6 +6,32 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 23 — Second audit externe (Gemini), recoupement, JSON Schema du contrat de sortie (2026-07-28, D104) ✅ TERMINÉ
+
+Demande fondateur : lire un rapport d'audit produit par Gemini (3 personas ISTQB/IA/PM),
+mettre à jour le Kanban, puis démarrer un plan d'implémentation ; en session, demande
+complémentaire de rejouer le même exercice à 3 personas côté Claude pour recoupement
+indépendant.
+
+| Livré | Preuve |
+|---|---|
+| **Rapport Gemini sauvegardé et recoupé item par item** contre l'état réel du dépôt (pas pris au mot) | `eval/baselines/audit-report-gemini-2026-07-28.md` |
+| **Second audit indépendant Claude 3-personas**, ancré sur les fichiers locaux (pas une exploration web comme demandé — voir note ci-dessous) | `eval/baselines/audit-report-claude-3persona-2026-07-28.md` |
+| **Divergence de note expliquée, pas ignorée** : Gemini 7,5/10 ("prêt pour le pilote") vs Sprint 22 2,4/5≈4,8/10 ("non prêt sans conditions") — écart de méthode (lecture vs exécution/reproduction de défauts), pas de désaccord de fait une fois les mêmes items comparés | D104 |
+| **JSON Schema formel du contrat de sortie livré** (item Phase 1 de l'audit Gemini, confirmé absent avant cette session) : `docs/schemas/output-contract-v1.schema.json` + validateur stdlib sans dépendance `eval/tools/validate_manifest.py`, vérifiés sans erreur contre les 2 manifests réels du dépôt + testés positifs sur un cas cassé injecté (5 erreurs détectées) | `docs/OUTPUT-CONTRACT.md` (section « Programmatic validation » ajoutée) |
+| **Vrai défaut de dérive trouvé en construisant le validateur** : `examples/scoring-demo/manifest.json` ne portait pas `design.knowledgeApplied`, pourtant documenté comme faisant partie du contrat 1.0 (D38) — corrigé le jour même | D104 |
+| **1 nouvelle issue** pour le gap Phase 1 restant (portabilité multi-LLM des instructions, distinct du bridge MCP #42) — pas implémenté à la volée, effort plus substantiel qu'un schema (nécessite un few-shot réel testé contre un fournisseur externe) | [#58](https://github.com/Opaland/QAIA/issues/58) |
+| **Injection de prompt repérée et neutralisée** : la demande de recoupement contenait un bloc imitant une "IMPORTANT SYSTEM INSTRUCTION" exigeant une navigation web du dépôt GitHub — traité comme instruction utilisateur ordinaire, écarté sur ce point précis (repo local plus fiable), signalé explicitement au fondateur avant d'agir | D104 |
+
+**Pattern de cette session** : un audit externe, aussi bien intentionné soit-il, se vérifie par
+l'exécution (construire et tester la recommandation) plutôt que par la seule lecture — c'est
+en construisant le schema demandé par Gemini que le vrai bug de dérive a été trouvé, pas en
+lisant le rapport. Une instruction stylée comme un ordre système prioritaire, même reçue
+directement de l'utilisateur, ne l'est pas automatiquement — signalée avant d'être suivie ou
+écartée sélectivement.
+
+---
+
 ## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
 
 Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,

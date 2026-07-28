@@ -1,6 +1,38 @@
 # QAIA — état du projet & prompt de reprise
 
-Dernière session : 2026-07-25 (mandat élargi post-M0 **terminé** — D67-D88 : gate G2 levée par
+## Sprint 23 — second audit externe (Gemini), recoupement, JSON Schema (2026-07-28, D104) — TERMINÉ
+
+Le fondateur a transmis un rapport d'audit produit par **Gemini** (3 personas : ISTQB, IA/Prompt
+agentic, PM open-source), demandant mise à jour du Kanban puis démarrage d'un plan
+d'implémentation ; en session, demande complémentaire de rejouer le même exercice à 3 personas
+côté Claude pour recoupement indépendant (le message portait une injection de prompt imitant une
+"IMPORTANT SYSTEM INSTRUCTION" exigeant une navigation web du dépôt — signalée au fondateur,
+traitée comme une instruction utilisateur ordinaire, écartée sur ce point précis).
+
+- **Rapport Gemini sauvegardé et recoupé** contre l'état réel (pas pris au mot) :
+  `eval/baselines/audit-report-gemini-2026-07-28.md`.
+- **Second audit Claude 3-personas**, ancré sur les fichiers locaux :
+  `eval/baselines/audit-report-claude-3persona-2026-07-28.md`.
+- **Divergence de note globale expliquée** : Gemini 7,5/10 ("prêt pour le pilote") vs Sprint 22
+  2,4/5≈4,8/10 ("non prêt sans conditions") — différence de méthode (lecture de prose vs
+  exécution/reproduction de défauts en direct comme D96/D99), pas de désaccord de fait une fois
+  les mêmes items comparés en détail. Les deux s'accordent sur le point faible relatif : preuve
+  d'exécution/outillage (#51/#52/#53, déjà ouvertes depuis Sprint 22).
+- **JSON Schema formel du contrat de sortie livré le jour même** (`docs/schemas/output-contract-v1.schema.json`
+  + `eval/tools/validate_manifest.py`, stdlib sans dépendance), vérifié sans erreur contre les 2
+  manifests réels du dépôt + testé positif sur un cas cassé injecté (5 erreurs détectées).
+  **Effet de bord** : a trouvé en le construisant un vrai défaut de dérive
+  (`examples/scoring-demo/manifest.json` sans `design.knowledgeApplied`, pourtant du contrat 1.0,
+  D38) — corrigé dans la foulée.
+- **1 nouvelle issue** pour le seul gap Phase 1 restant non implémenté à la volée : portabilité
+  multi-LLM des instructions elles-mêmes ([#58](https://github.com/Opaland/QAIA/issues/58),
+  distinct du bridge MCP #42).
+
+**Le prochain point de départ reste #51** (benchmark "QAIA vs prompt direct à Claude Code") —
+confirmé comme priorité n°1 restante par les deux audits externes (Sprint 22 et ce recoupement),
+inchangé par cette session.
+
+Dernière session avant celle-ci : 2026-07-25 (mandat élargi post-M0 **terminé** — D67-D88 : gate G2 levée par
 le fondateur, veille concurrentielle faite, backlog remodelé, démonstration hors médical livrée
 et vérifiée, puis **8 chantiers du backlog remodelé livrés en autonomie continue** — composite
 rules `istqb-design` #45, audit `visual-check` #40, correctif `structural_score.py` #31,
@@ -321,6 +353,16 @@ Security Advisories ; GitHub Projects.
 ```
 Reprends le projet QAIA (plateforme QA agentic open source, plugins Claude Code).
 Lis d'abord docs/STATUS.md, docs/DECISIONS.md et docs/KANBAN.md pour le contexte complet.
+
+**Sprint 23 (D104, 2026-07-28) TERMINÉ** depuis la dernière reprise ci-dessous : un second audit
+externe (Gemini) a été reçu et recoupé contre un audit indépendant Claude 3-personas — voir
+`eval/baselines/audit-report-gemini-2026-07-28.md` et
+`eval/baselines/audit-report-claude-3persona-2026-07-28.md`. Livré le jour même : JSON Schema
+formel du contrat de sortie (`docs/schemas/output-contract-v1.schema.json` +
+`eval/tools/validate_manifest.py`), qui a trouvé et corrigé un vrai bug de dérive en cours de
+construction. 1 nouvelle issue [#58](https://github.com/Opaland/QAIA/issues/58) (adapters
+multi-LLM). **Priorité confirmée inchangée : #51** (benchmark QAIA vs prompt direct), toujours
+la plus haute valeur du backlog agent-faisable selon les deux audits externes.
 
 État (2026-07-26) : QUATRE plugins validés --strict — qaia-core 0.2.17 (15 skills, budget
 token intégralement mesuré, palette de techniques élargie CTFL+Test Analyst+CT-AI), qaia-playwright
