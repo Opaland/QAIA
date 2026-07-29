@@ -51,6 +51,7 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
     { "kind": "feature",   "format": "gherkin",  "path": "testbooks/US-001/booking.feature" },
     { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-001/synthesis.md" },
     { "kind": "matrix",    "format": "markdown", "path": "testbooks/US-001/coverage-matrix.md" },
+    { "kind": "validation","format": "markdown", "path": "reports/US-001/testbook-validate-report.md" },
     { "kind": "execution", "format": "junit",    "path": "reports/US-001/junit.xml" }
   ],
 

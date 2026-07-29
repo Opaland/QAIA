@@ -89,6 +89,16 @@ plus #58 : #49-#58 toutes closes).
 
 ---
 
+## Sprint 27 — Campagne de validation multi-métier à l'aveugle (2026-07-29, D117) ✅ TERMINÉ
+
+| Livré | Preuve |
+|---|---|
+| **3 US neuves multi-métier (fintech/civic-tech/éducation) dérivées d'oracles réels** (`apache/fineract`, `ushahidi/platform`, `moodle/moodle`), parcours complet (11 étapes) exécuté à l'aveugle dans 3 worktrees isolés, jamais contaminé par l'oracle | `eval/gold-set/US-005/006/007-*.md`, `eval/gold-set/oracle-2026-07-29/` |
+| **Rappel comparé à l'oracle : 0 règle métier du cœur manquée** sur les 3 tickets — détail scénario-par-scénario, 1 écart honnête signalé (pas corrigé en douce) sur une nuance d'AC5/US-007 | `eval/baselines/pilot-campaign-2026-07-29.md` |
+| **Dogfooding réel des outils `mcp-bridge` (D116)** sur 13 `.feature` + 3 manifestes — 3 défauts réels trouvés et corrigés (faux positif `"XXX"`/ISO 4217 sur le détecteur de marqueurs, `TECHNIQUE_TAGS` obsolète depuis D109, `kind` manquant + `gate: null` non conforme au schéma) | D117, `eval/tools/structural_score.py`, `eval/tools/validate_manifest.py`, `docs/schemas/output-contract-v1.schema.json` |
+
+---
+
 ## Sprint 22 — Audit externe multi-persona, correction et suivi (2026-07-26, D99-D103) ✅ TERMINÉ
 
 Demande fondateur : lancer un audit externe (cabinet fictif, personas ISTQB + hors périmètre,

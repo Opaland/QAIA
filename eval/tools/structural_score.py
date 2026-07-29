@@ -24,10 +24,23 @@ Usage: python3 structural_score.py <file.feature> [--acs AC1,AC2,...] [--source 
 """
 import re, sys, os, json, glob
 
-TECHNIQUE_TAGS = {"@ep", "@boundary", "@decision-table", "@state-transition", "@use-case", "@pairwise", "@error-guessing"}
+# Kept in sync with istqb-design/SKILL.md's technique palette (D109 reorganization) -- stale
+# vs. that palette caused false "wrong tag count" findings on legitimate @crud/@metamorphic/
+# @domain-analysis/@ai-feature scenarios, independently caught by two pilot runs (2026-07-29).
+# @use-case is D109's pre-rename name for "Scenario-Based Testing", kept for older generated
+# content that predates the rename.
+TECHNIQUE_TAGS = {"@ep", "@boundary", "@decision-table", "@state-transition", "@use-case",
+                   "@pairwise", "@error-guessing", "@crud", "@metamorphic", "@domain-analysis",
+                   "@ai-feature"}
 PRIORITY_TAGS = {"@p1", "@p2", "@p3"}
 
 MARKER_RE = re.compile(r"\[\s*(?:À|A)\s*D[EÉ]FINIR[^\]]*\]|\bTODO\b|\bFIXME\b|<\s*placeholder\s*>|\bXXX\b|\bTBD\b", re.I)
+# XXX/TBD are also legitimate literal test data (e.g. ISO 4217's reserved "no currency" code is
+# literally "XXX") -- found by running the scorer on a real generated .feature (2026-07-29 pilot
+# campaign), not a hand-built fixture. A quoted occurrence is business data, not an unresolved
+# placeholder, so it's stripped before marker detection; TODO/FIXME/placeholder/DEFINIR have no
+# such legitimate quoted use and are always flagged.
+QUOTED_XXX_TBD_RE = re.compile(r'"\s*(?:XXX|TBD)\s*"', re.I)
 # a Then that defers to an external artifact as its sole evidence is hollow (C1 of case 676266).
 # Requires a referential/deference cue immediately before the artifact noun (#24 gap-harness
 # fix: the naive "contains the word image/table" version false-positived on legitimate business
@@ -138,7 +151,7 @@ def score_feature(path, declared_acs=None, source_text=None):
     n = len(scen) or 1
 
     # --- detectors ---
-    markers = MARKER_RE.findall(text)
+    markers = MARKER_RE.findall(QUOTED_XXX_TBD_RE.sub('""', text))
     truncated = [s["name"] for s in scen if any(t.endswith(("…", "...", ",", "-")) or (len(t.split()) < 2) for _, t in s["steps"] if t)]
     empty_then = [s["name"] for s in scen if not s["then"]]
     hollow = [s["name"] for s in scen if s["then"] and all(HOLLOW_RE.search(t) for t in s["then"])]

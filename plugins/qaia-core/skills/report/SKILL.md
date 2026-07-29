@@ -36,7 +36,9 @@ guessed counts.
 3. **Merge, don't clobber** (contract rule 2). If `manifest.json` already exists, load it,
    replace only the `design` section and `openArbitrations`, append this skill to
    `producers[]`, and add any new `artifacts[]` entries — leaving `execution`, `gate`, and a
-   human-set `status` untouched.
+   human-set `status` untouched. On a first-ever write, **omit `gate` entirely** (not
+   `null`) — the schema treats its absence as "not yet scored"; only `qaia-score` ever writes
+   this key (contract rule: no producer self-scores).
 4. **Fill `openArbitrations`** from every still-pending `⚠ VALIDATION` point: `[open]`
    questions, `simulated` defaults, waivers awaiting confirmation — each with its
    `sourceCheckpoint`. A non-interactive run surfaces all its `simulated` entries here.

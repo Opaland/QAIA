@@ -21,7 +21,7 @@ ISO_DATETIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+
 
 TOP_REQUIRED = ["contract", "usId", "title", "status", "generatedAt", "base", "producers", "artifacts"]
 STATUS_ENUM = {"draft", "review", "validated"}
-ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export"}
+ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export", "validation"}
 ARBITRATION_KIND_ENUM = {"open", "assumption", "simulated"}
 GATE_VERDICT_ENUM = {"PASS", "CONCERNS", "FAIL", "WAIVED"}
 

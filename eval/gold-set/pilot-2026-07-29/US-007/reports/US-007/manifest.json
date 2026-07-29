@@ -62,7 +62,5 @@
       "sourceCheckpoint": "state/US-007/04-priorities.md" },
     { "id": "book-review", "kind": "simulated", "about": "generated test book (31 scenarios) presented and accepted as-is, non-interactive run",
       "sourceCheckpoint": "testbooks/US-007/synthesis.md" }
-  ],
-
-  "gate": null
+  ]
 }
