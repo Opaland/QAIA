@@ -1,0 +1,34 @@
+ID,Title,AC,Condition,Technique,Priority,Negative,Confidence,File
+QAIA-US-007-001,Manager adds a payment-required method with valid fee and currency,AC1,AC1-C1,ep,P3,No,full,fee-enrolment-configuration.feature
+QAIA-US-007-002,Manager cannot set a fee amount of zero,AC1,AC1-C2,boundary,P1,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-003,Manager cannot set a negative fee amount,AC1,AC1-C3,boundary,P1,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-004,Manager cannot set an invalid currency code,AC1,AC1-C4,ep/oracle:iso4217,P1,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-005-e1,Fee amount precision (JPY 500 accepted),AC1,AC1-C5,oracle:iso4217/boundary,P2,No,full,fee-enrolment-configuration.feature
+QAIA-US-007-005-e2,Fee amount precision (JPY 500.50 rejected),AC1,AC1-C5,oracle:iso4217/boundary,P2,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-005-e3,Fee amount precision (EUR 49.99 accepted),AC1,AC1-C5,oracle:iso4217/boundary,P2,No,full,fee-enrolment-configuration.feature
+QAIA-US-007-006,Manager cannot add the method without selecting a payment account,AC1,AC1-C6,ep,P2,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-007,Manager adds a second independent payment-required method,AC1,AC1-C7,crud,P3,No,low-confidence (Q4),fee-enrolment-configuration.feature
+QAIA-US-007-008,A non-manager cannot configure a payment-required enrolment method,AC1,AC1-C8,decision-table,P1,Yes,full,fee-enrolment-configuration.feature
+QAIA-US-007-009,Manager updates the fee amount of an existing method,AC1,AC1-C9,crud,P3,No,low-confidence,fee-enrolment-configuration.feature
+QAIA-US-007-010,Manager removes the payment-required method,AC1,AC1-C10,crud,P2,No,low-confidence,fee-enrolment-configuration.feature
+QAIA-US-007-011,A logged-in not-yet-enrolled student sees the fee prompt before any content,AC2,AC2-C1,ep,P1,No,full,fee-prompt-visibility.feature
+QAIA-US-007-012,The displayed fee amount matches the configured amount exactly,AC2,AC2-C2,ep,P3,No,full,fee-prompt-visibility.feature
+QAIA-US-007-013,An already-enrolled student sees course content directly,AC2,AC2-C3,state-transition,P3,No,full,fee-prompt-visibility.feature
+QAIA-US-007-014,A not-yet-enrolled student cannot reach content by a direct request,AC2,AC2-C4,error-guessing,P1,Yes,full,fee-prompt-visibility.feature
+QAIA-US-007-015,An anonymous guest sees the same fee-required messaging,AC4,AC4-C1,ep,P3,No,full,fee-prompt-visibility.feature
+QAIA-US-007-016,A guest is prompted to log in and never shown payment method selection,AC4,AC4-C2,decision-table,P1,Yes,full,fee-prompt-visibility.feature
+QAIA-US-007-017,An unauthenticated direct request to the payment action is rejected server-side,AC4,AC4-C3,error-guessing,P1,Yes,full,fee-prompt-visibility.feature
+QAIA-US-007-018,A guest resumes the fee prompt after logging in,AC4,AC4-C4,ep,P3,No,low-confidence (Q6),fee-prompt-visibility.feature
+QAIA-US-007-019,Student selects an enabled payment method and proceeds,AC3,AC3-C1,ep,P3,No,full,payment-flow.feature
+QAIA-US-007-020,Only methods enabled on the account are offered,AC3,AC3-C2,ep,P2,No,full,payment-flow.feature
+QAIA-US-007-021,Student cancels the payment flow,AC3,AC3-C3,state-transition,P2,Yes,full,payment-flow.feature
+QAIA-US-007-022,A declined payment does not enrol or charge the student,AC3,AC3-C4,state-transition,P1,Yes,low-confidence (Q2),payment-flow.feature
+QAIA-US-007-023,Student cancels and retries the payment prompt more than once,AC3,AC3-C5,state-transition,P3,No,full,payment-flow.feature
+QAIA-US-007-024,No payment method is enabled on the configured account,AC3,AC3-C6,error-guessing,P1,Yes,low-confidence (Q9),payment-flow.feature
+QAIA-US-007-025,A successful payment enrols and charges the student exactly the configured fee,AC3,AC3-C7,ep,P1,No,full,payment-flow.feature
+QAIA-US-007-026,Manager sets a custom display name and description,AC5,AC5-C1,ep,P3,No,full,enrolment-method-naming.feature
+QAIA-US-007-027,A logged-in student sees only the custom name never the default,AC5,AC5-C2,decision-table,P2,No,full,enrolment-method-naming.feature
+QAIA-US-007-028,An anonymous guest sees only the custom name never the default,AC5,AC5-C3,decision-table,P2,No,full,enrolment-method-naming.feature
+QAIA-US-007-029,The manager's management view still shows the method's default origin,AC5,AC5-C4,decision-table,P3,No,full,enrolment-method-naming.feature
+QAIA-US-007-030,Renaming the method is immediately reflected in all subsequent views,AC5,AC5-C5,state-transition,P2,No,low-confidence (Q7),enrolment-method-naming.feature
+QAIA-US-007-031,End-to-end paid enrolment journey (smoke),AC1/AC2/AC3/AC4,journey,use-case,-,No,full,payment-flow.feature

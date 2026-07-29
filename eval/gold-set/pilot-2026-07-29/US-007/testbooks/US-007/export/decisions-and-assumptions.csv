@@ -1,0 +1,14 @@
+ID,Type,Statement,SourceCheckpoint
+Q1,assumption,Fee amount must be strictly greater than zero; reject 0 and negative amounts,state/US-007/02-understanding.md
+Q2,assumption,A failed/declined payment leaves the student not enrolled and not charged; retry allowed,state/US-007/02-understanding.md
+Q3,open,Whether cancelling/failing a payment leaves a visible pending/abandoned-attempt trace for the manager,state/US-007/02-understanding.md
+Q4,assumption,A course may have more than one independent payment-required enrolment method,state/US-007/02-understanding.md
+Q5,answered,An already-enrolled student does not see the fee prompt (AC2's own wording),state/US-007/02-understanding.md
+Q6,assumption,A guest resumes the fee prompt for the same course after logging in,state/US-007/02-understanding.md
+Q7,assumption,A renamed enrolment method's display name is a live property applied to all future views,state/US-007/02-understanding.md
+Q8,answered,AC5's custom-name-only rule also applies to the AC4 guest-facing prompt (triple-AC read of AC4 x AC5),state/US-007/02-understanding.md
+Q9,assumption,Zero enabled payment methods on the account yields a fail-closed no-payment-option state (exact message low-confidence),state/US-007/02-understanding.md
+Q10,out-of-slice,Payment-account/gateway configuration is defined by a sibling story, not this ingested slice,state/US-007/02-understanding.md
+US-ID,simulated,US-ID US-007 confirmed non-interactively,state/US-007/00-source.md
+book-review,simulated,Generated test book (31 scenarios) presented and accepted as-is non-interactively,testbooks/US-007/synthesis.md
+priority-table,simulated,All impact/probability/priority scores accepted as proposed with no human override,state/US-007/04-priorities.md
