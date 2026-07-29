@@ -1,0 +1,17 @@
+ID,Type,Statement,SourceCheckpoint
+Q1,open,"Explicit refusal vs list-exclusion for a restricted post view (AC2) -- both sides generated as @low-confidence",state/US-006/02-understanding.md
+Q2,assumption,"Post-level visibility gates before field-level locks apply",state/US-006/02-understanding.md
+Q3,gap,"Field-lock configuration mechanism (per-post vs per-schema) not described -- config-driven family, not fabricated",state/US-006/02-understanding.md
+Q4,assumption,"Post owner sees own author-identity fields on their own post",state/US-006/02-understanding.md
+Q5,assumption,"Private mode overrides anonymous post-creation allowance from AC2",state/US-006/02-understanding.md
+Q6,assumption,"Manager cannot delete media owned by another user (default-deny, destructive action)",state/US-006/02-understanding.md
+Q7,assumption,"Admin can delete any media regardless of ownership (AC1 full access)",state/US-006/02-understanding.md
+Q8,assumption,"Unnamed non-public status treated as one generic not-published partition",state/US-006/02-understanding.md
+Q9,open,"Whether registration-disabled also blocks an admin's direct account creation (AC5)",state/US-006/02-understanding.md
+Q10,assumption,"Private mode restricts anonymous users only, other roles unaffected",state/US-006/02-understanding.md
+scope-P3-waiver,waiver,"AC2-C1, AC2-C7, AC6-C1 scored P3 and waived from default P1+P2 generation scope",state/US-006/04-priorities.md
+simulated-00-ingest,simulated,"US-ID and captured-source confirmations accepted non-interactively",state/US-006/00-source.md
+simulated-01-review,simulated,"Extraction confirmation accepted non-interactively",state/US-006/01-extraction.md
+simulated-03-design,simulated,"AC-to-technique map and condition list accepted non-interactively",state/US-006/03-design.md
+simulated-04-priorities,simulated,"Risk scores accepted non-interactively, no human override this pass",state/US-006/04-priorities.md
+simulated-05-generate,simulated,"P1+P2 generation scope and synthesis review accepted non-interactively",testbooks/US-006/synthesis.md
