@@ -1,0 +1,74 @@
+{
+  "contract": "1.0",
+  "usId": "US-005",
+  "title": "Loan repayment and refund servicing",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/gold-set/pilot-2026-07-29/US-005",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "rag-build", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "oracle-generate", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "report", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-export", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-validate", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "feedback", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/disbursement.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/repayment.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/repayment-reversal.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/nsf-fee.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/refund.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/net-effect-invariant.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/authorization.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-005/journey.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-005/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/US-005/coverage-matrix.md" },
+    { "kind": "export", "format": "markdown", "path": "testbooks/US-005/export/synthesis-export.md" },
+    { "kind": "export", "format": "csv", "path": "testbooks/US-005/export/scenarios.csv" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 36, "byPriority": { "P1": 20, "P2": 11, "P3": 4 },
+                   "negative": 15, "smoke": 1, "outlines": 0 },
+    "coverage": { "acTotal": 6, "acCovered": 6,
+                  "reqNegTotal": 15, "reqNegCovered": 15,
+                  "negativeRatio": 0.429 },
+    "confidence": { "lowConfidence": 14, "openQuestions": 7, "assumptions": 2, "simulated": 1 },
+    "techniques": ["ep", "boundary", "state-transition", "decision-table", "error-guessing",
+                   "domain-analysis", "metamorphic", "pairwise", "use-case"],
+    "oracles": [],
+    "knowledgeApplied": ["BR-KB-001"]
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "open", "about": "repayment exceeding the outstanding balance (overpayment) (AC2)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q3", "kind": "open", "about": "whether a reversed repayment can later be reinstated (AC3) -- not generated as a scenario, no safe default",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q5", "kind": "open", "about": "whether a failed repayment's own reduction stays counted once an NSF fee is applied (AC4xAC2xAC6)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q6", "kind": "open", "about": "what determines the NSF fee amount (AC4) -- no literal asserted",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q7", "kind": "open", "about": "whether an NSF fee can itself be reversed (AC4xAC6) -- not generated as a scenario, no safe default",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q8", "kind": "open", "about": "whether the refund prerequisite survives a later reversal of its qualifying repayment (AC5xAC3)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q9", "kind": "open", "about": "upper bound on refund amount relative to net repayments received (AC5)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "a tranche may be disbursed after servicing activity has started (AC1)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "Q10", "kind": "assumption", "about": "non-staff/unauthenticated actors are denied on reversal, fee and refund actions (AC3, AC4, AC5)",
+      "sourceCheckpoint": "state/US-005/02-understanding.md" },
+    { "id": "scope-decision", "kind": "simulated", "about": "full P1+P2+P3 book generated instead of the P1+P2 default, to give the pilot complete coverage for comparison",
+      "sourceCheckpoint": "state/US-005/04-priorities.md" }
+  ]
+}

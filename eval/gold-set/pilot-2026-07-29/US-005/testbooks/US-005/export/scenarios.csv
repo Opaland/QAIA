@@ -1,0 +1,37 @@
+id,title,ac,condition,technique,priority,negative,confidence,file
+QAIA-US-005-001,A single-tranche disbursement sets the outstanding balance to the tranche amount,AC1,AC1-C1,ep,P2,no,full,disbursement.feature
+QAIA-US-005-002,A second tranche adds to the balance already established by the first,AC1,AC1-C2,ep,P1,no,full,disbursement.feature
+QAIA-US-005-003,A third tranche continues the cumulative summation with no assumed count cap,AC1,AC1-C3,ep,P2,no,low-confidence,disbursement.feature
+QAIA-US-005-004,A zero-amount tranche is refused,AC1,AC1-C4,boundary,P1,yes,low-confidence,disbursement.feature
+QAIA-US-005-005,A negative-amount tranche is refused,AC1,AC1-C5,boundary,P1,yes,low-confidence,disbursement.feature
+QAIA-US-005-006,An additional tranche disbursed after a repayment has already reduced the balance,AC1,AC1-C6,error-guessing,P1,no,low-confidence,disbursement.feature
+QAIA-US-005-007,A partial repayment reduces the balance and leaves the loan active,AC2,AC2-C1,ep,P3,no,full,repayment.feature
+QAIA-US-005-008,A repayment equal to the outstanding balance brings it to exactly zero,AC2,AC2-C2,boundary,P1,no,full,repayment.feature
+QAIA-US-005-009,A repayment one cent under the outstanding balance leaves the loan active,AC2,AC2-C3,boundary,P2,no,full,repayment.feature
+QAIA-US-005-010,A repayment exceeding the outstanding balance is refused,AC2,AC2-C4,boundary,P1,yes,low-confidence,repayment.feature
+QAIA-US-005-011,A repayment attempted on an already fully repaid loan is refused,AC2,AC2-C5,state-transition,P1,yes,low-confidence,repayment.feature
+QAIA-US-005-012,Two repayments in sequence produce the cumulative reduction of both,AC2,AC2-C6,ep,P3,no,full,repayment.feature
+QAIA-US-005-013,Reversing a repayment restores the balance to its value immediately before it,AC3,AC3-C1,state-transition,P2,no,full,repayment-reversal.feature
+QAIA-US-005-014,Reversing the repayment that fully repaid a loan reopens it,AC3,AC3-C2,state-transition,P1,no,full,repayment-reversal.feature
+QAIA-US-005-015,Reversing the same repayment a second time is refused,AC3,AC3-C3,error-guessing,P2,yes,full,repayment-reversal.feature
+QAIA-US-005-016,Reversing a repayment that does not exist on the loan is refused,AC3,AC3-C4,error-guessing,P2,yes,full,repayment-reversal.feature
+QAIA-US-005-017,Reversing an earlier repayment leaves other still-active transactions unaffected,AC3,AC3-C6,state-transition,P1,no,full,repayment-reversal.feature
+QAIA-US-005-018,Staff applies an NSF fee to a repayment that failed after being recorded,AC4,AC4-C1,decision-table,P3,no,full,nsf-fee.feature
+QAIA-US-005-019,Applying an NSF fee to a repayment that did not fail is refused,AC4,AC4-C2,decision-table,P2,yes,full,nsf-fee.feature
+QAIA-US-005-020,A second NSF fee on the same failed repayment is refused,AC4,AC4-C3,error-guessing,P1,yes,low-confidence,nsf-fee.feature
+QAIA-US-005-021,The failed repayment's own reduction stays applied when the fee is added,AC4,AC4-C4,decision-table,P1,no,low-confidence,nsf-fee.feature
+QAIA-US-005-022,The exact NSF fee amount is not asserted as a specific figure,AC4,AC4-C6,error-guessing,P1,no,low-confidence,nsf-fee.feature
+QAIA-US-005-023,A refund reduces the balance in addition to a prior repayment,AC5,AC5-C1,decision-table,P2,no,full,refund.feature
+QAIA-US-005-024,A refund against a loan with no repayments is refused,AC5,AC5-C2,decision-table,P2,yes,full,refund.feature
+QAIA-US-005-025,A refund exceeding the net repayments received is refused,AC5,AC5-C3,boundary,P1,yes,low-confidence,refund.feature
+QAIA-US-005-026,Reversing a refund restores the balance to its value immediately before it,AC5,AC5-C4,state-transition,P3,no,full,refund.feature
+QAIA-US-005-027,Reversing the same refund a second time is refused,AC5,AC5-C5,error-guessing,P2,yes,full,refund.feature
+QAIA-US-005-028,A refund is refused once its qualifying repayment has been reversed,AC5,AC5-C6,decision-table,P1,yes,low-confidence,refund.feature
+QAIA-US-005-029,Reversing a repayment then a refund yields the correct combined net effect,AC6,AC6-C1,domain-analysis,P1,no,full,net-effect-invariant.feature
+QAIA-US-005-030,Reversing the same repayment and refund in the opposite order yields the identical final balance,AC6,AC6-C2,metamorphic,P1,no,full,net-effect-invariant.feature
+QAIA-US-005-031,The balance reflects only the currently-active transactions among several interleaved ones,AC6,AC6-C3,pairwise,P1,no,full,net-effect-invariant.feature
+QAIA-US-005-032,Reversing one transaction does not alter an unrelated active transaction's own recorded amount,AC6,AC6-C4,domain-analysis,P2,no,full,net-effect-invariant.feature
+QAIA-US-005-033,A non-staff actor cannot reverse a repayment,AC3,AC3-C5,error-guessing,P1,yes,low-confidence,authorization.feature
+QAIA-US-005-034,A non-staff actor cannot apply an NSF fee,AC4,AC4-C5,error-guessing,P1,yes,low-confidence,authorization.feature
+QAIA-US-005-035,A non-staff actor cannot issue a refund,AC5,AC5-C7,error-guessing,P1,yes,low-confidence,authorization.feature
+QAIA-US-005-036,A loan moves through disbursement repayment an NSF fee and reversed transactions ending at the correct net balance,"AC1;AC2;AC3;AC4;AC5;AC6",journey,use-case,excluded-smoke,no,full,journey.feature
