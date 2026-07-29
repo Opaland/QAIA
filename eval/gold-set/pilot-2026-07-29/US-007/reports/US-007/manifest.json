@@ -1,0 +1,68 @@
+{
+  "contract": "1.0",
+  "usId": "US-007",
+  "title": "Paid course enrolment",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/gold-set/pilot-2026-07-29/US-007",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "rag-build", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "oracle-generate", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "report", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-export", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-007/fee-enrolment-configuration.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-007/fee-prompt-visibility.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-007/payment-flow.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/US-007/enrolment-method-naming.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-007/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/US-007/coverage-matrix.md" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/US-007/export/synthesis.md" },
+    { "kind": "matrix", "format": "csv", "path": "testbooks/US-007/export/scenarios.csv" },
+    { "kind": "matrix", "format": "csv", "path": "testbooks/US-007/export/coverage-matrix.csv" },
+    { "kind": "matrix", "format": "csv", "path": "testbooks/US-007/export/decisions-and-assumptions.csv" },
+    { "kind": "validation", "format": "markdown", "path": "reports/US-007/testbook-validate-report.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 31, "byPriority": { "P1": 11, "P2": 9, "P3": 10 },
+                   "negative": 11, "smoke": 1, "outlines": 1 },
+    "coverage": { "acTotal": 5, "acCovered": 5,
+                  "reqNegTotal": 11, "reqNegCovered": 11,
+                  "negativeRatio": 0.367 },
+    "confidence": { "lowConfidence": 7, "openQuestions": 2, "assumptions": 6, "simulated": 17 },
+    "techniques": ["ep", "boundary", "decision-table", "state-transition", "error-guessing", "crud", "use-case"],
+    "oracles": ["iso4217"],
+    "knowledgeApplied": ["BR-KB-001", "BR-KB-002", "BR-KB-003"]
+  },
+
+  "openArbitrations": [
+    { "id": "Q3", "kind": "open", "about": "does cancelling/failing a payment leave a visible trace for the manager",
+      "sourceCheckpoint": "state/US-007/02-understanding.md" },
+    { "id": "Q10", "kind": "open", "about": "payment-account/gateway configuration is out-of-slice (sibling story)",
+      "sourceCheckpoint": "state/US-007/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-ID US-007 confirmed non-interactively",
+      "sourceCheckpoint": "state/US-007/00-source.md" },
+    { "id": "Q1-Q9-map", "kind": "simulated", "about": "all 10 need-understanding questions accepted as proposed (assumption/answered/open defaults) without human review",
+      "sourceCheckpoint": "state/US-007/02-understanding.md" },
+    { "id": "oracle-iso4217", "kind": "simulated", "about": "ISO 4217 oracle-derived currency conditions accepted as proposed",
+      "sourceCheckpoint": "state/US-007/03-design.md" },
+    { "id": "design-map", "kind": "simulated", "about": "AC to technique map and condition list approved as proposed",
+      "sourceCheckpoint": "state/US-007/03-design.md" },
+    { "id": "priority-table", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-007/04-priorities.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (31 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/US-007/synthesis.md" }
+  ],
+
+  "gate": null
+}

@@ -1,0 +1,32 @@
+AC,Condition,ScenarioID,Priority,Rationale,Confidence
+AC1,AC1-C1,001,P3,Straightforward happy-path config; low complexity,full
+AC1,AC1-C2,002,P1,Zero-fee bypasses the paid-content guarantee if unenforced,full
+AC1,AC1-C3,003,P1,Negative fee is the same guarantee mirrored boundary,full
+AC1,AC1-C4,004,P1,Invalid currency reaching billing is a financial-correctness risk,full
+AC1,AC1-C5,005,P2,Rounding is a real but narrower correctness risk,full
+AC1,AC1-C6,006,P2,Required-field validation simple to implement correctly,full
+AC1,AC1-C7,007,P3,No stated cardinality limit; low consequence,low-confidence (Q4)
+AC1,AC1-C8,008,P1,Authorization gap on a money-configuring action is high-severity,full
+AC1,AC1-C9,009,P3,Edit mechanism unspecified; low blast radius,low-confidence
+AC1,AC1-C10,010,P2,Removal affecting paying students has moderate consequence,low-confidence
+AC2,AC2-C1,011,P1,Core content-gating guarantee -- the headline risk,full
+AC2,AC2-C2,012,P3,Display bug is real but lower severity than a full leak,full
+AC2,AC2-C3,013,P3,Answered from AC2's own wording; simple state check,full
+AC2,AC2-C4,014,P1,Server-side bypass of a paid-content gate -- highest severity,full
+AC3,AC3-C1,019,P3,Simple selection UI over a given list,full
+AC3,AC3-C2,020,P2,Filtering correctness contained risk,full
+AC3,AC3-C3,021,P2,Explicit AC guarantee; cancel logic usually simple,full
+AC3,AC3-C4,022,P1,Worst-case trust failure if mis-handled,low-confidence (Q2)
+AC3,AC3-C5,023,P3,Re-entrance of an already-covered path; low incremental risk,full
+AC3,AC3-C6,024,P1,Degenerate misconfiguration higher probability of a miss,low-confidence (Q9)
+AC3,AC3-C7,025,P1,Core paid conversion path,full
+AC4,AC4-C1,015,P3,Mirrors AC2-C1 with lower marginal complexity,full
+AC4,AC4-C2,016,P1,Explicit AC guarantee security-relevant,full
+AC4,AC4-C3,017,P1,Same bypass severity as AC2-C4 highest risk class,full
+AC4,AC4-C4,018,P3,UX continuity; no security/money consequence if imperfect,low-confidence (Q6)
+AC5,AC5-C1,026,P3,Simple config acceptance,full
+AC5,AC5-C2,027,P2,Confidentiality-of-branding concern not payment-safety,full
+AC5,AC5-C3,028,P2,Same as AC5-C2 extended to guest view,full
+AC5,AC5-C4,029,P3,Manager-only cosmetic distinction,full
+AC5,AC5-C5,030,P2,Stale name after rename is moderate non-blocking,low-confidence (Q7)
+journey,end-to-end AC1-AC4,031,-,Use-case technique; excluded from priority/atomicity/negative-ratio accounting,full
