@@ -17,6 +17,9 @@ Vetted catalog of public apps and GitHub lists to exercise QAIA on real software
 | OWASP Juice Shop | ✅ Docker | ✅ | ✅ | responsive | ✅✅ (only one allowing pentest) | self-host | ⚠ | ⚠ |
 | SauceDemo | ❌ | ✅ | ❌ | +native demo app | ❌ | ❌ | ⚠ | ✅ |
 | the-internet | ✅ Docker | ✅✅ edge cases | ❌ | ❌ | ❌ | ❌ | ⚠ | ⚠ |
+| DemoBlaze | ❌ | ✅ e-commerce | ⚠ undocumented | ❌ | ❌ | demo forbids | ⚠ | ⚠ |
+| OctoPerf Pet Store | ❌ | ✅ (JPetStore-style) | ❌ | ❌ | ❌ | demo forbids — self-host a JPetStore clone for a real k6 run | ❌ | ❌ |
+| Deque Broken Workshop | ❌ | ✅ (intentionally broken) | ❌ | ❌ | ❌ | ❌ | ✅✅ purpose-built (also see W3C Before-After Demo) | ❌ |
 
 Native mobile: SauceLabs **My Demo App** (React Native, OSS) is the go-to real-native target (needs Appium — out of QAIA v1 scope, D100).
 

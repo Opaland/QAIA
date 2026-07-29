@@ -269,6 +269,13 @@ def score_feature(path, declared_acs=None, source_text=None):
     }
 
 def main():
+    # Findings text uses non-ASCII characters (e.g. the "->" arrow); on Windows, stdout defaults
+    # to the console's legacy codepage (cp1252) rather than UTF-8, crashing on print() -- found by
+    # actually running this script on Windows (2026-07-29 skill-eval campaign), not by inspection.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try: stream.reconfigure(encoding="utf-8")
+            except Exception: pass
     args = sys.argv[1:]
     if not args: print(__doc__); sys.exit(1)
     if args[0] == "--batch":

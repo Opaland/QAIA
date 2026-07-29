@@ -95,9 +95,10 @@ exclusions). Session-based/exploratory testing scope is tracked separately (#55)
    - if a sub-clause genuinely cannot be exercised independently of another (its only observable effect is inside a combined scenario), it may share a condition with that other sub-clause — but say so explicitly ("sub-clauses X and Y are not independently observable, tested together") rather than defaulting to it. Don't inflate the count by fabricating a condition for a sub-fact with no observable behavior of its own, and don't deflate it by folding testable sub-facts together for convenience — honest recall over fabricated recall (D38) cuts both ways here.
    Record the applied rule IDs so `report` can populate `design.knowledgeApplied`. Knowledge base absent → record "knowledge base absent" and proceed on the source alone (do not invent its content — that would be the fabrication 3c forbids).
 4. ⚠ VALIDATION: present the AC → technique map with justifications; the user amends or approves.
-5. **Checkpoint.** Write `03-design.md`: the approved map + derived test conditions, each condition numbered (`AC2-C3`), with the applied `BR-KB-nnn` rule IDs listed. Update `journey.md`. Next step: `prioritize`.
+5. **Checkpoint.** Write `03-design.md`: the approved map + derived test conditions, each condition numbered (`AC2-C3`), with the applied `BR-KB-nnn` rule IDs listed. **Each of sub-steps 3b/3c/3d must appear in the checkpoint with its outcome** — applied (with what it derived), or explicitly waived ("pattern X of 3c not triggered by this US: reason") — never silently absent. Update `journey.md`. Next step: `prioritize`.
 
 ## Guardrails
 
 - Every technique choice must cite its justification — an unjustified technique is a rubric defect (dim. 4).
+- **A sub-step of 3c with no mention at all in `03-design.md` is a defect, not a non-event** — found by running this skill on a real auth/login US (2026-07-29 skill-eval campaign): 3b and 3d were both explicitly recorded as correctly not applicable, but 3c's own most directly-triggered pattern ("account & auth features → include the recovery path") was skipped without a trace, on the one US type it names by example.
 - Conditions marked on `[open]` ambiguities inherit an `[open]` flag — they will surface in the confidence report rather than silently asserting behavior.

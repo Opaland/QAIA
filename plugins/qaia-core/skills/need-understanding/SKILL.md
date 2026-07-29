@@ -40,9 +40,10 @@ Follow the shared contract in `../README.md`. Prerequisite: `01-extraction.md` (
    - **`[open]`** — no answer and the point is a genuine product decision (safety, money, compliance, user-visible policy) where any default would be a guess → stays open, caps confidence of affected scenarios.
    Record which of the three applies for every question; two skills executors must classify identically.
 7. **Knowledge capture.** If an answer states a reusable business rule, offer to add it to `knowledge/` via `rag-build` (do not write knowledge files yourself).
-8. **Checkpoint.** Write `02-understanding.md`: reformulation, complete Q&A log with status (`answered` / `assumption` / `open`). Update `journey.md`. Next step: `istqb-design`.
+8. **Checkpoint.** Write `02-understanding.md`: reformulation, complete Q&A log with status (`answered` / `assumption` / `open`), **plus an explicit `## Adversarial pass (by AC type)` section and an explicit `## Triple-AC contradiction pass` section** — each stating either its findings or "not applicable, no matching pattern in this US" with a one-line reason. Update `journey.md`. Next step: `istqb-design`.
 
 ## Guardrails
 
 - Never silently resolve an ambiguity — that is the defect the rubric punishes hardest (dim. 5-6).
+- **Omitting the required trace of step 3 or step 4a from `02-understanding.md` is the same defect as silently resolving an ambiguity** — a mandatory pass that leaves no evidence it ran is indistinguishable from a skipped one (found by running this skill for real, 2026-07-29 skill-eval campaign: both passes were implicitly touched on inside a question's justification text but never surfaced as their own checkable section).
 - Bound the interrogation: maximum ~10 questions per pass, highest impact first; offer a second pass rather than overwhelming the user.

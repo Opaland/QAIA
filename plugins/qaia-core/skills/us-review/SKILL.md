@@ -10,7 +10,7 @@ Follow the shared contract in `../README.md`. Prerequisite: `00-source.md` (else
 ## Steps
 
 1. **Structure the capture.** From `00-source.md`, produce a structured extraction:
-   - Story (As a / I want / So that — or "not expressed in the source")
+   - Story (As a / I want / So that, quoted or faithfully paraphrased if present; if absent but a real capability is described, **reconstruct it and mark it `[reconstructed]`**; otherwise "not expressed in the source" — found by running this skill on a real capture with no story phrasing, 2026-07-29 skill-eval campaign: reconstructing without this explicit license is an undocumented deviation even when self-disclosed)
    - Numbered acceptance criteria, quoted or faithfully paraphrased
    - Business rules and constraints found outside the AC list
    - Referenced artifacts not analyzed (attachments, mockups, links)

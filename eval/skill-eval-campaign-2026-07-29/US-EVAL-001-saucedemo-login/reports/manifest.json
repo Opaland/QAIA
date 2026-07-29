@@ -1,0 +1,50 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-001",
+  "title": "SauceDemo login gate",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/login-gate.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 6, "byPriority": { "P1": 4, "P2": 2, "P3": 0 },
+                   "negative": 5, "smoke": 0, "outlines": 1 },
+    "coverage": { "acTotal": 3, "acCovered": 3,
+                  "reqNegTotal": 5, "reqNegCovered": 5,
+                  "negativeRatio": 0.833 },
+    "confidence": { "lowConfidence": 2, "openQuestions": 1, "assumptions": 2, "simulated": 3 },
+    "techniques": ["ep", "decision-table"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "invalid-credentials refusal is generic/non-enumerating, exact wording not asserted",
+      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "empty-field submission folded into the generic refusal path",
+      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
+    { "id": "Q3", "kind": "open", "about": "does a locked account with a wrong password show the locked-out message or the generic one -- proposed default only, unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-001 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-001/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (6 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-001/04-priorities.md" }
+  ]
+}
