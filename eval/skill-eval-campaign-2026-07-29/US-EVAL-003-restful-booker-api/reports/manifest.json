@@ -1,0 +1,54 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-003",
+  "title": "Restful-Booker-Platform booking creation (POST /booking/)",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-003-restful-booker-api",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/booking-create.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 9, "byPriority": { "P1": 5, "P2": 4, "P3": 0 },
+                   "negative": 7, "smoke": 0, "outlines": 1 },
+    "coverage": { "acTotal": 5, "acCovered": 4,
+                  "reqNegTotal": 16, "reqNegCovered": 11,
+                  "negativeRatio": 0.778 },
+    "confidence": { "lowConfidence": 2, "openQuestions": 0, "assumptions": 3, "simulated": 5 },
+    "techniques": ["ep", "boundary", "decision-table"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "booking service does not validate that roomid refers to a real room (no cross-service check in source)",
+      "sourceCheckpoint": "state/US-EVAL-003/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "exact validation-error message text for roomid/depositpaid not asserted verbatim (no message= literal in source)",
+      "sourceCheckpoint": "state/US-EVAL-003/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "field-shape violation (400) wins over invalid date range (409) when both apply -- inferred from standard Spring @Valid semantics, not literally in source",
+      "sourceCheckpoint": "state/US-EVAL-003/02-understanding.md" },
+    { "id": "P3-scope", "kind": "simulated", "about": "11 P3 conditions (5 of them req-neg) deferred by default P1+P2 scope, not generated this run -- human call per prioritize step 4",
+      "sourceCheckpoint": "state/US-EVAL-003/04-priorities.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-003 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-003/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (9 scenario blocks) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-003/04-priorities.md" },
+    { "id": "extraction", "kind": "simulated", "about": "AC1..AC5 extraction accepted as-is, non-interactive run",
+      "sourceCheckpoint": "state/US-EVAL-003/01-extraction.md" }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-002",
+  "title": "Toolshop cart & checkout",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-002-toolshop-checkout",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.18", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/toolshop-checkout.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 11, "byPriority": { "P1": 5, "P2": 6, "P3": 0 },
+                   "negative": 7, "smoke": 0, "outlines": 2 },
+    "coverage": { "acTotal": 4, "acCovered": 4,
+                  "reqNegTotal": 7, "reqNegCovered": 7,
+                  "negativeRatio": 0.636 },
+    "confidence": { "lowConfidence": 3, "openQuestions": 2, "assumptions": 5, "simulated": 4 },
+    "techniques": ["ep", "boundary", "decision-table", "state-transition"],
+    "oracles": ["rfc5322"],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "checkout against an empty cart is refused",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "an unrecognized product_id on add-to-cart is refused",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "a zero/negative quantity on add-to-cart is refused, exact floor unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q4", "kind": "assumption", "about": "a missing required guest field on guest checkout is refused",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q5", "kind": "open", "about": "the initial status of a newly created invoice -- proposed default AWAITING_FULFILLMENT only, unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q6", "kind": "open", "about": "checkout against a cart owned by another customer -- proposed default refused, exact error shape (403 vs 404) unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "Q7", "kind": "assumption", "about": "InvoiceRequest is assumed to reference its cart via a cart_id-shaped field, schema never fully expanded by the source fetch",
+      "sourceCheckpoint": "state/US-EVAL-002/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-002 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-002/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (11 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-002/04-priorities.md" },
+    { "id": "gate", "kind": "simulated", "about": "testbook-validate gate (CONCERNS, structural 72/100 + checklist 15/16) delivered; human Go/No-Go decision (campaign step 8 gate) not yet made",
+      "sourceCheckpoint": "reports/testbook-validate-report.md" }
+  ]
+}
