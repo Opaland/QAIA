@@ -1,0 +1,64 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-005",
+  "title": "OpenEMR appointment booking",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-005-openemr-appointment",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/openemr-appointment-booking.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 12, "byPriority": { "P1": 5, "P2": 7, "P3": 0 },
+                   "negative": 11, "smoke": 0, "outlines": 3 },
+    "coverage": { "acTotal": 3, "acCovered": 3,
+                  "reqNegTotal": 12, "reqNegCovered": 11,
+                  "negativeRatio": 0.917 },
+    "confidence": { "lowConfidence": 6, "openQuestions": 4, "assumptions": 5, "simulated": 4 },
+    "techniques": ["ep", "boundary", "decision-table"],
+    "oracles": ["iso8601"],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "open", "about": "double-booking / overlapping appointment for the same facility and time window -- proposed default refused, real EHR practice often allows intentional overbooking",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "a well-formed pid with no matching patient record is refused",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "a nonexistent pc_facility is refused",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q4", "kind": "assumption", "about": "a past-dated pc_eventDate is refused, plausible backfill exception not ruled out",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q5", "kind": "assumption", "about": "pc_duration <= 0 is refused, exact floor unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q6", "kind": "open", "about": "cross-site/cross-tenant pid scoping -- whether a Bearer token restricts which patients' appointments a caller may create, exact error shape unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q7", "kind": "assumption", "about": "an expired/revoked Bearer token is refused, standard OAuth2 behavior assumed",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q8", "kind": "open", "about": "cancellation/rescheduling mechanism -- crus permission set documents no delete; out-of-slice, no scenario generated",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "Q9", "kind": "open", "about": "order and disclosure shape of auth-check vs field-validation when both fail at once -- proposed default 401 wins, no disclosure",
+      "sourceCheckpoint": "state/US-EVAL-005/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-005 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-005/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (12 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-005/04-priorities.md" },
+    { "id": "gate", "kind": "simulated", "about": "testbook-validate gate delivered; human Go/No-Go decision (campaign step 8 gate) not yet made",
+      "sourceCheckpoint": "reports/testbook-validate-report.md" }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-007",
+  "title": "Deque Broken Workshop -- recipe-edit dialog accessibility",
+  "status": "review",
+  "generatedAt": "2026-07-29T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-007-deque-broken-workshop-form",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-ingest", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-review", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "need-understanding", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "istqb-design", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "prioritize", "at": "2026-07-29T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "testbook-generate", "at": "2026-07-29T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/recipe-edit-accessibility.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 5, "byPriority": { "P1": 3, "P2": 2, "P3": 0 },
+                   "negative": 2, "smoke": 0, "outlines": 1 },
+    "coverage": { "acTotal": 4, "acCovered": 3,
+                  "reqNegTotal": 2, "reqNegCovered": 2,
+                  "negativeRatio": 0.4 },
+    "confidence": { "lowConfidence": 2, "openQuestions": 0, "assumptions": 4, "simulated": 5 },
+    "techniques": ["ep", "error-guessing"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "whether the Close icon-button and Cancel button return focus to the triggering Edit control on close, unlike the confirmed-broken Escape path -- proposed default only (same broken behavior), unconfirmed",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "whether an emptied Ingredient field's validation error correctly names Ingredient -- proposed default only (correct wording), unconfirmed",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "real assistive-technology (screen reader) impact of the missing dialog accessible name -- only the DOM-level absence is asserted, not a specific AT's runtime behavior",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q4", "kind": "assumption", "about": "whether closing and reopening the same recipe's dialog resets lingering validation-error state -- not generated (P3, waived)",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-007 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (5 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/04-priorities.md" },
+    { "id": "angle-mort", "kind": "simulated", "about": "istqb-design's technique palette has no dedicated accessibility/usability technique -- flagged for human arbitration, not resolved (see state/03-design.md 'Angle mort check')",
+      "sourceCheckpoint": "state/03-design.md" }
+  ]
+}
