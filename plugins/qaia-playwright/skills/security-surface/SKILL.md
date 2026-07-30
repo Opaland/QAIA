@@ -25,7 +25,7 @@ Reference: `examples/medibook/tests/security.booking.spec.js` (401/IDOR/malforme
 
 ## Guardrails (blocking)
 
-- **Authorized, self-hosted targets only** (D35 + D26). An **allow-list of hosts is required in config; any target not on it is refused by default.** Never scan a third party you do not own or are not explicitly authorized to test.
+- **Authorized, self-hosted targets only** (D35 + D26). Verify the target against `docs/DEMO-TARGETS.md`'s golden rule and its explicit per-target security column before running anything — this is a **narrative check the agent performs each time, not a config-enforced allow-list gate** (found 2026-07-30 skill-eval campaign: no allow-list mechanism actually exists in the repo despite an earlier version of this guardrail implying one; corrected here to describe reality rather than an unbuilt control). Never scan a third party you do not own or are not explicitly authorized to test — when the human founder has explicitly named an exception in this session (e.g. a target's own docs authorize public small-scale testing), cite that authorization explicitly in the report rather than silently treating it as a standing rule.
 - No active exploitation beyond the passive surface above without explicit user authorization and a named scope.
 - Publish and honor an acceptable-use note; refuse any framing that targets a competitor or a production system without authorization (mirrors the ingestion abuse gate).
 - Tag `@QAIA-SEC-<NNN>`; report real results, findings by severity.
