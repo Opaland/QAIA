@@ -23,6 +23,26 @@ Vetted catalog of public apps and GitHub lists to exercise QAIA on real software
 
 Native mobile: SauceLabs **My Demo App** (React Native, OSS) is the go-to real-native target (needs Appium — out of QAIA v1 scope, D100).
 
+## Newly suggested (2026-07-30, unverified)
+
+Sourced from a list shared by the founder (LinkedIn post). **Not yet explored live** — listed
+here as candidates for a future campaign wave, not confirmed against the golden rule or
+checked for reachability/licensing. Verify before using for anything beyond UI exploration.
+
+| Target | Type | Notes |
+|---|---|---|
+| LambdaTest e-commerce playground (`ecommerce-playground.lambdatest.io`) | UI functional | E-commerce (OpenCart-based demo) |
+| Tricentis Demo Web Shop (`demowebshop.tricentis.com`) | UI functional | E-commerce |
+| DemoQA (`demoqa.com`) | UI functional | Widgets/forms/interactions grab-bag, popular for locator practice |
+| UI Testing Playground (`uitestingplayground.com`) | UI functional | Deliberately tricky widgets (AJAX delays, shifting buttons, overlapped elements) |
+| Tocha Solutions (`qa.tochasolutions.com`) | UI functional | Unfamiliar source, verify legitimacy/scope before using |
+| RESTful-api.dev | API | Simple public REST API for CRUD practice |
+| JSONPlaceholder (`jsonplaceholder.typicode.com`) | API | Fake REST API, canonical for API-testing tutorials |
+| RandomUser.me | API | Random user data generator API |
+
+Already in the verified catalog above under different names: SauceDemo, DemoBlaze, the-internet
+(Herokuapp), Practice Software Testing/Toolshop.
+
 ## GitHub lists that catalog targets
 
 | Repo | What it lists |
