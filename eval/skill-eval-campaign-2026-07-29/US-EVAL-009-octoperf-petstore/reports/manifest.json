@@ -1,0 +1,58 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-009",
+  "title": "OctoPerf Pet Store shopping cart",
+  "status": "review",
+  "generatedAt": "2026-07-30T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-009-octoperf-petstore",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-ingest", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-review", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "need-understanding", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "istqb-design", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "prioritize", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "testbook-generate", "at": "2026-07-30T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/octoperf-petstore-cart.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 8, "byPriority": { "P1": 3, "P2": 5, "P3": 0 },
+                   "negative": 1, "smoke": 0, "outlines": 0 },
+    "coverage": { "acTotal": 3, "acCovered": 3,
+                  "reqNegTotal": 1, "reqNegCovered": 1,
+                  "negativeRatio": 0.125 },
+    "confidence": { "lowConfidence": 5, "openQuestions": 2, "assumptions": 5, "simulated": 4 },
+    "techniques": ["ep", "state-transition", "decision-table"],
+    "oracles": ["iso4217"],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "repeat add of the same item increments the existing row's quantity and scales its total cost, rather than duplicating the row",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "Q3", "kind": "open", "about": "whether an out-of-stock item (In Stock? = false) blocks Proceed to Checkout -- proposed default: checkout remains available",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "Q4", "kind": "assumption", "about": "removing an already-removed row again is idempotent, not an error; deferred to P3, not generated",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "Q5", "kind": "assumption", "about": "removing the last item converges to the same empty-cart state as AC2-C1; deferred to P3, not generated",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "Q6", "kind": "assumption", "about": "Sub Total is displayed with two-decimal-place USD formatting, ISO 4217 convention",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "Q7", "kind": "open", "about": "cross-session cart isolation -- whether a second, unrelated guest session can view or mutate the first session's cart; exact session-binding mechanism unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-009/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-009 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-009/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (8 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-009/04-priorities.md" },
+    { "id": "gate", "kind": "simulated", "about": "testbook-validate gate delivered; human Go/No-Go decision (campaign step 8 gate) not yet made",
+      "sourceCheckpoint": "reports/testbook-validate-report.md" }
+  ]
+}

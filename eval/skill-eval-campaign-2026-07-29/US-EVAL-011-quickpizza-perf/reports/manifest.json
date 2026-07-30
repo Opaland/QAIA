@@ -1,0 +1,64 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-011",
+  "title": "QuickPizza pizza recommendation (functional + performance)",
+  "status": "review",
+  "generatedAt": "2026-07-30T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-011-quickpizza-perf",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-ingest", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-review", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "need-understanding", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "istqb-design", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "prioritize", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "testbook-generate", "at": "2026-07-30T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/quickpizza-recommendation.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 7, "byPriority": { "P1": 5, "P2": 2, "P3": 0 },
+                   "negative": 3, "smoke": 0, "outlines": 0 },
+    "coverage": { "acTotal": 3, "acCovered": 3,
+                  "reqNegTotal": 9, "reqNegCovered": 3,
+                  "negativeRatio": 0.429 },
+    "confidence": { "lowConfidence": 5, "openQuestions": 2, "assumptions": 3, "simulated": 4 },
+    "techniques": ["ep", "boundary", "domain-analysis"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "open", "about": "whether POST /api/pizza requires authentication -- proposed default accepted-without-auth, conflicting with every fetched k6 example script's use of an Authorization header",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "the k6/foundations/05.thresholds.js thresholds (p95<500ms, p99<1000ms, error rate<1%) are used as the working AC2 target, not confirmed as an official SLO by any separate source",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q3", "kind": "open", "about": "exact HTTP status/body for a Restrictions validation violation not confirmed; scenario Then steps kept qualitative to avoid fabricating a status code",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q4", "kind": "assumption", "about": "minNumberOfToppings > maxNumberOfToppings is refused, silent auto-swap not ruled out",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q5", "kind": "assumption", "about": "negative maxCaloriesPerSlice is refused",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q6", "kind": "open", "about": "customName over-length behavior and MaxPizzaNameLength's numeric value both unconfirmed",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q7", "kind": "assumption", "about": "AC2's performance envelope targets the monolithic single-container deployment mode, not microservices",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "Q8", "kind": "open", "about": "cross-request contamination under concurrent load -- implementation-internals question, out of QAIA's black-box scope, not designed as a concrete scenario",
+      "sourceCheckpoint": "state/US-EVAL-011/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-011 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/US-EVAL-011/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (7 scenarios) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/US-EVAL-011/04-priorities.md" },
+    { "id": "gate", "kind": "simulated", "about": "testbook-validate gate delivered; human Go/No-Go decision (campaign step 8 gate) not yet made -- run stopped here per campaign protocol",
+      "sourceCheckpoint": "reports/testbook-validate-report.md" },
+    { "id": "perf-exec", "kind": "open", "about": "AC2's performance thresholds were never actually executed against a live QuickPizza instance in this session -- no Docker/k6 run performed, explicit limitation not simulated",
+      "sourceCheckpoint": "state/US-EVAL-011/00-source.md" }
+  ]
+}

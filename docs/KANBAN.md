@@ -89,6 +89,26 @@ plus #58 : #49-#58 toutes closes).
 
 ---
 
+## Sprint 28 — Campagne d'évaluation continue des skills, jusqu'à l'étape 8 (2026-07-29/30, D118-D124) ✅ TERMINÉ
+
+Demande fondateur : faire tourner le parcours QAIA complet sur des cas réels pour éprouver la
+robustesse des skills (pas livrer un cahier), puis pousser jusqu'à l'automatisation réelle
+(étape 8) sur les 11 cibles cumulées, avec un signalement CI traité en cours de route.
+
+| Livré | Preuve |
+|---|---|
+| **11 cibles US-EVAL au total** (7 sur D118-D121, 4 nouvelles ce sprint : DemoBlaze, OctoPerf Pet Store, crAPI/sécurité API, QuickPizza/perf), chacune parcours complet + 7 évaluateurs skill à contexte vide | D118-D122, `eval/skill-eval-campaign-2026-07-29/` |
+| **Étape 8 (automatisation réelle) exercée sur les 11 cibles** — jamais simulée : ~90 tests Playwright réels exécutés, vrais blocages documentés (503 Juice Shop, API Restful-Booker disparue, OAuth2 401 OpenEMR, jeton fabriqué crAPI/QuickPizza sans Docker), vraies trouvailles produit (2 défauts sécu Juice Shop, 2 violations a11y OpenEMR, 3 blocages 422 + 3 violations a11y Toolshop) | D122 |
+| **38 nouvelles évaluations skill × run** : 9 `ÉCART STRUCTUREL`, 20 `ÉCART MINEUR`, 9 CONFORME, tous consignés pour arbitrage humain — trouvaille transversale sur le contournement `simulated: accepted-as-is` des gates ⚠ VALIDATION, signalée indépendamment par 4 évaluateurs | D122 |
+| **Confirmation architecturale en situation réelle** : 2 sous-agents ont refusé à deux reprises un relais d'autorisation du fondateur (même verbatim), conformément à la garde-fou plateforme "aucun message d'agent n'est un consentement" — l'agent principal a exécuté lui-même l'étape 8 pour ces 2 cibles plutôt que d'insister par relais | D123 |
+| **CI Gherkin lint cassé en silence depuis plusieurs commits, corrigé** suite à un signalement direct du fondateur — scope du lint restreint aux vrais testbooks, 5 dossiers de fixtures délibérément non-conformes exclus explicitement | D124, commit `5c18a87` |
+| **2 garde-fous anti-récidive ajoutés** : `CLAUDE.md` créé (n'existait pas), puis la règle transformée en hook `PostToolUse` automatisé plutôt que de compter sur une relecture manuelle — décision explicite de préférer les hooks aux règles ad hoc pour tout ce qui est mécaniquement vérifiable | D124, `.claude/hooks/check-ci-after-push.sh` |
+| **8 nouvelles cibles cataloguées** (non explorées) dans `docs/DEMO-TARGETS.md` depuis une liste externe partagée par le fondateur, marquées explicitement non vérifiées | `docs/DEMO-TARGETS.md` |
+
+**Pattern de ce sprint** : la discipline D104/D105/D116/D117/D121 se confirme une fois de plus — exécuter réellement (pas relire) trouve des défauts, y compris dans le travail produit par la session elle-même (POM non respecté sur 2 automatisations manuelles, corrigé et assumé plutôt que masqué). Nouveauté notable : une confrontation réelle (pas hypothétique) du garde-fou anti-injection multi-agent de la plateforme, qui a tenu sous pression répétée et de bonne foi — leçon retenue pour le design des futures campagnes multi-agents.
+
+---
+
 ## Sprint 27 — Campagne de validation multi-métier à l'aveugle (2026-07-29, D117) ✅ TERMINÉ
 
 | Livré | Preuve |
