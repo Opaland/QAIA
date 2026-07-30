@@ -10,7 +10,15 @@ parce qu'aucune session n'avait revérifié l'état de la CI après avoir pouss�
 workflow associé se termine et vérifier son statut avant de considérer la tâche terminée —
 ne jamais supposer que la CI passe simplement parce que le push a réussi localement.
 
-Méthode concrète (pas de `gh` CLI disponible dans cet environnement) :
+**Automatisé depuis le 2026-07-30** : un hook `PostToolUse` (`.claude/settings.json` +
+`.claude/hooks/check-ci-after-push.sh`) se déclenche automatiquement après tout `git push`,
+poll la CI en arrière-plan (jusqu'à 180s) et réveille l'agent uniquement si le run échoue,
+reste bloqué, ou est introuvable — silencieux sur un succès. Nécessite
+`GITHUB_PERSONAL_ACCESS_TOKEN` dans l'environnement (déjà présent dans les settings globaux
+du fondateur) ; s'auto-désactive proprement si absent. Ne dispense pas de vérifier
+manuellement (méthode ci-dessous) si le hook est indisponible ou désactivé.
+
+Méthode manuelle de repli (pas de `gh` CLI disponible dans cet environnement) :
 ```bash
 # Récupérer le run déclenché par le SHA qu'on vient de pousher
 curl -sL -H "Authorization: Bearer $GITHUB_PERSONAL_ACCESS_TOKEN" \
