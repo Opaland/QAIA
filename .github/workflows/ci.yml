@@ -68,11 +68,37 @@ jobs:
       - name: Lint Gherkin features (if any)
         run: |
           set -e
-          if find . -name '*.feature' -not -path './node_modules/*' | grep -q .; then
+          # Excludes, beyond node_modules:
+          #  - examples/*/export/ : byte-identical copies of the sibling testbooks,
+          #    produced by the export skill demo (TestRail/Xray/.xlsx bundle) --
+          #    intentionally duplicate Feature names, not a real defect.
+          #  - eval/concerns-zone-fixtures/ : calibration fixtures (issue #21) that
+          #    are deliberately near-identical across m1-m4 subfolders to exercise
+          #    the CONCERNS-zone scorer -- duplication is the point of the fixture.
+          #  - eval/gold-set/*/*-raw.feature : verbatim external oracle data used
+          #    as ground truth for the validation campaign (D117), not authored by
+          #    QAIA's own generation pipeline -- not held to the project's own
+          #    Gherkin style.
+          #  - eval/goldset-hardened/ : deliberately-flawed calibration fixtures
+          #    (truncated.feature, fabrication.feature, c1-hollow-image.feature...)
+          #    used to test the scorer's own defect-detection -- some are not even
+          #    syntactically valid Gherkin by design (see corpus-24-plan.md).
+          #  - eval/baselines/ : benchmark/comparison run output (D51/D58 and
+          #    others), including files with a leading "> US-xxx | source: ..."
+          #    citation-comment header before any Feature: line -- not valid
+          #    Gherkin by construction, not a real deliverable.
+          FIND_ARGS=(. -name '*.feature' \
+            -not -path './node_modules/*' \
+            -not -path '*/export/*' \
+            -not -path './eval/concerns-zone-fixtures/*' \
+            -not -path './eval/gold-set/*' \
+            -not -path './eval/goldset-hardened/*' \
+            -not -path './eval/baselines/*')
+          if find "${FIND_ARGS[@]}" | grep -q .; then
             # -exec {} + passes each path as a single ./-prefixed argument: no word
             # splitting, no option injection. Version pinned (decision T15).
             # gherkin-lint requires an explicit config file (fails without one).
-            find . -name '*.feature' -not -path './node_modules/*' -exec npx --yes gherkin-lint@4.2.4 -c .gherkin-lintrc {} +
+            find "${FIND_ARGS[@]}" -exec npx --yes gherkin-lint@4.2.4 -c .gherkin-lintrc {} +
           else
             echo "No .feature files yet — skipping"
           fi
