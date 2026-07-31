@@ -89,6 +89,26 @@ plus #58 : #49-#58 toutes closes).
 
 ---
 
+## Sprint 30 — revue externe confrontée au dépôt, corrections P0, README rendu vrai (2026-07-31, D131) ✅ TERMINÉ
+
+Suite du Sprint 29. Trois analyses externes (ChatGPT, Gemini, Mistral) soumises par le fondateur, vérifiées avant exécution.
+
+| Livré | Preuve |
+|---|---|
+| Vérification des 3 analyses : **5 affirmations fausses sur 12**, 4 déjà faites, 3 justes. Plan Gemini écarté (décrit un produit inexistant, contredit ADR 0002) | D131 |
+| Revue architecturale 10 dimensions exécutée : **5,0/10**, 42 améliorations | D131, run `wf_3f561c44-999` + `wf_3bc6a8f2-ba6` |
+| Preuves de US-EVAL-003 et US-EVAL-010 rapatriées depuis des worktrees non commités (19 fichiers) | commit `79c597b` |
+| 233 Mo de worktrees protégés par `.gitignore` versionné (l'étaient seulement par `.git/info/exclude`, local) | `.gitignore` |
+| Correctif de pointeurs D130 terminé (il était à moitié appliqué) | `aptitude-gate`, `report` |
+| `qaia-testdata/README.md` : affirmation « no code ships » corrigée sur l'invariant réel | commit `79c597b` |
+| CI rouge poussée puis corrigée : 2 preuves renommées selon leur contenu réel, contrôle CI non assoupli | commit `78c9fcb` |
+| **README rendu vrai** : versions, contradiction 31/24 résolue par un run réel (32/32 verts, sortie brute conservée), expense-demo 40→43, **section d'installation ajoutée** | commit `442c928`, `examples/medibook/tests/run-log.txt` |
+| Métadonnées GitHub : 10 topics + description (validation fondateur) | API GitHub |
+| `docs/STATUS.md` : Sprint 30 + **prompt de reprise** actualisés | `docs/STATUS.md` |
+
+**Reste ouvert** : #59 densité, #60 CI réelle (blocage n°1), #61 encart PO, #62 skills sous-écrites, #63 juge d'automatisation, #64 contract-probe, #65 recouvrement, #18 visual-check flaky.
+
+
 ## Sprint 29 — Vague d'évaluation exhaustive des 29 skills + bascule vers 6 corrections centrales (2026-07-31, D126) ✅ TERMINÉ
 
 Suite directe du Sprint 28. Demande fondateur : couvrir les skills jamais testées, ouvrir l'approche API et le volet Mobile, rejouer les corrigées. Deux workflows bornés à 2 agents simultanés.

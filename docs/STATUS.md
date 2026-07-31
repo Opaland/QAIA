@@ -1,5 +1,129 @@
 # QAIA — état du projet & prompt de reprise
 
+## Sprint 30 — campagnes d'évaluation exhaustives, corrections centrales, revue externe (2026-07-31, D126-D131) — TERMINÉ
+
+**Journée la plus dense du projet : 12 commits, 5 vagues d'agents (~80 agents), 6 décisions.**
+Bilan honnête : le produit n'est pas devenu meilleur pour un utilisateur, il est devenu
+*mesuré*. On sait maintenant précisément où il ne tient pas.
+
+### Où en est le produit, en une phrase
+
+Les 29 skills ont toutes un verdict issu d'une exécution réelle (c'était 10 la veille au matin) ;
+**aucune n'est ressortie CONFORME** sur 36 verdicts ; et la revue architecturale externe donne
+**5,0/10** sur 10 dimensions. QAIA reste un **pre-alpha**, mieux instrumenté qu'hier.
+
+### Versions à jour
+
+`qaia-core` **0.2.26** (15 skills) · `qaia-playwright` **0.1.17** (11) · `qaia-score` **0.1.7** (2)
+· `qaia-testdata` **0.1.0** (1) — **29 skills**.
+
+### Ce qui a été livré aujourd'hui
+
+**Cinq vagues d'évaluation.** 18 skills jamais auditées + premier parcours Mobile + premier
+parcours API-first (vague A) ; rejeu d'`a11y-audit` et `security-surface` (B) ; les 8 jurys du
+parcours API récupéré (C) ; relecture à froid des 29 skills par 4 personas métier (D) ; revue
+architecturale 10 dimensions (E).
+
+**Six corrections centrales**, préférées à N corrections de skills :
+- **P1** — job CI validant `plugins/**/manifest*.json`. A trouvé, dès son premier run, un cas
+  que 46 agents avaient manqué.
+- **P2** — `validate_manifest.py` durci : waiver conditionnel, `--check-paths`, kinds `flakiness`
+  et `trafficReplay` enfin déclarés, `design.confidence.*` doté de définitions opératoires.
+- **P3** — règle non-interactive arbitrée. Elle était contradictoire **à trois voix**, et `qaia`,
+  l'arbitre désigné, était muet. Principe posé : **enregistrer n'est pas accepter**.
+- **P4** — règle 4bis : tout nombre cité comme mesuré pointe le fichier brut conservé.
+- **P6** — réflexe « surface de rendu » dans `istqb-design` (mobile), puis **surface protocolaire**
+  (API) — les deux angles morts étaient symétriques.
+- **Bloc `structural`** dans le contrat de sortie : le score déterministe /100 était calculé,
+  rapporté en prose, puis perdu ; `aptitude-gate` ne pouvait pas le lire.
+
+**Deux garde-fous de harnais** : `lint_skills.py` (CI + hook `PostToolUse` à l'écriture) et le
+hook CI post-push fiabilisé — qui a correctement signalé la seule CI rouge de la journée.
+
+**Un juge des tests générés** (`eval/tools/automation_score.py`) : piste statique + piste
+mutation, discrimination prouvée sur fixture.
+
+### Les chiffres qu'il ne faut pas arrondir
+
+| Mesure | Valeur |
+|---|---|
+| Verdicts rendus | 36 — dont **0 CONFORME** |
+| Skills avec preuve **rejouée par un tiers** | **10 / 29 (34 %)**, pas 69 % |
+| Chiffres auto-déclarés faux à la vérification | **~31 %** |
+| Revue architecturale | **5,0 / 10** (Documentation 4, Open source 4, Business 4) |
+| Relecture 4 personas | sens **2,87/3**, clarté **2,09/3** |
+| Stars / forks / pilotes | **0 / 0 / 0** |
+
+### Ce qu'on ne sait toujours pas — nommément
+
+1. **Aucun test généré n'a jamais tourné dans une vraie CI** (#60). La promesse « les tests
+   survivent à QAIA » n'est pas vérifiée.
+2. **Aucun gate humain n'a jamais été franchi.** Tout le produit a été évalué en mode dégradé,
+   non-interactif. Le chemin nominal n'a jamais été exercé.
+3. **Aucun pilote réel.** Le critère de sortie auto-fixé (80 % des scénarios P1 sans retouche)
+   n'a jamais été mesuré.
+4. **12 skills renvoient à `docs/`**, absent de toute installation de plugin.
+5. **La qualité des tests produits** pour un utilisateur n'a jamais été mesurée — tout ce qu'on
+   sait porte sur la conformité d'une skill à son propre texte.
+
+---
+
+## Prompt de reprise
+
+> Copier-coller le bloc ci-dessous au démarrage d'une nouvelle session.
+
+```text
+Tu reprends le projet QAIA (dépôt QAIA-Project/QAIA, branche main, statut pre-alpha).
+
+AVANT TOUT : lis `docs/STATUS.md` (ce fichier, section Sprint 30) et les décisions D126 à D131
+de `docs/DECISIONS.md`. Ne te fie à aucun chiffre que je te donne ici sans le revérifier — la
+campagne du 2026-07-31 a mesuré que ~31 % des chiffres auto-déclarés de ce projet étaient faux,
+et trois analyses externes sur cinq contenaient au moins une affirmation vérifiablement fausse.
+
+DISCIPLINE DU PROJET, non négociable :
+- Exécuter réellement plutôt que décrire. Rapporter un blocage honnêtement plutôt que fabriquer
+  un résultat. Ne jamais corriger un défaut en silence (D38).
+- Règle 4bis : tout nombre annoncé comme mesuré cite le fichier brut dont il est tiré, et ce
+  fichier est conservé. Sinon, l'écrire comme estimation ou ne pas l'écrire.
+- Après tout `git push` sur main : vérifier que la CI passe (voir `CLAUDE.md`). Un hook le fait,
+  il ne dispense pas de regarder.
+- `ADR 0002` : rien ne s'auto-exécute à l'installation d'un plugin (pas de `hooks/`, `agents/`,
+  `.mcp.json` — la CI le garde). Attention, la formulation « aucun code dans plugins/ » est
+  falsifiable : 21 fichiers non-Markdown y vivent légitimement (fixtures, templates).
+- Aucun producteur ne se note lui-même (règle 3).
+
+OUTILS DE VÉRIFICATION À LANCER AVANT DE CONCLURE QUOI QUE CE SOIT :
+  python eval/tools/lint_skills.py                    # 29 skills : doit rendre 0 échec
+  python eval/tools/validate_manifest.py --batch .    # tous les manifestes
+  find plugins -name 'manifest*.json' -exec python eval/tools/validate_manifest.py {} \;
+
+CE QUI EST OUVERT, par ordre de valeur :
+1. #60 — aucun test généré n'a jamais tourné dans une vraie CI. C'est le blocage n°1 : il est
+   réalisable seul, vérifiable par un tiers, et il conditionne toute crédibilité ultérieure.
+2. #62 — trois skills sous-écrites (`a11y-audit` 1 628 caractères sur le sujet au plus fort
+   enjeu réglementaire, `run-report`, `security-surface`).
+3. #59 — densité : 8 skills sont des murs (150-245 caractères/ligne quand les bien notées
+   tiennent entre 66 et 100). À découper vers `references/`, pas à raccourcir.
+4. #61 — encart PO dans les 6 skills qui demandent un arbitrage humain sans dire l'enjeu.
+5. #63 — la rubrique LLM du juge d'automatisation n'a jamais été appliquée par un agent.
+6. #64, #65, #18 — voir les issues.
+
+CE QU'IL NE FAUT PAS FAIRE, et pourquoi :
+- Ne pas construire pour un « framework d'évaluation de LLM » : QAIA n'en est pas un. Pas de
+  LiteLLM, pas de cache de tokens, pas d'abstraction de providers, pas de leaderboard.
+- Ne pas courir après la visibilité avant #60. Le dépôt n'a aucun mécanisme d'absorption : pas
+  de release, pas de CHANGELOG, une porte de merge que seul le mainteneur peut franchir.
+- Ne pas purger `.claude/worktrees/` (233 Mo) sans inventaire : ils contiennent encore des
+  sorties de campagne non commitées. Deux jeux de preuves y ont déjà été retrouvés le 31/07.
+- Ne pas relever un seuil pour faire passer un test (les 2 tests visuels de medibook sont flaky).
+
+CONTEXTE UTILE : `docs/DECISIONS.md` (131 lignes, la mémoire du projet), `docs/KANBAN.md`
+(sprints), `docs/OUTPUT-CONTRACT.md` (le contrat de sortie partagé), `eval/RUBRIC.md` et
+`eval/AUTOMATION-RUBRIC.md` (les deux juges), `docs/adr/` (3 ADR).
+```
+
+---
+
 ## Sprint 25 — reliquat P1-P3 des audits clos : #49/#50/#53-#57 (2026-07-28, D108-D114) — TERMINÉ
 
 Enchaînement direct après Sprint 24 : demande fondateur "(#49, #50, #53-#57) enchaîne" — le
