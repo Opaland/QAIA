@@ -16,3 +16,9 @@ __pycache__/
 
 # Playwright MCP tool scratch output (accessibility snapshots, console logs)
 .playwright-mcp/
+
+# Residus de travail locaux -- ne doivent jamais entrer dans une PR.
+# worktrees de travail : 233 Mo, proteges jusqu'ici par le seul .git/info/exclude, local a une machine
+.claude/worktrees/
+# repertoires de travail temporaires
+.scratch*/

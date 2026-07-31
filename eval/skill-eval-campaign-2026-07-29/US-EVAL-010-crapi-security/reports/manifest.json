@@ -1,0 +1,56 @@
+{
+  "contract": "1.0",
+  "usId": "US-EVAL-010",
+  "title": "crAPI: vehicle-location endpoint BOLA hardening (Challenge 1, OWASP API Security Top 10 #1)",
+  "status": "review",
+  "generatedAt": "2026-07-30T00:00:00Z",
+  "base": "eval/skill-eval-campaign-2026-07-29/US-EVAL-010-crapi-security",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-ingest", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "us-review", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "need-understanding", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "istqb-design", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "prioritize", "at": "2026-07-30T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.19", "skill": "testbook-generate", "at": "2026-07-30T00:00:00Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/vehicle-location-bola.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 5, "byPriority": { "P1": 2, "P2": 3, "P3": 0 },
+                   "negative": 5, "smoke": 0, "outlines": 0 },
+    "coverage": { "acTotal": 4, "acCovered": 3,
+                  "reqNegTotal": 5, "reqNegCovered": 5,
+                  "negativeRatio": 100.0 },
+    "confidence": { "lowConfidence": 2, "openQuestions": 0, "assumptions": 3, "simulated": 5 },
+    "techniques": ["ep", "decision-table", "error-guessing"],
+    "oracles": [],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "cross-owner denial status code adopted as 404 (anti-disclosure default) rather than 403 -- underlying no-leak requirement not in doubt",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q2", "kind": "assumption", "about": "\"current location\" treated as an opaque per-vehicle attribute, not asserted as live-GPS/real-time",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "nonexistent vehicleId converges on the same 404 as the cross-owner denial",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "endpoint-path", "kind": "secondary-source", "about": "concrete endpoint path /identity/api/v2/vehicle/{vehicleId}/location corroborated only by third-party write-ups, not OWASP's own docs text",
+      "sourceCheckpoint": "state/00-source.md" },
+    { "id": "P3-scope", "kind": "simulated", "about": "1 P3 condition (AC1-C1, owner happy path) deferred by default P1+P2 scope, not generated this run -- human call per prioritize step 4",
+      "sourceCheckpoint": "state/04-priorities.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-010 confirmed non-interactively (campaign run)",
+      "sourceCheckpoint": "state/00-source.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated test book (5 scenario blocks) presented and accepted as-is, non-interactive run",
+      "sourceCheckpoint": "testbooks/synthesis.md" },
+    { "id": "priorities", "kind": "simulated", "about": "all impact/probability/priority scores accepted as proposed, no human override",
+      "sourceCheckpoint": "state/04-priorities.md" },
+    { "id": "extraction", "kind": "simulated", "about": "AC1..AC4 extraction accepted as-is, non-interactive run",
+      "sourceCheckpoint": "state/01-extraction.md" }
+  ]
+}

@@ -7,7 +7,7 @@ description: Decide release readiness of a QAIA test book or run - PASS / CONCER
 
 Turns evidence into a single decision — **PASS / CONCERNS / FAIL / WAIVED** — and writes it to
 the `gate` block of the standardized run manifest (shared output contract,
-`docs/OUTPUT-CONTRACT.md`). It combines
+`docs/OUTPUT-CONTRACT.md`) — that path is in the QAIA source repository, **not in the installed plugin**, so rely on the field names restated below when you do not have the repo.. It combines
 the quality score (`testbook-score`), the hard coverage gates, the pending human arbitrations,
 and — when present — the execution results. It **scores only**: it decides readiness and names
 what blocks it; it never edits a scenario (guardrails in `../README.md`).

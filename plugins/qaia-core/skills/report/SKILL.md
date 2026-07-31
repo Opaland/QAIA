@@ -7,7 +7,7 @@ description: Project the QAIA journey into the standardized run manifest (.qaia/
 
 Follow the shared contract in `../README.md`. This skill produces the **one envelope every
 QAIA plugin shares**: `.qaia/reports/<US-ID>/manifest.json`, defined by
-`docs/OUTPUT-CONTRACT.md`. It never invents data — it *projects* the existing
+`docs/OUTPUT-CONTRACT.md` (that path is in the QAIA source repository, not in the installed plugin — the fields it defines are restated wherever this skill needs them). It never invents data — it *projects* the existing
 journey artifacts into the common schema so `qaia-score`, an export, or CI can read any run
 the same way.
 
