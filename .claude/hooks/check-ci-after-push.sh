@@ -24,6 +24,16 @@ BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 SHA=$(git rev-parse HEAD 2>/dev/null)
 [ -z "$SHA" ] && exit 0
 
+# HEAD must actually be on the remote before we ask GitHub about it. Without this the hook
+# polls for 180s and then reports "aucun run trouve" for a commit the server has never seen --
+# a false alarm on every local-only commit (observed twice on e4bfe9e, 2026-07-31). Repeated
+# false alarms are how a CI watchdog gets ignored, which is the exact failure D124 created it
+# to prevent.
+git fetch --quiet origin 2>/dev/null || true
+if ! git merge-base --is-ancestor "$SHA" origin/main 2>/dev/null; then
+  exit 0
+fi
+
 REMOTE=$(git remote get-url origin 2>/dev/null)
 REPO=$(echo "$REMOTE" | sed -E 's#.*github\.com[:/]+([^/]+/[^/.]+)(\.git)?$#\1#')
 case "$REPO" in */*) ;; *) exit 0 ;; esac

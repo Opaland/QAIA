@@ -1,0 +1,98 @@
+{
+  "contract": "1.0",
+  "usId": "RAD-PUBOBJ",
+  "title": "restful-api.dev public /objects CRUD API",
+  "status": "review",
+  "generatedAt": "2026-07-30T23:12:09Z",
+  "base": "eval/skill-coverage-wave-2026-07-30/US-EVAL-012-api-first",
+
+  "producers": [
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-ingest", "at": "2026-07-30T23:53:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "us-review", "at": "2026-07-30T23:54:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "need-understanding", "at": "2026-07-30T23:56:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "istqb-design", "at": "2026-07-30T23:59:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "prioritize", "at": "2026-07-31T00:00:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "testbook-generate", "at": "2026-07-31T00:04:00Z" },
+    { "plugin": "qaia-core", "version": "0.2.20", "skill": "testbook-validate", "at": "2026-07-30T23:08:00Z" },
+    { "plugin": "qaia-playwright", "version": "0.2.20", "skill": "contract-probe", "at": "2026-07-30T23:12:09Z" }
+  ],
+
+  "artifacts": [
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/restful-api-dev-public-objects.feature" },
+    { "kind": "feature", "format": "gherkin", "path": "testbooks/contract-probe-regressions.feature" },
+    { "kind": "synthesis", "format": "markdown", "path": "testbooks/synthesis.md" },
+    { "kind": "matrix", "format": "markdown", "path": "testbooks/coverage-matrix.md" },
+    { "kind": "validation", "format": "markdown", "path": "reports/testbook-validate-report.md" },
+    { "kind": "validation", "format": "markdown", "path": "reports/contract-probe-report.md" }
+  ],
+
+  "design": {
+    "scenarios": { "total": 27, "byPriority": { "P1": 18, "P2": 9, "P3": 0 },
+                   "negative": 9, "smoke": 1, "outlines": 2 },
+    "coverage": { "acTotal": 11, "acCovered": 9,
+                  "reqNegTotal": 9, "reqNegCovered": 9,
+                  "negativeRatio": 0.346 },
+    "confidence": { "lowConfidence": 13, "openQuestions": 4, "assumptions": 7, "simulated": 4 },
+    "techniques": ["ep", "boundary", "metamorphic", "domain-analysis", "crud", "state-transition", "error-guessing"],
+    "oracles": ["iso-8601", "rfc9110"],
+    "knowledgeApplied": []
+  },
+
+  "openArbitrations": [
+    { "id": "Q1", "kind": "assumption", "about": "non-existent id returns 404 with a JSON error body -- ANSWERED by contract-probe (404 confirmed), assumption held",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q2", "kind": "open", "about": "may the public API mutate or delete the reserved demonstration objects (ids 1-13)? deliberately not probed -- writing to shared demo data",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q3", "kind": "assumption", "about": "name required on POST -- FALSIFIED by contract-probe: POST without name returns 200 with name:null; scenario -012 asserts the opposite",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q4", "kind": "open", "about": "PUT on a non-existent id: upsert or refuse -- the classic REST fork, both defensible, undocumented",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q5", "kind": "open", "about": "50/day quota: identity of 'each user', inclusive/exclusive boundary, exhaustion response, reference clock -- deliberately never exhausted",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q6", "kind": "assumption", "about": "'structures and relationships' implies no inter-object relationship feature on the public surface",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q7", "kind": "assumption", "about": "filter matching nothing returns 200 with an empty array -- ANSWERED by contract-probe (200 []), assumption held",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q7b", "kind": "open", "about": "does ?id= expose objects created by other users? disclosure policy -- deliberately not probed, would read a third party's data",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q8", "kind": "assumption", "about": "malformed id value behaves as non-existent rather than a distinct 400 class",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q9", "kind": "assumption", "about": "PATCH with a data key replaces the whole data object (depth-1 merge) rather than deep-merging -- not isolated in this run",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "Q10", "kind": "assumption", "about": "public POST objects persist and are retrievable by id though absent from the reserved list -- ANSWERED by contract-probe; retention remains out-of-slice (story S2)",
+      "sourceCheckpoint": "state/02-understanding.md" },
+    { "id": "US-ID", "kind": "simulated", "about": "US-ID RAD-PUBOBJ and the public /objects slice selected non-interactively (campaign run)",
+      "sourceCheckpoint": "state/00-source.md" },
+    { "id": "extraction", "kind": "simulated", "about": "us-review step 3 NOT marked done: extraction left unconfirmed, 01-review is pending-validation per the corrected clause",
+      "sourceCheckpoint": "state/01-extraction.md" },
+    { "id": "priorities", "kind": "simulated", "about": "prioritize step 3: scores proposed but NOT arbitrated, unsuitable for a production Go/No-Go until a human reviews them",
+      "sourceCheckpoint": "state/04-priorities.md" },
+    { "id": "book-review", "kind": "simulated", "about": "generated book (27 scenarios) not accepted by any human; campaign step-8 Go/No-Go gate not passed",
+      "sourceCheckpoint": "testbooks/synthesis.md" }
+  ],
+
+  "gate": {
+    "verdict": "FAIL",
+    "score": 13,
+    "max": 16,
+    "scoredBy": "qaia-core:testbook-validate",
+    "at": "2026-07-30T23:08:00Z",
+    "dimensions": {
+      "atomicity": 2,
+      "coverage": 1,
+      "negativePathCoverage": 2,
+      "techniqueFit": 2,
+      "businessCorrectness": 0,
+      "ambiguityHonesty": 2,
+      "traceability": 2,
+      "gherkinForm": 2
+    },
+    "reasons": [
+      "businessCorrectness = 0: contract-probe falsified three generated scenarios against the live API -- @QAIA-RAD-PUBOBJ-026 (plain HTTP serves the full payload with 200, contradicting the asserted TLS-only behaviour), -012 (nameless POST succeeds with name:null), -011 (createdAt is epoch millis, not the documented ISO-8601 string)",
+      "any dimension at 0 forces FAIL regardless of the 13/16 total",
+      "coverage = 1: AC9 and AC11 have no scenario (both P3, deferred with a recorded reason, not a silent gap)",
+      "structural pass scored 92/100 PASS with forced_stop false and sniffer 0 (source fed, not blind) -- reported separately and never averaged with the checklist; the stricter of the two gates wins"
+    ],
+    "waiver": null
+  }
+}
