@@ -1,6 +1,6 @@
 ---
 name: feedback
-description: Capture the tester's corrections on a generated test book, store them as examples, and propose validated promotion of recurring corrections into knowledge-base rules so future generations improve. Final step of the QAIA journey.
+description: Capture the tester's corrections on a generated test book, store them as examples, and propose validated promotion of recurring corrections into knowledge-base rules so future generations improve. Use after someone has reviewed or reworked generated tests, when the same correction keeps coming back run after run, or when asked to make QAIA learn a project's own conventions instead of repeating the same mistake. Final step of the QAIA journey.
 ---
 
 # feedback — learn from corrections, honestly

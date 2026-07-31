@@ -1,6 +1,6 @@
 ---
 name: istqb-design
-description: Choose and justify ISTQB test design techniques (Foundation + CTAL-TA v4.0 + CT-AI) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, scenario-based testing, combinatorial testing, domain testing, metamorphic testing, CRUD, AI/ML-feature testing. Fourth step of the QAIA journey.
+description: Choose and justify ISTQB test design techniques (Foundation + CTAL-TA v4.0 + CT-AI) per acceptance criterion of an understood user story - equivalence partitioning, boundary values, decision tables, state transitions, scenario-based testing, combinatorial testing, domain testing, metamorphic testing, CRUD, AI/ML-feature testing. Use when deciding which test technique fits a requirement, when asked to justify test coverage methodologically, or when a test set looks like it was written by intuition and needs a defensible technique behind each case. Fourth step of the QAIA journey.
 ---
 
 # istqb-design — technique selection, justified

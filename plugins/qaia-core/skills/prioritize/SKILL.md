@@ -1,6 +1,6 @@
 ---
 name: prioritize
-description: Risk-based prioritization of derived test conditions - the skill proposes probability x impact scores, the human arbitrates. Fifth step of the QAIA journey, before test book generation.
+description: Risk-based prioritization of derived test conditions - the skill proposes probability x impact scores, the human arbitrates. Use when there is more to test than time allows, when someone asks what to test first or what can be dropped, or before generating a test book so generation covers the right conditions. Fifth step of the QAIA journey, before test book generation.
 ---
 
 # prioritize — risk-based, human-arbitrated

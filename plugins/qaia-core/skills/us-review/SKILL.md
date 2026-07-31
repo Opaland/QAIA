@@ -1,6 +1,6 @@
 ---
 name: us-review
-description: Verify that an ingested user story was correctly extracted - restructure it (story, acceptance criteria, business rules, open points) and have the user confirm or fix the extraction. Second step of the QAIA journey, after us-ingest.
+description: Verify that an ingested user story was correctly extracted - restructure it (story, acceptance criteria, business rules, open points) and have the user confirm or fix the extraction. Use right after ingesting a US, and whenever someone asks whether a specification was read faithfully, whether acceptance criteria were missed, or wants to check an extraction before designing tests on top of it. Second step of the QAIA journey, after us-ingest.
 ---
 
 # us-review — extraction check

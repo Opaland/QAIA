@@ -65,6 +65,19 @@ jobs:
             echo "::error::plugins must use skills/, not the legacy commands/ format"; exit 1
           fi
 
+      - name: Lint SKILL.md against the authoring norm
+        run: |
+          set -e
+          # Added 2026-07-31 after the four-persona cold read. Sense scored 2.87/3 and clarity
+          # 2.09 — the catalogue explains itself well and executes badly, and several causes are
+          # mechanical: a description with no "use when…" (nothing triggers the skill), a journey
+          # step marked `= done` unconditionally (the gate bypass rule 3 forbids), a `name` that
+          # drifted from its directory. Those come back the moment nobody reviews, so they are
+          # checked here rather than trusted to the next review.
+          # Warnings (density, internal codes, campaign dates) print without failing: they are
+          # readability debt, tracked deliberately, not correctness defects.
+          python eval/tools/lint_skills.py
+
       - name: Validate skill fixtures against the shared contract
         run: |
           set -e

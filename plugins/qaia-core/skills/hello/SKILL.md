@@ -1,6 +1,6 @@
 ---
 name: hello
-description: Verify QAIA installation and show what is available in this session
+description: Verify a QAIA installation and list the skills, journey steps and plugins available in this session. Use when QAIA has just been installed, when a skill does not seem to trigger, when someone asks what QAIA can do or where to start, or as a first smoke check before running a journey.
 disable-model-invocation: true
 allowed-tools: Read, Glob, Bash(ls:*)
 ---

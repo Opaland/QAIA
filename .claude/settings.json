@@ -15,6 +15,17 @@
             "rewakeSummary": "CI push check"
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/lint-skill-after-edit.py",
+            "timeout": 70,
+            "statusMessage": "Lint du SKILL.md edite..."
+          }
+        ]
       }
     ]
   }
