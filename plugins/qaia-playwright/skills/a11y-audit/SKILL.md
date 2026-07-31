@@ -5,7 +5,10 @@ description: Generate and run accessibility tests (axe-core via Playwright, WCAG
 
 # a11y-audit — accessibility via axe-core
 
-Reference: `examples/medibook/tests/a11y.booking.spec.js` (0 serious/critical violations). Decision D33/T7 — axe-core via Playwright is the de-facto standard.
+Reference: `examples/medibook/tests/a11y.booking.spec.js` (0 serious/critical violations). 
+Tooling is fixed: **axe-core driven through Playwright** — the de-facto standard for
+automated WCAG checks, and it reuses the browser context the functional tests already
+run in rather than introducing a second driver stack.
 
 ## Steps
 

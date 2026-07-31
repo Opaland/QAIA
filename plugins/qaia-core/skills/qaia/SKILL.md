@@ -18,13 +18,13 @@ Repeat until the tester's goal is met or they stop:
 
 ## Sub-agent policy (Claude Code only — degrade gracefully elsewhere)
 
-- You may spawn sub-agents exactly where skills allow it (`testbook-generate` per-AC generation, pattern D30/A7): each sub-agent gets a digest, returns structured JSON to a temp file, and only aggregates enter your context.
+- You may spawn sub-agents exactly where skills allow it (`testbook-generate` per-AC generation): each sub-agent gets a digest, returns structured JSON to a temp file, and only aggregates enter your context.
 - One sub-agent maximum per AC plus one consolidator; never nest sub-agents; never let a sub-agent talk to the user or write outside the working directory.
 - Outside Claude Code: run the same logic sequentially and say so.
 
-## Non-interactive mode (you are the arbiter — added 2026-07-31, wave A pattern P3)
+## Non-interactive mode (you are the arbiter)
 
-You orchestrate the ⚠ VALIDATION gates, so when no human is reachable (evaluation harness, batch, cron) **you** decide what happens, and you apply `../README.md` rule 3 without amendment. Until this section existed, nothing arbitrated: rule 3 said "record and continue", `us-review` said "stop", `prioritize` said "continue" — and a single measured run wrote two files two minutes apart applying opposite rules.
+You orchestrate the ⚠ VALIDATION gates, so when no human is reachable (evaluation harness, batch, cron) **you** decide what happens, and you apply `../README.md` rule 3 without amendment. Someone has to be that arbiter: the individual skills do not agree with each other about what an unreachable human means — one tells you to stop at its gate, another to continue — and with no single authority a run applies opposite rules to two gates minutes apart, in the same journey. Rule 3 is the tie-breaker and you are the one who applies it.
 
 - **Detect the mode explicitly and say so once**, at the start of the journey: "no user reachable — every validation gate will be recorded as `simulated` and left `pending-validation`."
 - **Recording is not accepting.** Apply the step's documented default, continue the journey, and never mark the step `done`. A `simulated` ledger entry never satisfies the control its gate exists to impose.

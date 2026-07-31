@@ -5,7 +5,7 @@ description: Capture the tester's corrections on a generated test book, store th
 
 # feedback — learn from corrections, honestly
 
-Follow the shared contract in `../README.md`. "Learning" here means enriching the local knowledge base and example store (README's honest positioning) — nothing else. Promotion is **always human-validated** (D22).
+Follow the shared contract in `../README.md`. "Learning" here means enriching the local knowledge base and example store (README's honest positioning) — nothing else. Promotion is **always human-validated**.
 
 ## Prerequisite
 
@@ -19,12 +19,12 @@ A generated test book to compare against (`.qaia/testbooks/<US-ID>/`, from `test
    - `style` — wording, structure, granularity preference → candidate for a project convention entry;
    - `one-off` — specific to this US, not generalizable → example only.
 3. **Store examples.** Write each correction to `.qaia/feedback/examples/<US-ID>-<n>.md` with its classification and provenance.
-4. **Propose promotions** (D22): only when the same pattern appears in **≥ 2** stored examples, or the user explicitly asks for immediate promotion (single-criterion — the "states a reusable rule" shortcut promoted everything and filtered nothing). Rules get stable IDs `BR-KB-nnn` (counter persisted in `rules.md` frontmatter); examples get `<US-ID>-<nnn>` with the counter in `examples/`. When a promoted rule shapes a generated scenario, the scenario carries a `# rule: BR-KB-nnn` comment and the coverage matrix lists applied rules — flagging sibling scenarios of the same AC for regeneration. ⚠ VALIDATION: on approval, hand the rule to `rag-build` (which handles contradiction checks and the index); record the promotion in `feedback/rules.md` with links to its source examples.
-5. **Prune.** When promoting, mark source examples `promoted`; offer to archive examples older than ~6 months that never recurred (Q30 — the store must not grow unbounded).
-6. **Close the loop.** Tell the user which promoted rules will affect future generations, and remind them the effect is measured — not guaranteed — via the gold set (T13/Q41: reapplication of raw examples is probabilistic; promoted rules are the reliable path).
+4. **Propose promotions**: only when the same pattern appears in **≥ 2** stored examples, or the user explicitly asks for immediate promotion (single-criterion — the "states a reusable rule" shortcut promoted everything and filtered nothing). Rules get stable IDs `BR-KB-nnn` (counter persisted in `rules.md` frontmatter); examples get `<US-ID>-<nnn>` with the counter in `examples/`. When a promoted rule shapes a generated scenario, the scenario carries a `# rule: BR-KB-nnn` comment and the coverage matrix lists applied rules — flagging sibling scenarios of the same AC for regeneration. ⚠ VALIDATION: on approval, hand the rule to `rag-build` (which handles contradiction checks and the index); record the promotion in `feedback/rules.md` with links to its source examples.
+5. **Prune.** When promoting, mark source examples `promoted`; offer to archive examples older than ~6 months that never recurred — the store must not grow unbounded, or retrieval degrades and the signal drowns.
+6. **Close the loop.** Tell the user which promoted rules will affect future generations, and remind them the effect is measured — not guaranteed — via the gold set: reapplication of a raw stored example is probabilistic, a promoted rule is the reliable path, and promising more than that would be the dishonest version of "learning".
 
 ## Guardrails
 
 - Never promote without explicit validation, even for "obvious" corrections.
-- Contradiction between a new correction and an existing rule → surface it (via `rag-build`'s arbitration), never store both silently (Q31).
+- Contradiction between a new correction and an existing rule → surface it (via `rag-build`'s arbitration), never store both silently — two contradictory rules in the base make every later generation a coin toss.
 - Feedback content follows knowledge rules: no secrets, no personal data, provenance mandatory.

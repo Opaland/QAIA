@@ -7,7 +7,7 @@ description: Score a QAIA test book against its source US with the ISTQB-grounde
 
 Applies the embedded rubric (`rubric.md`, mirroring `eval/RUBRIC.md`) to **one** test book
 against **its** source US, and writes the result into the `gate` block of the standardized run
-manifest (`docs/OUTPUT-CONTRACT.md`, D39). It **scores only** — see the scoring-only guardrails
+manifest (shared output contract, `docs/OUTPUT-CONTRACT.md`). It **scores only** — see the scoring-only guardrails
 in `../README.md`. It is the LLM-judge of the project, packaged as an installable skill.
 
 ## Prerequisites
@@ -19,15 +19,20 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
 
 ## Steps
 
-0. **Deterministic structural pass FIRST — not an LLM self-note (best of IATS, issues #26/#27/#28).**
+0. **Deterministic structural pass FIRST — not an LLM self-note.**
    Before any LLM judgment, compute a **reproducible structural score** the same way every run.
-   The founding project's lesson (case US 676266: 100/100 machine vs 58/100 human) is that a high
-   structural score hides hollow tests — so this pass is a **gate**, not a vanity number, and it is
+   A structural score measures form, not substance: a test book can be perfectly shaped and still
+   assert nothing (the founding project measured one at 100/100 by machine and 58/100 by a human
+   reviewer). So this pass is a **gate** that can force a FAIL, not a vanity number, and it is
    kept **separate** from the LLM rubric (two numbers, never conflated).
    - **In Claude Code**: materialize a throwaway script implementing the algorithm below and **run
      it** on the `.feature` files for true determinism (the script is generated in-session, never
      shipped — QAIA stays 100% skill). Reference implementation and proof it discriminates:
-     `eval/tools/structural_score.py` + `eval/baselines/structural-score.md`.
+     `eval/tools/structural_score.py` + `eval/baselines/structural-score.md`. **Those two paths
+     live in the QAIA source repository, not in the installed plugin** — do not send a user
+     looking for them in their own project. They exist so a maintainer can check this algorithm
+     still discriminates; everything needed to run it is written out below, which is why the
+     plugin ships no code.
    - **Without code execution**: execute the algorithm step-by-step (reproducible by construction
      of the prompt; say so — it is weaker than running the code).
    - **Algorithm (explicit budget /100):** readability 25 · completeness 30 (% of ACs covered by a
@@ -37,7 +42,7 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
        the AC is **not** counted covered (the us-ingest "images = not analyzed" rule made visible).
      - **C2 — no expected result**: a `Then` that is empty or only restates success ("works",
        "responds correctly") with no verifiable value/state/status → a question, not a test.
-     - **#27 sniffer — fabrication**: technical literals (URL, host, port, id, amount) that do **not**
+     - **Fabrication sniffer**: technical literals (URL, host, port, id, amount) that do **not**
        trace to the source US or a cited oracle → penalty; plus `[À DÉFINIR]`/`TODO`/placeholder
        markers (−5 each). **≥3 hits → forced STOP.** The sniffer is only fully effective **with the
        source/oracle** to compare against — always feed it the source, never run it blind.
@@ -53,7 +58,10 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
    - cite the evidence (a scenario ID, a matrix row, a manifest count) in one sentence;
    - **default to the lower score** when hesitating;
    - never score dimension 3 on the raw negative *ratio* — score it on whether every
-     **required** negative condition (ADR 0001) has a covering scenario; the ratio is context.
+     **required** negative condition has a covering scenario; the ratio is context. (A ratio
+     rewards volume: enough easy negatives will clear it while the refusal path the story
+     actually specifies stays untested. The governing decision is ADR 0001, the required
+     negative/refusal-path coverage gate, `docs/adr/0001-negative-coverage-gate.md`.)
 3. **Verify literals independently** where a dimension depends on them (boundary ±1, string
    lengths, checksum/oracle values) — recompute, do not trust the book's own assertion. A
    wrong literal presented as correct is a dimension-5 hit (plausible-but-wrong).

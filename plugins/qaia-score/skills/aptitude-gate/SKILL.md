@@ -3,10 +3,11 @@ name: aptitude-gate
 description: Decide release readiness of a QAIA test book or run - PASS / CONCERNS / FAIL / WAIVED - from the rubric score, hard coverage gates (AC, ADR 0001 negative-path), pending human arbitrations, and any execution results, recording the verdict and reasons in the standardized run manifest. Scores only - it judges readiness, it never edits test content. Use to gate a candidate before hand-off or CI.
 ---
 
-# aptitude-gate — release-readiness verdict (A5)
+# aptitude-gate — release-readiness verdict
 
 Turns evidence into a single decision — **PASS / CONCERNS / FAIL / WAIVED** — and writes it to
-the `gate` block of the standardized run manifest (`docs/OUTPUT-CONTRACT.md`, D39). It combines
+the `gate` block of the standardized run manifest (shared output contract,
+`docs/OUTPUT-CONTRACT.md`). It combines
 the quality score (`testbook-score`), the hard coverage gates, the pending human arbitrations,
 and — when present — the execution results. It **scores only**: it decides readiness and names
 what blocks it; it never edits a scenario (guardrails in `../README.md`).
@@ -26,7 +27,9 @@ Evaluate top to bottom; the **first** matching band is the verdict.
 
 1. **FAIL** — any hard gate is broken (release-blocking):
    - an acceptance criterion is uncovered (`design.coverage.acCovered < acTotal`, rubric dim 2 = 0);
-   - a **required** negative condition is uncovered (`reqNegCovered < reqNegTotal`, ADR 0001, dim 3 = 0);
+   - a **required** negative condition is uncovered (`reqNegCovered < reqNegTotal`, dim 3 = 0) —
+     the governing decision is ADR 0001, the required negative/refusal-path coverage gate
+     (`docs/adr/0001-negative-coverage-gate.md`);
    - a scenario contradicts the source US (dim 5 = 0 — plausible-but-wrong);
    - invalid Gherkin (dim 8 = 0) or no stable IDs / broken traceability (dim 7 = 0);
    - **any** rubric dimension scored 0;
@@ -38,7 +41,7 @@ Evaluate top to bottom; the **first** matching band is the verdict.
    - a dimension dropped ≥ 1 versus a provided baseline (regression signal);
    - execution present with `blocked > 0`, or automation coverage materially below the book
      (`traceability.scenariosAutomated` ≪ `scenariosTotal`) when a run was expected;
-   - a `flakiness` section (from `qaia-playwright:flaky-detect`, #34) lists any `@P1` scenario
+   - a `flakiness` section (from `qaia-playwright:flaky-detect`) lists any `@P1` scenario
      whose verdict varied across runs — a P1 that sometimes fails isn't release-clean even if
      its last run was green. `@P2`/`@P3` flaky scenarios are named in `reasons` but don't by
      themselves force CONCERNS (report them; don't over-block on low-priority instability).
@@ -50,26 +53,28 @@ So: evaluate the bands first, publish the verdict they produce, and only then re
 top of it if a human granted one. **Never self-granted** — only a recorded human decision produces
 it, carrying `waiver: { by, reason, at }`; `validate_manifest.py` rejects a WAIVED verdict with no
 waiver object. The underlying band verdict and its reasons stay listed and stay true: a waiver
-accepts a risk, it never erases the finding. *Corrected 2026-07-31: WAIVED was numbered "4" inside
-an ordered list of bands, which reads as a band the skill can reach on its own — the opposite of
-what the rule says two lines later.*
+accepts a risk, it never erases the finding. *Never number WAIVED as a fourth band: listing it
+alongside FAIL/CONCERNS/PASS makes it read as an outcome the skill can reach by evaluating
+evidence, which is the exact opposite of the rule — a waiver has no evidential trigger, only a
+human one.*
 
 ## Steps
 
 1. **Read the manifest** — `design`, `execution` (if any), `gate.score`/`dimensions`,
-   `openArbitrations`, and `flakiness` (if present, #44). Note the `contract` major version;
+   `openArbitrations`, and `flakiness` (if present). Note the `contract` major version;
    treat any absent field as absent, not as a failure (degraded mode).
    **Recompute the rubric total from the 10 `dimensions` scores yourself — never trust
-   `gate.score` as given.** #21 calibration found a real case: a judge's own listed dimension
-   scores summed to 15, but the recorded total said 16 — an arithmetic slip that silently
-   flipped a CONCERNS candidate to PASS right at the release threshold, undetected because
-   nothing downstream recomputed it. Same discipline already applied to the negative-ratio
-   count (D50, `structural_score.py`): a self-reported number that gates a release decision is
-   verified, not assumed. If the recomputed total disagrees with `gate.score`, use the
+   `gate.score` as given.** A judge's listed dimension scores and its recorded total can
+   disagree by one, and at the release threshold a single point silently flips CONCERNS to PASS
+   — invisibly, because nothing downstream recomputes it. The rule generalizes: any
+   self-reported number that decides a release is verified, not assumed (the same reason the
+   negative-coverage count is recomputed independently of the file's own `@negative` tags, in
+   `eval/tools/structural_score.py`). If the recomputed total disagrees with `gate.score`, use the
    recomputed value for every band comparison below and add a `reasons` line naming the
    discrepancy (`"score mismatch: dimensions sum to 15, manifest said 16 — using 15"`).
 2. **Apply the verdict rules** above, in order. Collect the concrete `reasons` — one line each,
-   each citing the evidence (`"AC4 uncovered (matrix row 4)"`, `"Q5 open: cancellation < 4h"`,
+   each citing the evidence (`"AC4 uncovered (matrix row 4)"`,
+   `"open arbitration: cancellation < 4h"`,
    `"dim 3 = 1: req-neg AC4-C2 uncovered"`). A PASS lists the gates it cleared.
 3. **Handle a waiver only on explicit human input.** If — and only if — the user states they
    accept the candidate despite the reasons, set `verdict: "WAIVED"` and record

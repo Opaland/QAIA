@@ -5,12 +5,12 @@ description: Ingest a user-provided HAR file (or equivalent captured HTTP traffi
 
 # traffic-replay — captured traffic → non-regression conditions
 
-Addresses issue #39 — shift-right: `perf-check`/`security-surface`/`a11y-audit` are active
-checks run against a live app; nothing in QAIA derived test conditions from **real traffic
-that already happened**. This skill closes that gap the same way every analysis skill in this
-plugin works: read an artifact the user already has and report only what it shows — same
-anti-fabrication discipline as ingestion (D38), same masking discipline (D37, extended here
-from user-story text to HTTP traffic).
+Shift-right gap this closes: `perf-check`/`security-surface`/`a11y-audit` are active checks run
+against a live app; nothing else in QAIA derives test conditions from **real traffic that already
+happened**. It works the way every analysis skill in this plugin works: read an artifact the user
+already has and report only what it shows — the same anti-fabrication discipline as ingestion
+(honest recall beats fabricated recall: never assert more than the artifact supports), and the
+same mask-before-write discipline, extended here from user-story text to HTTP traffic.
 
 Reference fixture: `fixture/` in this skill folder — a fully **synthetic** HAR
 (`demo-traffic.har`) for a fictional app ("TaskFlow"), hand-built for this validation, never
@@ -31,12 +31,12 @@ injected values leak into the output artifacts.
 - Optionally, a target US-ID if the user wants the derived conditions merged into that story's
   manifest (see Output). Not required — captured traffic often spans more routes than one US.
 
-## Masking (blocking, before any write — D37 discipline extended to HTTP traffic)
+## Masking (blocking, before any write — the ingestion masking discipline, extended to HTTP traffic)
 
 Applied to **every** request and response in the HAR before any finding, table, or JSON file
 is written — never after the fact, never partially. This parses naturally as a short-lived,
-in-session script (D42 tier 1 — generated and run in the user's session, thrown away, never
-shipped in the plugin) that deterministically applies the rules below; `fixture/build-findings.py`
+in-session script (skills ship no runtime code: executable code is generated and run in the
+user's session, thrown away, never distributed in the plugin) that deterministically applies the rules below; `fixture/build-findings.py`
 is the actual script used to produce this skill's own validation evidence, kept here for
 transparency, not as runtime code the plugin auto-executes.
 
@@ -47,11 +47,11 @@ transparency, not as runtime code the plugin auto-executes.
 | Query tokens | Query-string parameter **values** whose key matches `/token\|key\|secret\|session\|auth\|password/i` (the param *name* is kept — see grouping) | `[REDACTED:query-token]` |
 | Email | Regex-matched email addresses anywhere in headers, query values, URLs, or bodies | `[REDACTED:email]` |
 | Phone | Regex-matched phone numbers (international/local formats) in bodies | `[REDACTED:phone]` |
-| Card number | Digit runs of 13-19 chars (separators stripped) that pass a **Luhn checksum** — a checksum beats a naive digit-count regex, same logic class `oracle-generate`'s Luhn oracle encodes (D36) | `[REDACTED:card]` |
+| Card number | Digit runs of 13-19 chars (separators stripped) that pass a **Luhn checksum** — a checksum beats a naive digit-count regex, same logic class `oracle-generate`'s Luhn oracle encodes | `[REDACTED:card]` |
 | Name (heuristic) | String values under JSON keys matching `/name\|assignee\|author\|owner\|contact/i` | `[REDACTED:name]` |
 | Password/secret/token body fields | String values under JSON keys matching `/password\|passwd\|pwd\|secret\|token\|api.?key/i` (a body carrying a login credential or a session/API token, even in a test/demo HAR, is never echoed — this is distinct from the header-level auth rule above, which only covers header values) | `[REDACTED:secret]` |
 
-- **No redaction ledger** (mirrors D37 exactly): never persist a mapping from an original value
+- **No redaction ledger** (mirrors the ingestion rule exactly): never persist a mapping from an original value
   to its placeholder. The only record kept is `type -> placeholder -> count` per HAR.
 - **Independent second layer**: the response-shape fingerprint (Method, step 4) records
   **keys and value types only, never values** — so even a value the regex/heuristic list above
@@ -88,7 +88,7 @@ transparency, not as runtime code the plugin auto-executes.
      observed time, never an average presented as a guarantee; point at `perf-check` for an
      actual latency budget (needs repeated, controlled samples, not opportunistic capture).
    - **Sample count** and an explicit `singleSample: true/false`.
-5. **Honesty on N=1 (D38, applied to traffic).** A signature observed once is reported as
+5. **Honesty on N=1 (honest recall, applied to traffic).** A signature observed once is reported as
    "1 sample observed" and documents only what happened that one time — never implies the
    status/shape is guaranteed to recur. This is the default for most routes in any real HAR;
    say so rather than quietly treating a single capture as a stable contract.
@@ -99,9 +99,10 @@ transparency, not as runtime code the plugin auto-executes.
   (`@QAIA-TRAFFIC-<NNN>` ID, method, path, query-param-name-set, sample count, observed
   status(es), response shape fingerprint, significant headers, timing if present, single-sample
   flag).
-- `piiMasked`: `type -> placeholder -> count` summary for the whole HAR (no ledger, D37).
+- `piiMasked`: `type -> placeholder -> count` summary for the whole HAR (no ledger).
 - **If a US-ID is given/confirmed**: merge into `.qaia/reports/<US-ID>/manifest.json` under a
-  new `trafficReplay` section — same discipline `flaky-detect` already applies (D39 rule 2):
+  new `trafficReplay` section — same discipline `flaky-detect` already applies (shared output
+  contract, `docs/OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber):
   merge only this section, append to `producers[]`, extend `artifacts[]`, never touch
   `design`/`execution`/`gate`/`status`. **If no US-ID applies** (traffic spans routes from
   several stories, or none in particular), skip the manifest merge and say so explicitly —
@@ -136,13 +137,13 @@ generates nor runs that test itself.
 - **Never capture live traffic.** No proxy, no MITM, no browser automation to generate new
   requests, no network call of any kind from this skill. Input is a HAR the user already has —
   full stop. Refuse and explain if asked to "watch the app and capture what happens."
-- **Mask before any write, blocking, no exceptions, no ledger** (D37, extended to HTTP
-  traffic) — see Masking above. Applies to headers, query values, and bodies in both requests
+- **Mask before any write, blocking, no exceptions, no ledger** (the ingestion masking rule,
+  extended to HTTP traffic) — see Masking above. Applies to headers, query values, and bodies in both requests
   and responses; the response-shape fingerprint (keys/types only) is an independent second
   safety layer on top of the regex/heuristic list.
 - **Never generalize beyond the sample.** No path-template inference, no averaging across
   differing statuses, no claim that an absent header means "insecure in general" — the report
-  says what this capture showed, never what is structurally guaranteed true of the app (D38).
+  says what this capture showed, never what is structurally guaranteed true of the app.
 - **No auto-replay, no auto-generated test execution.** A condition derived here is a candidate
   for a human (or a separate, explicit `automate` run) to turn into an actual test — this skill
   never sends a request, never runs anything against the app that produced the HAR or any other
@@ -158,5 +159,5 @@ generates nor runs that test itself.
   - These gaps are reported in the findings output itself, not just here — never imply full PII
     coverage.
 - **HAR only, nothing ever contacted.** Mirrors `security-surface`/`perf-check`'s
-  "self-hosted/authorized only" (D35) in spirit; this skill goes one step further and contacts
+  "self-hosted/authorized targets only" rule in spirit; this skill goes one step further and contacts
   no target at all, live or otherwise.

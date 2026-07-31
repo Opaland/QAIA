@@ -5,14 +5,15 @@ description: Produce an execution report from a Playwright run in the formats th
 
 # run-report — execution reporting
 
-Decision T1 — the formats real toolchains ingest.
+The three reporting formats real QA toolchains actually ingest, plus requirement traceability.
 
 ## Outputs
 
 - **JUnit XML** — for CI dashboards and most ALMs.
-- **Cucumber JSON** — for import into Xray (D10, git-master mode) and BDD reporters.
+- **Cucumber JSON** — for import into Xray (git-master mode: the repo is the source of truth)
+  and BDD reporters.
 - **Self-contained HTML** — human-readable summary: pass/fail by scenario ID, per-type breakdown (e2e/api/a11y/perf/security), and the AC → scenario → test → result traceability table.
-- **Standardized run manifest** — merge the results into `.qaia/reports/<US-ID>/manifest.json` per the shared output contract (D39, `docs/OUTPUT-CONTRACT.md`), so scoring and dashboards read execution the same way they read the test book.
+- **Standardized run manifest** — merge the results into `.qaia/reports/<US-ID>/manifest.json` per the shared output contract (`docs/OUTPUT-CONTRACT.md`), so scoring and dashboards read execution the same way they read the test book.
 
 ## Steps
 

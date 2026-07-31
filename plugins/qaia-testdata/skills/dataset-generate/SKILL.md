@@ -5,8 +5,9 @@ description: Generate a rich, business-coherent synthetic test dataset (never re
 
 # dataset-generate — synthetic, business-coherent test data
 
-`qaia-core` only ever produces small inline examples inside a scenario (decision D16). This
-skill is the separate producer of **standalone, reusable datasets**: entity collections and
+`qaia-core` only ever produces small inline examples inside a scenario — test data is a separate
+concern, deliberately kept out of the generator so a scenario stays readable and the data stays
+reusable. This skill is the separate producer of **standalone, reusable datasets**: entity collections and
 scenario-oriented "cases" rich and coherent enough that `qaia-playwright:automate`'s generated
 tests can seed real state from them instead of inventing a literal per test.
 
@@ -41,8 +42,8 @@ tests can seed real state from them instead of inventing a literal per test.
    resolve, computed fields must agree with the raw rows they derive from (a cumulative total
    equals the sum of the intake/line rows it summarizes), and no two facts about the same
    entity contradict each other. Recompute totals; do not eyeball them.
-5. **Anti-fabrication discipline (D38) applied to data, not just scenarios.** Two different
-   situations:
+5. **Anti-fabrication discipline applied to data, not just scenarios** — honest recall beats
+   fabricated recall: never let an invented value read as a sourced one. Three situations:
    - The US **states** a threshold/rule — use it, cite the AC.
    - The US is **silent** on a concrete value the fixture still needs (an exact mg threshold,
      a tier spending cutoff's exact rounding) — invent a plausible one for fixture purposes,
@@ -55,7 +56,7 @@ tests can seed real state from them instead of inventing a literal per test.
      no defensible default, build a case that **exposes** the fork instead of resolving it: its
      `expectedResult.status` is literally `"[open]"`, listing both interpretations, mirroring
      the `[open]`/`[assumption]` discipline `istqb-design`/`need-understanding` already apply to
-     scenarios — the honest recall ceiling (D38) applies to invented data exactly as it does to
+     scenarios — the honest recall ceiling applies to invented data exactly as it does to
      invented test logic.
 6. **No real data, no PII, ever.** Every person-like entity (patient, physician, customer,
    employee, ...) gets a clearly synthetic identity: a name pattern that signals fixture data at
@@ -64,8 +65,8 @@ tests can seed real state from them instead of inventing a literal per test.
    identifier, and a `synthetic: true` flag. Never reuse a real drug/company/product name, a
    real address, or any value that could be mistaken for a real record — a reviewer must be able
    to tell at a glance this is fixture data, not exported real data. This holds with extra
-   weight in the health/regulated niche (D2), and applies identically to every domain the skill
-   is used in outside it.
+   weight in health and other regulated domains, and applies identically to every domain the
+   skill is used in outside them.
 7. **Emit the dataset.** Primary format: one JSON file (`<US-ID>-dataset.json`) with:
    - `_meta`: US-ID, generation date, a plain-language non-fabrication disclaimer, and the
      `assumptions[]` list from step 5;
@@ -79,20 +80,22 @@ tests can seed real state from them instead of inventing a literal per test.
    one — invented "realism" beyond what's needed is its own risk (a fixture that looks more
    authoritative than it is).
 8. **Document the injection pattern — don't ship code.** Show how
-   `qaia-playwright:automate`'s POM-as-fixtures convention (D34) consumes the file: a `testData`
-   fixture in `fixtures.js` that reads and parses the JSON once and exposes it to every test —
-   the same `test.extend()` mechanism `examples/medibook/tests/fixtures.js` already uses for
-   `loginPage`/`bookingPage`/`patient`. This is documentation, or an in-session snippet the
-   generating skill or the user materializes when wiring tests — the plugin itself ships **no**
-   runtime code (ADR 0002/D42: skills stay 100% Markdown; executable code is generated and run
-   in-session, never distributed). See `../../fixture/fixtures.js` for a worked, executed
-   example.
+   `qaia-playwright:automate`'s POM-as-fixtures convention (page objects exposed as Playwright
+   fixtures) consumes the file: a `testData` fixture in `fixtures.js` that reads and parses the
+   JSON once and exposes it to every test — the same `test.extend()` mechanism
+   `examples/medibook/tests/fixtures.js` already uses for `loginPage`/`bookingPage`/`patient`.
+   This is documentation, or an in-session snippet the generating skill or the user materializes
+   when wiring tests — the plugin itself ships **no** runtime code: skills stay 100% Markdown,
+   and executable code is generated and run in-session, never distributed, so installing a
+   plugin can never introduce a supply-chain payload. See `../../fixture/fixtures.js` for a
+   worked, executed example.
 9. **Traceability.** Write (or update) `dataset-map.md`: one row per `cases[]` entry — case ID,
    AC(s), condition/scenario ID if a test book exists, expected outcome, assumption refs. This
    is the dataset's own coverage matrix, mirroring the AC → scenario → status pattern
-   `testbook-generate` already uses (D18), so a reviewer audits the data the same way they audit
+   `testbook-generate` already uses, so a reviewer audits the data the same way they audit
    the tests.
-10. **Optional manifest merge (D39).** If `.qaia/reports/<US-ID>/manifest.json` already exists,
+10. **Optional manifest merge (shared output contract, `docs/OUTPUT-CONTRACT.md`).** If
+    `.qaia/reports/<US-ID>/manifest.json` already exists,
     merge into `producers[]` and add an `artifacts[]` entry (`kind: "dataset"`,
     `format: "json"`, `path`) — append-only, never touching another producer's section
     (`design`/`execution`/`gate`/`status` stay byte-for-byte untouched, contract rule 2). If no
@@ -107,8 +110,8 @@ tests can seed real state from them instead of inventing a literal per test.
   ever enters in the first place.
 - **Never fabricate a domain fact as if sourced** when the US is silent — invent, but flag
   (`synthetic: true`, `_meta.assumptions[]`, or an explicit `[open]` case). Honest recall beats
-  fabricated recall (D38), applied to data exactly as to scenarios.
-- **No auto-executed code ships with the plugin** (D42/ADR 0002). The fixture-wiring pattern in
+  fabricated recall, applied to data exactly as to scenarios.
+- **No auto-executed code ships with the plugin.** The fixture-wiring pattern in
   step 8 is a documented convention the user/skill materializes in their own test repo, never a
   script this plugin runs on its own.
 - **Scoped writes.** This skill's only outputs are the dataset file(s), `dataset-map.md`, and

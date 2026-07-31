@@ -7,7 +7,7 @@ description: Project the QAIA journey into the standardized run manifest (.qaia/
 
 Follow the shared contract in `../README.md`. This skill produces the **one envelope every
 QAIA plugin shares**: `.qaia/reports/<US-ID>/manifest.json`, defined by
-`docs/OUTPUT-CONTRACT.md` (decision D39). It never invents data — it *projects* the existing
+`docs/OUTPUT-CONTRACT.md`. It never invents data — it *projects* the existing
 journey artifacts into the common schema so `qaia-score`, an export, or CI can read any run
 the same way.
 
@@ -28,10 +28,12 @@ guessed counts.
    - `synthesis.md` and `02-understanding.md` (open questions, assumptions, `simulated`,
      low-confidence);
    - `03-design.md` and the `# rule: BR-KB-nnn` scenario comments → `design.knowledgeApplied`
-     (the knowledge-base rules that shaped the book — the RAG-in-use provenance, D38).
+     (the knowledge-base rules that shaped the book — the provenance that shows the team's
+     own rules were actually applied, not merely available).
 2. **Compute the counts** — do not estimate. Every number in the manifest must equal what the
-   artifacts contain: the negative ratio is `@negative` blocks / all blocks (D20, single
-   definition), `reqNegCovered/reqNegTotal` is the ADR 0001 gate, `byPriority` sums to
+   artifacts contain: the negative ratio is `@negative` blocks / all blocks (the single
+   definition given by `testbook-generate`), `reqNegCovered/reqNegTotal` is the negative-path
+   coverage gate of ADR 0001, `byPriority` sums to
    `total` minus the excluded `@smoke` journey per the counting rules of `testbook-generate`.
 3. **Merge, don't clobber** (contract rule 2). If `manifest.json` already exists, load it,
    replace only the `design` section and `openArbitrations`, append this skill to

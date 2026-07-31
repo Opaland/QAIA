@@ -5,11 +5,11 @@ description: Create or enrich the team's git-versioned QAIA knowledge base (.qai
 
 # rag-build — team knowledge base
 
-Follow the shared contract in `../README.md`. The knowledge base is shared by the team through git (D23): treat every change as something a teammate will review in a PR.
+Follow the shared contract in `../README.md`. The knowledge base is shared by the team through git: treat every change as something a teammate will review in a PR.
 
 ## Layout it maintains
 
-- `knowledge/index.md` — **master index, mandatory**: one line per file — `path | topic | tags`. Every read by any skill goes through this index (D21); a file absent from the index is invisible.
+- `knowledge/index.md` — **master index, mandatory**: one line per file — `path | topic | tags`. Every read by any skill goes through this index — selective loading is what keeps the knowledge base affordable — so a file absent from the index is invisible.
 - `knowledge/*.md` — one concern per file (a business rule cluster, a glossary section, one application area), **≤ ~2k tokens each**. Split rather than grow.
 
 ## Steps

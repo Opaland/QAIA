@@ -21,14 +21,15 @@ Load the reference file `oracles/library.md` in this skill directory. It defines
 | country code | **ISO 3166** | alpha-2/alpha-3 valid/invalid |
 | IBAN / bank account | **IBAN mod-97** | valid/invalid checksums, per-country length |
 
-## Project oracle — OpenAPI / JSON Schema (bounded, opt-in) — issue #16
+## Project oracle — OpenAPI / JSON Schema (bounded, opt-in)
 
 For project-specific truth, the user may designate **ONE** source — an OpenAPI/Swagger document
 (`.yaml`/`.json`) or a JSON Schema. Its **documented** contract becomes the oracle for those
 endpoints: the expected results come from the spec, not from extrapolation. The full extraction
 mapping is in `oracles/openapi.md` (load it when a project oracle is in play).
 
-**Before extracting anything (issue #25 — measured on 3 real specs, 2 degenerated silently):**
+**Before extracting anything — an unchecked spec degenerates silently, producing an extraction
+that succeeds and yields almost nothing, which then reads as "covered":**
 resolve every internal `$ref` first (an unresolved `$ref` reads as "no constraints", silently
 dropping required-field negatives — never fetch external `$ref`s or the live API, only follow
 pointers within the same document); then check the spec's overall health — if it documents
@@ -66,7 +67,7 @@ wins on business intent, the spec grounds the API shape.
 1. **Detect** standardized domains in `01-extraction.md` / `03-design.md`. For each, name the applicable oracle.
 2. ⚠ VALIDATION: propose the oracle-derived cases to the user (e.g. "for card validation I can add the Luhn valid/invalid test set — accept?"). The oracle *proposes*; the human arbitrates.
 3. **Emit** the accepted cases into the design conditions and, at generation, into scenarios — each tagged `@oracle:<standard>` and carrying a `# oracle: <ref>` comment. The expected result comes from the standard, not from extrapolation.
-4. **Record** provenance in `03-design.md` and the synthesis ("negative cases X, Y grounded in Luhn, not fabricated") — this raises negative-path coverage (ADR 0001) without fabrication.
+4. **Record** provenance in `03-design.md` and the synthesis ("negative cases X, Y grounded in Luhn, not fabricated") — this raises negative-path coverage — the gate defined by ADR 0001 — without fabrication.
 
 ## Guardrails
 

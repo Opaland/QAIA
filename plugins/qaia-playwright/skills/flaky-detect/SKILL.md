@@ -5,17 +5,13 @@ description: Detect tests whose pass/fail verdict varies across repeated runs of
 
 # flaky-detect — flaky test detection from repeated runs
 
-Addresses issue #34 (P1) — flaky detection was an identified gap versus the competitive
-landscape (`docs/COMPETITIVE-ANALYSIS.md`), and the exact class of bug QAIA's own automation
-has hit for real: 1 finding in `examples/medibook/`'s flake hunt (shared mutable state raced
-by parallel workers, fixed with `workers: 1`) and a 2nd in `examples/expense-demo/` (D68).
-**Correction (external audit, 2026-07-26)**: this line previously overstated the medibook
-count as "3 findings" — the hunt session did surface 3 distinct defects (`docs/KANBAN.md`
-Sprint 5 entry), but only the shared-state race is actually an instance of *this skill's*
-defect class (pass/fail variance across runs of unchanged code); the other two (a hardcoded
-Chromium path, a visual-baseline tolerance gap) are different defect classes entirely, found
-in the same session but not flakiness. Reported accurately rather than inflated. The value of
-catching this class is proven either way; this skill is the missing tool.
+A test whose verdict flips between runs of unchanged code destroys the signal value of the whole
+suite: every red becomes negotiable, and a real regression hides behind "just re-run it". This
+skill names those tests with evidence, and stops there — it never retries, quarantines or fixes.
+
+The defect class is not hypothetical: QAIA's own automation has hit it (shared mutable state
+raced by parallel workers). For the provenance and the audited evidence trail, see
+`references/origin.md` — not needed to run the skill.
 
 Reference fixture: `fixture/` in this skill folder — a minimal, self-contained Playwright
 suite against a shared-state server, deliberately timing-dependent (not "always fails"),
@@ -55,7 +51,8 @@ the worked example of this skill applied to that data.
 - A findings table (Markdown) plus the same data as JSON: test ID, pass rate, failing run
   indices, a failure excerpt where available.
 - **Merge into `.qaia/reports/<US-ID>/manifest.json`** in a dedicated `flakiness` section —
-  never touching `execution`, `design`, `gate`, or `status` (contract D39, rule 2). Load the
+  never touching `execution`, `design`, `gate`, or `status` (shared output contract,
+  `docs/OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber). Load the
   existing manifest, replace only `flakiness`, append this skill to `producers[]`, add the
   findings file to `artifacts[]`. If no manifest exists yet, create one with just the shared
   header + `flakiness` (mirrors `run-report`'s own bootstrap behavior).
@@ -97,7 +94,7 @@ the worked example of this skill applied to that data.
 ## Guardrails
 
 - **Never auto-retry, auto-quarantine, or auto-fix.** Flag-only, with proof.
-- **Honesty over false confidence** (D38): a test with all-pass verdicts across N runs is
+- **Honesty over false confidence** (honest recall beats fabricated recall): a test with all-pass verdicts across N runs is
   reported as "no flakiness observed in N runs," never as "stable" or "not flaky" — absence of
   evidence is not evidence of absence, especially at low N. Recommend N≥5 before treating a
   clean streak as reassuring, and never claim more than the runs actually show.
