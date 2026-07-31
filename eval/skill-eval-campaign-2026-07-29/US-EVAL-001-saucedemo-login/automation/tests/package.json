@@ -1,0 +1,11 @@
+{
+  "name": "qaia-us-eval-001-saucedemo-login",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.62.0"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.12.1"
+  }
+}

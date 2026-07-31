@@ -1,0 +1,72 @@
+<testsuites id="" name="" tests="8" failures="1" skipped="0" errors="0" time="9.123682">
+<testsuite name="e2e.login.spec.js" timestamp="2026-07-30T14:16:49.804Z" hostname="e2e-desktop" tests="7" failures="1" skipped="0" time="7.543" errors="0">
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-001 @AC1 - valid non-locked account reaches the product catalog" classname="e2e.login.spec.js" time="0.395">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-002 @AC2 - locked-out account is refused with the locked-out message" classname="e2e.login.spec.js" time="0.325">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-003 @AC3 - unknown username is refused with a generic message" classname="e2e.login.spec.js" time="0.309">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-004 @AC3 - known username with wrong password is refused with a generic message" classname="e2e.login.spec.js" time="0.329">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-005 @AC3 - empty username is refused [example 1: empty username]" classname="e2e.login.spec.js" time="0.512">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-005 @AC3 - empty password is refused [example 2: empty password]" classname="e2e.login.spec.js" time="0.326">
+</testcase>
+<testcase name="SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password still shows locked-out message (proposed default, unconfirmed)" classname="e2e.login.spec.js" time="5.347">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\test-failed-1.png]]
+
+[[ATTACHMENT|test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\error-context.md]]
+
+[[ATTACHMENT|test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\trace.zip]]
+]]>
+</system-out>
+<failure message="expect(locator).toHaveText(expected) failed" type="expect.toHaveText">
+<![CDATA[  [e2e-desktop] › e2e.login.spec.js:68:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password still shows locked-out message (proposed default, unconfirmed) 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  getByTestId('error')
+    Expected: "Epic sadface: Sorry, this user has been locked out."
+    Received: "Epic sadface: Username and password do not match any user in this service"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" with timeout 5000ms
+      - waiting for getByTestId('error')
+        14 × locator resolved to <h3 data-test="error">…</h3>
+           - unexpected value "Epic sadface: Username and password do not match any user in this service"
+
+
+      70 |     await loginPage.login('locked_out_user', 'not_the_real_password');
+      71 |     await expect(page).not.toHaveURL(/inventory\.html/);
+    > 72 |     await expect(loginPage.error).toHaveText('Epic sadface: Sorry, this user has been locked out.');
+         |                                   ^
+      73 |     await expect(inventoryPage.container).not.toBeVisible();
+      74 |   });
+      75 |
+        at C:\Users\Moretti Cédric\Documents\Claude\QAIA\.claude\worktrees\agent-a6391ea89a034665f\eval\skill-eval-campaign-2026-07-29\US-EVAL-001-saucedemo-login\automation\tests\e2e.login.spec.js:72:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="a11y.login.spec.js" timestamp="2026-07-30T14:16:49.804Z" hostname="a11y" tests="1" failures="0" skipped="0" time="0.616" errors="0">
+<testcase name="@QAIA-A11Y-001 - SauceDemo login screen has no serious/critical WCAG2 A/AA violations" classname="a11y.login.spec.js" time="0.616">
+</testcase>
+</testsuite>
+</testsuites>

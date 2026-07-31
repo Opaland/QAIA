@@ -1,0 +1,458 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\playwright.config.js",
+    "rootDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/.claude/worktrees/agent-a6391ea89a034665f/eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/automation/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/.claude/worktrees/agent-a6391ea89a034665f/eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/automation/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-desktop",
+        "name": "e2e-desktop",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/.claude/worktrees/agent-a6391ea89a034665f/eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/e2e\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      },
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/.claude/worktrees/agent-a6391ea89a034665f/eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/automation/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "a11y",
+        "name": "a11y",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/.claude/worktrees/agent-a6391ea89a034665f/eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/automation/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/a11y\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "junit.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e.login.spec.js",
+      "file": "e2e.login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "SauceDemo login gate (US-EVAL-001)",
+          "file": "e2e.login.spec.js",
+          "line": 7,
+          "column": 6,
+          "specs": [
+            {
+              "title": "QAIA-US-EVAL-001-001 @AC1 - valid non-locked account reaches the product catalog",
+              "ok": true,
+              "tags": [
+                "AC1"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 395,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:50.094Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-fef79e27537e85369a22",
+              "file": "e2e.login.spec.js",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-002 @AC2 - locked-out account is refused with the locked-out message",
+              "ok": true,
+              "tags": [
+                "AC2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 325,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:50.563Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-754dd9cdaca2d7472c2a",
+              "file": "e2e.login.spec.js",
+              "line": 16,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-003 @AC3 - unknown username is refused with a generic message",
+              "ok": true,
+              "tags": [
+                "AC3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 309,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:50.897Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-b544afb91ca5699882e8",
+              "file": "e2e.login.spec.js",
+              "line": 24,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-004 @AC3 - known username with wrong password is refused with a generic message",
+              "ok": true,
+              "tags": [
+                "AC3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 329,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:51.211Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-5a51bf9a7fbf8bacaf0f",
+              "file": "e2e.login.spec.js",
+              "line": 34,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-005 @AC3 - empty username is refused [example 1: empty username]",
+              "ok": true,
+              "tags": [
+                "AC3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 512,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:51.547Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-d56f17fa8cfdd8a4837c",
+              "file": "e2e.login.spec.js",
+              "line": 46,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-005 @AC3 - empty password is refused [example 2: empty password]",
+              "ok": true,
+              "tags": [
+                "AC3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 326,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:52.066Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-4ab4cb1e853014d42390",
+              "file": "e2e.login.spec.js",
+              "line": 54,
+              "column": 3
+            },
+            {
+              "title": "QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password still shows locked-out message (proposed default, unconfirmed)",
+              "ok": false,
+              "tags": [
+                "AC2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 5347,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('error')\nExpected: \u001b[32m\"Epic sadface: \u001b[7mSorry, this user has been locked out.\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"Epic sadface: \u001b[7mUsername and password do not match any user in this service\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('error')\u001b[22m\n\u001b[2m    14 × locator resolved to <h3 data-test=\"error\">…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"Epic sadface: Username and password do not match any user in this service\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('error')\nExpected: \u001b[32m\"Epic sadface: \u001b[7mSorry, this user has been locked out.\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"Epic sadface: \u001b[7mUsername and password do not match any user in this service\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('error')\u001b[22m\n\u001b[2m    14 × locator resolved to <h3 data-test=\"error\">…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"Epic sadface: Username and password do not match any user in this service\"\u001b[22m\n\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\e2e.login.spec.js:72:35",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\e2e.login.spec.js",
+                          "column": 35,
+                          "line": 72
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 70 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mlogin(\u001b[32m'locked_out_user'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'not_the_real_password'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 71 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/inventory\\.html/\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 72 |\u001b[39m     \u001b[36mawait\u001b[39m expect(loginPage\u001b[33m.\u001b[39merror)\u001b[33m.\u001b[39mtoHaveText(\u001b[32m'Epic sadface: Sorry, this user has been locked out.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 73 |\u001b[39m     \u001b[36mawait\u001b[39m expect(inventoryPage\u001b[33m.\u001b[39mcontainer)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 74 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\e2e.login.spec.js",
+                            "column": 35,
+                            "line": 72
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('error')\nExpected: \u001b[32m\"Epic sadface: \u001b[7mSorry, this user has been locked out.\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"Epic sadface: \u001b[7mUsername and password do not match any user in this service\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('error')\u001b[22m\n\u001b[2m    14 × locator resolved to <h3 data-test=\"error\">…</h3>\u001b[22m\n\u001b[2m       - unexpected value \"Epic sadface: Username and password do not match any user in this service\"\u001b[22m\n\n\n  70 |     await loginPage.login('locked_out_user', 'not_the_real_password');\n  71 |     await expect(page).not.toHaveURL(/inventory\\.html/);\n> 72 |     await expect(loginPage.error).toHaveText('Epic sadface: Sorry, this user has been locked out.');\n     |                                   ^\n  73 |     await expect(inventoryPage.container).not.toBeVisible();\n  74 |   });\n  75 |\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\e2e.login.spec.js:72:35"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-07-30T14:16:52.398Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\test-results\\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\test-results\\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\test-results\\e2e.login-SauceDemo-login--48f7a-oposed-default-unconfirmed--e2e-desktop\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\.claude\\worktrees\\agent-a6391ea89a034665f\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-001-saucedemo-login\\automation\\tests\\e2e.login.spec.js",
+                        "column": 35,
+                        "line": 72
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "359c42def4d93c2499a2-f09eb442e5dce092f28c",
+              "file": "e2e.login.spec.js",
+              "line": 68,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "a11y.login.spec.js",
+      "file": "a11y.login.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@QAIA-A11Y-001 - SauceDemo login screen has no serious/critical WCAG2 A/AA violations",
+          "ok": true,
+          "tags": [
+            "QAIA-A11Y-001"
+          ],
+          "tests": [
+            {
+              "timeout": 15000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "a11y",
+              "projectName": "a11y",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 616,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-07-30T14:16:58.149Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "axe-violations.json",
+                      "contentType": "application/json",
+                      "body": "W10="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7d36f8bca2feb27670fb-00dce0c2b348f9061c3f",
+          "file": "a11y.login.spec.js",
+          "line": 8,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-30T14:16:49.754Z",
+    "duration": 9123.682,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
