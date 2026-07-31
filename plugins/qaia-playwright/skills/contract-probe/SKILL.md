@@ -1,6 +1,6 @@
 ---
 name: contract-probe
-description: Probe a self-hosted app's real behavior against its own documented contract (README, help text, spec) with bounded, non-destructive adversarial inputs, judging deviation from what is promised rather than only crash-vs-no-crash - convert each confirmed defect into a tagged Gherkin regression scenario. Never applies a fix. Use for shift-right coverage complementary to the spec-first journey.
+description: Probe a self-hosted or explicitly authorized app's real behavior against its own documented contract (README, help text, spec) with bounded, non-destructive adversarial inputs, judging deviation from what is promised rather than only crash-vs-no-crash - convert each confirmed defect into a tagged Gherkin regression scenario. Never applies a fix. Use for shift-right coverage complementary to the spec-first journey.
 ---
 
 # contract-probe — adversarial contract probing

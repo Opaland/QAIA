@@ -44,9 +44,15 @@ Evaluate top to bottom; the **first** matching band is the verdict.
      themselves force CONCERNS (report them; don't over-block on low-priority instability).
 3. **PASS** — rubric total `≥ 16`, no dimension at 0, all hard gates met, no pending
    arbitration, and (if execution is present) `failed = 0` and `blocked = 0`.
-4. **WAIVED** — a human explicitly accepts a CONCERNS or FAIL candidate. **Never self-granted**:
-   only a recorded human decision produces it. The underlying reasons stay listed; the waiver
-   sits on top.
+**WAIVED is not a fourth band — it is an overlay, and it is decided before the bands are read.**
+A human explicitly accepts a candidate that the bands above already classified CONCERNS or FAIL.
+So: evaluate the bands first, publish the verdict they produce, and only then record a waiver on
+top of it if a human granted one. **Never self-granted** — only a recorded human decision produces
+it, carrying `waiver: { by, reason, at }`; `validate_manifest.py` rejects a WAIVED verdict with no
+waiver object. The underlying band verdict and its reasons stay listed and stay true: a waiver
+accepts a risk, it never erases the finding. *Corrected 2026-07-31: WAIVED was numbered "4" inside
+an ordered list of bands, which reads as a band the skill can reach on its own — the opposite of
+what the rule says two lines later.*
 
 ## Steps
 
