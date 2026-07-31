@@ -1,0 +1,38 @@
+
+[2mRunning [22m32[2m tests using [22m1[2m worker[22m
+
+  [32mok[39m [2m 1 [22m[e2e-desktop] › e2e.booking.spec.js:7:3 › MediBook — booking journey (US-001) › @QAIA-US-001-001 @AC1 @P1 specialty filter shows only matching practitioners[2m (155ms)[22m
+  [32mok[39m [2m 2 [22m[e2e-desktop] › e2e.booking.spec.js:14:3 › MediBook — booking journey (US-001) › @QAIA-US-001-002 @AC2 @P1 @boundary slot starting <2h ahead is not bookable[2m (131ms)[22m
+  [32mok[39m [2m 3 [22m[e2e-desktop] › e2e.booking.spec.js:21:3 › MediBook — booking journey (US-001) › @QAIA-US-001-003 @AC5 @P1 successful booking shows confirmation with practitioner[2m (195ms)[22m
+  [32mok[39m [2m 4 [22m[e2e-desktop] › e2e.booking.spec.js:30:3 › MediBook — booking journey (US-001) › @QAIA-US-001-004 @AC6 @P1 cancellation refused less than 4h before start[2m (256ms)[22m
+  [32mok[39m [2m 5 [22m[e2e-desktop] › e2e.booking.spec.js:38:3 › MediBook — booking journey (US-001) › @QAIA-US-001-005 @AC6 @P1 cancellation allowed more than 4h before start[2m (273ms)[22m
+  [32mok[39m [2m 6 [22m[e2e-desktop] › e2e.booking.spec.js:46:3 › MediBook — booking journey (US-001) › @QAIA-US-001-006 @AC1 @P2 filtering to a specialty with no free slot yields empty list[2m (134ms)[22m
+  [32mok[39m [2m 7 [22m[e2e-mobile] › e2e.booking.spec.js:7:3 › MediBook — booking journey (US-001) › @QAIA-US-001-001 @AC1 @P1 specialty filter shows only matching practitioners[2m (163ms)[22m
+  [32mok[39m [2m 8 [22m[e2e-mobile] › e2e.booking.spec.js:14:3 › MediBook — booking journey (US-001) › @QAIA-US-001-002 @AC2 @P1 @boundary slot starting <2h ahead is not bookable[2m (137ms)[22m
+  [32mok[39m [2m 9 [22m[e2e-mobile] › e2e.booking.spec.js:21:3 › MediBook — booking journey (US-001) › @QAIA-US-001-003 @AC5 @P1 successful booking shows confirmation with practitioner[2m (193ms)[22m
+  [32mok[39m [2m10 [22m[e2e-mobile] › e2e.booking.spec.js:30:3 › MediBook — booking journey (US-001) › @QAIA-US-001-004 @AC6 @P1 cancellation refused less than 4h before start[2m (255ms)[22m
+  [32mok[39m [2m11 [22m[e2e-mobile] › e2e.booking.spec.js:38:3 › MediBook — booking journey (US-001) › @QAIA-US-001-005 @AC6 @P1 cancellation allowed more than 4h before start[2m (247ms)[22m
+  [32mok[39m [2m12 [22m[e2e-mobile] › e2e.booking.spec.js:46:3 › MediBook — booking journey (US-001) › @QAIA-US-001-006 @AC1 @P2 filtering to a specialty with no free slot yields empty list[2m (150ms)[22m
+  [32mok[39m [2m13 [22m[api] › api.booking.spec.js:12:3 › MediBook API (US-001) › @QAIA-US-001-101 @AC1 GET /slots?specialty filters server-side[2m (20ms)[22m
+  [32mok[39m [2m14 [22m[api] › api.booking.spec.js:19:3 › MediBook API (US-001) › @QAIA-US-001-102 @AC2 @boundary book slot <2h ahead → 422[2m (6ms)[22m
+  [32mok[39m [2m15 [22m[api] › api.booking.spec.js:26:3 › MediBook API (US-001) › @QAIA-US-001-103 @AC4 @negative double-booking same slot → 409 for the second[2m (9ms)[22m
+  [32mok[39m [2m16 [22m[api] › api.booking.spec.js:35:3 › MediBook API (US-001) › @QAIA-US-001-104 @AC3 @boundary 4th upcoming appointment refused[2m (8ms)[22m
+  [32mok[39m [2m17 [22m[api] › api.booking.spec.js:47:3 › MediBook API (US-001) › @QAIA-US-001-105 @AC7 @decision-table minor without guardian contact refused[2m (4ms)[22m
+  [32mok[39m [2m18 [22m[api] › api.booking.spec.js:54:3 › MediBook API (US-001) › @QAIA-US-001-106 @AC7 @decision-table minor booking unauthorized practitioner refused[2m (4ms)[22m
+  [32mok[39m [2m19 [22m[api] › api.booking.spec.js:61:3 › MediBook API (US-001) › @QAIA-US-001-107 @AC-auth @negative booking without token → 401[2m (3ms)[22m
+  [32mok[39m [2m20 [22m[api] › api.booking.spec.js:66:3 › MediBook API (US-001) › @QAIA-US-001-108 @AC8 booking is recorded in the audit trail[2m (5ms)[22m
+  [32mok[39m [2m21 [22m[api] › api.booking.spec.js:77:3 › MediBook API (US-001) › @QAIA-US-001-109 @AC8 @negative reading the audit trail without authentication is refused[2m (3ms)[22m
+  [32mok[39m [2m22 [22m[security] › security.booking.spec.js:8:3 › MediBook security surface › @QAIA-SEC-001 protected endpoint rejects missing token (401)[2m (19ms)[22m
+  [32mok[39m [2m23 [22m[security] › security.booking.spec.js:13:3 › MediBook security surface › @QAIA-SEC-002 protected endpoint rejects forged/invalid token (401)[2m (4ms)[22m
+  [32mok[39m [2m24 [22m[security] › security.booking.spec.js:18:3 › MediBook security surface › @QAIA-SEC-003 one patient cannot cancel another patient's appointment (IDOR)[2m (9ms)[22m
+  [32mok[39m [2m25 [22m[security] › security.booking.spec.js:28:3 › MediBook security surface › @QAIA-SEC-004 malformed JSON body does not 500 the server[2m (4ms)[22m
+  [32mok[39m [2m26 [22m[security] › security.booking.spec.js:33:3 › MediBook security surface › @QAIA-SEC-005 login does not leak which factor failed (user enumeration)[2m (7ms)[22m
+  perf: n=100 p50=5.1ms p95=11.5ms max=11.8ms
+  [32mok[39m [2m27 [22m[perf] › perf.slots.spec.js:9:3 › MediBook performance (self-hosted only) › @QAIA-PERF-001 GET /slots p95 latency under budget across 100 requests[2m (106ms)[22m
+  [32mok[39m [2m28 [22m[perf] › perf.slots.spec.js:27:3 › MediBook performance (self-hosted only) › @QAIA-PERF-002 concurrent bookings stay consistent under contention[2m (7ms)[22m
+  [32mok[39m [2m29 [22m[a11y] › a11y.booking.spec.js:6:3 › MediBook accessibility (WCAG 2 A/AA) › @QAIA-A11Y-001 login screen has no serious/critical violations[2m (296ms)[22m
+  [32mok[39m [2m30 [22m[a11y] › a11y.booking.spec.js:13:3 › MediBook accessibility (WCAG 2 A/AA) › @QAIA-A11Y-002 booking screen has no serious/critical violations[2m (381ms)[22m
+  [32mok[39m [2m31 [22m[visual] › visual.booking.spec.js:5:3 › MediBook visual › @QAIA-VIS-001 login screen matches baseline[2m (166ms)[22m
+  [32mok[39m [2m32 [22m[visual] › visual.booking.spec.js:9:3 › MediBook visual › @QAIA-VIS-002 booking screen matches baseline[2m (221ms)[22m
+
+[32m  32 passed[39m[2m (6.0s)[22m

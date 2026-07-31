@@ -2,13 +2,34 @@
 
 > 🇫🇷 [Version française ci-dessous](#-français)
 
-**Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.14, 15 skills), automation (`qaia-playwright` 0.1.6, 8 skills), scoring (`qaia-score` 0.1.4, 2 skills) and test-data (`qaia-testdata` 0.1.0, 1 skill) plugins exist, validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 31 green Playwright tests) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 40 green Playwright tests, real bugs found and fixed during automation) — plus a 24-case multi-model robustness corpus ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
+**Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.26, 15 skills), automation (`qaia-playwright` 0.1.17, 11 skills), scoring (`qaia-score` 0.1.7, 2 skills) and test-data (`qaia-testdata` 0.1.0, 1 skill) plugins exist, validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 32 Playwright tests, all green — re-run 2026-07-31, raw output in [`examples/medibook/tests/run-log.txt`](examples/medibook/tests/run-log.txt)) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 43 green Playwright tests, real bugs found and fixed during automation) — plus a 24-case multi-model robustness corpus ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
 
 QAIA turns user stories into prioritized, traceable **Gherkin test books** and then into **native Playwright tests** — distributed as **skills and plugins** that run inside *your* Claude session. No API key, no backend, no data leaves your session beyond what you already send to Claude.
 
 Built with and for testers: ISTQB techniques applied and justified, requirement→test traceability that works as well for ordinary business workflows (proven on finance/HR) as for domains with higher documentation rigor (demonstrated on a healthcare-shaped example), and a conversational workflow where the tester validates every step. Goal: let teams use AI for test activities across the whole development cycle — **shift-left** (from the spec/user story, before code exists) and **shift-right** (against real execution/production signal), not just isolated test-case generation.
 
 **Not a claim of regulatory readiness.** QAIA's original v1 niche framing (`docs/DECISIONS.md`, D2) named "medical software / regulated environments" specifically — retired (D114) after an honest gap check: QAIA has no mapped coverage of the actual regulatory frameworks that govern that space (IEC 62304, 21 CFR Part 11, ISO 13485) and no real medtech pilot deployment. `examples/medibook/` is an internal demo proving traceability and technique quality on a healthcare-*shaped* domain, not a certified or regulator-reviewed artifact — if your context requires actual regulatory conformance, treat QAIA as unproven there until that gap is closed.
+
+## Install and try it
+
+QAIA is a set of Claude Code plugins. There is nothing to build and no API key to provide — the
+skills run inside your own Claude Code session, using your own model.
+
+```
+/plugin marketplace add https://github.com/QAIA-Project/QAIA
+/plugin install qaia-core@qaia
+/plugin install qaia-playwright@qaia      # automation, a11y, perf, security, visual
+/plugin install qaia-score@qaia           # scoring and release gate
+/plugin install qaia-testdata@qaia        # synthetic test data
+```
+
+Then, in any project, `/hello` checks the install and lists what is available.
+
+`qaia-core` alone takes a user story to a Gherkin test book. Add `qaia-playwright` when you want
+runnable tests. To start, describe what you want in plain language — "work with QAIA on this user
+story" — and the `qaia` meta-agent dispatches to the right skill, stopping at every point where a
+human has to decide. Worked examples with their real output are in [`examples/`](examples/).
+
 
 ## Why not just another agentic QA tool?
 
@@ -60,7 +81,7 @@ Proven twice end-to-end, on two unrelated domains (see [`examples/`](examples/))
 | [`plugins/qaia-testdata/`](plugins/qaia-testdata/) | Test-data plugin: rich, business-coherent synthetic datasets injectable via fixtures (never real data) |
 | [`docs/OUTPUT-CONTRACT.md`](docs/OUTPUT-CONTRACT.md) | Standardized run manifest every plugin shares (D39) |
 | [`eval/`](eval/) | Evaluation harness: gold set + rubric + scored baselines + robustness campaign |
-| [`examples/medibook/`](examples/medibook/) | Worked end-to-end example: real app + POM Playwright automation (24 tests green) |
+| [`examples/medibook/`](examples/medibook/) | Worked end-to-end example: real app + POM Playwright automation (32 tests green — see `tests/run-log.txt`) |
 | [`examples/oracle-demo/`](examples/oracle-demo/) | Standards as test-case generators (Luhn oracle, computationally verified) |
 | [`examples/scoring-demo/`](examples/scoring-demo/) | Output contract + qaia-score walk-through (manifest, scorecard, gate) |
 | [`examples/rag-demo/`](examples/rag-demo/) | The RAG in use: a knowledge base breaking the recall ceiling on a thin US (D38) |
@@ -80,7 +101,29 @@ License: [MIT](LICENSE).
 
 ## 🇫🇷 Français
 
-**Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.14, 15 skills), automatisation (`qaia-playwright` 0.1.6, 8 skills), score (`qaia-score` 0.1.4, 2 skills) et jeux de données (`qaia-testdata` 0.1.0, 1 skill) existent, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 31 tests Playwright verts) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 40 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation) — plus un corpus de robustesse multi-modèles à 24 cas ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
+**Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.26, 15 skills), automatisation (`qaia-playwright` 0.1.17, 11 skills), score (`qaia-score` 0.1.7, 2 skills) et jeux de données (`qaia-testdata` 0.1.0, 1 skill) existent, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 32 tests Playwright, tous verts — rejoués le 2026-07-31, sortie brute dans [`examples/medibook/tests/run-log.txt`](examples/medibook/tests/run-log.txt)) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 43 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation) — plus un corpus de robustesse multi-modèles à 24 cas ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
+
+## Installer et essayer
+
+QAIA est un ensemble de plugins Claude Code. Rien à compiler, aucune clé API à fournir — les
+skills s'exécutent dans votre propre session Claude Code, avec votre propre modèle.
+
+```
+/plugin marketplace add https://github.com/QAIA-Project/QAIA
+/plugin install qaia-core@qaia
+/plugin install qaia-playwright@qaia      # automatisation, a11y, perf, sécurité, visuel
+/plugin install qaia-score@qaia           # score et gate de release
+/plugin install qaia-testdata@qaia        # jeux de données synthétiques
+```
+
+Puis, dans n'importe quel projet, `/hello` vérifie l'installation et liste ce qui est disponible.
+
+`qaia-core` seul suffit pour aller d'une user story à un cahier Gherkin. Ajoutez
+`qaia-playwright` pour des tests exécutables. Pour démarrer, décrivez votre besoin en langage
+naturel — « travaille avec QAIA sur cette user story » — et le méta-agent `qaia` appelle les
+bonnes skills en s'arrêtant à chaque décision humaine. Des exemples complets avec leurs sorties
+réelles sont dans [`examples/`](examples/).
+
 
 QAIA transforme des user stories en **cahiers de test Gherkin** priorisés et traçables, puis en **tests Playwright natifs** — distribués en **skills et plugins** qui s'exécutent dans *votre* session Claude. Pas de clé API, pas de backend : aucune donnée ne quitte votre session au-delà de ce que vous envoyez déjà à Claude.
 
