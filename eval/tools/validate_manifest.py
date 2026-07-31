@@ -21,7 +21,15 @@ ISO_DATETIME_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+
 
 TOP_REQUIRED = ["contract", "usId", "title", "status", "generatedAt", "base", "producers", "artifacts"]
 STATUS_ENUM = {"draft", "review", "validated"}
-ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export", "validation"}
+# "flakiness" added 2026-07-31: `flaky-detect` emits a flakiness artifact and a `flakiness`
+# section that `aptitude-gate` reads as a CONCERNS signal (D80), but neither the enum nor
+# docs/OUTPUT-CONTRACT.md ever declared the kind -- so the skill's own shipped fixture was
+# out of contract from the day it was written (wave A, pattern P1/P2).
+# "trafficReplay" likewise: `traffic-replay` (D88) emits HAR-derived regression conditions and
+# its own fixture declared this kind, undeclared anywhere. Found by the CI job added in the
+# same pass -- the skill-eval wave itself had only named the flaky-detect case.
+ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export", "validation",
+                      "flakiness", "trafficReplay"}
 ARBITRATION_KIND_ENUM = {"open", "assumption", "simulated"}
 GATE_VERDICT_ENUM = {"PASS", "CONCERNS", "FAIL", "WAIVED"}
 
@@ -71,7 +79,7 @@ def validate_producers(producers, errors):
         check_datetime(p.get("at"), f"{path}.at", errors)
 
 
-def validate_artifacts(artifacts, errors):
+def validate_artifacts(artifacts, errors, base_dir=None):
     if not isinstance(artifacts, list):
         return err(errors, "artifacts", "expected array")
     for i, a in enumerate(artifacts):
@@ -81,6 +89,16 @@ def validate_artifacts(artifacts, errors):
         check_enum(a.get("kind"), f"{path}.kind", errors, ARTIFACT_KIND_ENUM)
         check_str(a.get("format"), f"{path}.format", errors)
         check_str(a.get("path"), f"{path}.path", errors)
+        # An artifacts[].path pointing at nothing used to validate (wave A, pattern P2): the
+        # manifest could claim deliverables that were never written. Only checked when a base
+        # directory is given (--check-paths), because a manifest is often validated away from
+        # the tree it describes.
+        if base_dir and isinstance(a.get("path"), str):
+            candidate = os.path.join(base_dir, a["path"].replace("\\", os.sep).replace("/", os.sep))
+            if not os.path.exists(candidate):
+                err(errors, f"{path}.path",
+                    f"declared artifact does not exist on disk: {a['path']!r} "
+                    f"(resolved against {base_dir})")
 
 
 def validate_design(design, errors):
@@ -151,6 +169,13 @@ def validate_gate(gate, errors):
     check_str(gate.get("scoredBy"), f"{path}.scoredBy", errors)
     check_datetime(gate.get("at"), f"{path}.at", errors)
     waiver = gate.get("waiver")
+    # A WAIVED verdict with no waiver object used to PASS with exit 0 (verified 2026-07-31,
+    # skill-eval wave A, pattern P2): the "WAIVED is never self-granted" rule in
+    # aptitude-gate was adossed to nothing mechanical. A waiver must name who granted it.
+    if gate.get("verdict") == "WAIVED" and not isinstance(waiver, dict):
+        err(errors, f"{path}.waiver",
+            "verdict is WAIVED but no waiver object is present — a waiver must be granted "
+            "explicitly and name its grantor; it is never self-granted")
     if waiver is not None and not isinstance(waiver, dict):
         err(errors, f"{path}.waiver", "expected object or null")
     elif isinstance(waiver, dict):
@@ -159,7 +184,7 @@ def validate_gate(gate, errors):
                 err(errors, f"{path}.waiver", f"missing required field {field!r}")
 
 
-def validate_manifest(manifest):
+def validate_manifest(manifest, base_dir=None):
     errors = []
     if not isinstance(manifest, dict):
         return ["<root>: expected object"]
@@ -173,7 +198,7 @@ def validate_manifest(manifest):
     check_datetime(manifest.get("generatedAt"), "generatedAt", errors)
     check_str(manifest.get("base"), "base", errors)
     validate_producers(manifest.get("producers", []), errors)
-    validate_artifacts(manifest.get("artifacts", []), errors)
+    validate_artifacts(manifest.get("artifacts", []), errors, base_dir)
     if "design" in manifest:
         validate_design(manifest["design"], errors)
     if "execution" in manifest:
@@ -188,6 +213,20 @@ def validate_manifest(manifest):
 def main(argv):
     if not argv:
         print(__doc__)
+        return 2
+    # --check-paths <root> : also require every artifacts[].path to resolve to a real file,
+    # relative to <root>. Opt-in because a manifest is frequently validated away from the tree
+    # it describes, and a missing file would then be a false alarm rather than a finding.
+    base_dir = None
+    if "--check-paths" in argv:
+        i = argv.index("--check-paths")
+        if i + 1 >= len(argv):
+            print("--check-paths requires a root directory")
+            return 2
+        base_dir = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
+    if not argv:
+        print("no manifest given")
         return 2
     if argv[0] == "--batch":
         targets = sorted(glob.glob(os.path.join(argv[1], "**", "manifest.json"), recursive=True))
@@ -204,7 +243,7 @@ def main(argv):
             print(f"FAIL {target}: cannot read/parse -- {e}")
             exit_code = 1
             continue
-        errors = validate_manifest(manifest)
+        errors = validate_manifest(manifest, base_dir)
         if errors:
             print(f"FAIL {target} ({len(errors)} error(s))")
             for e in errors:

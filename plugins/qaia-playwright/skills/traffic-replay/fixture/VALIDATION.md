@@ -85,9 +85,20 @@ so even a value the masking rules missed could not reach those fields regardless
 already written it for a fictional `US-DEMO-TRAFFIC` story (`gate` here is an illustrative
 placeholder, not really scored by `qaia-score`, since this fixture is not a real QAIA user
 story). `output/manifest-after.json` is the same file with **only** `trafficReplay` added,
-`producers[]` appended, and `artifacts[]` extended — `design`, `execution`, `gate`, and
-`status` are unchanged. `trafficReplay` itself carries no PII (same keys/types-only shapes as
-the standalone findings, confirmed by the same grep above).
+`producers[]` appended, and `artifacts[]` extended — `execution`, `gate`, and `status` are
+unchanged. `trafficReplay` itself carries no PII (same keys/types-only shapes as the standalone
+findings, confirmed by the same grep above).
+
+**Corrected 2026-07-31 (skill-eval wave A, pattern P1 — found by the new CI job, not by the
+wave itself).** Both files failed `eval/tools/validate_manifest.py` with 20 errors: a partial
+`design` block (`scenarios` only) on a fixture that has no upstream user story, and
+`kind: "trafficReplay"` which no enum and no contract line ever declared, although the skill
+has emitted it since D88. The `design` block was **removed rather than completed** — inventing
+coverage and confidence numbers to satisfy a validator is the fabrication D38 forbids — and the
+kind was added to `ARTIFACT_KIND_ENUM` and to `docs/OUTPUT-CONTRACT.md`, because the kind was
+real and the contract was silent. The same defect existed in `flaky-detect`'s fixture; a CI
+step now validates every `plugins/**/manifest*.json` so a shipped example can no longer
+contradict the contract it demonstrates.
 
 ## Honest limitations surfaced by this exercise
 

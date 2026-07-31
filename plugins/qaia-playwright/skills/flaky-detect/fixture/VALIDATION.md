@@ -63,11 +63,29 @@ and match the ground-truth table above field for field.
 ## Manifest merge (contract D39, rule 2)
 
 `output/manifest-before.json` is a plausible manifest as `run-report` would have already
-written it (with `execution`, `design`, `gate` populated — `gate` here is a fabricated
-illustrative example, not really scored by `qaia-score`, since this fixture is not a real
-QAIA user story). `output/manifest-after.json` is the same file with **only** `flakiness`
-added, `producers[]` appended, and `artifacts[]` extended — `design`, `execution`, `gate`, and
-`status` are byte-for-byte unchanged. Diffing the two confirms the merge rule is followed.
+written it (with `execution` and `gate` populated — `gate` here is a fabricated illustrative
+example, not really scored by `qaia-score`, since this fixture is not a real QAIA user story).
+`output/manifest-after.json` is the same file with **only** `flakiness` added, `producers[]`
+appended, and `artifacts[]` extended — `execution`, `gate`, and `status` are byte-for-byte
+unchanged. Diffing the two confirms the merge rule is followed.
+
+**Corrected 2026-07-31 (skill-eval wave A, pattern P1).** Both files used to carry a partial
+`design` block (`scenarios` only), which made them **fail the repository's own validator with
+19 errors each** — while `SKILL.md:64` advertised the after-file as "Real output from fixture/,
+not a hypothetical". A shipped example that violates the contract the product promises is the
+most corrosive defect class the wave found: a user following the skill *including its example*
+produces a non-conforming artifact.
+
+The block was **removed, not completed**. `design.*` describes the test book, and this fixture
+has no upstream user story (stated two paragraphs above) — filling in `coverage`, `confidence`,
+`techniques`, `oracles` and `knowledgeApplied` would have meant inventing numbers to satisfy a
+validator, exactly the fabrication D38 forbids. `design` is optional in the contract; claiming
+it partially was the error. Both files now pass `validate_manifest.py`.
+
+A second defect from the same finding was fixed on the tool side rather than here: `kind:
+"flakiness"` was not in `ARTIFACT_KIND_ENUM` nor in `docs/OUTPUT-CONTRACT.md`, although D80
+has `aptitude-gate` read the `flakiness` section as a CONCERNS signal. The kind was real and
+the contract was silent, so the contract was extended.
 
 **Honest limitation surfaced by this exercise, not smoothed over**: because `gate` is never
 touched by this skill (correctly, per contract rule 3 — no producer scores itself), the

@@ -16,10 +16,6 @@
     { "kind": "flakiness", "format": "json", "path": "fixture/output/flaky-findings.json" }
   ],
 
-  "design": {
-    "scenarios": { "total": 5, "byPriority": { "P1": 5 }, "negative": 0, "smoke": 0, "outlines": 0 }
-  },
-
   "execution": {
     "total": 5, "passed": 2, "failed": 3, "blocked": 0,
     "byType": { "api": 5 },

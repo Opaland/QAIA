@@ -98,6 +98,32 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
   **not** change `status` — a human does.
 - **`design.coverage.reqNegCovered / reqNegTotal`** is the ADR 0001 negative-path gate (the
   one that blocks). **`negativeRatio`** is the D20 signal — reported, never a threshold.
+- **`design` is optional, but all-or-nothing.** Omit it entirely when there is no test book
+  (a run-only or traffic-only manifest); do **not** ship a partial `design` block. Two shipped
+  fixtures did exactly that and failed this contract's own validator for months (skill-eval
+  wave A, 2026-07-31, pattern P1). Completing such a block with invented coverage/confidence
+  numbers to satisfy the validator is the fabrication D38 forbids — remove the block instead.
+- **`artifacts[].kind`** is a closed enum: `feature`, `synthesis`, `matrix`, `validation`,
+  `execution`, `export`, `flakiness` (`flaky-detect`, D80 — read by `aptitude-gate` as a
+  CONCERNS signal), `trafficReplay` (`traffic-replay`, D88). The last two were emitted by
+  shipped fixtures long before being declared here; a kind not in this list is an error, so a
+  new producer must extend the enum **and** this line together.
+- **`artifacts[].path`** must resolve to a file that really exists. `validate_manifest.py`
+  checks this under `--check-paths <root>`; it is opt-in because a manifest is often validated
+  away from the tree it describes, where a missing file would be a false alarm rather than a
+  finding.
+- **`design.confidence.*`** — operational definitions, so two conforming runs cannot report
+  different numbers for the same book (the ambiguity wave A raised against `report`):
+  - `openQuestions` — count of distinct `[open]` markers in the checkpoints, i.e. questions
+    put to a human and **not** answered. A question answered before generation is not counted.
+  - `assumptions` — count of distinct `[assumption]` markers: a gap the journey closed itself
+    and labelled as such.
+  - `lowConfidence` — count of **scenarios** tagged `@low-confidence` in the emitted
+    `.feature` files. Counted by tag in the artifact, never estimated from prose.
+  - `simulated` — count of validation points passed without a human, recorded per
+    `openArbitrations[].kind = "simulated"`. Zero in an interactive session.
+  Each is a literal count over a named artifact, never a judgement: if the number cannot be
+  obtained by counting, it does not belong in the manifest.
 - **`gate`** is written **only** by a scoring plugin. No producer may score itself (shared
   contract rule 3). Its absence means "not yet scored".
 - **`openArbitrations`** mirrors every `⚠ VALIDATION` point still pending — including every

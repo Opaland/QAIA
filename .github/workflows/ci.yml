@@ -65,6 +65,28 @@ jobs:
             echo "::error::plugins must use skills/, not the legacy commands/ format"; exit 1
           fi
 
+      - name: Validate skill fixtures against the shared contract
+        run: |
+          set -e
+          # Added 2026-07-31 after the skill-eval wave found pattern P1: the example a skill
+          # ships can violate the skill's own contract, so a user who follows the skill
+          # *including its example* produces a non-conforming artifact. Two cases were live in
+          # main: flaky-detect's manifest-after.json -- advertised in SKILL.md as "Real output
+          # from fixture/, not a hypothetical" -- failed the repository's own validator with 20
+          # errors, and traffic-replay's fixture had the same defect (that one the wave itself
+          # had missed; this job found it).
+          #
+          # --batch only globs files named exactly manifest.json, which is why fixture
+          # manifests (manifest-before/after.json) escaped every previous check.
+          found=0
+          while IFS= read -r m; do
+            found=1
+            python eval/tools/validate_manifest.py "$m"
+          done < <(find plugins -name 'manifest*.json' -not -path '*/node_modules/*')
+          if [ "$found" -eq 0 ]; then
+            echo "No fixture manifest under plugins/ -- nothing to validate"
+          fi
+
       - name: Lint Gherkin features (if any)
         run: |
           set -e
