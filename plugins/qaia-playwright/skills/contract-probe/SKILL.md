@@ -53,12 +53,30 @@ conformance; neither reads a target's own documentation to derive what to probe.
 
 ## Guardrails
 
-- **Self-hosted, authorized targets only** (D35/D26, identical to `security-surface`) — never a
-  third party you do not own or are not explicitly authorized to test.
+- **Authorized targets only** (D35/D26, identical to `security-surface`). State in the report which
+  authorization applies, in this order: (a) an in-repo app under `examples/` — self-hosted and owned
+  by definition; (b) a target listed in `docs/DEMO-TARGETS.md` — cite its golden rule; (c) a third
+  party whose own documentation or owner explicitly authorizes probing — quote that authorization
+  verbatim and archive it (see the traceability rule below). If none of the three applies, do not
+  probe. *Corrected 2026-07-31: this guardrail was titled "Self-hosted … only" while its own second
+  clause allowed an explicitly authorized third party, and the description still says "a self-hosted
+  app". The first real target ran into the contradiction immediately. Self-hosted is the nominal
+  case, not the only lawful one — say so rather than making the agent choose between two halves of
+  one sentence.*
 - **Bounded and non-destructive**: no load/DoS shape, no destructive payload against real data.
   This skill probes for *logic* contract violations, not availability attacks.
 - **No fabricated promises**: every probed "contract" item must be traceable to an actual line
   in the target's own documentation — if the target has no documented behavior for a given
-  angle, that angle is out of scope here, not filled in with a guess.
+  angle, that angle is out of scope here, not filled in with a guess. **Archive the quoted line
+  next to the run** (`contract-source.md`: the promise verbatim, its URL and the capture date).
+  A live page is not a citation: it can change or vanish, and this campaign has already lost two
+  target APIs that way. Same rule for the authorization quote above — it is the sole legitimacy of
+  probing a third party, and it must survive the target's next redesign.
+- **Disclose every probe that did not run as designed.** A batch that failed to construct (empty
+  variable, unresolved path, wrong shell) belongs in the report, not only in a comment inside the
+  script. Otherwise a boundary the run never actually honoured gets reported as honoured — measured
+  2026-07-31: eight probes silently aimed at a collection root instead of the object they were meant
+  to target, and only the server's 405 prevented the incident, which the report then presented as a
+  deliberate observation. A near-miss written up as an intention is worse than a stated failure.
 - **Advisory only, never a gate**: findings feed `prioritize`/human review, same as every other
   producer skill (rule 3, `plugins/qaia-core/skills/README.md`: no producer scores itself).
