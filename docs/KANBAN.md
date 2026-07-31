@@ -89,6 +89,27 @@ plus #58 : #49-#58 toutes closes).
 
 ---
 
+## Sprint 29 — Vague d'évaluation exhaustive des 29 skills + bascule vers 6 corrections centrales (2026-07-31, D126) ✅ TERMINÉ
+
+Suite directe du Sprint 28. Demande fondateur : couvrir les skills jamais testées, ouvrir l'approche API et le volet Mobile, rejouer les corrigées. Deux workflows bornés à 2 agents simultanés.
+
+| Livré | Preuve |
+|---|---|
+| Vague A (46 agents) : 18 skills jamais évaluées jugées, dont les plugins `qaia-score` et `qaia-testdata` (jamais audités) et le méta-agent `qaia` | D126, journal du run `wf_f6e3c739-d44` |
+| Premier parcours Mobile mené au bout (US-EVAL-013, émulation device, D100) — 8 skills cœur rejouées en non-régression | D126 |
+| Premier parcours API-first réellement exécuté (US-EVAL-012) : `contract-probe` sondé contre une API vivante après 2 échecs de cible en D122 | `eval/skill-coverage-wave-2026-07-30/US-EVAL-012-api-first/` (22 fichiers, 4 logs curl) |
+| Vague B (4 agents) : `a11y-audit` et `security-surface` rejouées ; les 2 paris de D125 tranchés par la mesure | D126, commit `e4bfe9e` |
+| **28 verdicts, 0 CONFORME. Chiffre honnête consigné : 34 %, pas 69 %** (10 skills sur 29 ont une preuve rejouée par un tiers) | D126 |
+| P1 — job CI validant `plugins/**/manifest*.json` ; a trouvé dès son 1er run un cas manqué par 46 agents (`traffic-replay`) | `.github/workflows/ci.yml`, commit `6190869` |
+| P2 — `validate_manifest.py` durci : waiver conditionnel, `--check-paths`, kinds `flakiness`/`trafficReplay`, `confidence.*` défini | `eval/tools/validate_manifest.py`, `docs/OUTPUT-CONTRACT.md` |
+| P3 — règle non-interactive arbitrée (3 textes divergents, `qaia` muet) : « enregistrer n'est pas accepter » | `plugins/qaia-core/skills/README.md` règle 3, `qaia` §Non-interactive mode |
+| P4 — règle 4bis : tout nombre cité comme mesuré pointe son fichier brut conservé | `plugins/qaia-core/skills/README.md` |
+| P6 — réflexe « surface de rendu » ajouté à `istqb-design` 3c (breakpoints, cible tactile WCAG 2.5.8, occlusion, orientation) | `plugins/qaia-core/skills/istqb-design/SKILL.md` |
+| Juge des tests générés livré (harnais) : piste statique + piste mutation, discrimination prouvée sur fixture | `eval/tools/automation_score.py`, `eval/AUTOMATION-RUBRIC.md`, `eval/tools/fixtures/automation-score/VALIDATION.md` |
+
+**Reste ouvert** : les 8 jurys du parcours API (preuves en dépôt, jamais jugées) ; `contract-probe` sans verdict ; la promotion du juge d'automatisation en skill produit ; la rubrique LLM jamais appliquée par un agent.
+
+
 ## Sprint 28 — Campagne d'évaluation continue des skills, jusqu'à l'étape 8 (2026-07-29/30, D118-D124) ✅ TERMINÉ
 
 Demande fondateur : faire tourner le parcours QAIA complet sur des cas réels pour éprouver la

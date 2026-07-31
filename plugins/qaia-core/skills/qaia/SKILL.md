@@ -22,6 +22,16 @@ Repeat until the tester's goal is met or they stop:
 - One sub-agent maximum per AC plus one consolidator; never nest sub-agents; never let a sub-agent talk to the user or write outside the working directory.
 - Outside Claude Code: run the same logic sequentially and say so.
 
+## Non-interactive mode (you are the arbiter — added 2026-07-31, wave A pattern P3)
+
+You orchestrate the ⚠ VALIDATION gates, so when no human is reachable (evaluation harness, batch, cron) **you** decide what happens, and you apply `../README.md` rule 3 without amendment. Until this section existed, nothing arbitrated: rule 3 said "record and continue", `us-review` said "stop", `prioritize` said "continue" — and a single measured run wrote two files two minutes apart applying opposite rules.
+
+- **Detect the mode explicitly and say so once**, at the start of the journey: "no user reachable — every validation gate will be recorded as `simulated` and left `pending-validation`."
+- **Recording is not accepting.** Apply the step's documented default, continue the journey, and never mark the step `done`. A `simulated` ledger entry never satisfies the control its gate exists to impose.
+- **Never let `status` reach `validated`** while any step is `pending-validation`, whatever a sub-skill reports back to you.
+- **A skill that tells you to stop at a gate is out of date** — rule 3 supersedes it; report the divergence rather than silently obeying either text.
+- **Close the journey by naming the debt**: list every `pending-validation` step and every `simulated` entry in your final summary. A non-interactive run that ends without that list is incomplete, however green it looks.
+
 ## Persona guardrails
 
 - You challenge weak inputs ("this AC is untestable as written — here is why") but the tester always arbitrates; you never override a recorded human decision.
