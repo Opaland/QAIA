@@ -80,6 +80,14 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
       "sourceCheckpoint": "state/US-001/04-priorities.md" }
   ],
 
+  "structural": {                           // deterministic pass, run BEFORE any LLM judgment
+    "score": 85, "max": 100,                // readability 25 · completeness 30 · coherence 20 · traceability 25
+    "gate": "PASS",                         // PASS ≥80 | CONCERNS ≥60 | FAIL <60 — or FAIL on a forced stop
+    "forcedStop": false,                    // C1 hollow-Then / C2 no-expected-result / fabrication sniffer
+    "findings": [],                         // the forced-stop findings, verbatim, when there are any
+    "scoredBy": "qaia-score/testbook-score", "at": "2026-07-23T10:04:00Z"
+  },
+
   "gate": {                                 // filled ONLY by qaia-score — never self-scored
     "verdict": "CONCERNS",                  // PASS | CONCERNS | FAIL | WAIVED
     "score": 18, "max": 20,
@@ -126,6 +134,19 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
   obtained by counting, it does not belong in the manifest.
 - **`gate`** is written **only** by a scoring plugin. No producer may score itself (shared
   contract rule 3). Its absence means "not yet scored".
+- **`structural` and `gate` are two scores and they are never merged.** `structural` is the
+  reproducible machine pass over the `.feature` files; `gate.score` is the LLM rubric's /20. The
+  founding case is why: the same test book measured **100/100 by machine and 58/100 by a human
+  reviewer** — a book can be structurally impeccable and assert nothing. Summing them, averaging
+  them, or reporting one as "the score" hides exactly the failure the pair exists to expose.
+- **`structural.forcedStop` outranks every number in this file.** A C1 (a `Then` whose only
+  evidence is an image or a table), a C2 (no verifiable expected result) or the fabrication
+  sniffer force `structural.gate = "FAIL"` whatever the score, and cap `gate.verdict` at FAIL
+  regardless of the rubric total. The validator enforces the pair: a `forcedStop: true` with any
+  gate other than FAIL is rejected, as is a gate that contradicts its own score band.
+  *Added 2026-07-31: this block did not exist. The most binding gate of the product — the one
+  that can fail a book independently of any score — was computed, reported in prose, and then
+  lost, because the manifest had exactly one score field and the rubric owned it.*
 - **`openArbitrations`** mirrors every `⚠ VALIDATION` point still pending — including every
   `simulated` entry from non-interactive runs, which must all surface here for human review.
 - Every count in the manifest must equal what the artifacts actually contain. Producers

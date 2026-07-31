@@ -184,6 +184,45 @@ def validate_gate(gate, errors):
                 err(errors, f"{path}.waiver", f"missing required field {field!r}")
 
 
+STRUCTURAL_GATE_ENUM = {"PASS", "CONCERNS", "FAIL"}
+STRUCTURAL_REQUIRED = ["score", "max", "gate", "forcedStop", "scoredBy", "at"]
+
+
+def validate_structural(structural, errors):
+    """The deterministic /100 pass. Kept separate from `gate` on purpose — see
+    docs/OUTPUT-CONTRACT.md: the founding case measured one book 100/100 by machine and 58/100 by
+    a human, so the two numbers answer different questions and are never merged."""
+    path = "structural"
+    if not isinstance(structural, dict):
+        return err(errors, path, "expected object")
+    for field in STRUCTURAL_REQUIRED:
+        if field not in structural:
+            err(errors, path, "missing required field %r" % field)
+    check_int(structural.get("score"), f"{path}.score", errors, minimum=0)
+    check_enum(structural.get("gate"), f"{path}.gate", errors, STRUCTURAL_GATE_ENUM)
+    check_str(structural.get("scoredBy"), f"{path}.scoredBy", errors)
+    check_datetime(structural.get("at"), f"{path}.at", errors)
+    if structural.get("max") != 100:
+        err(errors, f"{path}.max", "expected 100 (the budget is fixed: 25+30+20+25)")
+    forced = structural.get("forcedStop")
+    if not isinstance(forced, bool):
+        err(errors, f"{path}.forcedStop", "expected boolean")
+
+    score, gate = structural.get("score"), structural.get("gate")
+    # The two coherence rules that make this block worth storing at all: a manifest that claims a
+    # gate its own numbers contradict is worse than no gate, because everything downstream trusts
+    # the label rather than recomputing it.
+    if forced is True and gate != "FAIL":
+        err(errors, f"{path}.gate",
+            "forcedStop is true but gate is %r — a C1/C2/fabrication finding fails the book "
+            "whatever the score" % gate)
+    if forced is False and isinstance(score, int) and gate in STRUCTURAL_GATE_ENUM:
+        expected = "PASS" if score >= 80 else ("CONCERNS" if score >= 60 else "FAIL")
+        if gate != expected:
+            err(errors, f"{path}.gate",
+                "score %d puts this book in band %r, but gate says %r" % (score, expected, gate))
+
+
 def validate_manifest(manifest, base_dir=None):
     errors = []
     if not isinstance(manifest, dict):
@@ -205,8 +244,20 @@ def validate_manifest(manifest, base_dir=None):
         validate_execution(manifest["execution"], errors)
     if "openArbitrations" in manifest:
         validate_open_arbitrations(manifest["openArbitrations"], errors)
+    if "structural" in manifest:
+        validate_structural(manifest["structural"], errors)
     if "gate" in manifest:
         validate_gate(manifest["gate"], errors)
+        # A forced stop caps the release verdict regardless of the rubric: the deterministic pass
+        # found a scenario that cannot be evaluated at all, and no LLM total overrides that.
+        st = manifest.get("structural")
+        if isinstance(st, dict) and st.get("forcedStop") is True:
+            verdict = manifest["gate"].get("verdict")
+            if verdict in ("PASS", "CONCERNS"):
+                err(errors, "gate.verdict",
+                    "structural.forcedStop is true but the release verdict is %r — a forced stop "
+                    "caps the verdict at FAIL (WAIVED stays possible: a human may accept the risk)"
+                    % verdict)
     return errors
 
 

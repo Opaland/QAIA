@@ -46,8 +46,15 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
        trace to the source US or a cited oracle → penalty; plus `[À DÉFINIR]`/`TODO`/placeholder
        markers (−5 each). **≥3 hits → forced STOP.** The sniffer is only fully effective **with the
        source/oracle** to compare against — always feed it the source, never run it blind.
-   - Record the deterministic score and any forced-STOP finding; a forced STOP caps the verdict at
-     FAIL no matter how good the LLM rubric looks.
+   - **Write the result into the manifest's `structural` block**, not only into the report prose:
+     `{ score, max: 100, gate, forcedStop, findings, scoredBy, at }` — bands `PASS ≥80`,
+     `CONCERNS ≥60`, `FAIL <60`, or `FAIL` outright on a forced stop, whatever the score.
+     This block is separate from `gate` and the two are **never merged**: `structural` is the
+     reproducible machine pass, `gate.score` is the /20 rubric below. A forced STOP caps the
+     release verdict at FAIL no matter how good the LLM rubric looks — and because the verdict is
+     decided by another skill, the finding has to survive in the file rather than in this
+     session's prose. Until this block existed, the most binding gate of the product was computed,
+     reported, and then lost.
 
 1. **Assemble the judge inputs** — the source US, the `.feature` files, the synthesis and the
    coverage matrix. **Do not** load the generation session's reasoning: the rubric is a

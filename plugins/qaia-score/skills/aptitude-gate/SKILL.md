@@ -26,6 +26,12 @@ only a hard-gate check, and the skill says so.
 Evaluate top to bottom; the **first** matching band is the verdict.
 
 1. **FAIL** — any hard gate is broken (release-blocking):
+   - `structural.forcedStop` is true, or `structural.gate` is `FAIL` — the deterministic pass
+     found a scenario that cannot be evaluated at all (a `Then` whose only evidence is an image,
+     no verifiable expected result, fabricated technical literals). **No rubric total overrides
+     this**: a 20/20 on a book containing a hollow scenario means the judge scored something the
+     machine already proved unassessable. Read the `structural` block; if it is absent, say the
+     deterministic pass has not run rather than assuming it passed;
    - an acceptance criterion is uncovered (`design.coverage.acCovered < acTotal`, rubric dim 2 = 0);
    - a **required** negative condition is uncovered (`reqNegCovered < reqNegTotal`, dim 3 = 0) —
      the governing decision is ADR 0001, the required negative/refusal-path coverage gate
@@ -60,8 +66,8 @@ human one.*
 
 ## Steps
 
-1. **Read the manifest** — `design`, `execution` (if any), `gate.score`/`dimensions`,
-   `openArbitrations`, and `flakiness` (if present). Note the `contract` major version;
+1. **Read the manifest** — `design`, `structural` (the deterministic /100 pass), `execution`
+   (if any), `gate.score`/`dimensions`, `openArbitrations`, and `flakiness` (if present). Note the `contract` major version;
    treat any absent field as absent, not as a failure (degraded mode).
    **Recompute the rubric total from the 10 `dimensions` scores yourself — never trust
    `gate.score` as given.** A judge's listed dimension scores and its recorded total can
