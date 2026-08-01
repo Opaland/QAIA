@@ -58,7 +58,32 @@ déplaçant le raisonnement long vers `references/` sans perdre une règle — v
 des invariants clés après découpage. **Reste 12 skills**, dont `istqb-design` 240,
 `testbook-export` 237, `us-review` 234, `testbook-validate` 233.
 
-Bilan linter sur la journée : **0 échec**, avertissements **25 → 20**.
+Bilan linter sur la journée : **0 échec**, avertissements **25 → 21** (21 et non 20 : la nouvelle
+skill `automation-score` en apporte un).
+
+### Fin de sprint : #63 avancée, #68 fermée (D136-D137)
+
+**#63 — deux cases sur trois (D136).** Le juge des tests générés passe du harnais au produit.
+*Piste déterministe, première exécution sur du réel* : 8 suites de campagne, `US-EVAL-001`
+**100/100**, 002/005/013 80, 006 75, **008 et 009 à 55**, **004 à 48,8**, aucun constat bloquant.
+L'outil **reproduit indépendamment** le contournement POM que la campagne avait relevé à la main
+sur 008/009. Mutation sur US-EVAL-001 : **8 tuées sur 8**. Les 7 autres suites n'ont jamais vu la
+piste mutation — dit explicitement. *Promotion* : `qaia-score:automation-score`, algorithme
+matérialisé en session (ADR 0002). *Rubrique LLM enfin appliquée*, *avec son conflit déclaré* :
+j'avais édité la suite le matin même, donc le 10/12 est consigné **comme non fiable** et la case
+« juge à contexte vide » reste ouverte. Elle a néanmoins trouvé ce que 5 vagues d'agents avaient
+manqué : `003`/`004` n'assertaient que la visibilité d'une erreur là où l'exigence dit message
+**générique** — donc passaient contre le défaut d'énumération que le mot interdit. **La faiblesse
+était dans le cahier, le code en a hérité.** Corrigé (scénario `007` comparant les deux refus
+l'un à l'autre) et vérifié : suite **9/9**, mutation **12/12 tuées**.
+
+**#68 fermée (D137) — et mon propre constat d'ouverture était trop étroit.** Validateur lancé sur
+les 32 manifestes du dépôt : **4 échecs en 3 classes**, dont **deux défauts du validateur
+lui-même**. Le plus instructif : un bloc `gate` sans `verdict` était refusé, alors que
+`testbook-score` le remplit avant `aptitude-gate` — le validateur forçait donc le seul producteur
+honnête de cet état à fabriquer un verdict qu'il n'a pas le droit de posséder, ou à échouer pour
+avoir respecté le contrat. Corrigé dans les deux sens (5 cas testés). CI étendue à `plugins`
+**et** `eval` : les 32 manifestes passent.
 
 ## Sprint 30 — campagnes d'évaluation exhaustives, corrections centrales, revue externe (2026-07-31, D126-D131) — TERMINÉ
 
@@ -169,9 +194,15 @@ CE QUI EST OUVERT, par ordre de valeur :
    `testbook-validate` 233. À découper vers `references/`, pas à raccourcir.
 4. #61 — **rédaction faite** le 2026-08-01 (D134) ; reste la **relecture PM/PO à froid**, que
    l'auteur des encarts ne peut pas faire lui-même (règle 3). C'est le seul reliquat.
-5. #63 — la rubrique LLM du juge d'automatisation n'a jamais été appliquée par un agent.
-6. #68 — manifeste de campagne US-EVAL-010 invalide, et la CI ne couvre pas `eval/**`.
+5. #63 — **2 cases sur 3 faites** (D136). Reste : la rubrique appliquée par un **juge indépendant
+   en session vierge** (la passe du 2026-08-01 était en conflit déclaré et ne compte pas), les
+   **7 autres suites** sans passe rubrique ni mutation, et `automation-score` jamais exercée par
+   un agent qui n'en est pas l'auteur.
+6. ~~#68~~ — **fermée le 2026-08-01** (D137).
 7. #64, #65, #18 — voir les issues.
+
+**Versions à jour au 2026-08-01** : `qaia-core` **0.2.28** · `qaia-playwright` **0.1.19** ·
+`qaia-score` **0.2.0** · `qaia-testdata` **0.1.1** — **30 skills**.
 
 CE QU'IL NE FAUT PAS FAIRE, et pourquoi :
 - Ne pas construire pour un « framework d'évaluation de LLM » : QAIA n'en est pas un. Pas de
