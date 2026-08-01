@@ -1,23 +1,63 @@
 ---
 name: a11y-audit
-description: Generate and run accessibility tests (axe-core via Playwright, WCAG 2 A/AA) against a running app, reporting violations by severity. Use for accessibility coverage of a test book or an app.
+description: Generate and run accessibility tests (axe-core via Playwright, WCAG 2 A/AA) against a running app, plus the keyboard/focus/contrast checks no scanner can perform, reporting violations by severity. Use when a test book or an app needs accessibility coverage, when an accessibility regulation applies (EAA, RGAA, Section 508, WCAG contractual commitment), or when a user asks whether a screen is accessible.
 ---
 
-# a11y-audit — accessibility via axe-core
+# a11y-audit — accessibility via axe-core, plus the pass axe cannot do
 
-Reference: `examples/medibook/tests/a11y.booking.spec.js` (0 serious/critical violations). 
-Tooling is fixed: **axe-core driven through Playwright** — the de-facto standard for
-automated WCAG checks, and it reuses the browser context the functional tests already
-run in rather than introducing a second driver stack.
+Reference: `examples/medibook/tests/a11y.booking.spec.js` (0 serious/critical violations).
+
+Tooling is fixed: **axe-core driven through Playwright** — the de-facto standard for automated
+WCAG checks, and it reuses the browser context the functional tests already run in rather than
+introducing a second driver stack.
+
+**The number that governs this skill: automated tooling detects roughly a third of WCAG success
+criteria.** The rest are not "advanced" — they are keyboard access, focus visibility, and
+alt-text relevance, i.e. the failures that actually stop a disabled user. A skill that ships
+only the axe pass and calls the result "accessible" would be wrong about the majority of the
+standard, which is why the manual pass below is a required step and not an appendix.
+
+## Install
+
+```bash
+npm i -D @axe-core/playwright axe-core
+```
+
+Pin both in `package.json` (`@axe-core/playwright` ^4.12.1, `axe-core` ^4.12.1 at the time of
+writing). `axe-core` is a peer of the Playwright wrapper: let them drift and rule ids move
+between versions, which silently changes what a "0 violations" run means. Record the resolved
+`axe-core` version in the report — a violation count is not comparable across versions.
 
 ## Steps
 
-1. For each key screen the test book covers (and any the user names), generate an axe-core check: navigate, **assert a real element of that screen is visible** (client-rendered apps serve an empty shell such as `<div id="app"></div>`; auditing before paint returns 0 violations), then run `AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze()`.
-2. Fail the test on **serious/critical** violations; list all violations (id + impact + node) in the report. Also list `results.incomplete` (axe's "needs review") separately — serious findings live there and are invisible to the fail rule. A green run is only meaningful if the audit saw the screen: assert `results.passes.length > 0` alongside the readiness locator.
-3. Tag each test `@QAIA-A11Y-<NNN>` for traceability; run against the app and report real results.
+1. **List the screens under audit** — every key screen the test book covers, plus any the user
+   names. A screen behind a form submission or a modal counts as its own screen; auditing the
+   page that precedes it audits nothing.
+2. **Automated pass** — for each screen: navigate, **assert a real element of that screen is
+   visible** (client-rendered apps serve an empty shell such as `<div id="app"></div>`, and
+   auditing before paint returns 0 violations), then run
+   `AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze()`.
+3. **Filter and fail by `impact`** — axe labels every violation `critical`, `serious`,
+   `moderate` or `minor`. Fail the test on `critical` + `serious`; report `moderate` + `minor`
+   without failing. See `references/impact-and-reporting.md` for why that line and not another,
+   and for the `results.incomplete` trap.
+4. **Manual pass** — run the checks axe cannot: keyboard reachability, focus order, focus
+   visibility, contrast in non-default states, and alt-text relevance. Protocol, expected
+   results and how to record them: `references/manual-pass.md`. This step is **not optional**;
+   if it was not run, the report says so in place of its results.
+5. **Tag and report** — tag each automated test `@QAIA-A11Y-<NNN>`; write the report to
+   `.qaia/reports/<US-ID>/a11y/report.md` with the full violation list, the manual-pass results,
+   and the axe-core version. Attach the raw axe JSON next to it.
 
 ## Guardrails
 
-- Report violation ids honestly; never suppress to make a suite green.
-- axe covers a subset of WCAG. Report `0 serious/critical` as *no axe-detectable* serious/critical issue on that screen, never as "accessible" or "screen X is covered".
+- Report violation ids honestly; never suppress a rule to make a suite green. Disabling a rule
+  is a decision with a name attached, recorded in the report with its reason — not a config edit.
+- **Never write "accessible" or "screen X is covered".** The only claim a green automated run
+  supports is *no axe-detectable serious/critical issue on that screen, with axe-core <version>*.
+  The manual pass widens that claim; it still does not make it "conformant", which is an audit
+  verdict a human accessibility specialist issues, not this skill.
 - A11y is additive — it does not replace functional E2E; run alongside `automate`.
+- If an accessibility **regulation** was named as the reason for this audit, say explicitly in
+  the report that this skill produces evidence toward conformance and is not itself a
+  conformance statement. See `references/impact-and-reporting.md`.
