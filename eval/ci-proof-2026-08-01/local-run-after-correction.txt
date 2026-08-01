@@ -1,0 +1,13 @@
+
+Running 8 tests using 1 worker
+
+  ok 1 [e2e-desktop] › e2e.login.spec.js:9:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-001 @AC1 - valid non-locked account reaches the product catalog (515ms)
+  ok 2 [e2e-desktop] › e2e.login.spec.js:16:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-002 @AC2 - locked-out account is refused with the locked-out message (338ms)
+  ok 3 [e2e-desktop] › e2e.login.spec.js:24:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-003 @AC3 - unknown username is refused with a generic message (341ms)
+  ok 4 [e2e-desktop] › e2e.login.spec.js:34:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-004 @AC3 - known username with wrong password is refused with a generic message (345ms)
+  ok 5 [e2e-desktop] › e2e.login.spec.js:46:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-005 @AC3 - empty username is refused [example 1: empty username] (343ms)
+  ok 6 [e2e-desktop] › e2e.login.spec.js:54:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-005 @AC3 - empty password is refused [example 2: empty password] (346ms)
+  ok 7 [e2e-desktop] › e2e.login.spec.js:69:3 › SauceDemo login gate (US-EVAL-001) › QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password is refused with the generic message (342ms)
+  ok 8 [a11y] › a11y.login.spec.js:8:1 › @QAIA-A11Y-001 - SauceDemo login screen has no serious/critical WCAG2 A/AA violations (676ms)
+
+  8 passed (4.4s)

@@ -3,7 +3,15 @@
 // Provide BASE_URL / API_TOKEN via Jenkins credentials — never commit secrets (T3).
 pipeline {
   agent {
-    docker { image 'mcr.microsoft.com/playwright:v1.48.0-noble' }
+    // The image tag MUST match the `@playwright/test` version in your package.json. The image
+    // ships pre-installed browser binaries built for one specific Playwright version; when the
+    // two drift, `npm ci` installs a Playwright that cannot find the browsers baked into the
+    // image and every test fails at launch with "Executable doesn't exist ... run npx playwright
+    // install". The symptom names a missing browser, so it reads like an install bug rather than
+    // the version mismatch it actually is. Bump both together, or add
+    // `sh 'npx playwright install --with-deps chromium'` to the Install stage to reinstall
+    // matching browsers at the cost of a download on every run.
+    docker { image 'mcr.microsoft.com/playwright:v1.62.0-noble' }
   }
   options { timeout(time: 30, unit: 'MINUTES') }
   environment {

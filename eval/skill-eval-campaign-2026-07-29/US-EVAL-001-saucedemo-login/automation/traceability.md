@@ -1,5 +1,19 @@
 # Traceability report — US-EVAL-001 (SauceDemo login gate), automate skill step 8
 
+> **Update 2026-08-01 (issue #60, decision D132).** Everything below describes the original
+> 2026-07-30 run and is left as written. Two things have changed since:
+>
+> 1. **The corrections this report recommended have been made.** Its closing recommendations —
+>    replace scenario `006`'s proposed default with the confirmed behaviour, and correct
+>    `synthesis.md`'s Q2/Q3 notes — were carried out against a fresh live oracle
+>    (`eval/ci-proof-2026-08-01/oracle-probe-saucedemo.txt`). The suite is now **8/8**, and it is
+>    green because two wrong expected values were corrected, not because any assertion was
+>    softened: both scenarios gained exact-text assertions where they had a weaker check before.
+>    The result table below therefore no longer matches the current specs.
+> 2. **The suite now runs in a real CI.** `.github/workflows/generated-suite.yml` executes it on
+>    a GitHub Actions runner with no QAIA session and no `plugins/` import — see
+>    `eval/ci-proof-2026-08-01/`.
+
 Real run, real browser, real target: `https://www.saucedemo.com/` (public shared demo, no
 auth/PII risk, per `docs/DEMO-TARGETS.md`). Playwright 1.62.0, Chromium, `workers: 1`,
 `retries: 0`. Run artifacts: `tests/results.json`, `tests/junit.xml`,

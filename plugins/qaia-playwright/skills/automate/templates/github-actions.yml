@@ -43,6 +43,11 @@ jobs:
         continue-on-error: true
         run: npx playwright test --grep "@quarantine" --output=quarantine-results
 
+      # Uploaded on failure too (`!cancelled()`), not only on green: the run you most need the
+      # trace and screenshots for is the one that failed.
+      # `cucumber.json` and `.qaia/reports/` are optional — they exist only if you enabled the
+      # Cucumber reporter or ran qaia-playwright:run-report. `if-no-files-found: warn` keeps
+      # their absence a warning instead of turning a passing suite into a red build.
       - name: Publish JUnit + Cucumber + HTML (qaia-playwright:run-report formats, T1)
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -52,5 +57,7 @@ jobs:
             tests/junit.xml
             tests/cucumber.json
             tests/playwright-report/
+            tests/test-results/
             .qaia/reports/**/manifest.json
           retention-days: 14
+          if-no-files-found: warn

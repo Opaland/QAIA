@@ -11,11 +11,22 @@ every negative here traces to a real refusal condition, none invented to hit the
 
 - **Q1** `[assumption]` — invalid-credentials refusal is generic/non-enumerating; exact wording
   not asserted (not confirmed by any source).
-- **Q2** `[assumption]`, `@low-confidence` — empty-field submission folded into the generic
-  refusal path (scenario `QAIA-US-EVAL-001-005`).
-- **Q3** `[open]`, `@low-confidence` — **human arbitration required**: does a locked account with
-  a wrong password show the locked-out message or the generic one? Scenario
-  `QAIA-US-EVAL-001-006` encodes a *proposed* default (locked-out wins), not a confirmed behavior.
+- **Q2** ~~`[assumption]`, `@low-confidence`~~ → **resolved 2026-08-01, assumption disconfirmed**.
+  The guess was that empty-field submission folds into the generic refusal path (scenario
+  `QAIA-US-EVAL-001-005`). It does not: the application emits a distinct required-field message
+  per empty field (`Username is required` / `Password is required`). Scenario `005` now asserts
+  those messages and dropped `@low-confidence`.
+- **Q3** ~~`[open]`, `@low-confidence`~~ → **resolved 2026-08-01, proposed default disconfirmed**.
+  The question was whether a locked account with a wrong password shows the locked-out message or
+  the generic one. Answer: **the generic one** — credentials are validated *before* lock state, so
+  the locked-out message appears only with a correct password (scenario `002`). Scenario `006`
+  encoded the opposite as a *proposed* default; it has been corrected and dropped
+  `@low-confidence`.
+
+Both were resolved by running the generated suite against the live application, not by
+arbitration on paper: the failure of `006` **was** the answer. Raw oracle output for every
+credential combination is kept in `eval/ci-proof-2026-08-01/oracle-probe-saucedemo.txt`
+(rule 4bis). See `docs/DECISIONS.md` D132.
 
 ## Out-of-slice (not designed here)
 

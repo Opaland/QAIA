@@ -39,15 +39,15 @@ test.describe('SauceDemo login gate (US-EVAL-001)', () => {
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
-  // Scenario Outline QAIA-US-EVAL-001-005 (@low-confidence, Q2 assumption): the Gherkin's
-  // Then only asserts "refused" + "catalog not displayed", no specific message text --
-  // so the assertions below stay faithful to the Then and don't assert a wording the
-  // test book itself never committed to.
+  // Scenario Outline QAIA-US-EVAL-001-005: Q2 was an [assumption] that empty fields fall through
+  // to the generic refusal path. Disconfirmed against the live app on 2026-08-01 -- each empty
+  // field has its own required-field message. The test book now commits to those messages, so
+  // the assertions below assert them instead of mere visibility (D132).
   test('QAIA-US-EVAL-001-005 @AC3 - empty username is refused [example 1: empty username]', async ({ page, loginPage, inventoryPage }) => {
     await loginPage.goto();
     await loginPage.login('', 'secret_sauce');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toBeVisible();
+    await expect(loginPage.error).toHaveText('Epic sadface: Username is required');
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
@@ -55,21 +55,22 @@ test.describe('SauceDemo login gate (US-EVAL-001)', () => {
     await loginPage.goto();
     await loginPage.login('standard_user', '');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toBeVisible();
+    await expect(loginPage.error).toHaveText('Epic sadface: Password is required');
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
-  // QAIA-US-EVAL-001-006 (@low-confidence, Q3 open question, "proposed default,
-  // unconfirmed" per synthesis.md): this asserts the Gherkin's Then literally
-  // (locked-out message wins over wrong-password). Left as authored -- automate's
-  // job is to encode the test book's stated expectation, not silently correct it.
-  // If this fails against the real app, that failure IS the answer to Q3 and must
-  // be reported honestly, not treated as an automation defect.
-  test('QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password still shows locked-out message (proposed default, unconfirmed)', async ({ page, loginPage, inventoryPage }) => {
+  // QAIA-US-EVAL-001-006: Q3 asked whether a locked account with a wrong password shows the
+  // locked-out message or the generic one. The test book's *proposed default* (locked-out wins)
+  // was encoded literally and failed on the 2026-07-30 run -- and that failure was the answer,
+  // exactly as the spec comment then predicted. Resolved 2026-08-01: credentials are validated
+  // before lock state, so the generic message wins here and the locked-out message appears only
+  // with a correct password (test 002 above). Corrected against the live oracle, not softened --
+  // the assertion is still an exact-text match, only the expected value changed (D132).
+  test('QAIA-US-EVAL-001-006 @AC2 - locked-out account with wrong password is refused with the generic message', async ({ page, loginPage, inventoryPage }) => {
     await loginPage.goto();
     await loginPage.login('locked_out_user', 'not_the_real_password');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toHaveText('Epic sadface: Sorry, this user has been locked out.');
+    await expect(loginPage.error).toHaveText('Epic sadface: Username and password do not match any user in this service');
     await expect(inventoryPage.container).not.toBeVisible();
   });
 

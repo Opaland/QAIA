@@ -1,0 +1,11 @@
+probe date (UTC): 2026-08-01T13:43:09Z
+target: https://www.saucedemo.com/
+playwright: 1.62.0
+---
+Q3  locked_out_user + wrong password  -> "Epic sadface: Username and password do not match any user in this service"
+Q3b locked_out_user + right password  -> "Epic sadface: Sorry, this user has been locked out."
+Q2  empty username                    -> "Epic sadface: Username is required"
+Q2b empty password                    -> "Epic sadface: Password is required"
+Q2c both empty                        -> "Epic sadface: Username is required"
+ref unknown user + any password       -> "Epic sadface: Username and password do not match any user in this service"
+ref standard_user + wrong password    -> "Epic sadface: Username and password do not match any user in this service"

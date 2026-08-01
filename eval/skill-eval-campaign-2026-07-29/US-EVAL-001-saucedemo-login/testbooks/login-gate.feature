@@ -34,31 +34,35 @@ Feature: SauceDemo login gate lets through only valid, non-locked credentials
     Then the login is refused with a generic message
     And the product catalog is not displayed
 
-  @QAIA-US-EVAL-001-005 @AC3 @P2 @negative @decision-table @low-confidence
+  @QAIA-US-EVAL-001-005 @AC3 @P2 @negative @decision-table
   # condition: AC3-C3
-  # assumption: Q2 -- an empty username or password field falls through to the
-  # same generic refusal path as AC3-C1/C2; no distinct client-side validation
-  # message is asserted since no source confirms one exists.
-  Scenario Outline: An empty username or password field is refused
+  # resolved: Q2 -- the assumption that an empty field falls through to the generic
+  # refusal path is DISCONFIRMED. The application emits a distinct required-field
+  # message per empty field. Confirmed against the live application on 2026-08-01,
+  # raw output kept in eval/ci-proof-2026-08-01/oracle-probe-saucedemo.txt.
+  Scenario Outline: An empty username or password field is refused with a required-field message
     Given the login page is open
     When "<username>" logs in with password "<password>"
     Then the login is refused
+    And the message "<message>" is shown
     And the product catalog is not displayed
 
     Examples:
-      | username       | password      |
-      |                | secret_sauce  |
-      | standard_user  |               |
+      | username       | password      | message              |
+      |                | secret_sauce  | Username is required |
+      | standard_user  |               | Password is required |
 
-  @QAIA-US-EVAL-001-006 @AC2 @P1 @negative @decision-table @low-confidence
+  @QAIA-US-EVAL-001-006 @AC2 @P1 @negative @decision-table
   # condition: AC2-C2
-  # open: Q3 -- whether a locked account with an incorrect password still shows
-  # the locked-out message, or falls back to the generic invalid-credentials
-  # message, is not confirmed by any source. Proposed default generated below
-  # (locked-out state wins): human arbitration required before this is trusted.
-  Scenario: A locked-out account with an incorrect password still shows the locked-out message (proposed default, unconfirmed)
+  # resolved: Q3 -- the proposed default (locked-out state wins) is DISCONFIRMED.
+  # Credentials are validated before lock state, so a wrong password on a locked
+  # account yields the generic invalid-credentials message; the locked-out message
+  # appears only when the password is correct (see 002). Confirmed against the live
+  # application on 2026-08-01, raw output kept in
+  # eval/ci-proof-2026-08-01/oracle-probe-saucedemo.txt.
+  Scenario: A locked-out account with an incorrect password is refused with the generic message
     Given the login page is open
     When "locked_out_user" logs in with an incorrect password
     Then the login is refused
-    And the message "Sorry, this user has been locked out." is shown
+    And the message "Username and password do not match any user in this service" is shown
     And the product catalog is not displayed

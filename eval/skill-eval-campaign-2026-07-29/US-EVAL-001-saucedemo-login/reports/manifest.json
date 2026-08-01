@@ -27,7 +27,7 @@
     "coverage": { "acTotal": 3, "acCovered": 3,
                   "reqNegTotal": 5, "reqNegCovered": 5,
                   "negativeRatio": 0.833 },
-    "confidence": { "lowConfidence": 2, "openQuestions": 1, "assumptions": 2, "simulated": 3 },
+    "confidence": { "lowConfidence": 0, "openQuestions": 0, "assumptions": 1, "simulated": 3 },
     "techniques": ["ep", "decision-table"],
     "oracles": [],
     "knowledgeApplied": []
@@ -35,10 +35,6 @@
 
   "openArbitrations": [
     { "id": "Q1", "kind": "assumption", "about": "invalid-credentials refusal is generic/non-enumerating, exact wording not asserted",
-      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
-    { "id": "Q2", "kind": "assumption", "about": "empty-field submission folded into the generic refusal path",
-      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
-    { "id": "Q3", "kind": "open", "about": "does a locked account with a wrong password show the locked-out message or the generic one -- proposed default only, unconfirmed",
       "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
     { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-001 confirmed non-interactively (campaign run)",
       "sourceCheckpoint": "state/US-EVAL-001/00-source.md" },
