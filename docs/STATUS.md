@@ -188,10 +188,11 @@ CE QUI EST OUVERT, par ordre de valeur :
 1. ~~#60~~ — **fermée le 2026-08-01** (D132). Le blocage n°1 est levé : 8/8 en CI réelle. Ce qui
    reste de cette famille : GitLab/Jenkins jamais exécutés, et T17 (pilote réel) non mesuré.
 2. ~~#62~~ — **fermée le 2026-08-01** (D133).
-3. #59 — densité. **Attention, le chiffre de l'issue est faux** : elle dit 8 skills, la mesure
-   réelle en donnait 15 (jusqu'à 358 caractères/ligne). 3 traitées le 2026-08-01, **12 restent** —
-   les plus denses étant `istqb-design` 240, `testbook-export` 237, `us-review` 234,
-   `testbook-validate` 233. À découper vers `references/`, pas à raccourcir.
+3. ~~#59~~ — **fermée le 2026-08-01** (D135, D138, D139). 15 skills au-dessus du seuil → **0**.
+   **Mais lire la ventilation, pas le chiffre** : 10 réellement découpées vers `references/`,
+   **5 seulement reformatées** (`usability-heuristic-review`, `hello`, `qaia`, `perf-check`,
+   `qaia-help` — contenu identique mot pour mot). Pour ces cinq, la dette de lisibilité au sens
+   du persona est réduite, pas éliminée.
 4. #61 — **rédaction faite** le 2026-08-01 (D134) ; reste la **relecture PM/PO à froid**, que
    l'auteur des encarts ne peut pas faire lui-même (règle 3). C'est le seul reliquat.
 5. #63 — **2 cases sur 3 faites** (D136). Reste : la rubrique appliquée par un **juge indépendant
@@ -201,8 +202,18 @@ CE QUI EST OUVERT, par ordre de valeur :
 6. ~~#68~~ — **fermée le 2026-08-01** (D137).
 7. #64, #65, #18 — voir les issues.
 
-**Versions à jour au 2026-08-01** : `qaia-core` **0.2.28** · `qaia-playwright` **0.1.19** ·
+**Versions à jour au 2026-08-01** : `qaia-core` **0.2.30** · `qaia-playwright` **0.1.20** ·
 `qaia-score` **0.2.0** · `qaia-testdata` **0.1.1** — **30 skills**.
+
+**Bilan de la journée du 2026-08-01** (Sprint 31, D132-D139) : **5 issues fermées** (#60, #62,
+#59, #68, et #63 aux deux tiers), 1 ouverte puis fermée (#68), 1 laissée ouverte volontairement
+(#61 — la rédaction est faite, la relecture PM/PO à froid ne peut pas être faite par l'auteur).
+Linter **0 échec, 25 → 9 avertissements**. Les 32 manifestes du dépôt passent le validateur, qui
+les couvre désormais tous. CI verte sur les 9 commits.
+
+**Ce qui reste vrai et inchangé** : aucun gate humain n'a jamais été franchi, aucun pilote réel,
+T17 non mesuré, et la qualité des tests produits pour un utilisateur n'est toujours pas mesurée.
+La journée a ajouté des preuves et des garde-fous ; elle n'a pas changé ces quatre points.
 
 CE QU'IL NE FAUT PAS FAIRE, et pourquoi :
 - Ne pas construire pour un « framework d'évaluation de LLM » : QAIA n'en est pas un. Pas de
