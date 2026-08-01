@@ -4,8 +4,9 @@
 |---|---|---|---|---|---|
 | AC1 | AC1-C1 | QAIA-US-EVAL-001-001 | P2 | Total-service-loss blast radius if broken, but mature/simple logic | full |
 | AC2 | AC2-C1 | QAIA-US-EVAL-001-002 | P1 | Access-control failure class, moderate state-check complexity | full |
-| AC3 | AC3-C1 | QAIA-US-EVAL-001-003 | P1 | Auth-bypass-class failure, decision-table logic surface | full |
-| AC3 | AC3-C2 | QAIA-US-EVAL-001-004 | P1 | Same, password-mismatch branch | full |
+| AC3 | AC3-C1 | QAIA-US-EVAL-001-003 | P1 | Auth-bypass-class failure, decision-table logic surface | full (Q1 resolved 2026-08-01, generic wording now asserted) |
+| AC3 | AC3-C2 | QAIA-US-EVAL-001-004 | P1 | Same, password-mismatch branch | full (Q1 resolved 2026-08-01, generic wording now asserted) |
+| AC3 | AC3-C4 | QAIA-US-EVAL-001-007 | P1 | **Added 2026-08-01 (#63)** — the anti-enumeration requirement itself: the two refusals must be indistinguishable. 003 and 004 each assert their own message and would both pass against an app that distinguishes them | full |
 | AC3 | AC3-C3 (Q2) | QAIA-US-EVAL-001-005 | P2 | Was capped by an `[assumption]`; assumption disconfirmed 2026-08-01, scenario now asserts the real required-field messages | full (Q2 resolved) |
 | AC2 | AC2-C2 (Q3) | QAIA-US-EVAL-001-006 | P1 | Probability was bumped for `[open]` status per `prioritize` rule; Q3 resolved 2026-08-01 by real execution, proposed default disconfirmed and corrected | full (Q3 resolved) |
 

@@ -22,20 +22,18 @@
   ],
 
   "design": {
-    "scenarios": { "total": 6, "byPriority": { "P1": 4, "P2": 2, "P3": 0 },
-                   "negative": 5, "smoke": 0, "outlines": 1 },
+    "scenarios": { "total": 7, "byPriority": { "P1": 5, "P2": 2, "P3": 0 },
+                   "negative": 6, "smoke": 0, "outlines": 1 },
     "coverage": { "acTotal": 3, "acCovered": 3,
-                  "reqNegTotal": 5, "reqNegCovered": 5,
-                  "negativeRatio": 0.833 },
-    "confidence": { "lowConfidence": 0, "openQuestions": 0, "assumptions": 1, "simulated": 3 },
+                  "reqNegTotal": 6, "reqNegCovered": 6,
+                  "negativeRatio": 0.857 },
+    "confidence": { "lowConfidence": 0, "openQuestions": 0, "assumptions": 0, "simulated": 3 },
     "techniques": ["ep", "decision-table"],
     "oracles": [],
     "knowledgeApplied": []
   },
 
   "openArbitrations": [
-    { "id": "Q1", "kind": "assumption", "about": "invalid-credentials refusal is generic/non-enumerating, exact wording not asserted",
-      "sourceCheckpoint": "state/US-EVAL-001/02-understanding.md" },
     { "id": "US-ID", "kind": "simulated", "about": "US-EVAL-001 confirmed non-interactively (campaign run)",
       "sourceCheckpoint": "state/US-EVAL-001/00-source.md" },
     { "id": "book-review", "kind": "simulated", "about": "generated test book (6 scenarios) presented and accepted as-is, non-interactive run",

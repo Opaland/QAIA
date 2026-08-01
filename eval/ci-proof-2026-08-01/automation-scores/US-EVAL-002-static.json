@@ -1,0 +1,92 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-002-toolshop-checkout\\automation",
+    "testbook": null,
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 80.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 25.0,
+      "pom_as_fixtures": 0.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 2,
+      "tests": 14,
+      "tests_with_real_assertion": 14,
+      "role_selectors": 0,
+      "raw_selectors": 0,
+      "tagged_tests": 14,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "forbidden-wait",
+        "file": "a11y.toolshop-checkout.spec.js",
+        "line": 13,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "a11y.toolshop-checkout.spec.js",
+        "line": 21,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "a11y.toolshop-checkout.spec.js",
+        "line": 29,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "api.toolshop-checkout.spec.js",
+        "line": 19,
+        "detail": "toBeTruthy() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "api.toolshop-checkout.spec.js",
+        "line": 70,
+        "detail": "toBeTruthy() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "pom-missing",
+        "file": ".",
+        "line": 0,
+        "detail": "automate SKILL.md mandates POM-as-fixtures (pages/ + fixtures.js); pages/ missing",
+        "blocking": false
+      },
+      {
+        "kind": "no-selector-detected",
+        "file": ".",
+        "line": 0,
+        "detail": "no locator call found in specs or page objects; the selector dimension is not applicable and was not penalised",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "skipped",
+    "blocker": "--skip-mutation requested",
+    "total": 0,
+    "killed": 0,
+    "survived": []
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

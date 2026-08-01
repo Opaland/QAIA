@@ -1,0 +1,50 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\skill-coverage-wave-2026-07-30\\US-EVAL-013-mobile\\automation\\tests",
+    "testbook": null,
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 80.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 25.0,
+      "pom_as_fixtures": 0.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 3,
+      "tests": 17,
+      "tests_with_real_assertion": 17,
+      "role_selectors": 1,
+      "raw_selectors": 0,
+      "tagged_tests": 17,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "pom-missing",
+        "file": ".",
+        "line": 0,
+        "detail": "automate SKILL.md mandates POM-as-fixtures (pages/ + fixtures.js); pages/ missing",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "skipped",
+    "blocker": "--skip-mutation requested",
+    "total": 0,
+    "killed": 0,
+    "survived": []
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

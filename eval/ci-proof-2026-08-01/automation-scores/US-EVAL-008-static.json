@@ -1,0 +1,253 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-008-demoblaze\\automation\\tests",
+    "testbook": null,
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 55.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 0.0,
+      "pom_as_fixtures": 0.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 1,
+      "tests": 8,
+      "tests_with_real_assertion": 8,
+      "role_selectors": 0,
+      "raw_selectors": 23,
+      "tagged_tests": 8,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 28,
+        "detail": "await page.locator('a[onclick^=\"addToCart\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 29,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 44,
+        "detail": "await page.locator('a[onclick^=\"addToCart\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 45,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 57,
+        "detail": "await page.locator('a[onclick^=\"addToCart\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 58,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 68,
+        "detail": "await page.locator('a[onclick^=\"addToCart\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 69,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 87,
+        "detail": "await page.locator('button:has-text(\"Place Order\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 88,
+        "detail": "await page.locator('#name').fill('QA Tester');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 89,
+        "detail": "await page.locator('#card').fill(' ');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 92,
+        "detail": "await page.locator('button:has-text(\"Purchase\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 93,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 99,
+        "detail": "await page.locator('button:has-text(\"Place Order\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 100,
+        "detail": "await page.locator('#name').fill('QA Tester');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 101,
+        "detail": "await page.locator('#card').fill('4111111111111111');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 102,
+        "detail": "await page.locator('button:has-text(\"Purchase\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 104,
+        "detail": "const confirmText = await page.locator('.sweet-alert').innerText().catch(() => '');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 114,
+        "detail": "await page.locator('button:has-text(\"Place Order\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 115,
+        "detail": "await page.locator('#name').fill('Guest Tester');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 116,
+        "detail": "await page.locator('#card').fill('4111111111111111');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 117,
+        "detail": "await page.locator('button:has-text(\"Purchase\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 119,
+        "detail": "const confirmText = await page.locator('.sweet-alert').innerText().catch(() => '');",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 130,
+        "detail": "waitForTimeout",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 131,
+        "detail": "await page.locator('button:has-text(\"Place Order\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 132,
+        "detail": "await page.locator('#name').fill('QA Tester');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 133,
+        "detail": "await page.locator('#card').fill('4111111111111111');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 134,
+        "detail": "await page.locator('button:has-text(\"Purchase\")').click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart-checkout.spec.js",
+        "line": 136,
+        "detail": "const confirmText = await page.locator('.sweet-alert').innerText().catch(() => '');",
+        "blocking": false
+      },
+      {
+        "kind": "pom-missing",
+        "file": ".",
+        "line": 0,
+        "detail": "automate SKILL.md mandates POM-as-fixtures (pages/ + fixtures.js); pages/ missing",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "skipped",
+    "blocker": "--skip-mutation requested",
+    "total": 0,
+    "killed": 0,
+    "survived": []
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

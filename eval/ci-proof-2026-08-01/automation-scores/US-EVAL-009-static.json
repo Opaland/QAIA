@@ -1,0 +1,260 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-009-octoperf-petstore\\automation\\tests",
+    "testbook": null,
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 55.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 0.0,
+      "pom_as_fixtures": 0.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 1,
+      "tests": 8,
+      "tests_with_real_assertion": 8,
+      "role_selectors": 0,
+      "raw_selectors": 20,
+      "tagged_tests": 8,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 8,
+        "detail": "await page.locator(`a[href*=\"itemId=${itemId}\"]`).first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 9,
+        "detail": "await page.locator('a', { hasText: 'Add to Cart' }).click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 10,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 17,
+        "detail": "const row = page.locator('tr', { hasText: 'EST-1' });",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 27,
+        "detail": "await page.locator('a[href*=\"itemId=EST-1\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 28,
+        "detail": "await page.locator('a', { hasText: 'Add to Cart' }).click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 29,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 30,
+        "detail": "const rows = page.locator('tr', { hasText: 'EST-1' });",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 32,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 41,
+        "detail": "await page.locator('a[href*=\"itemId=EST-2\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 42,
+        "detail": "await page.locator('a', { hasText: 'Add to Cart' }).click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 43,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 44,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "e2e.cart.spec.js",
+        "line": 47,
+        "detail": "not.toBeNull() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 53,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "e2e.cart.spec.js",
+        "line": 55,
+        "detail": "not.toBeNull() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 61,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 62,
+        "detail": "await page.locator('a[href*=\"Cart.action\"][href*=\"viewCart\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 63,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 64,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 73,
+        "detail": "await page.locator('a[href*=\"itemId=EST-2\"]').first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 74,
+        "detail": "await page.locator('a', { hasText: 'Add to Cart' }).click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 75,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 76,
+        "detail": "await page.locator('a', { hasText: 'Remove' }).first().click();",
+        "blocking": false
+      },
+      {
+        "kind": "forbidden-wait",
+        "file": "e2e.cart.spec.js",
+        "line": 77,
+        "detail": "networkidle",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 78,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "e2e.cart.spec.js",
+        "line": 81,
+        "detail": "not.toBeNull() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 86,
+        "detail": "const bodyText = await page.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 92,
+        "detail": "const checkoutLink = page.locator('a', { hasText: 'Proceed to Checkout' });",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "e2e.cart.spec.js",
+        "line": 105,
+        "detail": "const bodyB = await pageB.locator('body').innerText();",
+        "blocking": false
+      },
+      {
+        "kind": "pom-missing",
+        "file": ".",
+        "line": 0,
+        "detail": "automate SKILL.md mandates POM-as-fixtures (pages/ + fixtures.js); pages/ missing",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "skipped",
+    "blocker": "--skip-mutation requested",
+    "total": 0,
+    "killed": 0,
+    "survived": []
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

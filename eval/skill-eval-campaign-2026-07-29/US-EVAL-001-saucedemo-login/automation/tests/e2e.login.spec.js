@@ -21,21 +21,31 @@ test.describe('SauceDemo login gate (US-EVAL-001)', () => {
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
+  // The generic refusal wording, confirmed by the live probe of 2026-08-01
+  // (eval/ci-proof-2026-08-01/oracle-probe-saucedemo.txt). Shared by 003, 004 and 006 --
+  // that it is shared is the anti-enumeration requirement itself, asserted by 007.
+  const GENERIC_REFUSAL = 'Epic sadface: Username and password do not match any user in this service';
+
   test('QAIA-US-EVAL-001-003 @AC3 - unknown username is refused with a generic message', async ({ page, loginPage, inventoryPage }) => {
     await loginPage.goto();
     // "an unrecognized username" (Gherkin) -- concrete value picked for automation,
     // any string not present in SauceDemo's fixed user list is equivalent here.
     await loginPage.login('not_a_real_user', 'secret_sauce');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toBeVisible();
+    // Asserting the text, not just visibility: Q1 was resolved 2026-08-01, and a bare
+    // toBeVisible() here passes against an app answering "No such user" -- the exact
+    // user-enumeration defect "generic" forbids (found by the automation rubric, #63).
+    await expect(loginPage.error).toHaveText(GENERIC_REFUSAL);
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
   test('QAIA-US-EVAL-001-004 @AC3 - known username with wrong password is refused with a generic message', async ({ page, loginPage, inventoryPage }) => {
     await loginPage.goto();
+    // 'not_the_real_password': invented for automation, like 003's username. SauceDemo's
+    // password list is fixed and public; any string outside it is equivalent here.
     await loginPage.login('standard_user', 'not_the_real_password');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toBeVisible();
+    await expect(loginPage.error).toHaveText(GENERIC_REFUSAL);
     await expect(inventoryPage.container).not.toBeVisible();
   });
 
@@ -70,8 +80,26 @@ test.describe('SauceDemo login gate (US-EVAL-001)', () => {
     await loginPage.goto();
     await loginPage.login('locked_out_user', 'not_the_real_password');
     await expect(page).not.toHaveURL(/inventory\.html/);
-    await expect(loginPage.error).toHaveText('Epic sadface: Username and password do not match any user in this service');
+    await expect(loginPage.error).toHaveText(GENERIC_REFUSAL);
     await expect(inventoryPage.container).not.toBeVisible();
+  });
+
+  // QAIA-US-EVAL-001-007: the requirement "generic" is an EQUALITY between two refusals, and
+  // no per-scenario assertion can express it -- 003 and 004 each assert their own message and
+  // would both still pass if the app answered them differently. This is the only test in the
+  // suite that can fail on user enumeration. Added after the automation-rubric pass (#63).
+  test('QAIA-US-EVAL-001-007 @AC3 - unknown username and wrong password are refused indistinguishably', async ({ page, loginPage }) => {
+    await loginPage.goto();
+    await loginPage.login('not_a_real_user', 'secret_sauce');
+    const unknownUserMessage = await loginPage.error.textContent();
+
+    await loginPage.goto();
+    await loginPage.login('standard_user', 'not_the_real_password');
+    const wrongPasswordMessage = await loginPage.error.textContent();
+
+    // Compared to each other, not to a constant: the requirement is that the app does not
+    // distinguish the two cases, whatever wording it chooses.
+    expect(unknownUserMessage).toBe(wrongPasswordMessage);
   });
 
 });

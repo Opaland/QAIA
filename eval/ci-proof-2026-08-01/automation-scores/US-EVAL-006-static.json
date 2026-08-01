@@ -1,0 +1,64 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\skill-eval-campaign-2026-07-29\\US-EVAL-006-the-internet-dynamic-loading\\automation\\tests",
+    "testbook": null,
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 75.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 0.0,
+      "pom_as_fixtures": 20.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 1,
+      "tests": 4,
+      "tests_with_real_assertion": 4,
+      "role_selectors": 0,
+      "raw_selectors": 3,
+      "tagged_tests": 4,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\DynamicLoadingPage.js",
+        "line": 9,
+        "detail": "this.startButton = page.locator('#start button');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\DynamicLoadingPage.js",
+        "line": 10,
+        "detail": "this.loadingIndicator = page.locator('#loading');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\DynamicLoadingPage.js",
+        "line": 11,
+        "detail": "this.finish = page.locator('#finish');",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "skipped",
+    "blocker": "--skip-mutation requested",
+    "total": 0,
+    "killed": 0,
+    "survived": []
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

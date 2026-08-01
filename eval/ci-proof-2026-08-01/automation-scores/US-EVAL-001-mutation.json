@@ -1,0 +1,52 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\MORETT~1\\AppData\\Local\\Temp\\claude\\C--Users-Moretti-C-dric-Documents-Claude-QAIA\\778c08f3-0e53-4454-b47e-1fef2b581589\\scratchpad\\run60",
+    "testbook": "eval/skill-eval-campaign-2026-07-29/US-EVAL-001-saucedemo-login/testbooks/login-gate.feature",
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 100.0,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 25.0,
+      "pom_as_fixtures": 20.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 2,
+      "tests": 8,
+      "tests_with_real_assertion": 8,
+      "role_selectors": 5,
+      "raw_selectors": 0,
+      "tagged_tests": 8,
+      "testbook_scenarios": 6,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "pom-bypassed",
+        "file": "a11y.login.spec.js",
+        "line": 1,
+        "detail": "pages/ and fixtures exist but this spec does not import the fixtures",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "ok",
+    "blocker": "",
+    "total": 8,
+    "killed": 8,
+    "survived": [],
+    "errored": [],
+    "skipped_over_cap": 12
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}
