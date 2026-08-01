@@ -5,49 +5,120 @@ description: Generate the atomic Gherkin test book from prioritized test conditi
 
 # testbook-generate — the test book
 
-Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and `04-priorities.md` (else offer the missing step). Output directory: `.qaia/testbooks/<US-ID>/`.
+Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and
+`04-priorities.md` (else offer the missing step). Output directory: `.qaia/testbooks/<US-ID>/`.
 
 ## Generation rules (non negotiable)
 
-- **Gherkin, English keywords**: `Feature / Background / Scenario / Scenario Outline / Given / When / Then / And / But`. Scenario content in the project language.
-- **Atomic**: one scenario verifies exactly one behavior. No UI-step chains covering several cases. **Exactly one `When` (the action) per scenario; outcomes live only in `Then`** — never bury the action in a `Given` or the outcome in the `When`. `Background` for shared *state* setup only; `Scenario Outline` + `Examples` for partitions/boundaries of the *same* behavior, **merged only when all example rows share the same priority and confidence** — otherwise split.
-- **Journey exception**: at most one end-to-end scenario per US (use-case technique), tagged `@smoke`, single journey-level `Then`, excluded from atomicity accounting — see `istqb-design`.
-- **Preconditions are declarative** ("Given a patient with 3 upcoming appointments"), never a click-path — data seeding is the automation layer's concern: generated tests must run standalone outside the session, and environment/credential details never enter the test book.
-- **Stable IDs**: every scenario is tagged `@QAIA-<US-ID>-<NNN>` (NNN never reused, even after deletion). Plus tags: `@AC<n>` (traceability), `@P1/@P2/@P3` (priority), `@negative` where applicable, exactly one technique tag from the closed list `@ep @boundary @domain-analysis @decision-table @state-transition @pairwise @crud @metamorphic @ai-feature @error-guessing` (the single journey scenario carries `@smoke` instead of a technique tag; `@use-case` is retired — the technique it named no longer exists in the reference taxonomy `istqb-design` follows, so it must not be emitted, and the palette above is the closed list, Domain Analysis, CRUD, Metamorphic and AI/ML-feature testing included), and `@low-confidence` when built on an `[assumption]` or `[open]` item.
-- **Every scenario cites its condition** (`AC2-C3`) in a comment line — full chain US → AC → condition → scenario.
-- **Negative ratio — single definition**: numerator = scenario blocks tagged `@negative`; denominator = all generated scenario blocks (an Outline counts as 1 block; the `@smoke` journey is excluded). **Reported as context, never a gate** — the blocking coverage rule is the `[req-neg]` checklist of ADR 0001 (the negative-path coverage gate): every refusal/error/denial path has a scenario. 40 % is the indicative order of magnitude a healthy book usually lands on, not a bar to clear; a book at 30 % with every `[req-neg]` covered is fine, and one at 50 % with a `[req-neg]` missing is not. Boundary coverage is reported separately in the synthesis, never blended into this ratio. *Why this is spelled out so insistently: the ratio is the one number a reader instinctively turns into a target, and the moment it becomes a bar to clear it creates pressure to pad it with invented cases — which the next bullet forbids. `docs/OUTPUT-CONTRACT.md`, `eval/RUBRIC.md` and `istqb-design` all state the same thing: reported, never a threshold.*
-- **Generating on `[open]` items — explicit rule**: a covered condition flagged `[open]` still gets its scenario, written with the *proposed safe default* from `02-understanding.md`, tagged `@low-confidence`, with an inline comment citing the question ID (`# open: Q5`). Never invent a different behavior, never skip silently — waiving instead of generating is allowed only with the user's recorded approval. **Never pad the negative ratio with invented cases**: if reaching 40 % requires error-guessing scenarios not grounded in the source or knowledge base, flag the shortfall to the user instead of fabricating.
+- **Gherkin, English keywords**: `Feature / Background / Scenario / Scenario Outline / Given /
+  When / Then / And / But`. Scenario content in the project language.
+- **Atomic** — one scenario verifies exactly one behavior. No UI-step chains covering several
+  cases. **Exactly one `When` (the action) per scenario; outcomes live only in `Then`** — never
+  bury the action in a `Given` or the outcome in the `When`.
+  `Background` is for shared *state* setup only. `Scenario Outline` + `Examples` covers
+  partitions or boundaries of the *same* behavior, **merged only when all example rows share
+  the same priority and confidence** — otherwise split.
+- **Journey exception**: at most one end-to-end scenario per US (use-case technique), tagged
+  `@smoke`, single journey-level `Then`, excluded from atomicity accounting — see
+  `istqb-design`.
+- **Preconditions are declarative** ("Given a patient with 3 upcoming appointments"), never a
+  click-path. Data seeding belongs to the automation layer: generated tests must run standalone
+  outside the session, and environment or credential details never enter the test book.
+- **Stable IDs** — every scenario tagged `@QAIA-<US-ID>-<NNN>`, NNN never reused even after
+  deletion. Plus: `@AC<n>` (traceability), `@P1/@P2/@P3` (priority), `@negative` where
+  applicable, and **exactly one** technique tag from the closed list:
+  `@ep @boundary @domain-analysis @decision-table @state-transition @pairwise @crud
+  @metamorphic @ai-feature @error-guessing`.
+  The single journey scenario carries `@smoke` instead of a technique tag. `@use-case` is
+  retired — the technique it named no longer exists in the reference taxonomy `istqb-design`
+  follows, so it must not be emitted. Add `@low-confidence` when the scenario rests on an
+  `[assumption]` or `[open]` item.
+- **Every scenario cites its condition** (`AC2-C3`) in a comment line — the full chain
+  US → AC → condition → scenario.
+- **Negative coverage**: the blocking rule is the `[req-neg]` checklist of ADR 0001 (the
+  negative-path coverage gate) — every refusal, error or denial path has a scenario. The
+  **negative ratio is reported as context, never a gate.** Full doctrine, and why this is
+  laboured: `references/negative-ratio.md`.
+- **Generating on `[open]` items.** A covered condition flagged `[open]` still gets its
+  scenario, written with the *proposed safe default* from `02-understanding.md`, tagged
+  `@low-confidence`, with an inline comment citing the question ID (`# open: Q5`). Never invent
+  a different behavior, never skip silently. Waiving instead of generating is allowed only with
+  the user's recorded approval. **Never pad the negative ratio with invented cases** — if
+  reaching a target would need error-guessing scenarios not grounded in the source or knowledge
+  base, flag the shortfall instead of fabricating.
 
 ## Steps — initial generation
 
-1. **Scope check.** Confirm target coverage with the user (P1+P2 by default; P3 on request — quota trade-off).
-2. **Duplicate scan**: scan the project's committed `.feature` files (`.qaia/testbooks/` and any test directories the user designates — nothing outside the project); list any scenario that already covers a condition and propose reuse instead of regeneration. ⚠ VALIDATION on the reuse list. **Always record the scan's outcome in `coverage-matrix.md`'s "Reuse notes" column** — including "no duplicates found", never only the case where a reuse was actually proposed — a clean scan that leaves no trace is indistinguishable, to anyone reading the deliverables afterwards, from a scan that never ran. The negative result is as much a deliverable as the positive one.
-3. **Generate per AC.** In Claude Code, you may parallelize with one sub-agent per AC, each given only: the AC, its conditions, relevant knowledge entries, and these generation rules. Each sub-agent writes structured JSON to a temp file; only the aggregation enters the main context — the sub-agents exist to keep the raw material out of the main context, not merely to go faster. Elsewhere, generate sequentially — same output contract.
-4. **Consolidation pass (mandatory, even sequential):** unify vocabulary (against `knowledge/glossary.md` when it exists — if the knowledge base is absent, unify internally and **record "knowledge base absent" in this skill's own `synthesis.md`, not only by relying on an upstream checkpoint's note** — the redundancy is deliberate: each deliverable has to stand on its own, and someone reading this test book's synthesis alone would otherwise never learn the vocabulary was unified against nothing), merge redundant scenarios across ACs, factor common `Background`, verify every ID unique, every condition covered or explicitly waived.
-5. **Self-checks before showing anything (emission lints, 0.1.2):**
-   - **negative-path coverage gate (ADR 0001)**: every `[req-neg]` condition from `03-design.md` has a covering `@negative` scenario, or an explicit user-approved waiver — this is the blocking check, not a ratio; every P1/P2 condition covered; Gherkin parses. **A `[req-neg]` condition left at P3 by step 1's default scope is not a silent gate violation** — it is a standing, priority-scoped waiver, provided it still appears (condition ID + reason "deferred, P3, not requested") in the coverage matrix/synthesis rather than vanishing from the count; only a P1/P2 `[req-neg]` condition with no scenario and no cited reason is the real gate failure. The distinction matters because this line and step 1's scope default otherwise read as contradicting each other on any US whose `[req-neg]` conditions span more than one priority band: a scope the user chose is not a gate violation, a condition that silently disappeared is. **A P1/P2 `[req-neg]` condition generated *without* a true `@negative` outcome is not resolved by deferring it to step 7's arbitration list** — "blocking" means halt and ask before emission, not emit-then-flag; step 7's arbitration is for conditions the user must weigh in on (waivers, ambiguous defaults), not a catch-all for gate violations discovered after the fact. A required-negative condition emitted with a positive or merely bounded assertion is a defect in the book, not a decision the user was ever asked to make — routing it to the arbitration list converts a blocking check into a footnote and empties the gate of its effect.
-   - the negative ratio is still **computed and reported** in the synthesis as a happy-path-bias signal (single definition above), but it is never a threshold and must never be padded toward;
-   - one `When` per scenario; **no compound `Then` verifying a second behavior** (an "and no X happened" assertion about another rule → separate scenario);
-   - **every literal value you assert is verified by computation before emission** (string lengths, sums, boundary ±1 — count the characters, do the arithmetic);
-   - **a computed value is only as grounded as its inputs**: if the computation depends on an external parameter not stated in the source/design/knowledge base (an exchange rate, a tax rate, a discount table…), do not assert the resulting precise literal as if it were sourced — either keep the assertion qualitative (state the structural fact the AC actually requires, e.g. "the converted total falls in the band above €500", not a fabricated exact figure), or, if a concrete number is needed for boundary testing, invent the input-side value instead and mark the derived parameter explicitly as a test fixture with an inline `# rate-assumption: …` (or equivalent) comment — never a bare precise result with no traceable origin;
-   - **`Background` contains only invariants true for 100 % of the file's scenarios** — anything contradicted by even one scenario moves to local `Given`s;
-   - `@negative` closed definition: a scenario whose outcome is a refusal, an error, or an explicitly denied access; list-exclusion/filtering scenarios are **not** `@negative`.
-   - **ID continuity**: scenario NNN sequence has no gap unless a `# retired: NNN` changelog line explains it — a silent gap is an emission error;
-   - **re-check the negative ratio after any scenario merge**: the ratio is measured on the final block set, so a merge changes it — recompute and report the new figure rather than the pre-merge one. What must be re-checked as a *gate* is the `[req-neg]` checklist: a merge that drops a required-negative scenario is blocking, whatever the resulting percentage.
-   - **tag-vs-ratio audit**: the `@negative` count used in the reported ratio must equal a literal count of `@negative` tags in the emitted `.feature` file — a scenario counted in the numerator without the literal tag present is an emission error, not a rounding nuance; fix the tag or fix the reported ratio before showing the synthesis. Applying the closed definition in your head tells you what a scenario *is*; only reading the emitted file tells you what it *says* — and everything downstream (the manifest, the score, the export) counts tags, not intentions.
-   After generation, **write `state/<US-ID>/generated.snapshot.md`**: scenario IDs + content hash per scenario — the regeneration mode's baseline for detecting human edits — without it, regeneration cannot tell a hand-written correction from its own previous output.
-6. **Write outputs:** `*.feature` (one per functional area), `coverage-matrix.md` (AC → condition → scenario ID → priority → **rationale** → confidence — the rationale column carries `prioritize`'s one-line risk drivers), `synthesis.md` per the **shared contract's deliverable section** (`../README.md`) — including the full inline question list and the arbitration list. All artifacts carry resume frontmatter (shared-contract rule 10).
-7. ⚠ VALIDATION: present the synthesis (not the raw dump): counts, ratio, coverage gaps, and the `@low-confidence` list to review first. Update `journey.md`.
-8. **Project the standardized manifest.** Run `report` (or its logic) to write/refresh `.qaia/reports/<US-ID>/manifest.json` — the shared output contract (`docs/OUTPUT-CONTRACT.md`) every plugin reads. Counts come from this generation, never re-estimated.
+1. **Scope check.** Confirm target coverage with the user: P1+P2 by default, P3 on request
+   (quota trade-off).
+2. **Duplicate scan.** Scan the project's committed `.feature` files (`.qaia/testbooks/` and any
+   test directories the user designates — nothing outside the project). List any scenario
+   already covering a condition and propose reuse. ⚠ VALIDATION on the reuse list.
+
+   **Always record the scan's outcome** in `coverage-matrix.md`'s "Reuse notes" column,
+   including "no duplicates found". A clean scan that leaves no trace is indistinguishable,
+   afterwards, from a scan that never ran — the negative result is as much a deliverable as the
+   positive one.
+3. **Generate per AC.** In Claude Code you may parallelize with one sub-agent per AC, each given
+   only: the AC, its conditions, relevant knowledge entries, and these generation rules. Each
+   sub-agent writes structured JSON to a temp file; only the aggregation enters the main
+   context — the sub-agents exist to keep raw material out of the main context, not merely to go
+   faster. Elsewhere, generate sequentially against the same output contract.
+4. **Consolidation pass** (mandatory, even sequential): unify vocabulary against
+   `knowledge/glossary.md` where it exists, merge redundant scenarios across ACs, factor a
+   common `Background`, verify every ID unique and every condition covered or explicitly waived.
+
+   If the knowledge base is absent, unify internally and **record "knowledge base absent" in
+   this skill's own `synthesis.md`**, not only by relying on an upstream checkpoint's note. The
+   redundancy is deliberate: each deliverable stands on its own, and someone reading this
+   synthesis alone would otherwise never learn the vocabulary was unified against nothing.
+5. **Emission lints — run before showing anything.** Eleven checks, one of them blocking. Full
+   list with the reasoning: `references/emission-lints.md`. In short: the ADR 0001 negative-path
+   gate blocks emission; one `When` per scenario; no compound `Then`; every asserted literal
+   computed and grounded; `Background` holds only universal invariants; no silent ID gaps; the
+   reported ratio matches a literal tag count in the emitted file.
+
+   Then **write `state/<US-ID>/generated.snapshot.md`** — scenario IDs plus a content hash per
+   scenario. This is the regeneration baseline; without it, regeneration cannot tell a
+   hand-written correction from its own previous output.
+6. **Write outputs.** `*.feature` (one per functional area); `coverage-matrix.md` (AC →
+   condition → scenario ID → priority → **rationale** → confidence, the rationale column
+   carrying `prioritize`'s one-line risk drivers); `synthesis.md` per the shared contract's
+   deliverable section (`../README.md`), including the full inline question list and the
+   arbitration list. All artifacts carry resume frontmatter (shared-contract rule 10).
+7. ⚠ VALIDATION: present the **synthesis**, not the raw dump — counts, ratio, coverage gaps, and
+   the `@low-confidence` list to review first. Update `journey.md`.
+8. **Project the standardized manifest.** Run `report` (or its logic) to write or refresh
+   `.qaia/reports/<US-ID>/manifest.json`, the shared output contract every plugin reads. Counts
+   come from this generation, never re-estimated.
 
 ## Steps — regeneration mode (a test book is never write-once)
 
-Trigger: the US changed, or the user asks to regenerate. The existing test book may contain human edits — **they win by default**.
-1. **Detect human edits first**: compare the current book against `state/<US-ID>/generated.snapshot.md` (hashes) — scenarios differing from the snapshot are human-edited. Snapshot absent (pre-0.1.2 book): treat **every** scenario as potentially human-edited and say so. Re-run ingestion→design deltas as needed — **new questions/conditions are written back into the `00-04` checkpoints** (incremental update — a regeneration that leaves the checkpoints describing the old requirement makes every later step work from a stale picture), then compute a **scenario-level diff**: `unchanged / modified (show old vs new) / new / obsolete`. **Scan the whole book** for values tied to the changed requirement — a threshold change can touch scenarios tagged on other ACs, so scoping the diff to the ACs that visibly changed misses them.
-2. ⚠ VALIDATION per conflict: for each `modified` scenario that was human-edited, and each `obsolete` proposal, the user arbitrates. Never delete or overwrite a human-edited scenario without explicit approval.
-3. Retired IDs are never reused; matrix and synthesis are regenerated; a `CHANGELOG` section in `synthesis.md` records the diff decisions.
+Trigger: the US changed, or the user asks to regenerate. The existing book may contain human
+edits — **they win by default.**
+
+1. **Detect human edits first.** Compare the current book against
+   `state/<US-ID>/generated.snapshot.md` by hash; scenarios differing from the snapshot are
+   human-edited. Snapshot absent (pre-0.1.2 book): treat **every** scenario as potentially
+   human-edited, and say so.
+
+   Re-run ingestion→design deltas as needed, writing new questions and conditions back into the
+   `00-04` checkpoints — a regeneration that leaves the checkpoints describing the old
+   requirement makes every later step work from a stale picture. Then compute a scenario-level
+   diff: `unchanged / modified (show old vs new) / new / obsolete`.
+
+   **Scan the whole book**, not just the ACs that visibly changed: a threshold change can touch
+   scenarios tagged on other ACs, and a scoped diff misses them.
+2. ⚠ VALIDATION per conflict: for each `modified` scenario that was human-edited, and each
+   `obsolete` proposal, the user arbitrates. Never delete or overwrite a human-edited scenario
+   without explicit approval.
+3. Retired IDs are never reused. Matrix and synthesis are regenerated, and a `CHANGELOG` section
+   in `synthesis.md` records the diff decisions.
 
 ## Guardrails
 
-- A scenario must never assert behavior the source contradicts; when the source is silent, tag `@low-confidence` and record the assumption — plausible-but-wrong is the worst defect (rubric dim. 5).
-- Respect the token budget: sub-agents receive digests from checkpoints, never the raw source or the full knowledge base.
+- A scenario must never assert behavior the source contradicts. When the source is silent, tag
+  `@low-confidence` and record the assumption — plausible-but-wrong is the worst defect
+  (rubric dim. 5).
+- Respect the token budget: sub-agents receive digests from checkpoints, never the raw source or
+  the full knowledge base.

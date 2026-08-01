@@ -30,7 +30,35 @@ ne sait toujours pas » du Sprint 30 tombe ; les points 2 à 5 restent entiers.
 **Trouvé, non traité** : `eval/skill-eval-campaign-2026-07-29/US-EVAL-010-crapi-security/reports/manifest.json`
 échoue au validateur (2 erreurs : `negativeRatio` à 100.0 au lieu d'un ratio [0,1], `kind`
 `secondary-source` hors énumération). La CI ne le voit pas — elle ne valide que
-`plugins/**/manifest*.json`. Défaut réel dans une preuve de campagne, à ouvrir en issue.
+`plugins/**/manifest*.json`. **Issue #68 ouverte.**
+
+### Suite du sprint : #62 fermée, #61 et #59 avancées (D133-D135)
+
+**#62 fermée (D133)** — les trois skills sous-écrites comblées par de la conception, en
+divulgation progressive (`SKILL.md` court, protocole long en `references/`). `a11y-audit` : la
+passe **manuelle** devient une étape obligatoire (7 contrôles, chacun avec son protocole et *la
+façon dont il est habituellement mal joué*), motif chiffré — l'automatique ne couvre qu'environ
+un tiers des critères WCAG. `run-report` : le bloc `execution` enfin montré ; **promesse fausse
+traitée en la spécifiant** — le reporter `json` de Playwright n'est pas du Cucumber JSON et aucun
+reporter maintenu n'existe (3 noms vérifiés au registre npm). `security-surface` : 6 titres de
+chapitre → 6 protocoles, dont S2/IDOR qui **exige deux comptes réels** et nomme le mauvais jeu
+classique (tester avec un jeton absent, c'est de l'authentification, ça passe trivialement).
+
+**#61 avancée, non fermée (D134)** — l'encart PO est livré dans les 6 skills qui demandent un
+arbitrage, en trois volets, à citer verbatim. Deux partis pris : nommer le risque de la *bonne*
+réponse autant que celui du silence, et dire que ne pas répondre est parfois le résultat sûr.
+Contrôle mécanique passé (3 volets partout, zéro jargon non glosé) — **mais ce n'est pas la
+relecture PM/PO à froid que l'issue exige, et l'auteur des encarts ne peut pas la faire (règle
+3)**. L'issue reste ouverte sur ce seul point.
+
+**#59 avancée, non fermée (D135)** — **le chiffre de l'issue était faux** : elle annonçait 8
+skills entre 150 et 245 caractères/ligne, la mesure réelle donnait **15 skills, jusqu'à 358**.
+Les trois pires découpées (`us-ingest` 358, `testbook-generate` 329, `automate` 268), en
+déplaçant le raisonnement long vers `references/` sans perdre une règle — vérifié par recherche
+des invariants clés après découpage. **Reste 12 skills**, dont `istqb-design` 240,
+`testbook-export` 237, `us-review` 234, `testbook-validate` 233.
+
+Bilan linter sur la journée : **0 échec**, avertissements **25 → 20**.
 
 ## Sprint 30 — campagnes d'évaluation exhaustives, corrections centrales, revue externe (2026-07-31, D126-D131) — TERMINÉ
 
@@ -134,13 +162,16 @@ OUTILS DE VÉRIFICATION À LANCER AVANT DE CONCLURE QUOI QUE CE SOIT :
 CE QUI EST OUVERT, par ordre de valeur :
 1. ~~#60~~ — **fermée le 2026-08-01** (D132). Le blocage n°1 est levé : 8/8 en CI réelle. Ce qui
    reste de cette famille : GitLab/Jenkins jamais exécutés, et T17 (pilote réel) non mesuré.
-2. #62 — trois skills sous-écrites (`a11y-audit` 1 628 caractères sur le sujet au plus fort
-   enjeu réglementaire, `run-report`, `security-surface`).
-3. #59 — densité : 8 skills sont des murs (150-245 caractères/ligne quand les bien notées
-   tiennent entre 66 et 100). À découper vers `references/`, pas à raccourcir.
-4. #61 — encart PO dans les 6 skills qui demandent un arbitrage humain sans dire l'enjeu.
+2. ~~#62~~ — **fermée le 2026-08-01** (D133).
+3. #59 — densité. **Attention, le chiffre de l'issue est faux** : elle dit 8 skills, la mesure
+   réelle en donnait 15 (jusqu'à 358 caractères/ligne). 3 traitées le 2026-08-01, **12 restent** —
+   les plus denses étant `istqb-design` 240, `testbook-export` 237, `us-review` 234,
+   `testbook-validate` 233. À découper vers `references/`, pas à raccourcir.
+4. #61 — **rédaction faite** le 2026-08-01 (D134) ; reste la **relecture PM/PO à froid**, que
+   l'auteur des encarts ne peut pas faire lui-même (règle 3). C'est le seul reliquat.
 5. #63 — la rubrique LLM du juge d'automatisation n'a jamais été appliquée par un agent.
-6. #64, #65, #18 — voir les issues.
+6. #68 — manifeste de campagne US-EVAL-010 invalide, et la CI ne couvre pas `eval/**`.
+7. #64, #65, #18 — voir les issues.
 
 CE QU'IL NE FAUT PAS FAIRE, et pourquoi :
 - Ne pas construire pour un « framework d'évaluation de LLM » : QAIA n'en est pas un. Pas de
