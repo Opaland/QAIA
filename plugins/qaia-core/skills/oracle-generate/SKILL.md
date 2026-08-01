@@ -65,7 +65,25 @@ wins on business intent, the spec grounds the API shape.
 ## Steps
 
 1. **Detect** standardized domains in `01-extraction.md` / `03-design.md`. For each, name the applicable oracle.
-2. ⚠ VALIDATION: propose the oracle-derived cases to the user (e.g. "for card validation I can add the Luhn valid/invalid test set — accept?"). The oracle *proposes*; the human arbitrates.
+2. ⚠ VALIDATION: propose the oracle-derived cases to the user (e.g. "for card validation I can add the Luhn valid/invalid test set — accept?"). The oracle *proposes*; the human arbitrates. Present them with this callout, verbatim:
+
+   > **If you own the product rather than the tests, read this. You do not need the rest of
+   > this page.**
+   >
+   > - **What you're being asked:** this story touches something with a published standard —
+   >   how card numbers are checked, how dates are written, which error code an API returns. We
+   >   can take the test cases and their correct answers straight from that standard. You are
+   >   being asked whether the standard genuinely applies to *your* product here.
+   > - **Why it matters:** if it applies, the expected results come from a citable rule instead
+   >   of from our judgement, and the edge cases stop being ones we happened to think of. If it
+   >   does **not** apply — your system deliberately accepts something the standard rejects —
+   >   then accepting it here produces tests that fail on correct behaviour, and someone will
+   >   spend a morning on a defect that isn't one.
+   > - **If you don't answer:** we do not apply the standard. The cases are simply not added,
+   >   and those edge cases go untested rather than being tested wrongly.
+   >
+   > The question is only "does this rule apply to us, yes or no". You do not need to know what
+   > the standard says — that part is ours.
 3. **Emit** the accepted cases into the design conditions and, at generation, into scenarios — each tagged `@oracle:<standard>` and carrying a `# oracle: <ref>` comment. The expected result comes from the standard, not from extrapolation.
 4. **Record** provenance in `03-design.md` and the synthesis ("negative cases X, Y grounded in Luhn, not fabricated") — this raises negative-path coverage — the gate defined by ADR 0001 — without fabrication.
 

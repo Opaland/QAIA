@@ -1,6 +1,6 @@
 {
   "name": "qaia-testdata",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "QAIA test data: generates rich, business-coherent synthetic datasets (never real data or PII) from a QAIA user story or test book, covering boundary/edge cases and injectable as Playwright fixtures. Separate from qaia-core, which only ever generates inline examples.",
   "author": {
     "name": "Cédric Moretti and QAIA contributors",

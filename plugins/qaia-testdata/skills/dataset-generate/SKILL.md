@@ -58,6 +58,28 @@ tests can seed real state from them instead of inventing a literal per test.
      the `[open]`/`[assumption]` discipline `istqb-design`/`need-understanding` already apply to
      scenarios — the honest recall ceiling applies to invented data exactly as it does to
      invented test logic.
+
+   ⚠ VALIDATION — when the fixture rests on an invented value or a chosen interpretation,
+   surface it with this callout, verbatim, rather than burying it in `_meta`:
+
+   > **If you own the product rather than the tests, read this. You do not need the rest of
+   > this page.**
+   >
+   > - **What you're being asked:** to build test data we needed concrete values the
+   >   specification never gave — an exact threshold, a cut-off, whether a limit counts as
+   >   "reached" or "exceeded". We made them up, plausibly, and listed them below. You are being
+   >   asked whether any of them is wrong.
+   > - **Why it matters:** these values are what the tests are built around. If our invented
+   >   threshold sits on the wrong side of your real one, the tests will pass while checking the
+   >   wrong boundary — and a boundary is exactly where defects live. This is the one kind of
+   >   error that leaves no trace: everything is green and nothing was verified.
+   > - **If you don't answer:** the fixture ships with those values marked as invented
+   >   (`synthetic`), so nobody later mistakes them for your rules. Where the choice was a
+   >   genuine fork with no safe default, the case is left deliberately unresolved instead of
+   >   being decided for you.
+   >
+   > No real data is ever used here — every person, address and identifier is fabricated on
+   > purpose, even when the real thing would be easier to obtain.
 6. **No real data, no PII, ever.** Every person-like entity (patient, physician, customer,
    employee, ...) gets a clearly synthetic identity: a name pattern that signals fixture data at
    a glance (e.g. `<first name> Sample-NN`), an `@example.invalid`-style email (RFC 2606

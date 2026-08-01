@@ -85,6 +85,30 @@ human one.*
 3. **Handle a waiver only on explicit human input.** If — and only if — the user states they
    accept the candidate despite the reasons, set `verdict: "WAIVED"` and record
    `waiver: { by, reason, at }`. Absent that, never write WAIVED. Never turn a FAIL into PASS.
+
+   When a verdict is not PASS and a human is being asked whether to proceed anyway, present the
+   reasons with this callout, verbatim:
+
+   > **If you own the product rather than the tests, read this. You do not need the rest of
+   > this page.**
+   >
+   > - **What you're being asked:** the checks below did not come out clean. You are being asked
+   >   whether to ship anyway. Saying yes is called a *waiver*: it means the problem is real,
+   >   you have seen it, and you accept it.
+   > - **Why it matters:** a waiver does not fix or delete anything. The finding stays recorded,
+   >   with your name and your reason next to it, and it stays visible on this story afterwards.
+   >   That is the point — it makes accepting a risk a decision someone made rather than
+   >   something that quietly happened.
+   > - **If you don't answer:** nothing ships on our say-so. The verdict stands as it is, no
+   >   waiver is recorded, and the story stays flagged as not release-clean. This tool never
+   >   releases anything by itself.
+   >
+   > The most common reasons here are worth telling apart. **"A question was never answered"**
+   > means some tests rest on our guess — the fix is usually five minutes of your time, not a
+   > waiver. **"A required failure case is untested"** means nobody checked that the system
+   > refuses what it should refuse, which is where the expensive defects live.
+
+
 4. **Write `gate`** into the manifest (merge, contract rule 2): `verdict`, keep `score`/
    `dimensions` from `testbook-score`, `reasons`, `waiver` (or `null`), `scoredBy:
    "qaia-score/aptitude-gate"`, `at`. Do **not** touch `design`, `execution`, or the

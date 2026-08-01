@@ -38,7 +38,25 @@ Follow the shared contract in `../README.md`. Prerequisite: `01-extraction.md` (
    3. A safe default exists that a reasonable practitioner would accept without escalation → **`[assumption]`**.
    4. Otherwise → **`[open]`**.
    Calibration examples: "does a cancelled appointment free the counter?" → step 3, `[assumption]` (safe default: yes, flagged). "Is a refused attempt an audit event?" → compliance evidence, step 2, `[open]`. "Missing guardian contact for a minor" → protected population, step 2, `[open]`.
-6. ⚠ VALIDATION: for each question the outcome is exactly one of:
+6. ⚠ VALIDATION — present the questions with this callout, verbatim, before the list:
+
+   > **If you own the product rather than the tests, read this. You do not need the rest of
+   > this page.**
+   >
+   > - **What you're being asked:** the specification does not say what should happen in the
+   >   cases below. You are being asked what the *correct behaviour* is — not how to test it.
+   > - **Why it matters:** every answer becomes a test that asserts that behaviour. Answer, and
+   >   the test checks what you decided. Don't answer, and we write a test asserting our best
+   >   guess — which will then pass, look green, and prove nothing about your actual rule.
+   > - **If you don't answer:** for low-risk points we apply a stated default and mark it as an
+   >   assumption. For anything touching money, safety, health data, minors or legal evidence we
+   >   apply **no** default: those stay open, and every test that depends on them is flagged as
+   >   resting on an unconfirmed guess. That flag follows the story to the release decision.
+   >
+   > "I don't know" is a useful answer — it tells us to mark an assumption rather than invent a
+   > certainty. The unusable answer is silence.
+
+   For each question the outcome is exactly one of:
    - **answered** — the user states the rule → recorded as a decision;
    - **`[assumption]`** — the user accepts your proposed default, **or answers "not specified / I don't know" AND your default is a low-risk plausible behavior** → the default becomes a flagged working assumption;
    - **`[open]`** — no answer and the point is a genuine product decision (safety, money, compliance, user-visible policy) where any default would be a guess → stays open, caps confidence of affected scenarios.

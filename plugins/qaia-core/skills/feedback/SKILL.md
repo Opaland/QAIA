@@ -19,7 +19,24 @@ A generated test book to compare against (`.qaia/testbooks/<US-ID>/`, from `test
    - `style` — wording, structure, granularity preference → candidate for a project convention entry;
    - `one-off` — specific to this US, not generalizable → example only.
 3. **Store examples.** Write each correction to `.qaia/feedback/examples/<US-ID>-<n>.md` with its classification and provenance.
-4. **Propose promotions**: only when the same pattern appears in **≥ 2** stored examples, or the user explicitly asks for immediate promotion (single-criterion — the "states a reusable rule" shortcut promoted everything and filtered nothing). Rules get stable IDs `BR-KB-nnn` (counter persisted in `rules.md` frontmatter); examples get `<US-ID>-<nnn>` with the counter in `examples/`. When a promoted rule shapes a generated scenario, the scenario carries a `# rule: BR-KB-nnn` comment and the coverage matrix lists applied rules — flagging sibling scenarios of the same AC for regeneration. ⚠ VALIDATION: on approval, hand the rule to `rag-build` (which handles contradiction checks and the index); record the promotion in `feedback/rules.md` with links to its source examples.
+4. **Propose promotions**: only when the same pattern appears in **≥ 2** stored examples, or the user explicitly asks for immediate promotion (single-criterion — the "states a reusable rule" shortcut promoted everything and filtered nothing). Rules get stable IDs `BR-KB-nnn` (counter persisted in `rules.md` frontmatter); examples get `<US-ID>-<nnn>` with the counter in `examples/`. When a promoted rule shapes a generated scenario, the scenario carries a `# rule: BR-KB-nnn` comment and the coverage matrix lists applied rules — flagging sibling scenarios of the same AC for regeneration. ⚠ VALIDATION: present the proposed promotion with this callout, verbatim; on approval, hand the rule to `rag-build` (which handles contradiction checks and the index); record the promotion in `feedback/rules.md` with links to its source examples.
+
+   > **If you own the product rather than the tests, read this. You do not need the rest of
+   > this page.**
+   >
+   > - **What you're being asked:** the same correction has now come up more than once, so it
+   >   looks like a standing rule of your business rather than a one-off fix. You are being
+   >   asked to confirm that it is — in the wording below.
+   > - **Why it matters:** a confirmed rule is reused on every future story, automatically, by
+   >   everyone on the team. That is the payoff. It is also the risk: a rule that is *almost*
+   >   right, or true only for one product line, quietly propagates into stories nobody
+   >   connected it to. Read the wording, not just the idea — especially any "always" or
+   >   "never".
+   > - **If you don't answer:** nothing is promoted. The corrections stay as isolated examples
+   >   attached to their own story, and future generations may repeat the same mistake — which
+   >   is the safe outcome, not the harmful one.
+   >
+   > Confirming a rule here changes future tests, never past ones, and it can be withdrawn later.
 5. **Prune.** When promoting, mark source examples `promoted`; offer to archive examples older than ~6 months that never recurred — the store must not grow unbounded, or retrieval degrades and the signal drowns.
 6. **Close the loop.** Tell the user which promoted rules will affect future generations, and remind them the effect is measured — not guaranteed — via the gold set: reapplication of a raw stored example is probabilistic, a promoted rule is the reliable path, and promising more than that would be the dishonest version of "learning".
 
