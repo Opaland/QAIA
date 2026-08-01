@@ -113,9 +113,27 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
   numbers to satisfy the validator is the fabrication D38 forbids — remove the block instead.
 - **`artifacts[].kind`** is a closed enum: `feature`, `synthesis`, `matrix`, `validation`,
   `execution`, `export`, `flakiness` (`flaky-detect`, D80 — read by `aptitude-gate` as a
-  CONCERNS signal), `trafficReplay` (`traffic-replay`, D88). The last two were emitted by
-  shipped fixtures long before being declared here; a kind not in this list is an error, so a
-  new producer must extend the enum **and** this line together.
+  CONCERNS signal), `trafficReplay` (`traffic-replay`, D88), `dataset`
+  (`qaia-testdata:dataset-generate`, D137). All three of the last were emitted by real
+  producers long before being declared here; a kind not in this list is an error, so a new
+  producer must extend the enum **and** this line together. That this keeps happening is the
+  argument for the CI job validating `eval/**` as well as `plugins/**`.
+- **A `gate` block may legitimately be partial.** Two skills fill it, in order:
+  `qaia-score:testbook-score` writes `score`/`dimensions`/`max`, then `qaia-score:aptitude-gate`
+  writes `verdict`/`reasons`/`waiver`. Between them sits a real intermediate state — a scored,
+  not-yet-gated candidate — and a `gate` without `verdict` is **valid**. Requiring one there
+  would force the only honest producer of that state either to fabricate a verdict it must not
+  own (no producer scores itself) or to fail validation for obeying this contract. A `verdict`
+  that **is** written is still fully checked, including the rule that WAIVED needs a `waiver`
+  object naming its grantor.
+- **Provenance-weak items have no dedicated `kind`.** `openArbitrations[].kind` stays
+  `open | assumption | simulated`. An item whose *source* is weak rather than whose *answer* is
+  unknown — a value corroborated only by third-party write-ups, never by the designated
+  source — is recorded as `assumption`, with the weakness stated explicitly in `about`. The
+  distinction is real but is carried in prose rather than in the enum, because a fourth kind
+  would ripple through every producer and consumer for a case the `about` field already
+  expresses. (Such an item is also a signal worth chasing upstream: it usually means content
+  entered the capture that `us-ingest`'s source-fidelity rule forbids.)
 - **`artifacts[].path`** must resolve to a file that really exists. `validate_manifest.py`
   checks this under `--check-paths <root>`; it is opt-in because a manifest is often validated
   away from the tree it describes, where a missing file would be a false alarm rather than a

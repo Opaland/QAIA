@@ -28,8 +28,13 @@ STATUS_ENUM = {"draft", "review", "validated"}
 # "trafficReplay" likewise: `traffic-replay` (D88) emits HAR-derived regression conditions and
 # its own fixture declared this kind, undeclared anywhere. Found by the CI job added in the
 # same pass -- the skill-eval wave itself had only named the flaky-detect case.
+# "dataset": `qaia-testdata:dataset-generate` emits a business-coherent fixture dataset
+# (`<US-ID>-dataset.json`) and its own campaign output declared this kind -- never declared in
+# the enum or docs/OUTPUT-CONTRACT.md. Exactly the same class as "flakiness" and "trafficReplay"
+# above, and missed for the same reason: the enum was not revisited when a new plugin shipped.
+# Found 2026-08-01 by running the validator over `eval/**` instead of `plugins/**` only.
 ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export", "validation",
-                      "flakiness", "trafficReplay"}
+                      "flakiness", "trafficReplay", "dataset"}
 ARBITRATION_KIND_ENUM = {"open", "assumption", "simulated"}
 GATE_VERDICT_ENUM = {"PASS", "CONCERNS", "FAIL", "WAIVED"}
 
@@ -160,10 +165,23 @@ def validate_gate(gate, errors):
     path = "gate"
     if not isinstance(gate, dict):
         return err(errors, path, "expected object")
-    for field in GATE_REQUIRED:
+
+    # A `gate` block is filled by TWO skills, in order: `testbook-score` writes score/dimensions,
+    # then `aptitude-gate` writes verdict/reasons/waiver. Between the two there is a legitimate
+    # intermediate state -- a scored, not-yet-gated candidate -- and requiring `verdict` there
+    # forced the only honest producer of that state to either fabricate a verdict it must not
+    # own (contract: no producer scores itself) or fail validation for obeying the contract.
+    # Both campaign artifacts hitting this were named `*.testbook-score-only.json` and
+    # `*.scored.json`: the file names said what the validator refused to model.
+    # So: a partial gate is valid; a *written* verdict is still fully checked.
+    # Found 2026-08-01 (issue #68) by validating `eval/**`, which the CI job never covered.
+    partial = "verdict" not in gate and ("score" in gate or "dimensions" in gate)
+    required = [f for f in GATE_REQUIRED if not (partial and f in ("verdict", "reasons", "waiver"))]
+    for field in required:
         if field not in gate:
             err(errors, path, f"missing required field {field!r}")
-    check_enum(gate.get("verdict"), f"{path}.verdict", errors, GATE_VERDICT_ENUM)
+    if not partial:
+        check_enum(gate.get("verdict"), f"{path}.verdict", errors, GATE_VERDICT_ENUM)
     check_int(gate.get("score"), f"{path}.score", errors, minimum=0)
     check_int(gate.get("max"), f"{path}.max", errors, minimum=0)
     check_str(gate.get("scoredBy"), f"{path}.scoredBy", errors)

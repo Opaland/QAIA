@@ -91,13 +91,23 @@ jobs:
           #
           # --batch only globs files named exactly manifest.json, which is why fixture
           # manifests (manifest-before/after.json) escaped every previous check.
+          #
+          # Extended to eval/ on 2026-08-01 (issue #68). The job above was written for the
+          # trou it had just found -- fixture manifests under plugins/ -- and so covered the
+          # instance rather than the class. Campaign manifests (eval/**/manifest*.json) were
+          # covered by nothing, and four of them were failing: two validator defects (a gate
+          # legitimately filled by testbook-score before aptitude-gate has run; an undeclared
+          # 'dataset' artifact kind) and one data defect (a ratio written as a percentage in a
+          # [0,1] field, which the scoring reads). Same lesson as D129, one level up: fixing
+          # the artifacts settles the past, only a mechanism settles the future -- and the
+          # mechanism has to cover the right perimeter.
           found=0
           while IFS= read -r m; do
             found=1
             python eval/tools/validate_manifest.py "$m"
-          done < <(find plugins -name 'manifest*.json' -not -path '*/node_modules/*')
+          done < <(find plugins eval -name 'manifest*.json' -not -path '*/node_modules/*')
           if [ "$found" -eq 0 ]; then
-            echo "No fixture manifest under plugins/ -- nothing to validate"
+            echo "No manifest under plugins/ or eval/ -- nothing to validate"
           fi
 
       - name: Lint Gherkin features (if any)
