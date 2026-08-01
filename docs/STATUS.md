@@ -1,5 +1,37 @@
 # QAIA — état du projet & prompt de reprise
 
+## Sprint 31 — #60 fermée : une suite générée tourne dans une vraie CI (2026-08-01, D132) — TERMINÉ
+
+Session autonome, un seul objectif : le blocage n°1 identifié par le Sprint 30.
+
+**Ce qui a changé.** `.github/workflows/generated-suite.yml` exécute la suite produite par
+`automate` pour US-EVAL-001 sur un runner GitHub Actions — **8 tests, 8 verts**
+([run 30702503888](https://github.com/QAIA-Project/QAIA/actions/runs/30702503888), log brut
+conservé dans `eval/ci-proof-2026-08-01/`). Sur ce runner : aucune session Claude, aucune skill
+chargée, aucun fichier de `plugins/` lu. La phrase « les tests générés survivent à QAIA » cesse
+d'être une affirmation.
+
+**Le test qui échouait n'était pas un défaut de CI.** `QAIA-US-EVAL-001-006` encodait un *défaut
+proposé* que le cahier avait marqué `[open]`, avec un commentaire prédisant qu'un échec **serait**
+la réponse à Q3. Sonde live sur 7 combinaisons : les credentials sont validés **avant** l'état de
+verrouillage. Q2 disconfirmée au passage (les champs vides ont chacun leur message). Les deux
+corrections **renforcent** les assertions — égalité de texte exacte là où il n'y avait qu'un
+contrôle de visibilité. Aucun seuil abaissé.
+
+**Un vrai défaut trouvé par lecture** : `gitlab-ci.yml` et `Jenkinsfile` épinglaient l'image
+Docker Playwright `v1.48.0-noble` contre une suite en `@playwright/test` 1.62 — et le symptôme
+(« Executable doesn't exist ») accuse une installation manquante au lieu de la dérive de version.
+
+**Limites, dites et non tues** : seul le template GitHub Actions est prouvé *par exécution* ;
+GitLab et Jenkins sont corrigés *par lecture*. La cible reste une démo publique — **T17 (≥ 80 %
+des P1 sans retouche sur un pilote réel) demeure non mesuré**. Le point 1 de la liste « ce qu'on
+ne sait toujours pas » du Sprint 30 tombe ; les points 2 à 5 restent entiers.
+
+**Trouvé, non traité** : `eval/skill-eval-campaign-2026-07-29/US-EVAL-010-crapi-security/reports/manifest.json`
+échoue au validateur (2 erreurs : `negativeRatio` à 100.0 au lieu d'un ratio [0,1], `kind`
+`secondary-source` hors énumération). La CI ne le voit pas — elle ne valide que
+`plugins/**/manifest*.json`. Défaut réel dans une preuve de campagne, à ouvrir en issue.
+
 ## Sprint 30 — campagnes d'évaluation exhaustives, corrections centrales, revue externe (2026-07-31, D126-D131) — TERMINÉ
 
 **Journée la plus dense du projet : 12 commits, 5 vagues d'agents (~80 agents), 6 décisions.**
@@ -56,8 +88,10 @@ mutation, discrimination prouvée sur fixture.
 
 ### Ce qu'on ne sait toujours pas — nommément
 
-1. **Aucun test généré n'a jamais tourné dans une vraie CI** (#60). La promesse « les tests
-   survivent à QAIA » n'est pas vérifiée.
+1. ~~**Aucun test généré n'a jamais tourné dans une vraie CI** (#60).~~ **Levé le 2026-08-01**
+   (D132, Sprint 31) : 8/8 sur un runner GitHub Actions, sans session ni skill. Portée exacte et
+   limites dans `eval/ci-proof-2026-08-01/github-actions-run.md` — un seul template prouvé,
+   une seule suite, une démo publique et non un pilote.
 2. **Aucun gate humain n'a jamais été franchi.** Tout le produit a été évalué en mode dégradé,
    non-interactif. Le chemin nominal n'a jamais été exercé.
 3. **Aucun pilote réel.** Le critère de sortie auto-fixé (80 % des scénarios P1 sans retouche)
@@ -98,8 +132,8 @@ OUTILS DE VÉRIFICATION À LANCER AVANT DE CONCLURE QUOI QUE CE SOIT :
   find plugins -name 'manifest*.json' -exec python eval/tools/validate_manifest.py {} \;
 
 CE QUI EST OUVERT, par ordre de valeur :
-1. #60 — aucun test généré n'a jamais tourné dans une vraie CI. C'est le blocage n°1 : il est
-   réalisable seul, vérifiable par un tiers, et il conditionne toute crédibilité ultérieure.
+1. ~~#60~~ — **fermée le 2026-08-01** (D132). Le blocage n°1 est levé : 8/8 en CI réelle. Ce qui
+   reste de cette famille : GitLab/Jenkins jamais exécutés, et T17 (pilote réel) non mesuré.
 2. #62 — trois skills sous-écrites (`a11y-audit` 1 628 caractères sur le sujet au plus fort
    enjeu réglementaire, `run-report`, `security-surface`).
 3. #59 — densité : 8 skills sont des murs (150-245 caractères/ligne quand les bien notées
