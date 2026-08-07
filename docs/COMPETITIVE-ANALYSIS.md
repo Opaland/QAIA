@@ -150,3 +150,63 @@ pas la conformité au contrat) — gap réel, converti en piste de backlog ci-de
     parcours spec-first existant, pas un remplacement. Voir issue GitHub correspondante.
 
 Voir les issues GitHub correspondantes pour le détail et le suivi.
+
+## Veille 2026-08-08 — le marché est entré dans Claude Code, et la veille précédente ne l'a pas vu
+
+Cette passe corrige d'abord une **erreur de méthode** de la veille du 2026-07-26 (D94), qui
+concluait « aucun nouveau concurrent sérieux ». Elle cherchait des concurrents *par domaine
+métier* (QA hors médical). Elle n'a pas cherché dans **le canal de distribution de QAIA** —
+l'écosystème de plugins et de skills Claude Code. C'est précisément là qu'ils étaient, et
+plusieurs existaient déjà quand la conclusion a été écrite.
+
+**Règle qui en découle : une veille doit couvrir le canal autant que le domaine.**
+
+### Ce qui recouvre QAIA directement
+
+| Projet | Nature | ★ au 2026-08-08 | Créé |
+|---|---|---|---|
+| [QA Orchestra](https://github.com/Anasss/qa-orchestra) ([site](https://qa-orchestra.com/)) | Plugin Claude Code MIT, 10 agents QA en 3 tiers, sans clé API | 11 | 2026-04 |
+| [QASkills.sh](https://qaskills.sh/) | Annuaire/marketplace de skills QA (`npx qaskills add`), 420+ skills listées, blog SEO actif | n/a | — |
+| [neonwatty/qa-skills](https://github.com/neonwatty/qa-skills) | Pipeline de génération E2E Playwright, 6 agents QA | 23 | 2026-01 |
+| [darcyegb/ClaudeCodeAgents](https://github.com/darcyegb/ClaudeCodeAgents) | Agents QA pour Claude Code | 756 | 2025-07 |
+| [proffesor-for-testing/agentic-qe](https://github.com/proffesor-for-testing/agentic-qe) | Essaim autonome 60 agents (déjà cité) | 435 | 2025-09 |
+| [lackeyjb/playwright-skill](https://github.com/lackeyjb/playwright-skill) | Skill unique d'automatisation navigateur | **2994** | 2025-10 |
+
+QA Orchestra est le plus proche jamais observé : même canal, même promesse bout-en-bout, même
+posture « pas de clé API, pas de compte SaaS ». Ses 10 agents couvrent la validation des critères
+d'acceptation, la conception de scénarios (happy/negative/boundary/edge), la sélection des tests
+impactés, le rapport de bug, le déploiement et la santé de l'app, la validation navigateur via
+Chrome DevTools, l'orchestration, l'analyse d'impact multi-dépôts, la conversion des scénarios en
+**Playwright/Cypress/Selenium/Gherkin**, et la validation manuelle guidée.
+
+### Le différenciateur qui tombe
+
+Le README revendiquait « ISTQB appliqué et justifié » comme argument de choix. Les descriptions
+publiques de QA Orchestra et des skills QASkills nomment explicitement **partitions
+d'équivalence, valeurs limites, tables de décision, transitions d'états, error guessing** — la
+palette même d'`istqb-design`. Que ce soit bien fait chez eux est une question ouverte ; ce qui
+est certain, c'est qu'**un visiteur ne peut pas faire la différence depuis une page d'accueil**.
+L'ISTQB reste un argument de qualité. Il n'est plus un argument de choix.
+
+### Le différenciateur qui tient
+
+Trois points, qu'aucun des six ci-dessus ne revendique, et qui ont la propriété d'être
+**vérifiables par un tiers** plutôt que d'être des affirmations :
+
+1. **Aucun producteur ne s'auto-note.** Score structurel déterministe dans un plugin séparé en
+   lecture seule (`qaia-score`), distinct du juge LLM sémantique. Chez tous les autres, le même
+   essaim produit *et* évalue. C'est la règle la plus dure du projet et elle a répétitivement
+   attrapé des défauts que les auteurs ne pouvaient pas voir (D136).
+2. **Zéro clé API livrée, zéro hook/agent/MCP auto-exécuté.** Installer QAIA ne dépose rien qui
+   s'exécute seul. QA Orchestra installe 10 agents.
+3. **Les échecs sont publiés.** Verdicts défavorables conservés, suite générée exécutée sur un
+   runner GitHub Actions sans session Claude ni skill chargée, tout nombre mesuré pointant son
+   fichier brut (règle 4bis). **Aucun concurrent observé ne publie ses échecs.**
+
+### Le contrepoids, à ne pas omettre
+
+QAIA a **0 étoile** et environ **9 visiteurs uniques sur 14 jours**, contre 11 à 2994 pour les
+projets ci-dessus. Aucun pilote humain ne l'a menée de bout en bout ; la qualité de ce qu'elle
+produit pour un vrai utilisateur reste non mesurée. Le différenciateur le plus solide du monde ne
+sert à rien s'il n'est lu par personne — c'est le sujet des issues #69 (distribution), #70
+(positionnement) et #72 (preuve visible sans installer).
