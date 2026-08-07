@@ -36,20 +36,27 @@ Built with and for testers: ISTQB techniques applied and justified, requirement�
 QAIA is a set of Claude Code plugins. There is nothing to build and no API key to provide — the
 skills run inside your own Claude Code session, using your own model.
 
+**Two lines is the whole install.** `qaia-core` alone takes a user story all the way to a Gherkin
+test book — that is the part worth judging first.
+
 ```
 /plugin marketplace add https://github.com/QAIA-Project/QAIA
 /plugin install qaia-core@qaia
-/plugin install qaia-playwright@qaia      # automation, a11y, perf, security, visual
+```
+
+Then `/hello` checks the install, and describing what you want in plain language — *"work with
+QAIA on this user story"* — is enough: the `qaia` meta-skill routes to the right step and stops
+wherever a human has to decide.
+
+Add the rest only when you need them:
+
+```
+/plugin install qaia-playwright@qaia      # runnable Playwright tests, a11y, perf, security, visual
 /plugin install qaia-score@qaia           # scoring and release gate
 /plugin install qaia-testdata@qaia        # synthetic test data
 ```
 
-Then, in any project, `/hello` checks the install and lists what is available.
-
-`qaia-core` alone takes a user story to a Gherkin test book. Add `qaia-playwright` when you want
-runnable tests. To start, describe what you want in plain language — "work with QAIA on this user
-story" — and the `qaia` meta-agent dispatches to the right skill, stopping at every point where a
-human has to decide. Worked examples with their real output are in [`examples/`](examples/).
+Worked examples with their real output are in [`examples/`](examples/).
 
 
 ## Why not just another agentic QA tool?
@@ -124,6 +131,21 @@ License: [MIT](LICENSE).
 
 ## 🇫🇷 Français
 
+**Une user story en entrée, ceci en sortie** — copié verbatim de [`examples/expense-demo/qaia-journey/`](examples/expense-demo/qaia-journey), où la totalité du parcours est conservée :
+
+```gherkin
+@QAIA-US-004-021 @AC5 @P1 @negative @boundary
+# condition: AC5-C2 [req-neg] — priority P1
+Scenario: A line at exactly the receipt threshold without a receipt is refused
+  Given "employee@demo" has a draft report with one EUR line "gear" of 25.00 dated today, no receipt attached
+  When "employee@demo" submits the report
+  Then the attempt is refused with a 422 status and a message mentioning "receipt"
+```
+
+38 scénarios tirés de cette seule histoire, chacun tracé à son critère d'acceptation dans une matrice de couverture. **11 sont marqués « confiance basse » avec la question ouverte nommée** — parce que l'histoire ne disait vraiment pas, et que trancher en silence, c'est produire une suite qui a l'air complète tout en encodant une supposition exactement à la frontière où vivent les défauts.
+
+[Voir entrée réelle et sortie réelle côte à côte →](https://qaia-project.github.io/QAIA/) · [Quel outil installer ? (on en recommande d'autres dans 3 cas sur 4) →](https://qaia-project.github.io/QAIA/compare.html)
+
 **Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.30, 15 skills), automatisation (`qaia-playwright` 0.1.20, 11 skills), score (`qaia-score` 0.2.0, 3 skills) et jeux de données (`qaia-testdata` 0.1.1, 1 skill) existent — **30 skills** —, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 32 tests Playwright, tous verts — rejoués le 2026-07-31, sortie brute dans [`examples/medibook/tests/run-log.txt`](examples/medibook/tests/run-log.txt)) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 43 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation) — plus un corpus de robustesse multi-modèles à 24 cas ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête.
 
 ## Installer et essayer
@@ -131,10 +153,18 @@ License: [MIT](LICENSE).
 QAIA est un ensemble de plugins Claude Code. Rien à compiler, aucune clé API à fournir — les
 skills s'exécutent dans votre propre session Claude Code, avec votre propre modèle.
 
+**L'installation tient en deux lignes.** `qaia-core` seul mène une user story jusqu'au cahier
+Gherkin — c'est la partie qu'il faut juger en premier.
+
 ```
 /plugin marketplace add https://github.com/QAIA-Project/QAIA
 /plugin install qaia-core@qaia
-/plugin install qaia-playwright@qaia      # automatisation, a11y, perf, sécurité, visuel
+```
+
+Ajoutez le reste seulement quand vous en avez besoin :
+
+```
+/plugin install qaia-playwright@qaia      # tests Playwright exécutables, a11y, perf, sécurité, visuel
 /plugin install qaia-score@qaia           # score et gate de release
 /plugin install qaia-testdata@qaia        # jeux de données synthétiques
 ```
