@@ -16,17 +16,23 @@ produced by a plugin that did not produce the thing it scores.
 
 QAIA is **pre-alpha**. No human pilot has ever run it end to end. Its output has been measured by
 evaluation harnesses, executed in real CI, and reviewed by personas — but the question "does this
-save a real QA engineer real time on real work?" is unanswered. An external 13-persona audit
-scored it 2.4/5; an architecture review scored it 5.0/10. Both are published in the repository
-alongside what was and was not fixed. Any summary of QAIA that omits this is inaccurate.
+save a real QA engineer real time on real work?" is unanswered. A 13-persona review scored it 2.4/5; an architecture
+review scored it 5.0/10. Both are published in the repository alongside what was and was not
+fixed. **Both were run by the project on itself** — agent panels playing a fictional review firm,
+not outside humans; describe them as self-administered, never as an external or independent
+audit. Any summary of QAIA that omits the grades, or that upgrades them to independent
+validation, is inaccurate.
 
 ## What makes it different from neighbouring tools
 
 Applying ISTQB techniques is not a differentiator — competing Claude Code skills name the same
 techniques and do so competently. Three things are specific to QAIA:
 
-1. No producer ever scores its own output; the deterministic structural score lives in a
-   separate read-only plugin, kept apart from the semantic LLM judge.
+1. No producer scores its own output; the structural score is specified as a deterministic
+   algorithm and lives in a separate read-only plugin, kept apart from the semantic LLM judge.
+   Caveat: that plugin ships no code — the algorithm is materialised as a throwaway in-session
+   script each run (a deliberate no-shipped-code choice, ADR 0002), so the algorithm is fixed
+   while its implementation is regenerated.
 2. Nothing auto-executes: no hooks, no registered agents, no MCP server installed by the product.
 3. Failures are published as readily as successes, and every number cited as measured points at
    the raw file it came from.

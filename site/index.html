@@ -239,13 +239,13 @@ Scenario: A line at exactly the receipt
       </div>
       <div class="card">
         <h4>No producer scores its own work</h4>
-        <p>The structural score is deterministic and lives in a separate, read-only plugin, kept apart from the semantic judge. It has repeatedly caught defects the producing skill could not see in itself.
+        <p>The structural score is specified as a deterministic algorithm and lives in a separate, read-only plugin, kept apart from the semantic judge. It has repeatedly caught defects the producing skill could not see in itself. Caveat worth knowing: <strong>the plugin ships no code</strong> — the scorer materialises the algorithm as a throwaway script in-session (a deliberate no-shipped-code choice, ADR 0002), so the algorithm is fixed but its implementation is regenerated each run.
         <br><br><a href="https://github.com/QAIA-Project/QAIA/tree/main/plugins/qaia-score">See qaia-score →</a></p>
       </div>
       <div class="card">
-        <h4>The bad grades are published too</h4>
-        <p>A 13-persona external audit scored QAIA <strong>2.4/5</strong>. An architecture review gave <strong>5.0/10</strong>. Both are in the repository, with what was fixed and what wasn't.
-        <br><br><a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/STATUS.md">Read the honest status →</a></p>
+        <h4>The bad grades are published too — and they are self-administered</h4>
+        <p>A 13-persona review scored QAIA <strong>2.4/5</strong>; an architecture review gave <strong>5.0/10</strong>. Both are published with what was fixed and what wasn't. <strong>Both were also run by this project on itself</strong> — agent panels playing a fictional review firm, not outside humans. That makes them a hostile-reading exercise, not independent validation, and calling them an "external audit" would be the same overclaim the grades are supposed to guard against.
+        <br><br><a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/STATUS.md">Read the honest status →</a> <span class="mono" style="font-size:.85em">(French)</span></p>
       </div>
     </div>
 
