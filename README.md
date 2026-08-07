@@ -1,6 +1,27 @@
 # QAIA — Agentic QA platform, open source
 
+[![CI](https://github.com/QAIA-Project/QAIA/actions/workflows/ci.yml/badge.svg)](https://github.com/QAIA-Project/QAIA/actions/workflows/ci.yml)
+[![Generated suite in CI](https://github.com/QAIA-Project/QAIA/actions/workflows/generated-suite.yml/badge.svg)](https://github.com/QAIA-Project/QAIA/actions/workflows/generated-suite.yml)
+[![Release](https://img.shields.io/github/v/release/QAIA-Project/QAIA?include_prereleases&label=release)](https://github.com/QAIA-Project/QAIA/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Site](https://img.shields.io/badge/site-qaia--project.github.io-3b5bdb)](https://qaia-project.github.io/QAIA/)
+
 > 🇫🇷 [Version française ci-dessous](#-français)
+
+**One user story in, this out** — copied verbatim from [`examples/expense-demo/qaia-journey/`](examples/expense-demo/qaia-journey), where the whole run is kept:
+
+```gherkin
+@QAIA-US-004-021 @AC5 @P1 @negative @boundary
+# condition: AC5-C2 [req-neg] — priority P1
+Scenario: A line at exactly the receipt threshold without a receipt is refused
+  Given "employee@demo" has a draft report with one EUR line "gear" of 25.00 dated today, no receipt attached
+  When "employee@demo" submits the report
+  Then the attempt is refused with a 422 status and a message mentioning "receipt"
+```
+
+38 scenarios from that one story, each traced back to an acceptance criterion in a coverage matrix. **11 of them are flagged low-confidence with the open question named** — because the story genuinely didn't say, and quietly picking an interpretation is how a suite ends up looking complete while encoding a guess at exactly the boundary where bugs live.
+
+[See real input and output side by side →](https://qaia-project.github.io/QAIA/) · [Which tool should you install? (we recommend others for 3 of 4 cases) →](https://qaia-project.github.io/QAIA/compare.html)
 
 **Status: pre-alpha, in active development.** Core (`qaia-core` 0.2.30, 15 skills), automation (`qaia-playwright` 0.1.20, 11 skills), scoring (`qaia-score` 0.2.0, 3 skills) and test-data (`qaia-testdata` 0.1.1, 1 skill) plugins exist — **30 skills** — validate `--strict`, and are proven end-to-end on **two independent real domains** — healthcare ([`examples/medibook/`](examples/medibook), 32 Playwright tests, all green — re-run 2026-07-31, raw output in [`examples/medibook/tests/run-log.txt`](examples/medibook/tests/run-log.txt)) and finance/HR ([`examples/expense-demo/`](examples/expense-demo), 43 green Playwright tests, real bugs found and fixed during automation) — plus a 24-case multi-model robustness corpus ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). Formal human-pilot validation hasn't happened yet — see [`docs/STATUS.md`](docs/STATUS.md) for the honest state and what's next.
 
