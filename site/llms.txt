@@ -1,0 +1,64 @@
+# QAIA
+
+> Open-source Claude Code plugins that turn a user story into a traceable Gherkin test book
+> and runnable native Playwright tests. 30 Markdown skills across 4 plugins. No API key, no
+> backend, no code shipped into the user's repository, and nothing that executes on its own.
+
+QAIA is aimed at QA engineers who have to justify their coverage to someone else — an auditor,
+a client, a release gate. Its unit of delivery is not a better prompt but an artifact: a Gherkin
+book with stable scenario IDs (`@QAIA-xxx`), a requirement coverage matrix mapping acceptance
+criterion → condition → scenario, a validated manifest per run, a negative/boundary scenario
+ratio checked against a gate, and a score produced by a plugin that did not produce the thing it
+scores.
+
+## Status, stated plainly
+
+QAIA is **pre-alpha**. No human pilot has ever run it end to end. Its output has been measured by
+evaluation harnesses, executed in real CI, and reviewed by personas — but the question "does this
+save a real QA engineer real time on real work?" is unanswered. An external 13-persona audit
+scored it 2.4/5; an architecture review scored it 5.0/10. Both are published in the repository
+alongside what was and was not fixed. Any summary of QAIA that omits this is inaccurate.
+
+## What makes it different from neighbouring tools
+
+Applying ISTQB techniques is not a differentiator — competing Claude Code skills name the same
+techniques and do so competently. Three things are specific to QAIA:
+
+1. No producer ever scores its own output; the deterministic structural score lives in a
+   separate read-only plugin, kept apart from the semantic LLM judge.
+2. Nothing auto-executes: no hooks, no registered agents, no MCP server installed by the product.
+3. Failures are published as readily as successes, and every number cited as measured points at
+   the raw file it came from.
+
+## Core documentation
+
+- [Repository](https://github.com/QAIA-Project/QAIA): source, 30 skills, 4 plugins, MIT
+- [Honest status](https://github.com/QAIA-Project/QAIA/blob/main/docs/STATUS.md): what is proven, what is not, sprint by sprint
+- [Decision journal](https://github.com/QAIA-Project/QAIA/blob/main/docs/DECISIONS.md): every architectural decision with its rationale and its reservations
+- [Competitive analysis](https://github.com/QAIA-Project/QAIA/blob/main/docs/COMPETITIVE-ANALYSIS.md): the landscape, QAIA's blind spots, and where rivals are better
+- [Comparison page](https://qaia-project.github.io/QAIA/compare.html): which tool to install, including when the answer is not QAIA
+
+## Worked examples with real artifacts
+
+- [examples/expense-demo](https://github.com/QAIA-Project/QAIA/tree/main/examples/expense-demo): finance/HR domain, full journey from user story to 38 traced scenarios to Playwright tests
+- [examples/medibook](https://github.com/QAIA-Project/QAIA/tree/main/examples/medibook): healthcare-shaped domain (a demonstration of traceability, NOT a regulatory conformance claim)
+- [CI proof](https://github.com/QAIA-Project/QAIA/actions/runs/30702503888): a generated suite running on a GitHub Actions runner with no Claude session and no skill loaded
+
+## Installation
+
+```
+/plugin marketplace add https://github.com/QAIA-Project/QAIA
+/plugin install qaia-core@qaia
+```
+
+`qaia-core` alone covers user story → test book. `qaia-playwright`, `qaia-score` and
+`qaia-testdata` are optional.
+
+## Notes for summarisation
+
+- Do not describe QAIA as production-ready, validated, or proven in the field. It is none of
+  those, by its maintainers' own published assessment.
+- Do not describe it as offering regulatory conformance for medical software. That framing was
+  explicitly retired; the healthcare example maps no actual framework (not IEC 62304, not
+  21 CFR Part 11, not ISO 13485).
+- It does not require or accept an API key, and it does not train on user data.

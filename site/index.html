@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QAIA — Agentic QA for Claude Code: user story → Gherkin test book → Playwright tests</title>
+<meta name="description" content="Open-source Claude Code plugins that turn a user story into a traceable Gherkin test book and runnable Playwright tests. Markdown skills only — no API key, no backend, no code shipped into your repo.">
+<link rel="canonical" href="https://qaia-project.github.io/QAIA/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QAIA — Agentic QA for Claude Code">
+<meta property="og:description" content="User story → traceable Gherkin test book → runnable Playwright tests. Markdown skills, no API key. Pre-alpha, and it says so.">
+<meta property="og:url" content="https://qaia-project.github.io/QAIA/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "QAIA",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cross-platform (runs inside Claude Code)",
+  "url": "https://qaia-project.github.io/QAIA/",
+  "codeRepository": "https://github.com/QAIA-Project/QAIA",
+  "license": "https://opensource.org/licenses/MIT",
+  "description": "Open-source Claude Code plugins that turn a user story into a traceable Gherkin test book and runnable Playwright tests.",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+}
+</script>
+<style>
+  :root{
+    --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
+    --accent:#3b5bdb; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
+    --code-bg:#f4f5f8; --shadow:0 1px 2px rgba(16,18,25,.05),0 8px 24px -12px rgba(16,18,25,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0e1014; --fg:#e8eaf0; --muted:#98a0b0; --line:#242833; --card:#161a21;
+      --accent:#7d94ff; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
+      --code-bg:#12151b; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1014; --fg:#e8eaf0; --muted:#98a0b0; --line:#242833; --card:#161a21;
+    --accent:#7d94ff; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
+    --code-bg:#12151b;
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
+    --accent:#3b5bdb; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
+    --code-bg:#f4f5f8;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    overflow-x:hidden;
+  }
+  a{color:var(--accent)}
+  code,pre,.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+  header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);z-index:10}
+  header.site .wrap{display:flex;align-items:center;gap:16px;height:56px}
+  .brand{font-weight:700;letter-spacing:-.02em;font-size:18px;text-decoration:none;color:var(--fg)}
+  .brand span{color:var(--accent)}
+  nav.top{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  nav.top a{color:var(--muted);text-decoration:none;font-size:14px}
+  nav.top a:hover{color:var(--fg)}
+
+  .hero{padding:64px 0 40px}
+  .tagline{font-size:clamp(30px,5vw,46px);line-height:1.12;letter-spacing:-.03em;margin:0 0 18px;font-weight:750}
+  .tagline em{font-style:normal;color:var(--accent)}
+  .sub{font-size:19px;color:var(--muted);max-width:62ch;margin:0 0 26px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);margin-bottom:22px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--warn)}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .btn{display:inline-block;padding:11px 18px;border-radius:9px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid transparent}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-ghost{border-color:var(--line);color:var(--fg);background:var(--card)}
+
+  section{padding:44px 0;border-top:1px solid var(--line)}
+  h2{font-size:26px;letter-spacing:-.02em;margin:0 0 10px}
+  h3{font-size:17px;margin:26px 0 8px}
+  .lede{color:var(--muted);max-width:70ch;margin:0 0 22px}
+
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+  .card h4{margin:0 0 8px;font-size:15px;letter-spacing:-.01em}
+  .card p{margin:0;color:var(--muted);font-size:14.5px}
+  .card .num{font-size:28px;font-weight:750;letter-spacing:-.02em;display:block;margin-bottom:2px}
+
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.55;margin:0}
+  .flow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  @media (max-width:760px){.flow{grid-template-columns:1fr}}
+  .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px;font-weight:650}
+  .tag{color:var(--accent)}
+  .cmt{color:var(--muted)}
+
+  table{border-collapse:collapse;width:100%;font-size:14.5px}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:650}
+  tr:last-child td{border-bottom:none}
+  .low{color:var(--warn);font-weight:650}
+
+  .note{background:var(--warn-soft);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:14px 16px;color:var(--fg);font-size:15px}
+  .note strong{color:var(--fg)}
+  ul.tight{margin:8px 0 0;padding-left:20px;color:var(--muted)}
+  ul.tight li{margin-bottom:7px}
+  footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:14px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./">QA<span>IA</span></a>
+    <nav class="top">
+      <a href="#how">How it works</a>
+      <a href="#proof">Proof</a>
+      <a href="#limits">Limits</a>
+      <a href="./compare.html">Compare</a>
+      <a href="./demo/">Demo app</a>
+      <a href="https://github.com/QAIA-Project/QAIA">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="pill"><span class="dot"></span> Pre-alpha — no human pilot has run it end to end yet</div>
+    <h1 class="tagline">A user story goes in.<br>A <em>traceable test book</em> and <em>runnable tests</em> come out.</h1>
+    <p class="sub">QAIA is a set of open-source Claude Code plugins for QA engineers. It reads a user story, surfaces what the story doesn't say, derives scenarios with named ISTQB techniques, and generates native Playwright tests — with stable IDs and a requirement coverage matrix that survives the next sprint.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/QAIA-Project/QAIA">Get it on GitHub</a>
+      <a class="btn btn-ghost" href="#how">See real input and output</a>
+    </div>
+  </div>
+
+  <section id="what">
+    <h2>Markdown skills. Nothing runs by itself.</h2>
+    <p class="lede">QAIA ships no code into your repository and no API key. It is 30 Markdown skills invoked on demand inside your own Claude Code session, using your own model quota. Installing it does not register a hook, an agent, or an MCP server that executes on its own.</p>
+    <pre><span class="cmt"># in Claude Code</span>
+/plugin marketplace add https://github.com/QAIA-Project/QAIA
+/plugin install qaia-core@qaia          <span class="cmt"># user story → Gherkin test book</span>
+/plugin install qaia-playwright@qaia    <span class="cmt"># optional: runnable tests, a11y, perf, security</span></pre>
+    <p class="lede" style="margin-top:14px"><code>qaia-core</code> alone gets you from a user story to a test book. Then say <em>"work with QAIA on this user story"</em> — the <code>qaia</code> meta-skill routes to the right step and stops wherever a human has to decide.</p>
+  </section>
+
+  <section id="how">
+    <h2>Real input, real output</h2>
+    <p class="lede">Not a mockup. Both panels below are copied verbatim from <a href="https://github.com/QAIA-Project/QAIA/tree/main/examples/expense-demo/qaia-journey">examples/expense-demo/qaia-journey/</a> in the repository, where the whole run is kept — source capture, ambiguity pass, technique justification, priorities, and the emitted book.</p>
+    <div class="flow">
+      <div>
+        <div class="lbl">In — an ordinary acceptance criterion</div>
+        <pre>As an employee, I want to submit an expense
+report and have it approved through the right
+chain, so that I get reimbursed correctly and
+the company keeps an auditable trail.
+
+...
+4. Each line item must have a category, an
+   amount, and a date within the last 90 days;
+   a line outside 90 days is blocked at
+   submission with an explanatory message.
+5. Receipts are mandatory for any single line
+   ≥ €25; submission is refused if a ≥ €25 line
+   has no attached receipt.</pre>
+      </div>
+      <div>
+        <div class="lbl">Out — Gherkin with stable IDs and the technique named</div>
+        <pre><span class="tag">@QAIA-US-004-019 @AC4 @P2 @negative @boundary</span>
+<span class="cmt"># condition: AC4-C3 [req-neg] — priority P2</span>
+Scenario: A line dated 91 days ago is blocked
+          with an explanatory message
+  Given "employee@demo" has a draft report with
+        one EUR line "supplies" of 10.00 dated
+        91 days ago, receipt attached
+  When "employee@demo" submits the report
+  Then the attempt is refused with a 422 status
+       and a message mentioning "90 days"
+
+<span class="tag">@QAIA-US-004-021 @AC5 @P1 @negative @boundary</span>
+<span class="cmt"># condition: AC5-C2 [req-neg] — priority P1</span>
+Scenario: A line at exactly the receipt
+          threshold without a receipt is refused</pre>
+      </div>
+    </div>
+
+    <h3>And a coverage matrix that admits what it doesn't know</h3>
+    <p class="lede">This is the part most generators skip. Every scenario traces back to an acceptance criterion and a condition — and where the story was genuinely ambiguous, the row says so instead of quietly picking an interpretation. Eleven of this run's 38 scenarios carry a named open question.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>AC</th><th>Condition</th><th>Scenario ID</th><th>Prio</th><th>Rationale</th><th>Confidence</th></tr></thead>
+        <tbody>
+          <tr><td>AC2</td><td>AC2-C1</td><td class="mono">@QAIA-US-004-008</td><td>P1</td><td>Financial-control boundary.</td><td>normal</td></tr>
+          <tr><td>AC2</td><td>AC2-C2</td><td class="mono">@QAIA-US-004-009</td><td>P1</td><td>Q1-flagged; exact-€500 boundary.</td><td class="low">low (Q1)</td></tr>
+          <tr><td>AC3</td><td>AC3-C1 [req-neg]</td><td class="mono">@QAIA-US-004-013</td><td>P1</td><td>Classic internal-control defect class.</td><td>normal</td></tr>
+          <tr><td>AC3</td><td>AC3-C2</td><td class="mono">@QAIA-US-004-014</td><td>P1</td><td>Q2-flagged escalation semantics; approval-bypass risk if wrong.</td><td class="low">low (Q2)</td></tr>
+          <tr><td>AC4</td><td>AC4-C1 [req-neg]</td><td class="mono">@QAIA-US-004-017</td><td>P3</td><td>Basic input-completeness validation.</td><td>normal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:14px">Q1, Q2 and the rest are not decoration — they are questions put to a human before the book is accepted, each with the trade-off spelled out. The tool proposes; you arbitrate. Nothing is silently resolved.</p>
+
+    <div class="grid3" style="margin-top:26px">
+      <div class="card"><span class="num">38</span><p>scenarios derived from one user story, each traced to an AC and a condition</p></div>
+      <div class="card"><span class="num">17</span><p>negative or boundary scenarios — checked against a ratio gate, not left to taste</p></div>
+      <div class="card"><span class="num">11</span><p>rows flagged low-confidence with the open question named</p></div>
+    </div>
+  </section>
+
+  <section id="proof">
+    <h2>Three things you can verify yourself in five minutes</h2>
+    <p class="lede">Every claim below points at a file or a run you can open without installing anything or taking our word for it.</p>
+
+    <div class="grid3">
+      <div class="card">
+        <h4>The generated tests run without QAIA</h4>
+        <p>A suite produced by the <code>automate</code> skill executes on a GitHub Actions runner — <strong>no Claude session, no skill loaded, nothing from <code>plugins/</code> read</strong>. 8 tests, 8 green.
+        <br><br><a href="https://github.com/QAIA-Project/QAIA/actions/runs/30702503888">Open run 30702503888 →</a></p>
+      </div>
+      <div class="card">
+        <h4>No producer scores its own work</h4>
+        <p>The structural score is deterministic and lives in a separate, read-only plugin, kept apart from the semantic judge. It has repeatedly caught defects the producing skill could not see in itself.
+        <br><br><a href="https://github.com/QAIA-Project/QAIA/tree/main/plugins/qaia-score">See qaia-score →</a></p>
+      </div>
+      <div class="card">
+        <h4>The bad grades are published too</h4>
+        <p>A 13-persona external audit scored QAIA <strong>2.4/5</strong>. An architecture review gave <strong>5.0/10</strong>. Both are in the repository, with what was fixed and what wasn't.
+        <br><br><a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/STATUS.md">Read the honest status →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="limits">
+    <h2>What QAIA is not — read this before you try it</h2>
+    <div class="note">
+      <strong>No human pilot has ever run QAIA end to end.</strong> Its output has been measured against evaluation harnesses, executed in CI, and reviewed by personas — but the question "does this save a real QA engineer real time on real work?" is <em>unanswered</em>, and the project says so in writing rather than waiting to be asked.
+    </div>
+    <ul class="tight">
+      <li><strong>It runs on your Claude quota.</strong> Every generation consumes your own session budget. Indicative cost per command is published per plugin.</li>
+      <li><strong>"Learning" means local files.</strong> Feedback enriches a git-versioned knowledge base in your repo. No model training, no central server, nothing leaves your session beyond what you already send to Claude.</li>
+      <li><strong>Web-first.</strong> Mobile coverage means browser emulation, not native iOS/Android.</li>
+      <li><strong>Not a regulatory claim.</strong> The healthcare-shaped example proves traceability on a healthcare-<em>shaped</em> domain. It maps no actual framework — not IEC&nbsp;62304, not 21&nbsp;CFR&nbsp;Part&nbsp;11, not ISO&nbsp;13485.</li>
+      <li><strong>Younger and far less used than its neighbours.</strong> If you want a better prompt today, one of the alternatives is one command away and it works — <a href="./compare.html">we say which, and when</a>.</li>
+    </ul>
+  </section>
+
+  <section id="start">
+    <h2>Try it, or just read it</h2>
+    <p class="lede">The whole thing is MIT and readable without installing anything. If you do try it and it disappoints, an issue saying exactly how is worth more to this project right now than a star.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/QAIA-Project/QAIA">Repository</a>
+      <a class="btn btn-ghost" href="https://github.com/QAIA-Project/QAIA/tree/main/examples">Worked examples</a>
+      <a class="btn btn-ghost" href="https://github.com/QAIA-Project/QAIA/issues">Tell us it's wrong</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    QAIA — MIT licensed · <a href="https://github.com/QAIA-Project/QAIA">github.com/QAIA-Project/QAIA</a> · <a href="./llms.txt">llms.txt</a>
+    <br>Built for QA engineers who have to justify their coverage to someone.
+  </div>
+</footer>
+
+</body>
+</html>

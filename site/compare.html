@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QAIA vs QASkills.sh, QA Orchestra and Agentic QE Fleet — an honest comparison</title>
+<meta name="description" content="Which QA skill or plugin for Claude Code should you install? A comparison written by QAIA's maintainers, including the cases where the answer is not QAIA.">
+<link rel="canonical" href="https://qaia-project.github.io/QAIA/compare.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QAIA vs the other QA tools for Claude Code — including when to pick theirs">
+<meta property="og:description" content="A comparison written by the maintainers of one of the tools, which is a conflict of interest, so it is declared at the top and the competitors' strengths are stated first.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<style>
+  :root{
+    --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
+    --accent:#3b5bdb; --warn:#8a5a00; --warn-soft:#fdf6e3; --code-bg:#f4f5f8;
+    --shadow:0 1px 2px rgba(16,18,25,.05),0 8px 24px -12px rgba(16,18,25,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#0e1014;--fg:#e8eaf0;--muted:#98a0b0;--line:#242833;--card:#161a21;
+      --accent:#7d94ff;--warn:#e0b055;--warn-soft:#241f12;--code-bg:#12151b;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);}
+  }
+  :root[data-theme="dark"]{--bg:#0e1014;--fg:#e8eaf0;--muted:#98a0b0;--line:#242833;--card:#161a21;--accent:#7d94ff;--warn:#e0b055;--warn-soft:#241f12;--code-bg:#12151b}
+  :root[data-theme="light"]{--bg:#fbfbfd;--fg:#16181d;--muted:#5c6270;--line:#e2e5ec;--card:#fff;--accent:#3b5bdb;--warn:#8a5a00;--warn-soft:#fdf6e3;--code-bg:#f4f5f8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);overflow-x:hidden;
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--accent)}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.92em}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  header.site{border-bottom:1px solid var(--line)}
+  header.site .wrap{display:flex;align-items:center;gap:16px;height:56px}
+  .brand{font-weight:700;font-size:18px;text-decoration:none;color:var(--fg);letter-spacing:-.02em}
+  .brand span{color:var(--accent)}
+  nav.top{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  nav.top a{color:var(--muted);text-decoration:none;font-size:14px}
+  h1{font-size:clamp(27px,4.4vw,38px);letter-spacing:-.03em;line-height:1.15;margin:44px 0 14px}
+  h2{font-size:23px;letter-spacing:-.02em;margin:40px 0 10px;padding-top:22px;border-top:1px solid var(--line)}
+  h3{font-size:17px;margin:24px 0 6px}
+  p{max-width:72ch}
+  .muted{color:var(--muted)}
+  .note{background:var(--warn-soft);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:14px 16px;margin:20px 0}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:18px 0;box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:640px}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:650}
+  tr:last-child td{border-bottom:none}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+  .card h3{margin-top:0}
+  ul{max-width:72ch}
+  li{margin-bottom:7px}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 50px;color:var(--muted);font-size:14px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./">QA<span>IA</span></a>
+    <nav class="top">
+      <a href="./">Home</a>
+      <a href="./demo/">Demo app</a>
+      <a href="https://github.com/QAIA-Project/QAIA">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h1>Which QA tool should you install into Claude Code?</h1>
+  <p class="muted">Including the cases where the answer is not QAIA. Last updated 8 August 2026.</p>
+
+  <div class="note">
+    <strong>Conflict of interest, declared up front.</strong> This page is written by the maintainers of one of the tools compared. That is a reason to distrust it, so it is built to be checkable: every claim about another project comes from its public repository or site, linked inline, and each competitor's strengths are stated before QAIA's. Where a rival is simply better for a job, the page says so. If you find a claim here that is wrong or unfair, <a href="https://github.com/QAIA-Project/QAIA/issues">open an issue</a> — corrections get made, and the page carries a date so you can tell whether it went stale.
+  </div>
+
+  <h2>The short answer</h2>
+  <div class="card">
+    <h3>Install <a href="https://github.com/PramodDutta/qaskills">QASkills.sh</a> if you want your agent to write better tests, today</h3>
+    <p>~380 MIT skills, one command (<code>npx @qaskills/cli add playwright-e2e</code>), agent auto-detected, 27+ agents supported, plus an MCP server so you can search and install from inside the agent. Backed by The Testing Academy. We read their <code>istqb-test-design-techniques</code> skill in full: it is competent work — equivalence partitions with a class table, two- and three-value boundary analysis with the off-by-one bug named, decision tables, state transitions, pairwise. If your problem is "Claude writes mediocre tests", that is the shortest path to fixing it, and it is not close.</p>
+  </div>
+  <div class="card">
+    <h3>Install <a href="https://github.com/Anasss/qa-orchestra">QA Orchestra</a> if you want a QA pass on a code change</h3>
+    <p>10 specialised agents in three tiers, MIT, no API key. It starts from a diff or a change and routes it: acceptance-criteria review, scenario design, impacted-test selection, bug reporting, environment health, browser validation via Chrome DevTools, multi-repo impact analysis, and conversion to Playwright/Cypress/Selenium/Gherkin. Its centre of gravity is <em>code that already exists</em>.</p>
+  </div>
+  <div class="card">
+    <h3>Install <a href="https://github.com/proffesor-for-testing/agentic-qe">Agentic QE Fleet</a> if you want autonomy and scale</h3>
+    <p>A 60-agent autonomous swarm, actively developed. If you want the machine to go wide on its own and you are comfortable with agents that execute, this is the ambitious end of the spectrum.</p>
+  </div>
+  <div class="card">
+    <h3>Install QAIA if the output has to be defensible to someone else</h3>
+    <p>A regulated-adjacent audit, a client hand-over, a release gate, a coverage report your manager signs. QAIA's unit is not a better prompt — it is an <strong>artifact</strong>: a Gherkin book with stable scenario IDs, a requirement coverage matrix, a validated manifest per run, a negative/boundary ratio checked against a gate, and a score computed by a plugin that did not produce the thing it scores. If nobody downstream will ever ask you "why this scenario and not that one", that machinery is overhead and one of the tools above is a better fit.</p>
+  </div>
+
+  <h2>Side by side</h2>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th></th><th>QASkills.sh</th><th>QA Orchestra</th><th>Agentic QE Fleet</th><th>QAIA</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Unit shipped</strong></td><td>a skill that improves a prompt</td><td>agents that review a change</td><td>an autonomous agent swarm</td><td>a pipeline that emits artifacts</td></tr>
+        <tr><td><strong>Starts from</strong></td><td>whatever you ask</td><td>a code change</td><td>a codebase</td><td>a user story, before code exists</td></tr>
+        <tr><td><strong>Catalogue size</strong></td><td>~380 skills</td><td>10 agents</td><td>60 agents</td><td>30 skills</td></tr>
+        <tr><td><strong>Agents supported</strong></td><td>27+</td><td>Claude Code</td><td>Claude Code</td><td>Claude Code</td></tr>
+        <tr><td><strong>Install</strong></td><td>1 command, auto-detected</td><td>plugin / clone</td><td>plugin</td><td>marketplace + 1–4 installs</td></tr>
+        <tr><td><strong>Auto-executing components</strong></td><td>none (skills)</td><td>10 agents</td><td>60 agents</td><td>none — Markdown only</td></tr>
+        <tr><td><strong>Requirement traceability</strong></td><td>not the goal</td><td>partial (AC review)</td><td>not the focus</td><td>matrix, AC → condition → scenario ID</td></tr>
+        <tr><td><strong>Who scores the output</strong></td><td>n/a</td><td>the same swarm</td><td>the same swarm</td><td>a separate read-only plugin</td></tr>
+        <tr><td><strong>Ambiguity handling</strong></td><td>n/a</td><td>flagged in review</td><td>resolved by the agent</td><td>surfaced as a question, never silently resolved</td></tr>
+        <tr><td><strong>Publishes its own failures</strong></td><td>—</td><td>—</td><td>—</td><td>yes (2.4/5 audit, 5.0/10 architecture review, in-repo)</td></tr>
+        <tr><td><strong>Maturity</strong></td><td>established, 189k-subscriber backing</td><td>young</td><td>established</td><td><strong>pre-alpha, zero human pilots</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted">Figures read from each project's public repository and site on 8 August 2026. "Auto-executing components" counts what the tool registers into your environment that can act without you invoking it — a supply-chain question, not a quality one.</p>
+
+  <h2>The honest weaknesses of QAIA</h2>
+  <ul>
+    <li><strong>No pilot has ever run it.</strong> Everything measured about QAIA has been measured by harnesses, CI and personas — never by a QA engineer doing their actual job. That is the single biggest unknown and no amount of internal evaluation substitutes for it.</li>
+    <li><strong>It is narrower.</strong> ~380 skills over there, 30 here. For any given framework — Cypress, pytest, RestAssured, k6, Detox — they will have a skill and we will not.</li>
+    <li><strong>It costs more gestures to start.</strong> One command there, several here.</li>
+    <li><strong>Claude Code only.</strong> The core is written to be portable, but portability is claimed, not demonstrated on another agent.</li>
+    <li><strong>Zero adoption.</strong> At the time of writing, no stars and single-digit unique visitors. You would be early, with everything that implies.</li>
+  </ul>
+
+  <h2>The one thing worth stealing from this page</h2>
+  <p>Whichever tool you pick, ask it the same question: <em>when the story is ambiguous, what does it do?</em> A generator that quietly picks an interpretation produces a test suite that looks complete and encodes a guess — and the guess is invisible precisely where it matters most, at the boundary. That failure mode is not specific to any tool here, including this one, and it is worth ten minutes of your evaluation regardless of what you install.</p>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    QAIA — MIT licensed · <a href="https://github.com/QAIA-Project/QAIA">github.com/QAIA-Project/QAIA</a> · <a href="./">Home</a>
+    <br>Found something unfair here? <a href="https://github.com/QAIA-Project/QAIA/issues">Open an issue</a> — it gets corrected.
+  </div>
+</footer>
+
+</body>
+</html>
