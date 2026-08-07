@@ -7,9 +7,10 @@
 QAIA is aimed at QA engineers who have to justify their coverage to someone else — an auditor,
 a client, a release gate. Its unit of delivery is not a better prompt but an artifact: a Gherkin
 book with stable scenario IDs (`@QAIA-xxx`), a requirement coverage matrix mapping acceptance
-criterion → condition → scenario, a validated manifest per run, a negative/boundary scenario
-ratio checked against a gate, and a score produced by a plugin that did not produce the thing it
-scores.
+criterion → condition → scenario, a validated manifest per run, a refusal-path coverage gate
+(every rule that can refuse, error or deny must have a scenario exercising it — the raw
+negative/boundary ratio is a reported bias signal, never a threshold, per ADR 0001), and a score
+produced by a plugin that did not produce the thing it scores.
 
 ## Status, stated plainly
 
@@ -53,6 +54,17 @@ techniques and do so competently. Three things are specific to QAIA:
 
 `qaia-core` alone covers user story → test book. `qaia-playwright`, `qaia-score` and
 `qaia-testdata` are optional.
+
+## The measurement that goes against QAIA
+
+A head-to-head against a single direct prompt on the same ticket
+([benchmark](https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/qaia-vs-direct-prompt-benchmark-2026-07-28.md),
+N=1 per arm): QAIA cost **~2.9× more tokens** (133,100 vs 46,548), scored better structurally on
+average (72 vs 47/100) but still failed the structural gate on 2 of 7 files, and **the direct
+prompt matched or slightly beat it on strict recall of the planted ambiguities**. The one clean
+separation: the direct prompt silently invented four business rules; the QAIA arm invented none
+and traced every assumption to a numbered question. Any accurate summary of QAIA's value should
+say "structure and verifiability at roughly triple the token cost", not "finds more".
 
 ## Notes for summarisation
 

@@ -241,7 +241,7 @@ technique, c'est **la forme du produit** :
 |---|---|---|
 | Unité livrée | un `SKILL.md` qui améliore un prompt | un pipeline qui produit des **artefacts** |
 | Sortie | du texte dans la conversation | `.feature` à IDs stables, matrice de couverture, manifeste validé, export XLSX |
-| Contrôle | aucun | ratio négatifs/limites contrôlé par une porte, manifestes validés en CI, score dans un plugin séparé |
+| Contrôle | aucun | porte de couverture des chemins de refus (ADR 0001 — le ratio négatifs/limites n'est qu'un signal rapporté), manifestes validés en CI, score dans un plugin séparé |
 | Coût d'entrée | **une commande** (`npx @qaskills/cli add …`), agent auto-détecté | marketplace + 4 installs |
 | Largeur | ~380 skills, 27+ agents | 30 skills, Claude Code |
 

@@ -29,24 +29,24 @@
 <style>
   :root{
     --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
-    --accent:#3b5bdb; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
+    --accent:#3b5bdb; --on-accent:#fff; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
     --code-bg:#f4f5f8; --shadow:0 1px 2px rgba(16,18,25,.05),0 8px 24px -12px rgba(16,18,25,.18);
   }
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#0e1014; --fg:#e8eaf0; --muted:#98a0b0; --line:#242833; --card:#161a21;
-      --accent:#7d94ff; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
+      --accent:#7d94ff; --on-accent:#0e1014; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
       --code-bg:#12151b; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
     }
   }
   :root[data-theme="dark"]{
     --bg:#0e1014; --fg:#e8eaf0; --muted:#98a0b0; --line:#242833; --card:#161a21;
-    --accent:#7d94ff; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
+    --accent:#7d94ff; --on-accent:#0e1014; --accent-soft:#1a2039; --ok:#4ec98a; --warn:#e0b055; --warn-soft:#241f12;
     --code-bg:#12151b;
   }
   :root[data-theme="light"]{
     --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
-    --accent:#3b5bdb; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
+    --accent:#3b5bdb; --on-accent:#fff; --accent-soft:#eef1fe; --ok:#127a4b; --warn:#8a5a00; --warn-soft:#fdf6e3;
     --code-bg:#f4f5f8;
   }
   *{box-sizing:border-box}
@@ -75,8 +75,12 @@
   .dot{width:7px;height:7px;border-radius:50%;background:var(--warn)}
   .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
   .btn{display:inline-block;padding:11px 18px;border-radius:9px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid transparent}
-  .btn-primary{background:var(--accent);color:#fff}
+  /* --on-accent is near-black in dark mode: white on #7d94ff is 2.78:1 and fails WCAG 1.4.3.
+     Found by running this project's own a11y-audit skill against this page. */
+  .btn-primary{background:var(--accent);color:var(--on-accent)}
   .btn-ghost{border-color:var(--line);color:var(--fg);background:var(--card)}
+  a:focus-visible,.btn:focus-visible,.scroll:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .scroll:focus-visible{outline-offset:0}
 
   section{padding:44px 0;border-top:1px solid var(--line)}
   h2{font-size:26px;letter-spacing:-.02em;margin:0 0 10px}
@@ -141,7 +145,7 @@
 
   <section id="what">
     <h2>Markdown skills. Nothing runs by itself.</h2>
-    <p class="lede">QAIA ships no code into your repository and no API key. It is 30 Markdown skills invoked on demand inside your own Claude Code session, using your own model quota. Installing it does not register a hook, an agent, or an MCP server that executes on its own.</p>
+    <p class="lede">QAIA ships no code into your repository and no API key. The 30 skills are Markdown, invoked on demand inside your own Claude Code session on your own model quota. Installing it does not register a hook, an agent, or an MCP server that executes on its own. <span class="mono" style="font-size:.9em">(Precisely: the plugins also carry 48 non-Markdown files — plugin manifests, CI templates you copy, and test fixtures. None of them runs at install or on its own; <a href="https://github.com/QAIA-Project/QAIA/tree/main/plugins">check for yourself</a>.)</span></p>
     <pre><span class="cmt"># in Claude Code</span>
 /plugin marketplace add https://github.com/QAIA-Project/QAIA
 /plugin install qaia-core@qaia          <span class="cmt"># user story → Gherkin test book</span>
@@ -152,9 +156,20 @@
   <section id="how">
     <h2>Real input, real output</h2>
     <p class="lede">Not a mockup. Both panels below are copied verbatim from <a href="https://github.com/QAIA-Project/QAIA/tree/main/examples/expense-demo/qaia-journey">examples/expense-demo/qaia-journey/</a> in the repository, where the whole run is kept — source capture, ambiguity pass, technique justification, priorities, and the emitted book.</p>
+
+    <div class="note">
+      <strong>Full disclosure on this particular run, because it is a demo and not a field result.</strong> Three things the repository records and a landing page would normally quietly drop:
+      <ul class="tight" style="color:inherit;margin-top:10px">
+        <li>The input is <strong>our own gold-set ticket, with ambiguities planted in it on purpose</strong>. Finding a planted ambiguity is easier than finding a wild one.</li>
+        <li>The run was executed <strong>non-interactively</strong>: every point where the tool stops for a human was recorded as <code>simulated: &lt;default applied&gt;</code>. Nobody arbitrated anything. The arbitration path shown further down is a design property that <em>this</em> run did not exercise.</li>
+        <li>The acting model had <strong>read the sequestered "Judge reference" section</strong> of the gold-set file before running. That contaminates it as a blind measurement.</li>
+      </ul>
+      <span style="display:block;margin-top:10px">All three are stated in <a href="https://github.com/QAIA-Project/QAIA/blob/main/examples/expense-demo/qaia-journey/state/US-004/journey.md">the run's own journey file</a>. What the panels below show is the <em>shape</em> of the output — the traceability, the tagging, the flagged questions. They are not evidence that it works on your ticket.</span>
+    </div>
+
     <div class="flow">
       <div>
-        <div class="lbl">In — an ordinary acceptance criterion</div>
+        <div class="lbl">In — our own gold-set ticket, ambiguities planted on purpose</div>
         <pre>As an employee, I want to submit an expense
 report and have it approved through the right
 chain, so that I get reimbursed correctly and
@@ -190,24 +205,24 @@ Scenario: A line at exactly the receipt
     </div>
 
     <h3>And a coverage matrix that admits what it doesn't know</h3>
-    <p class="lede">This is the part most generators skip. Every scenario traces back to an acceptance criterion and a condition — and where the story was genuinely ambiguous, the row says so instead of quietly picking an interpretation. Eleven of this run's 38 scenarios carry a named open question.</p>
-    <div class="scroll">
+    <p class="lede">This is the part most generators skip. Every scenario traces back to an acceptance criterion and a condition — and where the story is ambiguous, the row says so instead of quietly picking an interpretation. The run raised nine open questions; eleven of its 38 scenarios carry one by name.</p>
+    <div class="scroll" tabindex="0" role="region">
       <table>
-        <thead><tr><th>AC</th><th>Condition</th><th>Scenario ID</th><th>Prio</th><th>Rationale</th><th>Confidence</th></tr></thead>
+        <thead><tr><th scope="col">AC</th><th scope="col">Condition</th><th scope="col">Scenario ID</th><th scope="col">Prio</th><th scope="col">Rationale</th><th scope="col">Confidence</th></tr></thead>
         <tbody>
           <tr><td>AC2</td><td>AC2-C1</td><td class="mono">@QAIA-US-004-008</td><td>P1</td><td>Financial-control boundary.</td><td>normal</td></tr>
-          <tr><td>AC2</td><td>AC2-C2</td><td class="mono">@QAIA-US-004-009</td><td>P1</td><td>Q1-flagged; exact-€500 boundary.</td><td class="low">low (Q1)</td></tr>
+          <tr><td>AC2</td><td>AC2-C2</td><td class="mono">@QAIA-US-004-009</td><td>P1</td><td>Q1-flagged; exact-€500 planted-ambiguity boundary.</td><td class="low">low (Q1)</td></tr>
           <tr><td>AC3</td><td>AC3-C1 [req-neg]</td><td class="mono">@QAIA-US-004-013</td><td>P1</td><td>Classic internal-control defect class.</td><td>normal</td></tr>
           <tr><td>AC3</td><td>AC3-C2</td><td class="mono">@QAIA-US-004-014</td><td>P1</td><td>Q2-flagged escalation semantics; approval-bypass risk if wrong.</td><td class="low">low (Q2)</td></tr>
           <tr><td>AC4</td><td>AC4-C1 [req-neg]</td><td class="mono">@QAIA-US-004-017</td><td>P3</td><td>Basic input-completeness validation.</td><td>normal</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="lede" style="margin-top:14px">Q1, Q2 and the rest are not decoration — they are questions put to a human before the book is accepted, each with the trade-off spelled out. The tool proposes; you arbitrate. Nothing is silently resolved.</p>
+    <p class="lede" style="margin-top:14px">Q1, Q2 and the rest are not decoration — they are questions put to a human before the book is accepted, each with the trade-off spelled out. The tool proposes; you arbitrate; nothing is silently resolved. That is the design. <strong>It is also the part with the least evidence behind it</strong> — the run above was batch-executed with every arbitration defaulted, and no human has yet sat through the interactive path on real work.</p>
 
     <div class="grid3" style="margin-top:26px">
       <div class="card"><span class="num">38</span><p>scenarios derived from one user story, each traced to an AC and a condition</p></div>
-      <div class="card"><span class="num">17</span><p>negative or boundary scenarios — checked against a ratio gate, not left to taste</p></div>
+      <div class="card"><span class="num">24</span><p>carry <code>@negative</code> or <code>@boundary</code>. What actually gates is narrower and stricter: every rule that can refuse or deny must have a scenario exercising that path. The raw ratio is reported as a happy-path-bias signal, never a threshold to pad toward — <a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md">ADR 0001</a> explains why the ratio gate was scrapped</p></div>
       <div class="card"><span class="num">11</span><p>rows flagged low-confidence with the open question named</p></div>
     </div>
   </section>
@@ -233,6 +248,18 @@ Scenario: A line at exactly the receipt
         <br><br><a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/STATUS.md">Read the honest status →</a></p>
       </div>
     </div>
+
+    <h3>Including the benchmark that goes against us</h3>
+    <p class="lede">The obvious question is not "QAIA or a rival" — it is <strong>"why not just prompt Claude directly?"</strong> We measured it on the same ticket, and the result is mixed at best:</p>
+    <ul class="tight">
+      <li>QAIA cost <strong>~2.9× more tokens</strong> — 133,100 against 46,548 for a single direct prompt.</li>
+      <li>Structurally it scored better on average (72 vs 47/100) but <strong>not cleanly</strong>: 2 of 7 files still failed the structural gate, on the same defect class the direct prompt failed on.</li>
+      <li>On strict recall of the planted ambiguities, <strong>the direct prompt matched or slightly beat QAIA on that run.</strong> "It finds more" is not a claim this benchmark supports.</li>
+      <li>What did separate them: the direct prompt silently invented 4 business rules and mixed them into the output. The QAIA arm invented none, and every assumption it made is traceable to a numbered question.</li>
+      <li>Honest limit, stated in the file: <strong>N=1 per arm.</strong> One run is not an average.</li>
+    </ul>
+    <p class="lede" style="margin-top:14px">So the value proposition is narrow and worth stating as such: <em>structure and verifiability, at roughly three times the token cost.</em> If that trade is wrong for your work, a direct prompt is a legitimate answer and this page would rather you knew.
+    <br><a href="https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/qaia-vs-direct-prompt-benchmark-2026-07-28.md">Read the full benchmark, including its verdict against us →</a></p>
   </section>
 
   <section id="limits">
@@ -245,7 +272,7 @@ Scenario: A line at exactly the receipt
       <li><strong>"Learning" means local files.</strong> Feedback enriches a git-versioned knowledge base in your repo. No model training, no central server, nothing leaves your session beyond what you already send to Claude.</li>
       <li><strong>Web-first.</strong> Mobile coverage means browser emulation, not native iOS/Android.</li>
       <li><strong>Not a regulatory claim.</strong> The healthcare-shaped example proves traceability on a healthcare-<em>shaped</em> domain. It maps no actual framework — not IEC&nbsp;62304, not 21&nbsp;CFR&nbsp;Part&nbsp;11, not ISO&nbsp;13485.</li>
-      <li><strong>Younger and far less used than its neighbours.</strong> If you want a better prompt today, one of the alternatives is one command away and it works — <a href="./compare.html">we say which, and when</a>.</li>
+      <li><strong>Zero adoption.</strong> At the time of writing: no stars, no forks, single-digit unique visitors. Its neighbours have between 11 and 2,994 stars. You would be early, with everything that implies. If you want a better prompt today, one of those alternatives is one command away and it works — <a href="./compare.html">we say which, and when</a>.</li>
     </ul>
   </section>
 
