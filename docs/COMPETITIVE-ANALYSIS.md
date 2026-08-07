@@ -210,3 +210,73 @@ projets ci-dessus. Aucun pilote humain ne l'a menée de bout en bout ; la qualit
 produit pour un vrai utilisateur reste non mesurée. Le différenciateur le plus solide du monde ne
 sert à rien s'il n'est lu par personne — c'est le sujet des issues #69 (distribution), #70
 (positionnement) et #72 (preuve visible sans installer).
+
+### Correction du même jour : QASkills.sh n'est pas qu'un annuaire, et le recouvrement est nominatif
+
+Première lecture (« marketplace de skills, 420+ listées ») : trop douce. Lecture du dépôt
+[`PramodDutta/qaskills`](https://github.com/PramodDutta/qaskills) (MIT, 197 ★, poussé le
+2026-08-07) — `seed-skills/` contient **~380 skills**, et la liste recouvre le catalogue QAIA
+**nom par nom** :
+
+`istqb-test-design-techniques` · `test-case-generator-user-stories` · `bdd-gherkin-patterns` ·
+`risk-based-testing` · `boundary-value-generator` · `negative-test-generator` ·
+`pairwise-test-generator` · `state-machine-test-generator` · `test-plan-generation` ·
+`mutation-testing` · `flaky-test-doctor` · `test-data-generation` · `test-data-anonymization` ·
+`visual-regression` · `wcag-accessibility-testing` · `contract-first-testing` ·
+`xray-zephyr-jira-testing` · `session-based-exploratory-testing` · `k6-performance` ·
+`owasp-security` · `regression-test-selection` · `test-coverage-gap-finder`…
+
+Il n'existe pratiquement pas une skill QAIA sans homologue de nom dans cette liste.
+
+**Et elles ne sont pas mauvaises.** `istqb-test-design-techniques` (6,8 ko, un seul `SKILL.md`)
+est lue en entier : partitions d'équivalence avec tableau de classes, BVA à deux et trois
+valeurs avec le bug d'off-by-one nommé, tables de décision, transitions d'états, pairwise. Cinq
+principes en tête dont « nomme la technique dans le titre du test » et « les partitions
+invalides sont la moitié du travail ». C'est du travail compétent, pas du remplissage généré.
+
+**Ce que ça change au positionnement — et c'est plus net qu'avant.** La différence n'est pas la
+technique, c'est **la forme du produit** :
+
+| | QASkills et assimilés | QAIA |
+|---|---|---|
+| Unité livrée | un `SKILL.md` qui améliore un prompt | un pipeline qui produit des **artefacts** |
+| Sortie | du texte dans la conversation | `.feature` à IDs stables, matrice de couverture, manifeste validé, export XLSX |
+| Contrôle | aucun | ratio négatifs/limites contrôlé par une porte, manifestes validés en CI, score dans un plugin séparé |
+| Coût d'entrée | **une commande** (`npx @qaskills/cli add …`), agent auto-détecté | marketplace + 4 installs |
+| Largeur | ~380 skills, 27+ agents | 30 skills, Claude Code |
+
+**La largeur est chez eux, la profondeur et la preuve sont ici.** Formulation à tenir : « si tu
+veux un meilleur prompt, prends la leur, c'est une commande et ça marche ; si tu veux une sortie
+présentable à un auditeur, c'est un autre outil ». Prétendre couvrir plus qu'eux serait faux et
+vérifiable en une minute.
+
+### Ce qui est récupérable — et c'est beaucoup
+
+Le dépôt est MIT et **son go-to-market entier est public** : `SEO-STRATEGY.md`,
+`SEO-RESEARCH-100-KEYWORDS-2026.md` (100 mots-clés avec titres proposés et sources),
+`CONTENT-CALENDAR.md`, `COMPETITOR-ANALYSIS.md`, `SITE-STRUCTURE.md`,
+`IMPLEMENTATION-ROADMAP.md`, et un dossier `learnings/` de rétrospectives datées (publication au
+registre MCP, génération en lot, capture d'e-mails…). C'est exactement ce que QAIA n'a jamais
+écrit une ligne.
+
+Quatre choses à en tirer, par ordre d'effet :
+
+1. **Un canal de distribution gratuit vers l'audience QA exacte.** Le site accepte les
+   soumissions (« Publish a Skill », CLI + dashboard) et il est adossé à The Testing Academy —
+   **189 000+ abonnés YouTube**, c'est-à-dire la communauté QA que D12 visait depuis M0 et qui
+   n'a jamais été approchée. C'est le geste au meilleur rapport effort/effet du projet.
+2. **La carte des annuaires où QAIA est absente**, que leur propre analyse fournit : SkillsMP
+   (66 000+ skills), ClawHub (3 000+, ~15 000 installs/jour), skills.sh de Vercel (49 000+),
+   Smithery.ai, plus `claudemarketplaces.com`, `claudepluginhub.com`, `aitmpl.com`. Aucun ne
+   connaît QAIA.
+3. **La méthode, pas le contenu.** Leur stratégie SEO est un document réutilisable comme
+   *gabarit* : clusters de mots-clés, pages de comparaison (qu'ils désignent comme le type de
+   contenu le plus convertissant), `llms.txt` et lisibilité par les crawlers d'IA — qu'ils
+   listent comme un **manque chez eux**, donc une place encore libre. Copier leurs textes serait
+   à la fois inutile et contraire à ce que QAIA revendique ; copier la méthode ne l'est pas.
+4. **L'ergonomie d'installation.** `npx @qaskills/cli add <skill>` avec auto-détection de
+   l'agent, plus un serveur MCP au registre officiel qui permet de chercher et installer
+   *depuis* l'agent. QAIA demande cinq gestes. L'écart d'adoption commence là.
+
+À ne pas récupérer : leurs skills. Le recouvrement de noms est réel, la valeur de QAIA est dans
+la chaîne et les contrôles, pas dans la quantité de fiches.
