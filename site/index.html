@@ -113,6 +113,8 @@
   ul.tight li{margin-bottom:7px}
   footer{border-top:1px solid var(--line);padding:30px 0 50px;color:var(--muted);font-size:14px}
   footer a{color:var(--muted)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  caption{text-align:left}
 </style>
 </head>
 <body>
@@ -123,6 +125,7 @@
     <nav class="top">
       <a href="#how">How it works</a>
       <a href="#proof">Proof</a>
+      <a href="#repo">Cost &amp; data</a>
       <a href="#limits">Limits</a>
       <a href="./compare.html">Compare</a>
       <a href="./demo/">Demo app</a>
@@ -260,6 +263,46 @@ Scenario: A line at exactly the receipt
     </ul>
     <p class="lede" style="margin-top:14px">So the value proposition is narrow and worth stating as such: <em>structure and verifiability, at roughly three times the token cost.</em> If that trade is wrong for your work, a direct prompt is a legitimate answer and this page would rather you knew.
     <br><a href="https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/qaia-vs-direct-prompt-benchmark-2026-07-28.md">Read the full benchmark, including its verdict against us →</a></p>
+  </section>
+
+  <section id="repo">
+    <h2>What lands in your repository, and what it costs</h2>
+    <p class="lede">The two questions a QA lead asks in the first sixty seconds, answered before you have to ask them.</p>
+
+    <h3>Everything QAIA writes goes in one directory</h3>
+    <pre>.qaia/
+├── knowledge/          <span class="cmt"># team knowledge base, one concern per file</span>
+├── state/&lt;US-ID&gt;/      <span class="cmt"># journey checkpoints: source, ambiguities, technique choices, priorities</span>
+├── testbooks/&lt;US-ID&gt;/  <span class="cmt"># the .feature files, synthesis, coverage matrix</span>
+├── feedback/           <span class="cmt"># your corrections, and the rules promoted from them after you approve</span>
+└── reports/&lt;US-ID&gt;/    <span class="cmt"># manifest.json — the one output contract all four plugins share</span></pre>
+    <p class="lede" style="margin-top:14px">Plain files, meant to be committed and diffed. Nothing is written outside <code>.qaia/</code> and the test directories you point it at, and nothing in there executes.</p>
+
+    <h3>Three things your security reviewer will ask</h3>
+    <ul class="tight">
+      <li><strong>Personal data is masked at ingestion.</strong> The ingest step scans for direct personal and sensitive data and redacts before anything is written or reasoned over — it also strips control and bidirectional-override characters.</li>
+      <li><strong>Fetched content is treated as data, never as instructions.</strong> Jira comments, issue bodies and captured HTTP traffic are untrusted input: a directive found inside them is reported to you, not obeyed. That check has fired in real runs.</li>
+      <li><strong>QAIA installs no MCP server and no hook.</strong> To be precise rather than flattering: the automation plugin expects <em>you</em> to have Playwright available in your own session — that is your MCP configuration, not something QAIA registers. Installing QAIA adds Markdown to your Claude Code config and nothing that runs.</li>
+    </ul>
+
+    <h3>The cost, in real measured numbers</h3>
+    <p class="lede">QAIA runs on your Claude subscription quota, not an API bill. Per-command round-trip cost, each from a real measured run (one run per command, so treat these as orders of magnitude, not averages):</p>
+    <div class="scroll" tabindex="0" role="region">
+      <table>
+        <caption class="sr-only">Measured token cost per QAIA command, one run each, July 2026.</caption>
+        <thead><tr><th scope="col">Command</th><th scope="col">Measured tokens</th><th scope="col">Command</th><th scope="col">Measured tokens</th></tr></thead>
+        <tbody>
+          <tr><td><code>hello</code></td><td>39.1k</td><td><code>oracle-generate</code></td><td>67.1k</td></tr>
+          <tr><td><code>us-ingest</code></td><td>44.9k</td><td><code>us-review</code></td><td>73.8k</td></tr>
+          <tr><td><code>istqb-design</code></td><td>40.1k</td><td><code>testbook-export</code></td><td>77.6k</td></tr>
+          <tr><td><code>qaia-help</code></td><td>56.3k</td><td><code>prioritize</code></td><td>84.7k</td></tr>
+          <tr><td><code>rag-build</code></td><td>67.6k</td><td><code>need-understanding</code></td><td>91.1k</td></tr>
+          <tr><td><code>feedback</code></td><td>88.5k</td><td><code>testbook-validate</code></td><td>107.1k</td></tr>
+          <tr><td><code>testbook-generate</code></td><td>112.5k</td><td><code>report</code></td><td>139.7k</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:14px">The uncomfortable part, published rather than smoothed: <strong>13 of the 14 measured commands cost more than the project's own prior expert estimate</strong>, some of them by a factor of four. The estimates were wrong; the measurements replaced them instead of the other way round. <a href="https://github.com/QAIA-Project/QAIA/blob/main/plugins/qaia-core/README.md">Full table with what drives the variance →</a> <span class="mono" style="font-size:.85em">(French)</span></p>
   </section>
 
   <section id="limits">
