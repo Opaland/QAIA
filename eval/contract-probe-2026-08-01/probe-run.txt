@@ -1,0 +1,117 @@
+=== SETUP: reset + logins ===
+reset:200
+EMP=tok-1 MGR=tok-2 FIN=tok-3
+
+=== P1 (AC4): a line dated outside 90 days is blocked at submission with a message ===
+    draft state: r4
+--- P1 submit 200-day-old line
+    POST /api/reports/r4/submit -> HTTP 422
+    {"error":"line \"travel\" dated 2026-01-13 is more than 90 days old and is blocked at submission"}
+
+=== P2 (AC5): a single line >= EUR25 with no receipt is refused ===
+    draft state: r5
+--- P2 submit 25EUR no receipt
+    POST /api/reports/r5/submit -> HTTP 422
+    {"error":"line \"meal\" (EUR-equivalent 25 >= 25) requires an attached receipt"}
+    boundary draft state: r6
+--- P2b submit 24.99EUR no receipt (below threshold, must PASS)
+    POST /api/reports/r6/submit -> HTTP 200
+    {"report":{"id":"r6","submitterId":"u1","status":"submitted","currency":"EUR","lines":[{"category":"meal","amount":24.99,"date":"2026-08-01","receipt":false}],"approvals":[],"history":[{"event":"created","who":"employee@demo","at":1785596597781},{"event":"submitted","who":"employee@demo","at":1785596597919,"totalEur":24.99,"rateStale":fal
+
+=== P3 (AC3): an approver cannot approve their own report ===
+    manager's own draft: r7
+--- P3a manager submits own report
+    POST /api/reports/r7/submit -> HTTP 200
+    {"report":{"id":"r7","submitterId":"u2","status":"submitted","currency":"EUR","lines":[{"category":"meal","amount":10,"date":"2026-08-01","receipt":true}],"approvals":[],"history":[{"event":"created","who":"manager@demo","at":1785596597966},{"event":"submitted","who":"manager@demo","at":1785596598078,"totalEur":10,"rateStale":false}],"tot
+--- P3b manager decides own report
+    POST /api/reports/r7/decide -> HTTP 403
+    {"error":"cannot approve your own report"}
+
+=== P4 (AC8): rejection requires a mandatory comment of >= 10 characters ===
+    draft state: r8
+--- P4a submit
+    POST /api/reports/r8/submit -> HTTP 200
+    {"report":{"id":"r8","submitterId":"u1","status":"submitted","currency":"EUR","lines":[{"category":"meal","amount":10,"date":"2026-08-01","receipt":true}],"approvals":[],"history":[{"event":"created","who":"employee@demo","at":1785596598150},{"event":"submitted","who":"employee@demo","at":1785596598258,"totalEur":10,"rateStale":false}],"t
+--- P4b reject, 2-char comment
+    POST /api/reports/r8/decide -> HTTP 422
+    {"error":"a comment of at least 10 characters is required for this decision"}
+--- P4c reject, NO comment field
+    POST /api/reports/r8/decide -> HTTP 422
+    {"error":"a comment of at least 10 characters is required for this decision"}
+--- P4d changes-requested, NO comment
+    POST /api/reports/r8/decide -> HTTP 422
+    {"error":"a comment of at least 10 characters is required for this decision"}
+
+=== P5 (AC7): a rejected report is terminal -- no edit, no re-submit ===
+    draft state: r9
+--- P5a submit
+    POST /api/reports/r9/submit -> HTTP 200
+    {"report":{"id":"r9","submitterId":"u1","status":"submitted","currency":"EUR","lines":[{"category":"meal","amount":10,"date":"2026-08-01","receipt":true}],"approvals":[],"history":[{"event":"created","who":"employee@demo","at":1785596598384},{"event":"submitted","who":"employee@demo","at":1785596598491,"totalEur":10,"rateStale":false}],"t
+--- P5b reject with a valid comment
+    POST /api/reports/r9/decide -> HTTP 200
+    {"report":{"id":"r9","submitterId":"u1","status":"rejected","currency":"EUR","lines":[{"category":"meal","amount":10,"date":"2026-08-01","receipt":true}],"approvals":[],"history":[{"event":"created","who":"employee@demo","at":1785596598384},{"event":"submitted","who":"employee@demo","at":1785596598491,"totalEur":10,"rateStale":false},{"ev
+--- P5c EDIT the rejected report
+    PUT /api/reports/r9 -> HTTP 409
+    {"error":"only a draft report can be edited"}
+--- P5d RE-SUBMIT the rejected report
+    POST /api/reports/r9/submit -> HTTP 409
+    {"error":"only a draft report can be submitted"}
+
+=== P6 (AC4): each line must have a category, an amount and a date ===
+    draft ([{"amount":10,"date":"2026-08-01","receipt":true}]) -> r10
+--- P6 submit incomplete line
+    POST /api/reports/r10/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+    draft ([{"category":"meal","date":"2026-08-01","receipt":true}]) -> r11
+--- P6 submit incomplete line
+    POST /api/reports/r11/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+    draft ([{"category":"meal","amount":10,"receipt":true}]) -> r12
+--- P6 submit incomplete line
+    POST /api/reports/r12/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+
+=== P7 (adversarial types on a documented numeric field) ===
+    amount="10" -> r13
+--- P7 submit amount="10"
+    POST /api/reports/r13/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+    amount=-100 -> r14
+--- P7 submit amount=-100
+    POST /api/reports/r14/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+    amount=null -> r15
+--- P7 submit amount=null
+    POST /api/reports/r15/submit -> HTTP 422
+    {"error":"each line needs a category, a positive amount and a date"}
+    amount=1e309 -> r16
+--- P7 submit amount=1e309
+    POST /api/reports/r16/submit -> HTTP 200
+    {"report":{"id":"r16","submitterId":"u1","status":"submitted","currency":"EUR","lines":[{"category":"meal","amount":null,"date":"2026-08-01","receipt":true}],"approvals":[],"history":[{"event":"created","who":"employee@demo","at":1785596599486},{"event":"submitted","who":"employee@demo","at":1785596599596,"totalEur":null,"rateStale":false
+
+=== P8 (authz): cross-user access to another user's draft (IDOR) ===
+    employee draft: r17
+--- P8a finance READS employee draft
+    GET /api/reports/r17 -> HTTP 404
+    {"error":"report not found"}
+--- P8b finance EDITS employee draft
+    PUT /api/reports/r17 -> HTTP 404
+    {"error":"report not found"}
+--- P8c finance DECIDES employee draft
+    POST /api/reports/r17/decide -> HTTP 409
+    {"error":"only a submitted report can be decided"}
+
+
+=== P9 (robustness): malformed body and wrong content-type ===
+--- P9a truncated JSON
+     -> HTTP 201
+--- P9b form body labelled application/json
+     -> HTTP 201
+--- P9c 1MB string field
+     -> HTTP 201
+
+=== P10 (authz): no token on a protected endpoint ===
+    {"error":"unauthenticated"} -> HTTP 401
+
+=== P11 (protocol): wrong method on a valid path ===
+    DELETE /api/reports -> HTTP 404
