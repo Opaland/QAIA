@@ -1,5 +1,80 @@
 # QAIA — état du projet & prompt de reprise
 
+## Sprint 32 — la distribution, enfin, et un panel qui démolit mes propres pages (2026-08-08, D140-D141) — EN COURS
+
+Session de nuit, mandat d'autonomie complète du fondateur, objectif qu'il a fixé : **1000 étoiles
+fin d'année**. Point de départ mesuré, pas supposé : **0 étoile, 277 vues pour 9 visiteurs
+uniques sur 14 jours, zéro referrer externe**. Les 673 clones sont de la CI et des worktrees
+d'agents, pas des utilisateurs. Aucun sprint n'avait jamais travaillé la distribution — c'était
+devenu le facteur limitant devant tout le reste, **#1 (5 pilotes) compris, mécaniquement
+inatteignable avec neuf visiteurs**.
+
+### Ce qui a été livré
+
+**#64 fermée (D140)** — `contract-probe` exercée pour la première fois sur son cas nominal
+(cible self-hostée). Le run 1 de la sonde **ne testait rien** : elle créait les brouillons par un
+endpoint qui ignore `lines`, donc sept sondes ont soumis des rapports vides et récolté le même
+422. Écrit tel quel, le rapport annonçait six promesses tenues sans qu'une seule soit exercée.
+Run 2 : 1 finding haut (`CP-001`, `amount: 1e309` → rapport `submitted` avec `amount` et
+`totalEur` à `null`, re-reproduit indépendamment), 10 promesses vérifiées, 4 observations
+écartées faute de promesse documentée.
+
+**Infrastructure de visibilité (D141)** — site vitrine à la racine des Pages (elle servait
+jusque-là l'app de démo, déplacée en `/demo/`), page de comparaison qui **recommande un
+concurrent dans 3 cas sur 4**, `llms.txt`, `robots.txt`, sitemap, **première release taguée**
+(`v0.1.0-prealpha`), badges, topics GitHub complétés (`claude-skills`, `claude-plugin`,
+`claude-code-plugin` manquaient — ce sont ceux par lesquels on cherche un plugin), installation
+ramenée de cinq gestes affichés à deux.
+
+**Veille refaite, et l'ancienne s'était trompée de méthode** — celle du 2026-07-26 cherchait des
+concurrents par domaine métier et concluait « aucun nouveau concurrent sérieux ». Elle n'avait pas
+cherché dans le **canal de distribution** de QAIA. Trouvés : QA Orchestra (10 agents, plugin
+Claude Code MIT), QASkills.sh (**~380 skills MIT qui recouvrent notre catalogue nom par nom**, et
+compétentes — leur skill ISTQB lue en entier), neonwatty/qa-skills, ClaudeCodeAgents (756 ★),
+agentic-qe (435 ★), playwright-skill (2 994 ★). **L'ISTQB n'est plus un différenciateur.**
+
+**Outreach préparé, pas publié** — LinkedIn (FR), Show HN avec le commentaire qui tuerait le fil
+et sa réponse, Reddit, Ministry of Testing : `docs/outreach/`. **PR de référencement ouverte** sur
+`jeremylongshore/claude-code-plugins-plus-skills` (2 608 ★) — [#1163](https://github.com/jeremylongshore/claude-code-plugins-plus-skills/pull/1163).
+
+### Le panel, et pourquoi il compte plus que le reste
+
+Cinq lentilles indépendantes sur les pages fraîchement écrites (fact-checker, SDET hostile, QA
+lead acheteur, lecteur HN, et un **dogfooding d'`a11y-audit`/`usability-heuristic-review` sur les
+pages de QAIA elles-mêmes**), chaque constat passé à un agent chargé de le **réfuter** :
+**30 constats, 0 réfuté.** Les quatre plus graves revérifiés à la main avant correction.
+
+**Trois erreurs factuelles** : une porte de ratio négatifs/limites vantée alors qu'**ADR 0001 l'a
+supprimée** le 2026-07-23 (dans 6 fichiers) ; le mot **« planted-ambiguity » supprimé** d'une
+citation présentée comme verbatim ; une affirmation sur les concurrents (« le même essaim produit
+et évalue ») qui était une **inférence déguisée en constat**.
+
+**Deux omissions décisives** : le parcours vitrine était **contaminé et non-interactif** (chaque
+arbitrage `simulated: <default applied>`, modèle ayant lu la section juge séquestrée) alors que
+la page vantait l'arbitrage humain ; et le **benchmark contre le prompt direct**, qui existait
+depuis le 28/07 et dit ~2,9× plus de tokens avec un prompt direct **égal ou meilleur sur le
+rappel des ambiguïtés plantées**, était absent d'une page qui se vante de publier ses échecs.
+
+**Un surclassement** : l'« audit externe 13 personas » à 2,4/5 est **auto-administré** —
+`docs/KANBAN.md:165` dit « cabinet fictif », 17 agents, 23 minutes. Le présenter comme externe
+transformait un exercice de lecture hostile en validation indépendante. **À ne plus jamais écrire
+autrement, y compris dans ce fichier** : les notes 2,4/5 et 5,0/10 sont des panels d'agents que
+le projet a fait tourner sur lui-même.
+
+Tout est corrigé et en ligne. Reste ouvert du panel, non traité cette nuit : lier
+`docs/PILOT-KIT.md` depuis les pages (personne n'est jamais invité à combler le trou du pilote),
+publier les chiffres de coût par commande au lieu de promettre qu'ils existent, réécrire la
+section « ce que ça dépose dans votre dépôt » (PII, injection de prompt, MCP), et le fait que
+`docs/STATUS.md` — lié depuis « vérifiable en cinq minutes » — est **en français avec des
+virgules décimales**, donc un anglophone qui cherche `2.4` n'obtient rien.
+
+### Ce qui reste vrai et inchangé
+
+Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
+utilisateur toujours pas mesurée. La nuit a construit un canal et corrigé une page qui mentait
+par raccourci ; elle n'a pas changé ces quatre points.
+
+
 ## Sprint 31 — #60 fermée : une suite générée tourne dans une vraie CI (2026-08-01, D132) — TERMINÉ
 
 Session autonome, un seul objectif : le blocage n°1 identifié par le Sprint 30.
