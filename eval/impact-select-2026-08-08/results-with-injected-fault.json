@@ -127,7 +127,7 @@
           "specs": [
             {
               "title": "@QAIA-US-004-001 @AC1 @AC2 @AC8 @P1 @smoke end-to-end: draft to first approval on a small report",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-US-004-001",
                 "AC1",
@@ -147,18 +147,48 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 649,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5238,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 43,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m use({ loginPage\u001b[33m,\u001b[39m reportsPage\u001b[33m,\u001b[39m page })\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 43,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:11\n\n   9 |     await loginPage.goto();\n  10 |     await loginPage.signIn(email, 'demo1234');\n> 11 |     await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                           ^\n  12 |     await use({ loginPage, reportsPage, page });\n  13 |   };\n  14 | }\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:39.860Z",
+                      "startTime": "2026-08-08T16:28:49.002Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\e2e.expense-ExpenseFlow-—--7af27--approval-on-a-small-report-e2e-desktop\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 43,
+                        "line": 11
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "b3db5baf6ed315125789-a0fcaa9783b3104d869e",
@@ -168,7 +198,7 @@
             },
             {
               "title": "@QAIA-US-004-002 @AC1 @P2 a complete draft is submitted successfully",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-US-004-002",
                 "AC1",
@@ -183,20 +213,50 @@
                   "projectName": "e2e-desktop",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 1,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 333,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5213,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 43,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m use({ loginPage\u001b[33m,\u001b[39m reportsPage\u001b[33m,\u001b[39m page })\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 43,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:11\n\n   9 |     await loginPage.goto();\n  10 |     await loginPage.signIn(email, 'demo1234');\n> 11 |     await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                           ^\n  12 |     await use({ loginPage, reportsPage, page });\n  13 |   };\n  14 | }\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:40.609Z",
+                      "startTime": "2026-08-08T16:28:54.782Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\e2e.expense-ExpenseFlow-—--cbb2e-t-is-submitted-successfully-e2e-desktop\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 43,
+                        "line": 11
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "b3db5baf6ed315125789-6b82ebdc348470aba60e",
@@ -206,7 +266,7 @@
             },
             {
               "title": "@QAIA-US-004-003 @AC1 @P2 a changes-requested report returns to draft",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-US-004-003",
                 "AC1",
@@ -221,20 +281,50 @@
                   "projectName": "e2e-desktop",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 2,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 241,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5221,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Mona Manager\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Mona Manager\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:38:45\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\e2e.expense.spec.js:51:17",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 45,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m       \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m password)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m       \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m       opened\u001b[33m.\u001b[39mpush(context)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mreturn\u001b[39m { page\u001b[33m,\u001b[39m loginPage\u001b[33m,\u001b[39m reportsPage }\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 45,
+                            "line": 38
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Mona Manager\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:38\n\n  36 |       await loginPage.goto();\n  37 |       await loginPage.signIn(email, password);\n> 38 |       await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                             ^\n  39 |       opened.push(context);\n  40 |       return { page, loginPage, reportsPage };\n  41 |     });\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:38:45\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\e2e.expense.spec.js:51:17"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:40.950Z",
+                      "startTime": "2026-08-08T16:29:00.535Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\e2e.expense-ExpenseFlow-—--51a1b-ted-report-returns-to-draft-e2e-desktop\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 45,
+                        "line": 38
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "b3db5baf6ed315125789-7f10f42341118e5d8d6d",
@@ -244,7 +334,7 @@
             },
             {
               "title": "@QAIA-US-004-004 @AC1 @P2 an edited changes-requested draft is re-submitted",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-US-004-004",
                 "AC1",
@@ -259,20 +349,50 @@
                   "projectName": "e2e-desktop",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 3,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 334,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5215,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:38:45\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\e2e.expense.spec.js:67:22",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 45,
+                          "line": 38
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:38\n\n\u001b[0m \u001b[90m 36 |\u001b[39m       \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m       \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m password)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 38 |\u001b[39m       \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 39 |\u001b[39m       opened\u001b[33m.\u001b[39mpush(context)\u001b[33m;\u001b[39m\n \u001b[90m 40 |\u001b[39m       \u001b[36mreturn\u001b[39m { page\u001b[33m,\u001b[39m loginPage\u001b[33m,\u001b[39m reportsPage }\u001b[33m;\u001b[39m\n \u001b[90m 41 |\u001b[39m     })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 45,
+                            "line": 38
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:38\n\n  36 |       await loginPage.goto();\n  37 |       await loginPage.signIn(email, password);\n> 38 |       await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                             ^\n  39 |       opened.push(context);\n  40 |       return { page, loginPage, reportsPage };\n  41 |     });\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:38:45\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\e2e.expense.spec.js:67:22"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:41.198Z",
+                      "startTime": "2026-08-08T16:29:06.315Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\e2e.expense-ExpenseFlow-—--aacd2-ested-draft-is-re-submitted-e2e-desktop\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 45,
+                        "line": 38
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "b3db5baf6ed315125789-14dd8923b3dc8978e37f",
@@ -282,7 +402,7 @@
             },
             {
               "title": "@QAIA-US-004-038 @AC-list @P3 an employee with no reports sees an empty list",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-US-004-038",
                 "AC-list",
@@ -297,20 +417,50 @@
                   "projectName": "e2e-desktop",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 4,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 150,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5189,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 43,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m use({ loginPage\u001b[33m,\u001b[39m reportsPage\u001b[33m,\u001b[39m page })\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 43,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:11\n\n   9 |     await loginPage.goto();\n  10 |     await loginPage.signIn(email, 'demo1234');\n> 11 |     await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                           ^\n  12 |     await use({ loginPage, reportsPage, page });\n  13 |   };\n  14 | }\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:41.541Z",
+                      "startTime": "2026-08-08T16:29:12.036Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\e2e.expense-ExpenseFlow-—--b8873--reports-sees-an-empty-list-e2e-desktop\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 43,
+                        "line": 11
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "b3db5baf6ed315125789-9b8f6c993d795b9cdbf7",
@@ -353,15 +503,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 42,
+                      "duration": 32,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.135Z",
+                      "startTime": "2026-08-08T16:29:17.736Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -392,15 +542,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 15,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.208Z",
+                      "startTime": "2026-08-08T16:29:17.798Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -433,15 +583,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 18,
+                      "duration": 16,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.231Z",
+                      "startTime": "2026-08-08T16:29:17.818Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -472,15 +622,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 15,
+                      "duration": 17,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.257Z",
+                      "startTime": "2026-08-08T16:29:17.839Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -511,15 +661,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 11,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.278Z",
+                      "startTime": "2026-08-08T16:29:17.864Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -550,15 +700,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 15,
+                      "duration": 16,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.295Z",
+                      "startTime": "2026-08-08T16:29:17.880Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -589,7 +739,7 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 11,
@@ -597,7 +747,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.317Z",
+                      "startTime": "2026-08-08T16:29:17.903Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -628,15 +778,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 13,
+                      "duration": 12,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.337Z",
+                      "startTime": "2026-08-08T16:29:17.919Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -667,15 +817,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12,
+                      "duration": 11,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.357Z",
+                      "startTime": "2026-08-08T16:29:17.936Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -707,7 +857,7 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 11,
@@ -715,7 +865,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.378Z",
+                      "startTime": "2026-08-08T16:29:17.954Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -747,15 +897,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 14,
+                      "duration": 12,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.401Z",
+                      "startTime": "2026-08-08T16:29:17.976Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -786,15 +936,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 24,
+                      "duration": 22,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.420Z",
+                      "startTime": "2026-08-08T16:29:17.994Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -825,15 +975,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.453Z",
+                      "startTime": "2026-08-08T16:29:18.021Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -864,7 +1014,7 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 10,
@@ -872,7 +1022,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.470Z",
+                      "startTime": "2026-08-08T16:29:18.035Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -903,15 +1053,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.485Z",
+                      "startTime": "2026-08-08T16:29:18.049Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -942,15 +1092,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 13,
+                      "duration": 12,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.500Z",
+                      "startTime": "2026-08-08T16:29:18.063Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -981,15 +1131,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12,
+                      "duration": 11,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.524Z",
+                      "startTime": "2026-08-08T16:29:18.082Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1020,15 +1170,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 6,
+                      "duration": 5,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.544Z",
+                      "startTime": "2026-08-08T16:29:18.102Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1060,15 +1210,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 7,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.558Z",
+                      "startTime": "2026-08-08T16:29:18.114Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1100,15 +1250,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 7,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.573Z",
+                      "startTime": "2026-08-08T16:29:18.130Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1139,15 +1289,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 5,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.588Z",
+                      "startTime": "2026-08-08T16:29:18.143Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1178,15 +1328,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 5,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.602Z",
+                      "startTime": "2026-08-08T16:29:18.155Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1216,15 +1366,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 8,
+                      "duration": 6,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.616Z",
+                      "startTime": "2026-08-08T16:29:18.167Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1257,15 +1407,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 6,
+                      "duration": 7,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.629Z",
+                      "startTime": "2026-08-08T16:29:18.179Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1295,15 +1445,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 11,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.645Z",
+                      "startTime": "2026-08-08T16:29:18.192Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1335,15 +1485,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 7,
+                      "duration": 9,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.662Z",
+                      "startTime": "2026-08-08T16:29:18.208Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1374,15 +1524,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 8,
+                      "duration": 9,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.676Z",
+                      "startTime": "2026-08-08T16:29:18.221Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1415,15 +1565,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12,
+                      "duration": 11,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.690Z",
+                      "startTime": "2026-08-08T16:29:18.235Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1454,15 +1604,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 9,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.707Z",
+                      "startTime": "2026-08-08T16:29:18.250Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1493,15 +1643,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.725Z",
+                      "startTime": "2026-08-08T16:29:18.264Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1532,15 +1682,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.741Z",
+                      "startTime": "2026-08-08T16:29:18.279Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1570,15 +1720,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 12,
+                      "duration": 10,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.757Z",
+                      "startTime": "2026-08-08T16:29:18.293Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1608,7 +1758,7 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 11,
@@ -1616,7 +1766,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.778Z",
+                      "startTime": "2026-08-08T16:29:18.308Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1647,15 +1797,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3,
+                      "duration": 4,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.795Z",
+                      "startTime": "2026-08-08T16:29:18.323Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1686,15 +1836,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 4,
+                      "duration": 5,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.804Z",
+                      "startTime": "2026-08-08T16:29:18.334Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1725,15 +1875,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 8,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.815Z",
+                      "startTime": "2026-08-08T16:29:18.345Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1764,15 +1914,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 9,
+                      "duration": 8,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.828Z",
+                      "startTime": "2026-08-08T16:29:18.359Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1803,15 +1953,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 8,
+                      "duration": 6,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.846Z",
+                      "startTime": "2026-08-08T16:29:18.373Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1841,15 +1991,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 8,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.860Z",
+                      "startTime": "2026-08-08T16:29:18.386Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1880,15 +2030,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 10,
+                      "duration": 8,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.874Z",
+                      "startTime": "2026-08-08T16:29:18.401Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1921,7 +2071,7 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
                       "duration": 9,
@@ -1929,7 +2079,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.889Z",
+                      "startTime": "2026-08-08T16:29:18.416Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1960,15 +2110,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 6,
+                      "duration": 9,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.908Z",
+                      "startTime": "2026-08-08T16:29:18.429Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -1999,15 +2149,15 @@
                   "projectName": "api",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 5,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 11,
+                      "duration": 12,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:42.921Z",
+                      "startTime": "2026-08-08T16:29:18.446Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2052,15 +2202,15 @@
                   "projectName": "a11y",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 455,
+                      "duration": 423,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:43.386Z",
+                      "startTime": "2026-08-08T16:29:18.858Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2075,7 +2225,7 @@
             },
             {
               "title": "@QAIA-A11Y-US004-002 reports screen has no serious/critical violations",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-A11Y-US004-002"
               ],
@@ -2088,20 +2238,50 @@
                   "projectName": "a11y",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 499,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5163,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                          "column": 43,
+                          "line": 11
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39mfixtures.js:11\n\n\u001b[0m \u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39mgoto()\u001b[33m;\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m loginPage\u001b[33m.\u001b[39msignIn(email\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m base\u001b[33m.\u001b[39mexpect(reportsPage\u001b[33m.\u001b[39mwhoami)\u001b[33m.\u001b[39mtoHaveText(expectedName)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m use({ loginPage\u001b[33m,\u001b[39m reportsPage\u001b[33m,\u001b[39m page })\u001b[33m;\u001b[39m\n \u001b[90m 13 |\u001b[39m   }\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m }\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                            "column": 43,
+                            "line": 11
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByTestId('whoami')\nExpected: \u001b[32m\"Elie Employee\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('whoami')\u001b[22m\n\u001b[2m    14 × locator resolved to <strong id=\"whoami\" data-testid=\"whoami\"></strong>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   at fixtures.js:11\n\n   9 |     await loginPage.goto();\n  10 |     await loginPage.signIn(email, 'demo1234');\n> 11 |     await base.expect(reportsPage.whoami).toHaveText(expectedName);\n     |                                           ^\n  12 |     await use({ loginPage, reportsPage, page });\n  13 |   };\n  14 | }\n    at Object.fn (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js:11:43)"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:43.930Z",
+                      "startTime": "2026-08-08T16:29:19.365Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\a11y.expense-ExpenseFlow-a-f8d64-serious-critical-violations-a11y\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\fixtures.js",
+                        "column": 43,
+                        "line": 11
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "3771595adf783c7be670-c15ce5bf7db68317ec60",
@@ -2141,15 +2321,15 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 231,
+                      "duration": 206,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:44.861Z",
+                      "startTime": "2026-08-08T16:29:24.893Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2177,15 +2357,15 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 7,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 231,
+                      "duration": 218,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:45.185Z",
+                      "startTime": "2026-08-08T16:29:25.173Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -2200,7 +2380,7 @@
             },
             {
               "title": "@QAIA-VIS-003 reports screen, empty state",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-VIS-003"
               ],
@@ -2213,20 +2393,50 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 7,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 237,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5154,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('mine')\nExpected substring: \u001b[32m\"No reports.\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('mine')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"mine\" role=\"list\" data-testid=\"mine\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('mine')\nExpected substring: \u001b[32m\"No reports.\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('mine')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"mine\" role=\"list\" data-testid=\"mine\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:50:32",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                          "column": 32,
+                          "line": 50
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 48 |\u001b[39m     \u001b[36mawait\u001b[39m login\u001b[33m.\u001b[39msignIn(\u001b[32m'employee@demo'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 49 |\u001b[39m     \u001b[36mconst\u001b[39m reports \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mReportsPage\u001b[39m(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 50 |\u001b[39m     \u001b[36mawait\u001b[39m expect(reports\u001b[33m.\u001b[39mmine)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'No reports.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#app-section'\u001b[39m))\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'reports-empty.png'\u001b[39m\u001b[33m,\u001b[39m \u001b[33mTOL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                            "column": 32,
+                            "line": 50
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('mine')\nExpected substring: \u001b[32m\"No reports.\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('mine')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"mine\" role=\"list\" data-testid=\"mine\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n  48 |     await login.signIn('employee@demo', 'demo1234');\n  49 |     const reports = new ReportsPage(page);\n> 50 |     await expect(reports.mine).toContainText('No reports.');\n     |                                ^\n  51 |     await expect(page.locator('#app-section')).toHaveScreenshot('reports-empty.png', TOL);\n  52 |   });\n  53 |\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:50:32"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:45.426Z",
+                      "startTime": "2026-08-08T16:29:25.397Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\visual.expense-ExpenseFlow-f6354--reports-screen-empty-state-visual\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                        "column": 32,
+                        "line": 50
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "91c5395676b5f1943c76-46f775df5dca08fff7e9",
@@ -2236,7 +2446,7 @@
             },
             {
               "title": "@QAIA-VIS-004 draft form with one line filled",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-VIS-004"
               ],
@@ -2249,20 +2459,42 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 8,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 333,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 15031,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\pages\\ReportsPage.js",
+                            "column": 48,
+                            "line": 18
+                          },
+                          "message": "Error: locator.click: Test timeout of 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByTestId('new-report-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"new-report-btn\" data-testid=\"new-report-btn\">Start a draft</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    28 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\n\n   at pages\\ReportsPage.js:18\n\n  16 |   }\n  17 |\n> 18 |   async startDraft() { await this.newReportBtn.click(); }\n     |                                                ^\n  19 |\n  20 |   async fillLine(idx, { category, amount, date, receipt }) {\n  21 |     if (category !== undefined) await this.page.getByTestId('line-category-' + idx).fill(category);\n    at ReportsPage.startDraft (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\pages\\ReportsPage.js:18:48)\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:59:19"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:45.676Z",
+                      "startTime": "2026-08-08T16:29:30.970Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\visual.expense-ExpenseFlow-c97fb-t-form-with-one-line-filled-visual\\error-context.md"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "91c5395676b5f1943c76-6cf9a3be341ae7ee995f",
@@ -2272,7 +2504,7 @@
             },
             {
               "title": "@QAIA-VIS-005 my reports after a submission",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-VIS-005"
               ],
@@ -2285,20 +2517,42 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 9,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 399,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 15026,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 15000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\pages\\ReportsPage.js",
+                            "column": 48,
+                            "line": 18
+                          },
+                          "message": "Error: locator.click: Test timeout of 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByTestId('new-report-btn')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"new-report-btn\" data-testid=\"new-report-btn\">Start a draft</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    28 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n\n   at pages\\ReportsPage.js:18\n\n  16 |   }\n  17 |\n> 18 |   async startDraft() { await this.newReportBtn.click(); }\n     |                                                ^\n  19 |\n  20 |   async fillLine(idx, { category, amount, date, receipt }) {\n  21 |     if (category !== undefined) await this.page.getByTestId('line-category-' + idx).fill(category);\n    at ReportsPage.startDraft (C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\pages\\ReportsPage.js:18:48)\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:69:19"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:46.022Z",
+                      "startTime": "2026-08-08T16:29:46.452Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\visual.expense-ExpenseFlow-8c092--reports-after-a-submission-visual\\error-context.md"
+                        }
+                      ]
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "91c5395676b5f1943c76-c444a6dc084c65e29277",
@@ -2308,7 +2562,7 @@
             },
             {
               "title": "@QAIA-VIS-006 approver inbox",
-              "ok": true,
+              "ok": false,
               "tags": [
                 "QAIA-VIS-006"
               ],
@@ -2321,20 +2575,50 @@
                   "projectName": "visual",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 10,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 252,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 5216,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('inbox')\nExpected substring: \u001b[32m\"submitted\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('inbox')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"inbox\" role=\"list\" data-testid=\"inbox\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('inbox')\nExpected substring: \u001b[32m\"submitted\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('inbox')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"inbox\" role=\"list\" data-testid=\"inbox\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:97:33",
+                        "location": {
+                          "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                          "column": 33,
+                          "line": 97
+                        },
+                        "snippet": "\u001b[0m \u001b[90m  95 |\u001b[39m     \u001b[36mawait\u001b[39m login\u001b[33m.\u001b[39msignIn(\u001b[32m'manager@demo'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'demo1234'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  96 |\u001b[39m     \u001b[36mconst\u001b[39m reports \u001b[33m=\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mReportsPage\u001b[39m(page)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  97 |\u001b[39m     \u001b[36mawait\u001b[39m expect(reports\u001b[33m.\u001b[39minbox)\u001b[33m.\u001b[39mtoContainText(\u001b[32m'submitted'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m  98 |\u001b[39m     \u001b[36mawait\u001b[39m expect(reports\u001b[33m.\u001b[39minbox)\u001b[33m.\u001b[39mtoHaveScreenshot(\u001b[32m'inbox-pending.png'\u001b[39m\u001b[33m,\u001b[39m \u001b[33mTOL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m  99 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 100 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                            "column": 33,
+                            "line": 97
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('inbox')\nExpected substring: \u001b[32m\"submitted\"\u001b[39m\nReceived string:    \u001b[31m\"\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('inbox')\u001b[22m\n\u001b[2m    14 × locator resolved to <div id=\"inbox\" role=\"list\" data-testid=\"inbox\"></div>\u001b[22m\n\u001b[2m       - unexpected value \"\"\u001b[22m\n\n\n   95 |     await login.signIn('manager@demo', 'demo1234');\n   96 |     const reports = new ReportsPage(page);\n>  97 |     await expect(reports.inbox).toContainText('submitted');\n      |                                 ^\n   98 |     await expect(reports.inbox).toHaveScreenshot('inbox-pending.png', TOL);\n   99 |   });\n  100 | });\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js:97:33"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-08T16:26:46.434Z",
+                      "startTime": "2026-08-08T16:30:01.945Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\test-results\\visual.expense-ExpenseFlow-b7e82-QAIA-VIS-006-approver-inbox-visual\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\visual.expense.spec.js",
+                        "column": 33,
+                        "line": 97
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
               "id": "91c5395676b5f1943c76-284e6a7b43433bf0c2af",
@@ -2349,11 +2633,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-08T16:26:39.368Z",
-    "duration": 7391.747,
-    "expected": 56,
+    "startTime": "2026-08-08T16:28:48.504Z",
+    "duration": 78808.285,
+    "expected": 46,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 10,
     "flaky": 0
   }
 }

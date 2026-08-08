@@ -98,6 +98,18 @@ la réponse honnête est « tout rejouer », pas une liste qui a l'air précise.
   changé et rester vert — les trois sur-sélections en sont la preuve. « Impacté » et « tombe » ne
   sont pas la même chose, et le tableau mesure le second.
 
+## Note : la première version de l'artefact joint était fausse
+
+`results-with-injected-fault.json` a d'abord été copié **après** la restauration du fichier cassé.
+Le dépôt a donc publié, sous ce nom, une exécution à **0 échec** — un fichier qui contredisait le
+tableau qu'il était censé étayer, et que rien dans son contenu ne dénonçait.
+
+Relevé en vérifiant le fichier plutôt qu'en supposant que la copie avait pris le bon. Ré-exécuté
+avec la faute, recopié, vérifié : 56 tests, 10 échecs, répartition identique au tableau ci-dessus.
+
+C'est la même classe de défaut que celui trouvé le matin sur la piste mutation — un artefact qui
+affirme un résultat que personne ne recoupe. Elle se corrige de la même façon : recouper.
+
 ## Reproduire
 
 ```bash
