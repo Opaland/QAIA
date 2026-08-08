@@ -68,8 +68,12 @@ spécification, elle y a trouvé **les quatre classes de contradiction** qu'elle
 
 **5. Le plan de test et le bilan.** Les deux artefacts qu'un responsable de test doit signer. *(Le test de confirmation, qui figurait dans cette liste, est comblé : `confirm-fix`, `eval/confirm-fix-2026-08-08/`.)*
 
-**6. L'anonymisation de données réelles.** `dataset-generate` fabrique du synthétique. Prendre un
-jeu de production et le rendre utilisable est un autre problème, très demandé, réglementé.
+**6. ~~L'anonymisation de données réelles.~~** **Écartée le 2026-08-08** ([#81](https://github.com/QAIA-Project/QAIA/issues/81)),
+et c'est une frontière, pas un trou. Le critère est la **vérifiabilité**, pas la difficulté : toutes
+les autres skills produisent quelque chose qu'un tiers peut recouper, alors qu'une anonymisation ne
+se vérifie qu'en tentant de ré-identifier — ce qui demande le jeu d'origine, des données
+auxiliaires et une méthode, dont QAIA ne dispose d'aucun. Une skill qui anonymise mal est pire
+qu'aucune skill : elle donne la confiance sans la propriété.
 
 **7. Compatibilité navigateurs et appareils.** Playwright le fait nativement ; aucune skill ne
 guide personne dessus.
