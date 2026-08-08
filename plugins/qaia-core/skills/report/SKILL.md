@@ -7,7 +7,7 @@ description: Project the QAIA journey into the standardized run manifest (.qaia/
 
 Follow the shared contract in `../README.md`. This skill produces the **one envelope every
 QAIA plugin shares**: `.qaia/reports/<US-ID>/manifest.json`, defined by
-`docs/OUTPUT-CONTRACT.md` (that path is in the QAIA source repository, not in the installed plugin — the fields it defines are restated wherever this skill needs them). It never invents data — it *projects* the existing
+`../../OUTPUT-CONTRACT.md` (that path is in the QAIA source repository, not in the installed plugin — the fields it defines are restated wherever this skill needs them). It never invents data — it *projects* the existing
 journey artifacts into the common schema so `qaia-score`, an export, or CI can read any run
 the same way.
 
@@ -60,5 +60,5 @@ guessed counts.
 - **Counts must match the book.** If the manifest and the artifacts disagree, the artifacts
   win: stop and surface the discrepancy rather than writing numbers that lie (same rule as
   `testbook-export`).
-- **Contract version.** Always stamp `"contract": "1.0"`; if `docs/OUTPUT-CONTRACT.md` has
+- **Contract version.** Always stamp `"contract": "1.0"`; if `../../OUTPUT-CONTRACT.md` has
   advanced, follow its current version and note the bump.

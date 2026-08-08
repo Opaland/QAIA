@@ -5,7 +5,7 @@ description: Generate and run visual regression tests (Playwright screenshot sna
 
 # visual-check — visual regression
 
-Reference: `examples/medibook/tests/visual.booking.spec.js` (login + booking screen baselines).
+Reference: [`examples/medibook/tests/visual.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/visual.booking.spec.js) (login + booking screen baselines).
 Completes the 7-type coverage: E2E, API, mobile-emulation, a11y, perf, security, **visual**.
 
 ## Steps

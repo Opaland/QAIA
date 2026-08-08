@@ -102,7 +102,7 @@ transparency, not as runtime code the plugin auto-executes.
 - `piiMasked`: `type -> placeholder -> count` summary for the whole HAR (no ledger).
 - **If a US-ID is given/confirmed**: merge into `.qaia/reports/<US-ID>/manifest.json` under a
   new `trafficReplay` section — same discipline `flaky-detect` already applies (shared output
-  contract, `docs/OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber):
+  contract, `../../OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber):
   merge only this section, append to `producers[]`, extend `artifacts[]`, never touch
   `design`/`execution`/`gate`/`status`. **If no US-ID applies** (traffic spans routes from
   several stories, or none in particular), skip the manifest merge and say so explicitly —

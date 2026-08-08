@@ -5,7 +5,7 @@ description: Generate and run performance checks (latency budgets, concurrency i
 
 # perf-check — performance
 
-Reference: `examples/medibook/tests/perf.slots.spec.js` (p95 latency + no-oversell under
+Reference: [`examples/medibook/tests/perf.slots.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/perf.slots.spec.js) (p95 latency + no-oversell under
 contention). Real load uses **k6**; a lightweight Playwright-request version covers
 latency/concurrency without extra tooling.
 

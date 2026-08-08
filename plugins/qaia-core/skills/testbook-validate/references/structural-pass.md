@@ -15,7 +15,7 @@ pass be averaged into a judgement that is not.
 **In Claude Code**: materialize a throwaway script implementing the algorithm below and **run
 it**, for true determinism. The script is never shipped — QAIA stays 100 % skill, the same model
 as Playwright generation. The maintainer's reference implementation and the proof it
-discriminates are `eval/tools/structural_score.py` and `eval/baselines/structural-score.md`,
+discriminates are [`eval/tools/structural_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/structural_score.py) and [`eval/baselines/structural-score.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/structural-score.md),
 which **live in the QAIA source repository, not in the installed plugin**.
 
 **Without code execution**: execute the algorithm step by step and **say so** — reproducible by

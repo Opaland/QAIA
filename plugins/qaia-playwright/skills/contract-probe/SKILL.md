@@ -52,7 +52,7 @@ conformance; neither reads a target's own documentation to derive what to probe.
 
 - **Authorized targets only** (identical to `security-surface`). State in the report which
   authorization applies, in this order: (a) an in-repo app under `examples/` — self-hosted and owned
-  by definition; (b) a target listed in `docs/DEMO-TARGETS.md` — cite its golden rule; (c) a third
+  by definition; (b) a target listed in `https://github.com/QAIA-Project/QAIA/blob/main/docs/DEMO-TARGETS.md` — cite its golden rule; (c) a third
   party whose own documentation or owner explicitly authorizes probing — quote that authorization
   verbatim and archive it (see the traceability rule below). If none of the three applies, do not
   probe. *Self-hosted is the nominal case, not the only lawful one: an owner's explicit
@@ -78,4 +78,4 @@ conformance; neither reads a target's own documentation to derive what to probe.
   accident as a deliberate observation. A near-miss written up as an intention is worse than a
   stated failure: it makes an untested boundary look tested.
 - **Advisory only, never a gate**: findings feed `prioritize`/human review, same as every other
-  producer skill (rule 3, `plugins/qaia-core/skills/README.md`: no producer scores itself).
+  producer skill (rule 3, `https://github.com/QAIA-Project/QAIA/blob/main/plugins/qaia-core/skills/README.md`: no producer scores itself).

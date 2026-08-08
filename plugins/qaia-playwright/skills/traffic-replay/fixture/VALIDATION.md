@@ -90,12 +90,12 @@ unchanged. `trafficReplay` itself carries no PII (same keys/types-only shapes as
 findings, confirmed by the same grep above).
 
 **Corrected 2026-07-31 (skill-eval wave A, pattern P1 — found by the new CI job, not by the
-wave itself).** Both files failed `eval/tools/validate_manifest.py` with 20 errors: a partial
+wave itself).** Both files failed [`eval/tools/validate_manifest.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/validate_manifest.py) with 20 errors: a partial
 `design` block (`scenarios` only) on a fixture that has no upstream user story, and
 `kind: "trafficReplay"` which no enum and no contract line ever declared, although the skill
 has emitted it since D88. The `design` block was **removed rather than completed** — inventing
 coverage and confidence numbers to satisfy a validator is the fabrication D38 forbids — and the
-kind was added to `ARTIFACT_KIND_ENUM` and to `docs/OUTPUT-CONTRACT.md`, because the kind was
+kind was added to `ARTIFACT_KIND_ENUM` and to `../../../OUTPUT-CONTRACT.md`, because the kind was
 real and the contract was silent. The same defect existed in `flaky-detect`'s fixture; a CI
 step now validates every `plugins/**/manifest*.json` so a shipped example can no longer
 contradict the contract it demonstrates.

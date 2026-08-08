@@ -1,7 +1,7 @@
 # QAIA test-book quality rubric (10 dimensions, /20)
 
 The scoring reference embedded in `qaia-score` so the plugin is self-contained. It mirrors the
-project's canonical judge rubric (`eval/RUBRIC.md`); when the two ever diverge, `eval/RUBRIC.md`
+project's canonical judge rubric ([`eval/RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/RUBRIC.md)); when the two ever diverge, [`eval/RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/RUBRIC.md)
 is authoritative and this copy is updated to match.
 
 Applied to **one** generated test book against **its** source US. Each dimension scores

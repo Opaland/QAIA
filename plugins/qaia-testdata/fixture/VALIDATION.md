@@ -7,7 +7,7 @@ following the same fixture discipline as `flaky-detect`/`automate`'s `fixture/VA
 ## What was built
 
 - `US-002-dosage-dataset.json` — a full synthetic dataset for
-  `eval/gold-set/US-002-dosage-validation.md` (prescription dosage validation, health domain).
+  [`eval/gold-set/US-002-dosage-validation.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/gold-set/US-002-dosage-validation.md) (prescription dosage validation, health domain).
   This US was chosen because, at the time of writing, no dataset example existed for it
   anywhere else in the repo (`examples/medibook/` covers US-001's appointment-booking domain
   with app seed data, not a standalone injectable dataset).
@@ -28,7 +28,7 @@ following the same fixture discipline as `flaky-detect`/`automate`'s `fixture/VA
     discipline `istqb-design`/`need-understanding` apply to scenarios, applied here to data.
 - `fixtures.js` — the documented Playwright fixture-injection pattern from the skill's step 8:
   a `testData` fixture that reads and parses the JSON once, mirroring
-  `examples/medibook/tests/fixtures.js`'s `test.extend()` convention (D34) with a data fixture
+  [`examples/medibook/tests/fixtures.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/fixtures.js)'s `test.extend()` convention (D34) with a data fixture
   instead of a page object.
 - `dataset.spec.js` — 10 tests consuming `testData` through the fixture, asserting: the
   non-fabrication disclaimer and assumption list are present; every drug is coherent and

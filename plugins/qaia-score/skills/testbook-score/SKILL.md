@@ -5,9 +5,9 @@ description: Score a QAIA test book against its source US with the ISTQB-grounde
 
 # testbook-score — the quality scorecard
 
-Applies the embedded rubric (`rubric.md`, mirroring `eval/RUBRIC.md`) to **one** test book
+Applies the embedded rubric (`rubric.md`, mirroring [`eval/RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/RUBRIC.md)) to **one** test book
 against **its** source US, and writes the result into the `gate` block of the standardized run
-manifest (shared output contract, `docs/OUTPUT-CONTRACT.md`). It **scores only** — see the scoring-only guardrails
+manifest (shared output contract, `../../OUTPUT-CONTRACT.md`). It **scores only** — see the scoring-only guardrails
 in `../README.md`. It is the LLM-judge of the project, packaged as an installable skill.
 
 ## Prerequisites
@@ -28,7 +28,7 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
    - **In Claude Code**: materialize a throwaway script implementing the algorithm below and **run
      it** on the `.feature` files for true determinism (the script is generated in-session, never
      shipped — QAIA stays 100% skill). Reference implementation and proof it discriminates:
-     `eval/tools/structural_score.py` + `eval/baselines/structural-score.md`. **Those two paths
+     [`eval/tools/structural_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/structural_score.py) + [`eval/baselines/structural-score.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/structural-score.md). **Those two paths
      live in the QAIA source repository, not in the installed plugin** — do not send a user
      looking for them in their own project. They exist so a maintainer can check this algorithm
      still discriminates; everything needed to run it is written out below, which is why the
@@ -68,7 +68,7 @@ in `../README.md`. It is the LLM-judge of the project, packaged as an installabl
      **required** negative condition has a covering scenario; the ratio is context. (A ratio
      rewards volume: enough easy negatives will clear it while the refusal path the story
      actually specifies stays untested. The governing decision is ADR 0001, the required
-     negative/refusal-path coverage gate, `docs/adr/0001-negative-coverage-gate.md`.)
+     negative/refusal-path coverage gate, `https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md`.)
 3. **Verify literals independently** where a dimension depends on them (boundary ±1, string
    lengths, checksum/oracle values) — recompute, do not trust the book's own assertion. A
    wrong literal presented as correct is a dimension-5 hit (plausible-but-wrong).

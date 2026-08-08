@@ -156,6 +156,50 @@ def lint_one(path):
     return fails, warns
 
 
+# A repo-relative path written inside a plugin. Absolute URLs are excluded by the leading
+# negative lookbehind on "/" — `https://…/docs/x.md` must not match as `docs/x.md`.
+REPO_PATH = re.compile(r"(?<![\w/.-])((?:docs|plugins|eval|examples|prompts)/[\w./-]+\.(?:md|json|yml|yaml|py|js))")
+# `[`docs/x.md`](https://github.com/…)` — the label looks like a bare repo path but the link works.
+LINKED_LABEL = re.compile(r"\[[^\]]*\]\(https?://[^)]+\)")
+
+
+def lint_plugin_links(plugin_dir):
+    """Every repo path referenced from inside a plugin must resolve *inside that plugin*.
+
+    A user who runs `/plugin install qaia-playwright@qaia` receives the plugin directory, not the
+    repository. A pointer to `docs/OUTPUT-CONTRACT.md` or to a sibling plugin therefore resolves
+    to nothing on their machine — and the rules behind those pointers are guardrails, so what
+    silently disappears is the justification for a constraint. The model then reconstructs it
+    from memory, which is the failure this check exists to prevent (issue #66).
+
+    Two escapes are legitimate and pass: an absolute URL to the versioned file, and a path that
+    resolves within the plugin. Nothing else does.
+    """
+    fails = []
+    for root, _dirs, files in os.walk(plugin_dir):
+        for fn in files:
+            if not fn.endswith(".md"):
+                continue
+            path = os.path.join(root, fn)
+            text = open(path, encoding="utf-8", errors="replace").read()
+            # A path used as the *label* of a link whose target is an absolute URL is already
+            # reachable — drop those constructs before scanning, or the check punishes the very
+            # fix it asks for.
+            text = LINKED_LABEL.sub("", text)
+            own_prefix = "plugins/" + os.path.basename(plugin_dir) + "/"
+            for ref in set(REPO_PATH.findall(text)):
+                # The only repo-style path that survives installation is one pointing inside
+                # this very plugin. Testing existence in the *repository* is the trap: every
+                # broken reference exists here, which is exactly why nobody noticed.
+                if ref.startswith(own_prefix) and os.path.exists(ref):
+                    continue
+                fails.append("%s references %r, which is not in this plugin. An installed user "
+                             "receives the plugin directory, not the repo — use a relative path "
+                             "inside the plugin, or an absolute github.com URL."
+                             % (os.path.relpath(path, plugin_dir), ref))
+    return fails
+
+
 def main(argv):
     strict = "--strict" in argv
     paths = [a for a in argv if not a.startswith("--")]
@@ -175,6 +219,20 @@ def main(argv):
                 print("  FAIL  %s" % f)
             for w in warns:
                 print("  warn  %s" % w)
+
+    # Cross-boundary link check, once per plugin rather than once per skill: the offending
+    # pointers live in references/ and connectors/ as often as in SKILL.md itself.
+    if not paths and os.path.isdir("plugins"):
+        for plugin in sorted(os.listdir("plugins")):
+            pdir = os.path.join("plugins", plugin)
+            if not os.path.isdir(pdir):
+                continue
+            link_fails = lint_plugin_links(pdir)
+            if link_fails:
+                print("%s" % pdir)
+                for f in link_fails:
+                    print("  FAIL  %s" % f)
+                n_fail += len(link_fails)
 
     print("\n%d skill(s) linted — %d failure(s), %d warning(s)" % (len(targets), n_fail, n_warn))
     if n_fail:

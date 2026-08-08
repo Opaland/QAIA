@@ -5,7 +5,7 @@ description: Generate and run risk-based passive security-surface checks (CT-SEC
 
 # security-surface — risk-based passive security checks (CT-SEC)
 
-Reference: `examples/medibook/tests/security.booking.spec.js`
+Reference: [`examples/medibook/tests/security.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/security.booking.spec.js)
 (401/IDOR/malformed-input/user-enumeration).
 
 Scope is deliberately **passive** in this version — observation only, with an OWASP ZAP baseline
@@ -67,7 +67,7 @@ that was never run.
 - **Authorized, self-hosted targets only.** Before running anything, state in the report which
   authorization applies, in this order:
   (a) an in-repo app under `examples/` — self-hosted and owned by definition, no catalog row
-  needed; (b) a target listed in `docs/DEMO-TARGETS.md` — cite its golden rule and its per-target
+  needed; (b) a target listed in `https://github.com/QAIA-Project/QAIA/blob/main/docs/DEMO-TARGETS.md` — cite its golden rule and its per-target
   security column; (c) a target explicitly authorized by the human founder this session — cite
   that authorization verbatim. **If none of the three applies, do not scan.**
 - **This authorization check is narrative, not enforced.** No allow-list mechanism exists in the

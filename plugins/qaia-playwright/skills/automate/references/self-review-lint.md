@@ -7,12 +7,12 @@ fix what is hollow.
 
 This is a **proofread inside generation**, not a score and not a gate. It is the same posture
 `qaia-score` takes at the Gherkin level with its hollow- and vague-assertion detectors
-(`eval/tools/structural_score.py`, checks C1/C2), one layer down in the generated code — run by
+([`eval/tools/structural_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/structural_score.py), checks C1/C2), one layer down in the generated code — run by
 the producer on its own output **before delivery**, never as a validation of already-delivered
 work.
 
 That boundary matters and is not decorative: the shared rule is that **no producer scores
-itself** (`plugins/qaia-core/skills/README.md`, rule 3). So this pass never touches
+itself** (`https://github.com/QAIA-Project/QAIA/blob/main/plugins/qaia-core/skills/README.md`, rule 3). So this pass never touches
 `.qaia/reports/**/manifest.json`'s `gate` field, and `qaia-score` still never reads generated
 `.spec.js` files. The contract boundary is unchanged — a generator is allowed to proofread
 itself, never to grade itself.

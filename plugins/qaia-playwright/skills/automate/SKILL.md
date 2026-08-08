@@ -95,8 +95,8 @@ Two architectural choices are fixed, not renegotiated per run:
    by a run; their Docker image tag must match the `@playwright/test` version in `package.json`
    or every test fails at launch.
 7. **Run** the suite against the app; report pass/fail per scenario ID. Do not claim green without a real run. A scenario that cannot execute against the app is reported **blocked**, never passed.
-8. **Traceability report**: emit a table AC → scenario ID → test → result (see `examples/medibook/traceability.md`); include any scenario left blocked-for-assertion by step 5, and any testability gap flagged by step 2.
-9. **Hand off to reporting.** Run `run-report` to merge the `execution` section into `.qaia/reports/<US-ID>/manifest.json` (the standardized output contract every QAIA plugin writes to, `docs/OUTPUT-CONTRACT.md`) — pass/fail/blocked, `byType`, and `scenariosAutomated`/`scenariosTotal`. `qaia-score` then reads the same manifest to gate the run.
+8. **Traceability report**: emit a table AC → scenario ID → test → result (see [`examples/medibook/traceability.md`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/traceability.md)); include any scenario left blocked-for-assertion by step 5, and any testability gap flagged by step 2.
+9. **Hand off to reporting.** Run `run-report` to merge the `execution` section into `.qaia/reports/<US-ID>/manifest.json` (the standardized output contract every QAIA plugin writes to, `../../OUTPUT-CONTRACT.md`) — pass/fail/blocked, `byType`, and `scenariosAutomated`/`scenariosTotal`. `qaia-score` then reads the same manifest to gate the run.
 
 ## Exit criterion — honest gate
 

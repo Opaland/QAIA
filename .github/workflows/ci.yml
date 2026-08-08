@@ -78,6 +78,24 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: Shared output contract is identical in every plugin
+        run: |
+          set -e
+          # Each plugin ships its own copy of docs/OUTPUT-CONTRACT.md, because a user who runs
+          # `/plugin install qaia-score@qaia` receives the plugin directory and never the repo —
+          # a pointer to docs/ resolved to nothing on their machine (issue #66). Four copies only
+          # work if something keeps them honest, and drift between them would be silent: each
+          # plugin would be validating against a different contract while claiming to share one.
+          for p in plugins/*/; do
+            name=$(basename "$p")
+            if ! diff -q docs/OUTPUT-CONTRACT.md "$p/OUTPUT-CONTRACT.md" >/dev/null; then
+              echo "::error::$name/OUTPUT-CONTRACT.md has drifted from docs/OUTPUT-CONTRACT.md."
+              diff docs/OUTPUT-CONTRACT.md "$p/OUTPUT-CONTRACT.md" || true
+              exit 1
+            fi
+          done
+          echo "OK: $(ls -d plugins/*/ | wc -l) plugin copies identical to the canonical contract"
+
       - name: Validate skill fixtures against the shared contract
         run: |
           set -e

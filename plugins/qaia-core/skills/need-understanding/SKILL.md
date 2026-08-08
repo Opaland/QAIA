@@ -79,6 +79,6 @@ Follow the shared contract in `../README.md`. Prerequisite: `01-extraction.md` (
 
 ## Guardrails
 
-- Never silently resolve an ambiguity — it is the defect reviewers punish hardest, because it produces a test book that looks confident and asserts behavior the specification never promised (the *business correctness* and *ambiguity handling* dimensions of the review rubric, `eval/RUBRIC.md`).
+- Never silently resolve an ambiguity — it is the defect reviewers punish hardest, because it produces a test book that looks confident and asserts behavior the specification never promised (the *business correctness* and *ambiguity handling* dimensions of the review rubric, [`eval/RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/RUBRIC.md)).
 - **Omitting the required trace of step 3 or step 4a from `02-understanding.md` is the same defect as silently resolving an ambiguity** — a mandatory pass that leaves no evidence it ran is indistinguishable from a skipped one. Touching on the pass inside some question's justification text does not count: the reader must be able to check that the pass happened without reconstructing it from prose, so each pass gets its own named section, even when its outcome is "nothing found".
 - Bound the interrogation: maximum ~10 questions per pass, highest impact first; offer a second pass rather than overwhelming the user.

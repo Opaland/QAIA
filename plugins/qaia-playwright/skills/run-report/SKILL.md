@@ -18,7 +18,7 @@ The three reporting formats real QA toolchains actually ingest, plus requirement
   (e2e/api/a11y/perf/security), and the AC → scenario → test → result traceability table.
   Structure: `references/html-summary.md`.
 - **Standardized run manifest** — merge the results into `.qaia/reports/<US-ID>/manifest.json`
-  per the shared output contract (`docs/OUTPUT-CONTRACT.md`), so scoring and dashboards read
+  per the shared output contract ([`docs/OUTPUT-CONTRACT.md`](https://github.com/QAIA-Project/QAIA/blob/main/docs/OUTPUT-CONTRACT.md)), so scoring and dashboards read
   execution the same way they read the test book.
 
 ## Steps

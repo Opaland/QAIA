@@ -8,7 +8,7 @@ conditions with their correct expected results. Read only that file; never fetch
 
 ## Step 0 — spec-health check (mandatory, before extraction) — issue #25
 
-Measured on 3 real specs (`eval/baselines/connectors-real-data.md`): 2 of 3 degenerate to
+Measured on 3 real specs ([`eval/baselines/connectors-real-data.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/connectors-real-data.md)): 2 of 3 degenerate to
 **≈0 grounded negatives**, and a naive reader that skips `$ref` resolution silently loses every
 required-field negative. Both failures are silent — the user sees "oracle applied" with nothing
 to show for it. Run this check first, every time:

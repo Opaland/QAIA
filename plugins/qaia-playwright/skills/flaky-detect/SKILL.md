@@ -52,7 +52,7 @@ the worked example of this skill applied to that data.
   indices, a failure excerpt where available.
 - **Merge into `.qaia/reports/<US-ID>/manifest.json`** in a dedicated `flakiness` section —
   never touching `execution`, `design`, `gate`, or `status` (shared output contract,
-  `docs/OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber). Load the
+  `../../OUTPUT-CONTRACT.md`, rule 2 — merge, never clobber). Load the
   existing manifest, replace only `flakiness`, append this skill to `producers[]`, add the
   findings file to `artifacts[]`. If no manifest exists yet, create one with just the shared
   header + `flakiness` (mirrors `run-report`'s own bootstrap behavior).

@@ -33,7 +33,7 @@ test nothing the source ever required, written to move a percentage.
 A padded ratio is worse than a low one. A low ratio is a visible signal that someone can act on.
 A padded ratio is the same signal, hidden, with fabricated scenarios attached.
 
-`docs/OUTPUT-CONTRACT.md`, `eval/RUBRIC.md` and `istqb-design` all state the same thing:
+`../../../OUTPUT-CONTRACT.md`, [`eval/RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/RUBRIC.md) and `istqb-design` all state the same thing:
 reported, never a threshold. If you find yourself reasoning about how to *reach* a ratio, the
 reasoning itself is the error.
 

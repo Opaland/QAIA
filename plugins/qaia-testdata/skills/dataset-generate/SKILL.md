@@ -105,7 +105,7 @@ tests can seed real state from them instead of inventing a literal per test.
    `qaia-playwright:automate`'s POM-as-fixtures convention (page objects exposed as Playwright
    fixtures) consumes the file: a `testData` fixture in `fixtures.js` that reads and parses the
    JSON once and exposes it to every test — the same `test.extend()` mechanism
-   `examples/medibook/tests/fixtures.js` already uses for `loginPage`/`bookingPage`/`patient`.
+   [`examples/medibook/tests/fixtures.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/fixtures.js) already uses for `loginPage`/`bookingPage`/`patient`.
    This is documentation, or an in-session snippet the generating skill or the user materializes
    when wiring tests — the plugin itself ships **no** runtime code: skills stay 100% Markdown,
    and executable code is generated and run in-session, never distributed, so installing a
@@ -116,7 +116,7 @@ tests can seed real state from them instead of inventing a literal per test.
    is the dataset's own coverage matrix, mirroring the AC → scenario → status pattern
    `testbook-generate` already uses, so a reviewer audits the data the same way they audit
    the tests.
-10. **Optional manifest merge (shared output contract, `docs/OUTPUT-CONTRACT.md`).** If
+10. **Optional manifest merge (shared output contract, `../../OUTPUT-CONTRACT.md`).** If
     `.qaia/reports/<US-ID>/manifest.json` already exists,
     merge into `producers[]` and add an `artifacts[]` entry (`kind: "dataset"`,
     `format: "json"`, `path`) — append-only, never touching another producer's section
@@ -128,7 +128,7 @@ tests can seed real state from them instead of inventing a literal per test.
 - **Never real data, never PII, ever.** Synthetic identity markers on every person-like row
   (step 6). A dataset that could be mistaken for exported real records is a defect, not a
   feature — this is stricter than, and in addition to, the shared contract's PII-masking rule
-  for ingested source content (`plugins/qaia-core/skills/README.md` rule 5): here nothing real
+  for ingested source content (`https://github.com/QAIA-Project/QAIA/blob/main/plugins/qaia-core/skills/README.md` rule 5): here nothing real
   ever enters in the first place.
 - **Never fabricate a domain fact as if sourced** when the US is silent — invent, but flag
   (`synthetic: true`, `_meta.assumptions[]`, or an explicit `[open]` case). Honest recall beats
@@ -146,7 +146,7 @@ tests can seed real state from them instead of inventing a literal per test.
 
 ## Worked example
 
-`../../fixture/` builds and validates a real dataset for `eval/gold-set/US-002-dosage-validation.md`
+`../../fixture/` builds and validates a real dataset for [`eval/gold-set/US-002-dosage-validation.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/gold-set/US-002-dosage-validation.md)
 (prescription dosage validation, health domain — chosen because no example dataset exists for it
 elsewhere in the repo) — 4 synthetic drugs, 3 synthetic physicians, 11 synthetic patients, 20
 intake records and 17 boundary-focused cases covering all 8 ACs, including one case

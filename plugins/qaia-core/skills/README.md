@@ -25,7 +25,7 @@ Portable skills implement the QAIA journey. Each skill reads the checkpoints of 
 │   └── rules.md              # rules promoted after human validation (D22)
 └── reports/<US-ID>/
     └── manifest.json         # STANDARDIZED run manifest — the one output contract every
-                              # QAIA plugin shares (D39, docs/OUTPUT-CONTRACT.md)
+                              # QAIA plugin shares (D39, ../OUTPUT-CONTRACT.md)
 ```
 
 `<US-ID>` is set at ingestion: the tracker key if any (e.g. `PROJ-123`), else a slug the user confirms.
@@ -84,7 +84,7 @@ retrieval protocol**, so "using the RAG" means one discipline, not per-skill imp
    yield (D38 ceiling). A rule that *contradicts* the source is surfaced as a question, never
    silently applied (the US wins unless a human says otherwise).
 4. **Record the applied set.** The manifest's `design.knowledgeApplied` lists the `BR-KB-nnn`
-   rules that shaped the book (`docs/OUTPUT-CONTRACT.md`) — so a reviewer sees which project
+   rules that shaped the book (`../OUTPUT-CONTRACT.md`) — so a reviewer sees which project
    knowledge was in play, and a run with an empty set on a rich domain is a visible signal that
    the knowledge base is thin, not that the feature is simple.
 
@@ -96,7 +96,7 @@ applies it by ID — a measurable, cited change, not a hope that raw examples re
 
 Beyond the human-facing artifacts, every QAIA plugin projects its work into **one shared
 machine-readable envelope**: `.qaia/reports/<US-ID>/manifest.json`, defined by
-`docs/OUTPUT-CONTRACT.md`. This is what makes "every plugin outputs the same thing" true —
+`../OUTPUT-CONTRACT.md`. This is what makes "every plugin outputs the same thing" true —
 a consumer (`qaia-score`, an export, a CI dashboard) reads one contract instead of N bespoke
 formats.
 

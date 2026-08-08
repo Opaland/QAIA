@@ -37,7 +37,7 @@ suffixed `-eN` — the same rule the XLSX deliverable already uses, kept consist
 | `Description` | the `# condition:` comment (rationale) plus the confidence flag (`@low-confidence` → "low confidence — see open question `Qn`") | `.feature` comment + `coverage-matrix.md` rationale/confidence columns |
 
 **Background flattening, and why.** QAIA `.feature` files put shared setup in a `Background:` block
-(one block, reused by every `Scenario` in the file — see `plugins/qaia-core/skills/README.md`
+(one block, reused by every `Scenario` in the file — see `../../README.md`
 project-layout convention). Xray's per-Test `Cucumber Scenario` CSV field holds one scenario's steps,
 not a whole feature with a shared `Background` — there's no separate "background" field documented
 for the CSV path. So each row must prepend the Background's `Given`/`And` steps to that scenario's own

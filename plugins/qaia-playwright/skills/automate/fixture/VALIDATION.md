@@ -22,7 +22,7 @@ purpose-built case, following the same fixture discipline as
     scenario's `Then` promised.
 - `generated-after.spec.js` — the same three tests with step 5's self-review applied:
   each trivial/missing assertion replaced by one derived from its scenario's `Then`,
-  reusing the page-object API already established in `examples/medibook/tests/e2e.booking.spec.js`
+  reusing the page-object API already established in [`examples/medibook/tests/e2e.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/e2e.booking.spec.js)
   (`bookingPage.message`, `bookingPage.slots`, `bookingPage.appointments`) rather than
   inventing a new one.
 
@@ -64,7 +64,7 @@ blocked-for-assertion, for a `Then` that names nothing concrete).
 
 `../SKILL.md` step 5 is a **behavioral instruction for the generating agent**, not a
 standalone executable linter shipped with the plugin — there is no `lint.py` this
-validation ran against, unlike `eval/tools/structural_score.py` for the Gherkin layer.
+validation ran against, unlike [`eval/tools/structural_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/structural_score.py) for the Gherkin layer.
 This validation therefore hand-applies the three bullet patterns to a constructed case
 (same posture flaky-detect's fixture used: hand-apply the documented method to real,
 inspectable data) and verifies mechanically (grep + a counting script, not narration)

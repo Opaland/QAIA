@@ -5,7 +5,7 @@ description: Generate and run accessibility tests (axe-core via Playwright, WCAG
 
 # a11y-audit — accessibility via axe-core, plus the pass axe cannot do
 
-Reference: `examples/medibook/tests/a11y.booking.spec.js` (0 serious/critical violations).
+Reference: [`examples/medibook/tests/a11y.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/a11y.booking.spec.js) (0 serious/critical violations).
 
 Tooling is fixed: **axe-core driven through Playwright** — the de-facto standard for automated
 WCAG checks, and it reuses the browser context the functional tests already run in rather than

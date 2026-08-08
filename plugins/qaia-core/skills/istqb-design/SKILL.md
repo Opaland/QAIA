@@ -81,7 +81,7 @@ what was considered and excluded: `references/technique-notes.md`.
    or deny, mark the corresponding condition as a **required-negative** (`[req-neg]` in
    `03-design.md`). These are what the coverage gate enforces downstream: **not a percentage, a
    checklist** — every refusal, error and denial path must end up with a scenario. Rationale:
-   `docs/adr/0001-negative-coverage-gate.md`.
+   `https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md`.
 
 3b. **Standardized domains → oracle (optional).** If an AC touches a standardized domain
    (card/Luhn, dates/ISO 8601, HTTP status, email/RFC 5322, currency/ISO 4217, IBAN…), invoke

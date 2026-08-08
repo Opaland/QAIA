@@ -7,7 +7,7 @@ description: Decide release readiness of a QAIA test book or run - PASS / CONCER
 
 Turns evidence into a single decision — **PASS / CONCERNS / FAIL / WAIVED** — and writes it to
 the `gate` block of the standardized run manifest (shared output contract,
-`docs/OUTPUT-CONTRACT.md`) — that path is in the QAIA source repository, **not in the installed plugin**, so rely on the field names restated below when you do not have the repo.. It combines
+[`docs/OUTPUT-CONTRACT.md`](https://github.com/QAIA-Project/QAIA/blob/main/docs/OUTPUT-CONTRACT.md)) — that path is in the QAIA source repository, **not in the installed plugin**, so rely on the field names restated below when you do not have the repo.. It combines
 the quality score (`testbook-score`), the hard coverage gates, the pending human arbitrations,
 and — when present — the execution results. It **scores only**: it decides readiness and names
 what blocks it; it never edits a scenario (guardrails in `../README.md`).
@@ -35,7 +35,7 @@ Evaluate top to bottom; the **first** matching band is the verdict.
    - an acceptance criterion is uncovered (`design.coverage.acCovered < acTotal`, rubric dim 2 = 0);
    - a **required** negative condition is uncovered (`reqNegCovered < reqNegTotal`, dim 3 = 0) —
      the governing decision is ADR 0001, the required negative/refusal-path coverage gate
-     (`docs/adr/0001-negative-coverage-gate.md`);
+     ([`docs/adr/0001-negative-coverage-gate.md`](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md));
    - a scenario contradicts the source US (dim 5 = 0 — plausible-but-wrong);
    - invalid Gherkin (dim 8 = 0) or no stable IDs / broken traceability (dim 7 = 0);
    - **any** rubric dimension scored 0;
@@ -75,7 +75,7 @@ human one.*
    — invisibly, because nothing downstream recomputes it. The rule generalizes: any
    self-reported number that decides a release is verified, not assumed (the same reason the
    negative-coverage count is recomputed independently of the file's own `@negative` tags, in
-   `eval/tools/structural_score.py`). If the recomputed total disagrees with `gate.score`, use the
+   [`eval/tools/structural_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/structural_score.py)). If the recomputed total disagrees with `gate.score`, use the
    recomputed value for every band comparison below and add a `reasons` line naming the
    discrepancy (`"score mismatch: dimensions sum to 15, manifest said 16 — using 15"`).
 2. **Apply the verdict rules** above, in order. Collect the concrete `reasons` — one line each,

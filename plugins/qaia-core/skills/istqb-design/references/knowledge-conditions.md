@@ -31,7 +31,7 @@ Worked example — a tiered-allowance rule yields **7 clauses, not 1**:
 | 6 | Unlimited: uncapped credits |
 | 7 | Unlimited: 1 active booking/day cap |
 
-**The measured failure this closes** (`eval/baselines/rag-recall-gain.md`): `BR-KB-203` bundles
+**The measured failure this closes** ([`eval/baselines/rag-recall-gain.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/baselines/rag-recall-gain.md)): `BR-KB-203` bundles
 those 7 tier sub-facts in one paragraph. An unguided pass derived conditions only for the two
 most **boundary-shaped** sub-facts — the rollover cap and the daily cap — and silently dropped
 the four flatter baseline grants and properties. The rule was matched, open, and cited. Shape

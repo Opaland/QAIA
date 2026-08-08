@@ -12,7 +12,7 @@ documented bug class: shared mutable server state raced by parallel test workers
   - `@QAIA-FLAKY-DEMO-001..003`: reset, push twice, assert count is 2 — each preceded by a
     random 0-400ms start jitter, run with `workers: 3` / `fullyParallel: true` against the
     **same** server process (no isolation) — the inverse of the `workers: 1` fix documented in
-    `examples/medibook/tests/playwright.config.js`.
+    [`examples/medibook/tests/playwright.config.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/playwright.config.js).
   - `@QAIA-FLAKY-DEMO-004`: a trivial, non-timing-dependent assertion that always passes —
     a **stable control**.
   - `@QAIA-FLAKY-DEMO-005`: a trivial, non-timing-dependent assertion that always fails — a
@@ -83,7 +83,7 @@ validator, exactly the fabrication D38 forbids. `design` is optional in the cont
 it partially was the error. Both files now pass `validate_manifest.py`.
 
 A second defect from the same finding was fixed on the tool side rather than here: `kind:
-"flakiness"` was not in `ARTIFACT_KIND_ENUM` nor in `docs/OUTPUT-CONTRACT.md`, although D80
+"flakiness"` was not in `ARTIFACT_KIND_ENUM` nor in `../../../OUTPUT-CONTRACT.md`, although D80
 has `aptitude-gate` read the `flakiness` section as a CONCERNS signal. The kind was real and
 the contract was silent, so the contract was extended.
 

@@ -7,7 +7,7 @@ nothing here changes how the skill is run.
 ## Why the skill exists
 
 Flaky detection was an identified gap versus the competitive landscape
-(`docs/COMPETITIVE-ANALYSIS.md`, issue #34, priority P1). It is also a defect class QAIA's own
+(`https://github.com/QAIA-Project/QAIA/blob/main/docs/COMPETITIVE-ANALYSIS.md`, issue #34, priority P1). It is also a defect class QAIA's own
 automation has hit for real:
 
 - `examples/medibook/` — 1 finding: shared mutable state raced by parallel workers, fixed with
@@ -17,7 +17,7 @@ automation has hit for real:
 ## Accuracy correction (external audit, 2026-07-26)
 
 An earlier version of this note overstated the medibook count as "3 findings". The flake-hunt
-session did surface 3 distinct defects (`docs/KANBAN.md`, Sprint 5 entry), but only the
+session did surface 3 distinct defects (`https://github.com/QAIA-Project/QAIA/blob/main/docs/KANBAN.md`, Sprint 5 entry), but only the
 shared-state race is an instance of *this skill's* defect class — pass/fail variance across runs
 of unchanged code. The other two (a hardcoded Chromium path, a visual-baseline tolerance gap) are
 different defect classes entirely, found in the same session but not flakiness.

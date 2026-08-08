@@ -9,7 +9,7 @@ small inline examples inside a scenario; this plugin is the standalone dataset p
 **Status: 0.1.0.** One skill, portable Markdown only — nothing in this plugin auto-executes on install: no hooks, no agents, no MCP server, and the CI fails if any appear. The `fixture/` directory does contain a Playwright spec and config; they are the recorded proof that the skill was exercised, never run by the plugin itself (ADR
 0002/D42). The only files it writes are the dataset file(s), a traceability `dataset-map.md`,
 and — optionally — the `producers[]`/`artifacts[]` entries of the standard run manifest
-(`docs/OUTPUT-CONTRACT.md`, D39); it never edits `.feature` files or another producer's section.
+(`./OUTPUT-CONTRACT.md`, D39); it never edits `.feature` files or another producer's section.
 
 ## Install
 
@@ -40,14 +40,14 @@ and — optionally — the `producers[]`/`artifacts[]` entries of the standard r
   defensible default, built as an explicit `"[open]"` case exposing both interpretations.
 - **Injectable via fixtures, no shipped code.** Output is plain JSON (+ optional CSV), consumed
   by a documented `testData` Playwright fixture pattern matching the POM-as-fixtures convention
-  (D34) already used by `examples/medibook/tests/fixtures.js` — the plugin ships the pattern as
+  (D34) already used by [`examples/medibook/tests/fixtures.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/fixtures.js) — the plugin ships the pattern as
   documentation, never as a script it runs itself.
 - **Portable.** No network, no API key, no runtime dependency to generate a dataset.
 
 ## Worked example
 
 [`fixture/`](fixture/) builds and validates a full synthetic dataset for
-[`eval/gold-set/US-002-dosage-validation.md`](../../eval/gold-set/US-002-dosage-validation.md)
+[[`eval/gold-set/US-002-dosage-validation.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/gold-set/US-002-dosage-validation.md)](../../eval/gold-set/US-002-dosage-validation.md)
 (prescription dosage validation, health domain — no dataset example existed for this US
 elsewhere in the repo): 4 synthetic drugs, 3 synthetic physicians, 11 synthetic patients, 20
 intake records and 17 boundary-focused cases covering all 8 acceptance criteria — including one
