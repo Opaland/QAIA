@@ -10,8 +10,12 @@ Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and
 
 ## Generation rules (non negotiable)
 
-- **Gherkin, English keywords**: `Feature / Background / Scenario / Scenario Outline / Given /
-  When / Then / And / But`. Scenario content in the project language.
+- **Gherkin, English keywords — always, whatever the project language**: `Feature / Background /
+  Scenario / Scenario Outline / Given / When / Then / And / But`. Only the **prose inside a step**
+  follows the project language. A French project still writes `Scenario:`, never `Scénario:`.
+  This clause is explicit because the previous wording was not: a model given this skill emitted
+  `Scénario:` and `Etant donné`, producing an unparsable file, having read "project language" as
+  covering the keywords too. The ambiguity was ours.
 - **Atomic** — one scenario verifies exactly one behavior. No UI-step chains covering several
   cases. **Exactly one `When` (the action) per scenario; outcomes live only in `Then`** — never
   bury the action in a `Given` or the outcome in the `When`.
@@ -81,6 +85,30 @@ Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and
    Then **write `state/<US-ID>/generated.snapshot.md`** — scenario IDs plus a content hash per
    scenario. This is the regeneration baseline; without it, regeneration cannot tell a
    hand-written correction from its own previous output.
+### The emission contract — what a `.feature` file must look like
+
+The rules below are **not style**. A file that breaks any of them does not parse, or fails the
+project's Gherkin linter, and the rest of the chain never sees it. They are stated here because a
+host other than Claude Code cannot read the linter's configuration.
+
+- **A real `Feature:` line is mandatory**, once per file, at column 0, and it is the **first
+  non-comment line**. A file whose feature title appears only inside a `#` comment has no feature
+  at all and does not parse.
+
+  *This rule is stated as a requirement and nothing more, on purpose. An earlier version also
+  described the decorative `# …` comment this project writes above the declaration — and a model
+  that had been emitting the declaration correctly started emitting the comment **instead**.
+  Describing a house convention propagates it, including the confusion it carries.*
+- **Indentation is significant**: `Feature` at column 0, `Background` and `Scenario` indented by 2,
+  steps and `Examples` by 4.
+- **Emit the file's content and nothing else.** No preamble, no explanation, and **never wrap the
+  output in a code fence** — a leading ``` makes the first line invalid.
+- **One `.feature` per functional area**, named after that area.
+
+**If this prose and the linter ever disagree, the linter wins.** It is the arbiter, and it is what
+CI runs. This section exists so a host that cannot read `.gherkin-lintrc` still knows the shape —
+not to become a second source of truth for it.
+
 6. **Write outputs.** `*.feature` (one per functional area); `coverage-matrix.md` (AC →
    condition → scenario ID → priority → **rationale** → confidence, the rationale column
    carrying `prioritize`'s one-line risk drivers); `synthesis.md` per the shared contract's

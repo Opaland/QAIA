@@ -30,7 +30,7 @@ CI**. Verdict binaire, pas impression.
 | Bras | Modèle | Bloc de code à retirer | Lint | Scénarios | `@QAIA-` | `@low-confidence` |
 |---|---|---|---|---|---|---|
 | A | **gemini** | non | **OK** | **38** | **38** | **11** |
-| A | groq | non | ÉCHEC | — | 37 | 8 |
+| A | groq | non | ÉCHEC | 37 | 37 | 8 |
 | A | huggingface | non | ÉCHEC | 38 | 38 | 13 |
 | A | **mistral** | **oui** | **OK** | 37 | 37 | 11 |
 | B | **gemini** | non | **OK** | **38** | **38** | **11** |
@@ -56,13 +56,22 @@ Le vrai blocage est ailleurs, et les échecs le nomment.
 
 ## Trois classes d'échec, toutes diagnostiquées
 
-**1. La langue de sortie n'est écrite nulle part.** Groq a produit du Gherkin **en français** —
-`Scénario:`, `Etant donné`, `Lorsque`. Il a même tenté un en-tête `# Language: fr`, avec une
-majuscule là où la norme veut une minuscule.
+**1. La langue de sortie est écrite — et notre propre phrase suivante la contredit.** Groq a
+produit du Gherkin **en français** — `Scénario:`, `Etant donné`, `Lorsque` — avec une tentative
+d'en-tête `# Language: fr`, majuscule là où la norme veut une minuscule.
 
-C'est **exactement la faute que l'auteur de ce dépôt a commise le matin même** en écrivant le
-cahier json-server en français, refusé par la CI. Le modèle et l'humain ont échoué sur le même
-silence : `testbook-generate` ne dit pas dans quelle langue émettre.
+**Correction d'une affirmation publiée trop vite** : la première version de ce rapport disait que la
+langue « n'est écrite nulle part ». **C'est faux.** La skill dit explicitement *« Gherkin, English
+keywords »*. Vérifié en ouvrant le fichier, après l'avoir écrit.
+
+La vraie cause est plus intéressante que l'omission que j'avais annoncée : la phrase **juste après**
+dit *« Scenario content in the project language »*. Un modèle qui lit les deux d'affilée, sur un
+projet francophone, bascule raisonnablement **tout** en français — mots-clés compris.
+
+Ce n'est donc pas un silence, c'est une **ambiguïté dans notre propre spécification** : deux clauses
+consécutives dont la seconde peut se lire comme annulant la première. C'est exactement la classe de
+défaut que QAIA existe pour trouver chez les autres — et l'auteur du dépôt était tombé dans la même
+le matin même, en écrivant le cahier json-server en français.
 
 **2. La ligne `Feature:` a été perdue au profit d'un commentaire.** Groq a écrit
 `# Feature: US-004` — un commentaire — et **aucune ligne `Feature:` réelle**. Le fichier n'a donc
@@ -80,7 +89,8 @@ personne ne le lui donne.
 ## Le vrai blocage, nommé
 
 **Les conventions d'émission de QAIA vivent dans des fichiers que seul Claude Code peut lire** — le
-`.gherkin-lintrc`, et les cahiers d'exemple dont les modèles copient la forme.
+`.gherkin-lintrc`, et les cahiers d'exemple dont les modèles copient la forme. Là où une règle
+existe bel et bien dans la skill, c'est notre propre rédaction qui la rend annulable.
 
 Ce n'est pas un problème de contenu de skill : c'est un problème de **contrat d'émission implicite**.
 La skill décrit *quoi* produire et suppose que l'hôte sait *sous quelle forme*.
@@ -88,6 +98,61 @@ La skill décrit *quoi* produire et suppose que l'hôte sait *sous quelle forme*
 Deux modèles sur quatre franchissent quand même la barre en bras A, et le meilleur reproduit la
 référence à l'identifiant près. Le contenu est portable ; **c'est sa mise en forme qui ne l'est
 pas.**
+
+
+
+> **Correction de ce tableau.** La première version portait « — » pour les scénarios de Groq, en
+> affirmant qu'aucun n'avait été produit. **Faux** : il en avait 37, mais mon script de notation ne
+> comptait que les mots-clés anglais et ne voyait pas `Scénario:`. L'instrument était en cause, pas
+> la sortie. Corrigé, et la suite de cette page raconte deux autres resserrages du même instrument.
+
+## Ce que le correctif a donné : rien, en net
+
+Le contrat d'émission a été écrit dans la skill — langue non annulable, ligne `Feature:`
+obligatoire, indentation, interdiction du bloc de code — puis le bras A rejoué deux fois.
+
+| Modèle | Avant | Après | |
+|---|---|---|---|
+| **gemini** | ✅ 38/38/11 | ✅ 38/38/11 | inchangé |
+| **huggingface** | ❌ indentation | ✅ 37/37/11 | **corrigé** |
+| **groq** | ❌ français | ❌ français **et 0 identifiant** | **aggravé** |
+| **mistral** | ✅ | ❌ ligne `Feature:` perdue | **régressé** |
+
+**Deux conformes avant, deux conformes après.** Le correctif a déplacé les échecs sans les réduire.
+
+## Trois choses apprises, dont aucune n'était prévue
+
+**1. Décrire une convention maison la propage.** Mistral émettait une vraie ligne `Feature:`. En lui
+expliquant que notre commentaire `# Feature: …` n'est *pas* la déclaration, on lui a appris à écrire
+le commentaire et à **jeter la déclaration**. Vérifié par comparaison avant/après, pas supposé : 1
+ligne `Feature:` et 0 commentaire avant ; l'inverse après.
+
+La règle ne mentionne plus l'habitude du projet, et le motif est écrit dans la skill pour que
+personne ne la réintroduise.
+
+**2. Une règle explicite ne suffit pas.** La skill disait déjà « English keywords » ; on l'a rendue
+non annulable. Groq est revenu au français — cette fois avec un en-tête `# language: fr` correct,
+donc **accepté par le linter**. Ce n'est plus un défaut de spécification, c'est une limite du
+modèle. Aucune réécriture ne la corrigera.
+
+**3. L'instrument de mesure a dû être resserré trois fois.** Il ne comptait que les mots-clés
+anglais — d'où un absurde « OK, 0 scénario ». Puis il acceptait un fichier sans aucun identifiant
+`@QAIA-`. **Un fichier qui *lint* n'est pas un fichier *conforme*** : la barre exige le parseur,
+**plus** au moins un scénario, **plus** des identifiants stables, **plus** les mots-clés anglais.
+
+Troisième fois dans la même journée que **mesurer coûte plus cher que corriger**, et troisième fois
+que l'instrument était le vrai coupable.
+
+## Ce qu'il faut en conclure, sans arrondir
+
+**La portabilité ne se gagnera pas en réécrivant des règles.** Deux modèles sur quatre franchissent
+la barre, avant comme après. Le meilleur reproduit la référence à l'identifiant près ; les deux
+autres échouent pour des raisons qui leur appartiennent — l'un ignore une consigne explicite, l'autre
+perd une ligne structurelle.
+
+Ce qui reste à essayer relève d'un autre levier : **contraindre la sortie plutôt que la décrire**
+(un gabarit à remplir), ou **valider et redemander** (émettre, linter, renvoyer l'erreur). Les deux
+sortent du périmètre d'une skill Markdown, et c'est un résultat en soi.
 
 ## Ce que cette mesure ne couvre pas
 

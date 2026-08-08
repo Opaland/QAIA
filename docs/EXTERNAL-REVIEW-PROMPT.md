@@ -115,6 +115,12 @@ fonctionnalité. Une recommandation qui la viole doit être signalée comme tell
   Motif : chemin d'attaque le plus fort contre un mainteneur qui ne lit pas le code.
 - Aucun producteur ne note sa propre sortie : score déterministe dans un plugin
   séparé, distinct du juge sémantique.
+- Le périmètre VISE désormais Discovery et Run, arbitré par le fondateur, alors que le
+  produit vit aujourd'hui dans Delivery et Maintenance. C'est un écart assumé, pas un
+  oubli.
+- « Multi-LLM » signifie ici : les skills tournent dans l'agent que l'utilisateur paie
+  déjà (Claude Code, ChatGPT, Gemini). AUCUNE clé n'est livrée. Ce n'est donc pas en
+  conflit avec la contrainte d'autonomie — c'est son extension.
 
 ═══ COUVERTURE PAR PHASE DU CYCLE ═══
 Modèle : SDLC canonique en 7 phases, et Discovery / Delivery / Run.
@@ -155,7 +161,13 @@ vérifié par une machine qui refuse une suite sans dossier `pages/`.
   utilisée par un humain.
 - Multi-LLM : les skills ont été passées sur Claude + Gemini + Groq + Hugging Face
   en juillet 2026. Le PRODUIT, lui, ne tourne que dans Claude Code.
-- Jamais essayé sur un autre agent : ni Cursor, ni Copilot, ni Codex. Zéro test.
+- Portabilité MESURÉE une fois : la skill qui génère le cahier a été envoyée telle
+  quelle à quatre modèles, chaque sortie passée au linter du projet. **Deux sur quatre**
+  produisent un cahier conforme ; le meilleur reproduit la référence à l'identifiant
+  près (38 scénarios, 38 identifiants, 11 marqués douteux). Écrire le contrat
+  d'émission manquant n'a rien changé au net : un modèle corrigé, un régressé.
+- Jamais essayé sur un autre HÔTE : ni Cursor, ni Copilot, ni Codex. Le mécanisme
+  d'installation, l'accès fichiers et l'enchaînement entre skills ne sont pas testés.
 - FinOps : aucune skill. Le budget token est mesuré par skill, rien ne le pilote,
   ne l'agrège ni ne le plafonne.
 - RAG : une skill construit une base de connaissance versionnée dans git.
@@ -175,8 +187,11 @@ le travail produit — dont un qui rendait la preuve principale non reproductibl
 1. L'objectif affiché est « couvrir tout le cycle ». Le produit vit dans Delivery
    et Maintenance. Faut-il corriger l'objectif, ou viser les deux bouts
    (Discovery et Run) ? Que coûte chaque option, et laquelle recommandes-tu ?
-2. « Zéro dépendance tierce » et « multi-LLM » sont-ils conciliables ? Si non,
-   laquelle abandonner, et qu'est-ce qu'on perd exactement ?
+2. La portabilité plafonne à deux modèles sur quatre, et préciser les règles n'a rien
+   amélioré en net. Trois leviers restent : contraindre la sortie par un gabarit,
+   valider-et-redemander (émettre, linter, renvoyer l'erreur), ou assumer que le produit
+   suppose un agent capable. Lequel, et qu'est-ce que chacun coûte à la contrainte
+   « aucun composant qui s'exécute seul » ?
 3. Côté automatisation : faut-il élargir aux autres frameworks (Cypress, Selenium,
    Karate), ou combler les catégories vides (chaos, contrat standard) ? Justifie
    par ce que ça change pour un utilisateur, pas par l'exhaustivité.
