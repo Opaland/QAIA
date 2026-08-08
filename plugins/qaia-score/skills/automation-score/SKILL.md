@@ -79,7 +79,10 @@ nothing.
 - **Survivors are blocking.** Report each with `file:line` and the inversion applied.
 - If the suite cannot run, report `mutation.status = blocked` and say plainly that **the
   assertions have not been shown to be load-bearing.** Do not let a good static score stand in
-  for it, and do not present the run as scored.
+  for it, and do not present the run as scored. The same sentence is owed for **any** state that
+  is not a completed mutation run — `skipped`, or the field missing altogether. `skipped` is the
+  weaker of the two, not the safer one: `blocked` means it was attempted and could not run,
+  `skipped` means nobody tried.
 
 **The honest limit, stated rather than buried.** Mutating the test proves an assertion is
 sensitive to *its own* expected value. It does **not** prove it asserts the *right* thing — a

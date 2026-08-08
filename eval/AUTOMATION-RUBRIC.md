@@ -29,8 +29,34 @@ generated test files, and the JSON produced by `automation_score.py`. **Do not g
 generation session's context.** Instruct it to justify every score in one sentence, to cite a
 file:line for every claim, and to default to the **lower** score when hesitating.
 
-Maximum: **12**. Release gate: total ≥ 9, no dimension at 0, and no blocking finding open in
-the tool's JSON.
+**Tell the judge where the JSON is.** Both first-application judges had to go looking for it, and
+one noted that the directory it lives in is close enough to campaign reporting that a stricter
+judge would have refused to open it and scored blind. Pass the path explicitly, or copy the JSON
+into the suite directory before dispatching.
+
+**Aggregation is worst-instance, per dimension.** The level wordings mix "one test…" and "each
+scenario…"; read them all as *worst instance*: one test at level 0 puts the dimension at 0,
+however good the other thirteen are. This is deliberately harsh, and it is the reading both first
+judges adopted independently before the rule existed.
+
+**Count a defect once.** A single defect often satisfies the level-0 wording of dimensions 1, 3
+and 5 at the same time — a dropped `And no invoice is created` clause is simultaneously an
+infidelity, a hollow negative and an under-strength assertion. Score it in the dimension whose
+*subject* it is (here: 3, the negative), name it once elsewhere as context, and say in the output
+which dimension you charged it to. Charging one defect three times turns a single mistake into a
+four-point swing.
+
+**N/A is allowed, and rescales the gate.** If a dimension has no material — a book that honestly
+declares zero negative scenarios has nothing for dimension 3 — mark it `n/a` rather than guessing
+a middle score. Scoring 2 rewards absence and scoring 0 punishes honesty. The total then reads
+*x of y judgeable*, and the gate becomes **≥ 75 % of judgeable points, no judged dimension at 0**.
+
+Maximum: **12**. Release gate: total ≥ 9 of 12 (or ≥ 75 % of judgeable points when a dimension is
+`n/a`), no judged dimension at 0, and no blocking finding open in the tool's JSON.
+
+**When the tool and the rubric disagree, the rubric's gate decides whether the run ships.** The
+tool's `blocking.failed: false` means *no counted defect*, not *acceptable*: it counts shapes, and
+a suite can be shapely and vacuous. The two scores are still never summed.
 
 ## Dimensions
 
@@ -38,8 +64,8 @@ the tool's JSON.
 |---|---|---|---|---|
 | 1 | **Then-fidelity** | Every test asserts what its scenario's `Then` actually states — same observable, same expected value. Where the `Then` is vague, the test stays as vague rather than inventing precision | One test asserts a neighbouring observable (asserts the URL where the `Then` names a message, etc.) | A test asserts something the `Then` never claimed, or silently strengthens/weakens it |
 | 2 | **No invented expectation** | Every concrete literal (message text, amount, status code, count) traces to the test book, the US, or the app's observed behaviour — and where it was chosen for automation, a comment says so | A literal appears without provenance but is plausible and harmless | A literal contradicts the source, or an assumption is encoded as if it were a requirement (**dangerous: plausible-but-wrong**) |
-| 3 | **Negative tests really refuse** | Each negative scenario asserts the *refusal itself* (error shown, state unchanged, access denied), not merely the absence of success | A negative test asserts only "not redirected" or similar single-sided evidence | A negative test would pass against an app that silently does nothing |
-| 4 | **Ambiguity preserved, not resolved** | Scenarios flagged `[open]` / `@low-confidence` in the test book are encoded as the book states them, with a comment saying the expectation is unconfirmed and that a failure is an answer, not a bug | Flag carried but no explanation of what a failure would mean | The code quietly picks one reading of an open question and asserts it as settled |
+| 3 | **Assertions that would survive an inert app** — *tag-independent: judge any test whose scenario claims a refusal, an absence or an unchanged state, whether or not it carries `@negative`* | Each such test asserts the *refusal itself* (error shown, state unchanged, access denied) **and is attributable to the condition under test** — with a passing positive control for the same endpoint, since a negative with a red positive control proves nothing | The test asserts only "not redirected", `not.toBe(200)` or similar single-sided evidence | The test would pass against an app that silently does nothing — or against one that did the forbidden thing and returned a different success code |
+| 4 | **Ambiguity preserved, not resolved** | Scenarios flagged `[open]` / `@low-confidence` in the test book are encoded as the book states them, with a comment saying the expectation is unconfirmed and that a failure is an answer, not a bug. **The flag must appear on the scenario the book flagged** — carrying it on a neighbour does not count | Flag carried on the right scenario but no explanation of what a failure would mean | The code quietly picks one reading of an open question and asserts it as settled. **A `test.fail` marker does not excuse an unflagged assertion**: it claims no green today, and goes live unannounced the day the blocker lifts |
 | 5 | **Assertion strength matches the claim** | Where the scenario claims absence, the test distinguishes "hidden" from "not in the DOM"; where it claims a value, it asserts the value, not merely visibility | Assertion is weaker than the claim but still directional | Assertion is compatible with the failure mode the scenario exists to catch |
 | 6 | **Honest handling of what could not be automated** | Anything the test book demanded but the code cannot verify is named explicitly (comment, `test.fixme` with a reason, or a note in the run report) | Mentioned vaguely | Silently dropped — the scenario looks covered and is not |
 
@@ -59,6 +85,11 @@ A table (dimension, score, one-line justification with `file:line`), the total, 
   is not.
 - A score without a `file:line` citation is invalid.
 - Never fabricate a finding to look thorough, and never soften a real one to be agreeable.
-- If the tool's JSON reports `mutation.status = blocked`, say so plainly in the output: the
-  suite's assertions have **not** been shown to be load-bearing, and no rubric score can
-  substitute for that.
+- If the tool's JSON reports `mutation.status` as anything other than a completed run —
+  `blocked`, `skipped`, absent — say so plainly in the output: the suite's assertions have **not**
+  been shown to be load-bearing, and no rubric score can substitute for that. `skipped` is the
+  weaker state of the two, not the safer one: nobody even tried.
+- **The tool judges assertion *shape*; the judge judges assertion *vacuity against the
+  specification*.** `not.toBe(200)` is a real assertion by any static count and is vacuous
+  against a scenario claiming "no invoice is created". Both first-application judges hit this
+  boundary and resolved it the same way; it is written down so the next one does not have to.
