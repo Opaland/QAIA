@@ -78,6 +78,16 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: automation_score self-check (mutation track)
+        run: |
+          set -e
+          # The static track is validated by a fixture suite; the mutation track cannot be, because
+          # it needs a browser and a running system under test. Both defects found on 2026-08-08
+          # were in that unvalidated half and both silently inflated the kill count — a run reported
+          # "n/n killed" while some assertions were never executed at all. These are the cheap
+          # invariants that would have caught them.
+          python eval/tools/selfcheck_automation_score.py
+
       - name: README version claims match the plugin manifests
         run: |
           set -e

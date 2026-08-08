@@ -280,3 +280,48 @@ Quatre choses à en tirer, par ordre d'effet :
 
 À ne pas récupérer : leurs skills. Le recouvrement de noms est réel, la valeur de QAIA est dans
 la chaîne et les contrôles, pas dans la quantité de fiches.
+
+### QA Orchestra, contrat contre contrat (lecture du dépôt, 2026-08-08)
+
+Ce que #70 demandait était de faire tourner QA Orchestra pour de vrai sur `examples/expense-demo`
+et de comparer les sorties. **Ce n'est pas ce qui a été fait ici** : le dépôt a été cloné
+(`5df9ad4`, 2026-04-20) et ses dix agents lus. Une lecture établit ce que le contrat *promet*,
+jamais ce que l'exécution *rend* — la case de #70 reste donc ouverte. Ce qui suit est ce qu'une
+lecture peut établir, et rien de plus.
+
+`test-scenario-designer` est le recouvrement frontal avec `istqb-design`. Son contrat, en clair :
+il impose happy path, négatifs, valeurs limites (« texte : vide, 1 car., max, max+1 » ; « nombres :
+0, négatif, décimal, très grand »), cas limites (concurrence, double-soumission, retour arrière,
+Unicode, injection HTML), intégration et non-fonctionnel. Il exige **au moins un happy path et un
+négatif par CA**, des étapes littérales (« saisir `john@example.com` », pas « saisir des
+données »), des résultats observables, et il marque `[ASSUMPTION]` quand un CA est ambigu — le
+même geste que notre `# open: Qn`. Sa sortie est un tableau Markdown `TS-001…` plus une matrice de
+couverture CA × catégorie.
+
+Trois écarts qui tiennent, tous vérifiables dans leur propre texte :
+
+1. **La cible est un nombre, pas une couverture.** « Target 10-20 scenarios per ticket » est une
+   consigne de volume. Chez nous, ADR 0001 remplace le quota par une **porte** : chaque chemin de
+   refus décrit par le CA doit avoir un scénario, et le ratio n'est qu'un signal rapporté. Un
+   quota se satisfait en remplissant ; une porte se satisfait en couvrant.
+2. **Pas d'identité stable.** `TS-001` est numéroté par le run. Nos `@QAIA-xxx` survivent à la
+   régénération, et c'est ce qui rend la matrice de traçabilité et le lien scénario ↔ test
+   opposables d'une exécution à l'autre.
+3. **Producteur et évaluateur ne sont pas séparés.** `automation-writer` écrit les tests,
+   `functional-reviewer` juge la couverture, `manual-validator` valide — tous du même essaim, sans
+   outil déterministe extérieur. C'est exactement la règle 3, et c'est le point où nos propres
+   garde-fous nous ont attrapés six fois dans la seule journée du 2026-08-08.
+
+Deux écarts **en leur faveur**, à ne pas taire :
+
+- `automation-writer` sort en Playwright, Cypress, Selenium, pytest, JUnit et Gherkin, en TS par
+  défaut. `qaia-playwright` ne sait faire que Playwright/JS.
+- `smart-test-selector` (mapper un diff vers la suite existante : quoi rejouer, quoi va casser, où
+  manque la couverture) et `release-analyzer` n'ont **aucun équivalent** chez nous. Un diff, c'est
+  ce qu'un utilisateur a sous la main tous les jours ; un CA, c'est ce qu'il a au début d'un
+  sprint. Leur porte d'entrée est plus fréquente que la nôtre.
+
+Enfin, leur périmètre est déclaré et étroit — « not in scope : code quality, linting, security
+scanning, performance profiling, unit tests », borné à la correction fonctionnelle vis-à-vis des
+CA. Nos exemples portent des projets `security` et `perf`. Comparer les largeurs sans dire que la
+leur est **volontairement** bornée serait malhonnête.

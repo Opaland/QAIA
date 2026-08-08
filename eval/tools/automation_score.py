@@ -186,6 +186,14 @@ def find_support_files(tests_dir, spec_files):
             and not os.path.basename(p).startswith("playwright.config")]
 
 
+def unescape_js(title):
+    """`test('a manager\\'s report', ...)` carries the source escape into the captured title. The
+    runner sees `a manager's report`, so grepping the escaped form matches nothing -- and Playwright
+    exits 1 on "No tests found", which the mutation track used to score as a kill. Eight assertions
+    across the two showcase suites were silently never run this way (2026-08-08)."""
+    return title.replace("\\'", "'").replace('\\"', '"').replace("\\\\", "\\")
+
+
 def split_tests(text):
     """Return [(title, start_line, end_line)] — 1-indexed, end exclusive.
 
@@ -197,7 +205,7 @@ def split_tests(text):
     for i, line in enumerate(lines):
         m = TEST_DECL.match(line)
         if m:
-            starts.append((i + 1, m.group("title")))
+            starts.append((i + 1, unescape_js(m.group("title"))))
     blocks = []
     for idx, (ln, title) in enumerate(starts):
         end = starts[idx + 1][0] if idx + 1 < len(starts) else len(lines) + 1
@@ -408,6 +416,10 @@ def _bump_number(txt):
 
 MUTANT_MARK = "__QAIA_MUT__"
 
+# Playwright prints this and exits 1 when the filters select zero tests. Exit 1 also means "a test
+# failed", so the two must be told apart by the output or every unselected mutation reads as killed.
+NO_TESTS_FOUND = re.compile(r"No tests found", re.I)
+
 
 def mutate_line(line):
     """Return (mutated_line, description) or (None, None) if nothing mutable here.
@@ -536,7 +548,7 @@ def mutation_track(spec_files, tests_dir, run_cwd, base_cmd, max_mutations, time
         skipped = len(candidates) - max_mutations
         candidates = candidates[:max_mutations]
 
-    survived, killed, errored = [], 0, []
+    survived, killed, errored, not_run = [], 0, [], []
     for cand in candidates:
         path = cand["file"]
         original_text = read(path)
@@ -556,7 +568,15 @@ def mutation_track(spec_files, tests_dir, run_cwd, base_cmd, max_mutations, time
             os.remove(backup)
 
         rel = os.path.relpath(path, tests_dir)
-        if rc is None:
+        if rc is not None and NO_TESTS_FOUND.search(rout or ""):
+            # The runner selected nothing -- typically because --run-cmd filters to one Playwright
+            # project while the candidate list is built from every spec under --tests-dir. Playwright
+            # exits 1 on "No tests found", which is indistinguishable from a red test at the exit-code
+            # level: this branch used to be counted as a KILL. It proved nothing. Found 2026-08-08 by
+            # re-running the same suite under a different --project and getting the identical total.
+            not_run.append({"file": rel, "line": cand["line"], "test": cand["test"],
+                            "assertion": cand["original"], "mutation": cand["mutation"]})
+        elif rc is None:
             errored.append({"file": rel, "line": cand["line"], "reason": rout[-300:]})
         elif rc == 0:
             survived.append({"file": rel, "line": cand["line"], "test": cand["test"],
@@ -571,7 +591,12 @@ def mutation_track(spec_files, tests_dir, run_cwd, base_cmd, max_mutations, time
         "killed": killed,
         "survived": survived,
         "errored": errored,
+        "not_run": not_run,
         "skipped_over_cap": skipped,
+        # `killed` is now over `total - len(not_run)`. A report that divides by `total` while
+        # not_run is non-empty overstates the coverage, which is exactly the bug this field exists
+        # to make visible.
+        "exercised": len(candidates) - len(not_run),
     }
 
 
@@ -652,6 +677,15 @@ def main():
             blocking.append("%s: %s (%s:%s)" % (f["kind"], f["detail"][:90], f["file"], f["line"]))
     for s in mutation.get("survived", []):
         blocking.append("mutation-survivor: %s (%s:%s) — %s" % (s["assertion"][:90], s["file"], s["line"], s["mutation"]))
+    nr = mutation.get("not_run") or []
+    if nr:
+        # Blocking, not informational: a run that reports "n/n killed" while n assertions were never
+        # executed is the silent truncation this project refuses to publish. Widen --run-cmd (drop
+        # the --project filter, or run one project per invocation) until this list is empty.
+        files = sorted(set(x["file"] for x in nr))
+        blocking.append("mutation-not-run: %d assertion(s) were never executed by --run-cmd "
+                        "(the runner selected no test) in %s — the kill count excludes them"
+                        % (len(nr), ", ".join(files)))
 
     result = {
         "tool": "automation_score.py",

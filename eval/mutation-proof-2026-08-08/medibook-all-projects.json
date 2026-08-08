@@ -1,0 +1,82 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\medibook\\tests",
+    "testbook": "examples/medibook",
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 95.2,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 20.2,
+      "pom_as_fixtures": 20.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 6,
+      "tests": 26,
+      "tests_with_real_assertion": 26,
+      "role_selectors": 17,
+      "raw_selectors": 4,
+      "tagged_tests": 26,
+      "testbook_scenarios": 0,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "weak-assertion",
+        "file": "api.booking.spec.js",
+        "line": 16,
+        "detail": "toBeTruthy() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.booking.spec.js",
+        "line": 7,
+        "detail": "await expect(page.locator('#login-section')).toHaveScreenshot('login.png', { maxDiffPixelRatio: 0.02 });",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.booking.spec.js",
+        "line": 10,
+        "detail": "await expect(page.locator('#app-section')).toHaveScreenshot('booking.png', { maxDiffPixelRatio: 0.02 });",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\BookingPage.js",
+        "line": 9,
+        "detail": "this.message = page.locator('#app-section #message, #message').last();",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\LoginPage.js",
+        "line": 8,
+        "detail": "this.error = page.locator('#login-section #message');",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "ok",
+    "blocker": "",
+    "total": 32,
+    "killed": 32,
+    "survived": [],
+    "errored": [],
+    "not_run": [],
+    "skipped_over_cap": 0,
+    "exercised": 32
+  },
+  "blocking": {
+    "failed": false,
+    "reasons": []
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}

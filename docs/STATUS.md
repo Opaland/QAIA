@@ -162,6 +162,41 @@ les assertions écrites dans les *commentaires* (donc pénalisait tout fichier q
 correctifs), et l'en-tête de la fixture citait `../VALIDATION.md` un répertoire trop haut depuis
 toujours, attrapé au premier run du contrôle `dead-citation`.
 
+**La piste mutation annonçait 107/107 — 40 de ces mutations n'avaient jamais tourné (D146).**
+En voulant lever la limite « suites API seulement » que le rapport de la veille s'imposait, la
+même suite relancée avec `--project=e2e-desktop` a rendu **exactement le même total de 75**
+qu'avec `--project=api`. Cinq tests e2e ne peuvent pas produire autant de mutations que 43 tests
+d'API. Deux défauts, tous deux dans la moitié de l'outil qu'aucune fixture n'atteint :
+Playwright sort en **1** pour « un test a échoué » **comme** pour `No tests found`, et le corpus
+de mutations est bâti sur tous les specs de `--tests-dir` sans tenir compte du filtre de
+`--run-cmd` — **33 mutations** hors sélection comptées tuées sans qu'un test tourne ; et un titre
+contenant une apostrophe était grepé avec son échappement JavaScript, donc ne matchait rien, donc
+comptait tué aussi — **7 mutations**, dont les deux tests IDOR.
+
+Corrigé et re-couru honnêtement, tous projets confondus : **107 candidates, 107 exécutées, 107
+tuées, 0 survivante**. Le nombre affiché n'a pas bougé ; ce qu'il vaut, si. Un `No tests found`
+devient `not_run` et une liste `not_run` non vide est **bloquante** ;
+`eval/tools/selfcheck_automation_score.py` tient les deux invariants en CI. Le comptage faussé
+cachait par ailleurs **une vraie survivante** : `toBeVisible` inversée en `toBeHidden` passait
+parce que `LoginPage.signIn()` rendait la main avant la réponse de `/api/login` — la région de
+message existait mais vide, donc *hidden*. Le page object attend désormais la réponse. Les runs
+contaminés sont conservés à côté des corrects : ils montrent à quoi ressemble un résultat faux
+qui ne se dénonce pas.
+
+**#70 : QA Orchestra lue contrat contre contrat — mais lue, pas exécutée.** Dépôt cloné
+(`5df9ad4`), dix agents lus. `test-scenario-designer` impose happy/négatifs/limites/cas
+limites/intégration/non-fonctionnel, exige au moins un happy path et un négatif par CA, des
+étapes littérales et des résultats observables, et marque `[ASSUMPTION]` sur un CA ambigu — le
+même geste que nos `# open: Qn`. Trois écarts tiennent : leur cible est un **volume**
+(« 10-20 scenarios per ticket ») là où ADR 0001 pose une **porte** de couverture des chemins de
+refus ; leurs `TS-001` sont renumérotés à chaque run quand nos `@QAIA-xxx` survivent à la
+régénération ; et producteur et évaluateur sont le même essaim. Deux écarts sont **en leur
+faveur** et sont écrits comme tels : ils sortent en Playwright/Cypress/Selenium/pytest/JUnit/
+Gherkin quand nous ne savons que Playwright/JS, et leur `smart-test-selector` (mapper un diff
+vers la suite existante) n'a **aucun équivalent** chez nous — or un diff, l'utilisateur en a un
+tous les jours ; un CA, une fois par sprint. La case de #70 **reste ouverte** : une lecture
+établit ce qu'un contrat promet, jamais ce qu'une exécution rend.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un

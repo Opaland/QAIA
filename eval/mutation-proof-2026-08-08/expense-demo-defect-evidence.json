@@ -1,0 +1,164 @@
+{
+  "tool": "automation_score.py",
+  "version": 1,
+  "inputs": {
+    "tests_dir": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests",
+    "testbook": "examples/expense-demo/qaia-journey/testbooks/US-004",
+    "run_cmd": "npx playwright test"
+  },
+  "static": {
+    "score": 95.3,
+    "budget": {
+      "substantive_assertions": 30.0,
+      "robust_selectors": 20.3,
+      "pom_as_fixtures": 20.0,
+      "traceability": 25.0
+    },
+    "counts": {
+      "spec_files": 4,
+      "tests": 56,
+      "tests_with_real_assertion": 56,
+      "role_selectors": 26,
+      "raw_selectors": 6,
+      "tagged_tests": 56,
+      "testbook_scenarios": 38,
+      "scenarios_without_test": 0
+    },
+    "findings": [
+      {
+        "kind": "weak-assertion",
+        "file": "api.expense.spec.js",
+        "line": 314,
+        "detail": "toBeTruthy() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "weak-assertion",
+        "file": "api.expense.spec.js",
+        "line": 315,
+        "detail": "toBeTruthy() — asserts existence, not a value",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.expense.spec.js",
+        "line": 32,
+        "detail": "await expect(page.locator('#login-section')).toHaveScreenshot('login.png', TOL);",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.expense.spec.js",
+        "line": 42,
+        "detail": "await expect(page.locator('#login-section')).toHaveScreenshot('login-error.png', TOL);",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.expense.spec.js",
+        "line": 51,
+        "detail": "await expect(page.locator('#app-section')).toHaveScreenshot('reports-empty.png', TOL);",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "visual.expense.spec.js",
+        "line": 61,
+        "detail": "await expect(page.locator('#draft-section')).toHaveScreenshot('draft-one-line.png', TOL);",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\ReportsPage.js",
+        "line": 15,
+        "detail": "this.message = page.locator('#message');",
+        "blocking": false
+      },
+      {
+        "kind": "fragile-selector",
+        "file": "pages\\ReportsPage.js",
+        "line": 35,
+        "detail": "mineCards() { return this.mine.locator('[data-testid^=\"report-\"]'); }",
+        "blocking": false
+      }
+    ]
+  },
+  "mutation": {
+    "status": "ok",
+    "blocker": "",
+    "total": 75,
+    "killed": 67,
+    "survived": [
+      {
+        "file": "visual.expense.spec.js",
+        "line": 41,
+        "test": "@QAIA-VIS-002 sign-in screen with a rejected credential",
+        "assertion": "await expect(login.error).toBeVisible();",
+        "mutation": "toBeVisible -> toBeHidden"
+      }
+    ],
+    "errored": [],
+    "not_run": [
+      {
+        "file": "api.expense.spec.js",
+        "line": 149,
+        "test": "@QAIA-US-004-014 @AC3 @P1 @low-confidence a manager\\'s own small report escalates to finance (open: Q2)",
+        "assertion": "expect((await r.json()).report.status).toBe('approved');",
+        "mutation": "toBe('approved') -> '...__QAIA_MUT__'"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 158,
+        "test": "@QAIA-US-004-015 @AC3 @P1 @low-confidence a manager\\'s own large report drops only the manager step (open: Q2)",
+        "assertion": "expect((await mid.json()).report.status).toBe('submitted');",
+        "mutation": "toBe('submitted') -> '...__QAIA_MUT__'"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 160,
+        "test": "@QAIA-US-004-015 @AC3 @P1 @low-confidence a manager\\'s own large report drops only the manager step (open: Q2)",
+        "assertion": "expect((await r.json()).report.status).toBe('approved');",
+        "mutation": "toBe('approved') -> '...__QAIA_MUT__'"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 169,
+        "test": "@QAIA-US-004-016 @AC3 @P1 @low-confidence a finance user\\'s own large report escalates finance to director (open: Q8)",
+        "assertion": "expect((await mid.json()).report.status).toBe('submitted');",
+        "mutation": "toBe('submitted') -> '...__QAIA_MUT__'"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 171,
+        "test": "@QAIA-US-004-016 @AC3 @P1 @low-confidence a finance user\\'s own large report escalates finance to director (open: Q8)",
+        "assertion": "expect((await r.json()).report.status).toBe('approved');",
+        "mutation": "toBe('approved') -> '...__QAIA_MUT__'"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 348,
+        "test": "@QAIA-US-004-037 @AC-auth @P1 @negative an employee cannot edit another employee\\'s draft (IDOR)",
+        "assertion": "expect(r.status()).toBe(404); // not found, not 403 -> no existence disclosure",
+        "mutation": "toBe(404) -> toBe(405)"
+      },
+      {
+        "file": "api.expense.spec.js",
+        "line": 361,
+        "test": "@QAIA-US-004-039 @AC-auth @P1 @negative a manager cannot read an employee\\'s unsubmitted draft (IDOR, read path)",
+        "assertion": "expect(r.status()).toBe(404); // not found, not 403 -> no existence disclosure",
+        "mutation": "toBe(404) -> toBe(405)"
+      }
+    ],
+    "skipped_over_cap": 0,
+    "exercised": 68
+  },
+  "blocking": {
+    "failed": true,
+    "reasons": [
+      "mutation-survivor: await expect(login.error).toBeVisible(); (visual.expense.spec.js:41) — toBeVisible -> toBeHidden",
+      "mutation-not-run: 7 assertion(s) were never executed by --run-cmd (the runner selected no test) in api.expense.spec.js — the kill count excludes them"
+    ]
+  },
+  "llm_rubric": null,
+  "note": "static score and the LLM rubric score are never summed — see eval/RUBRIC.md, case US 676266. A blocking failure stands regardless of either score."
+}
