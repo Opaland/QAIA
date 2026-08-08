@@ -27,6 +27,50 @@ lecteur n'ait rien à deviner.
 Les chiffres de la section « état réel » et les deux tableaux de couverture. Ils sont datés du
 2026-08-08 ; les envoyer périmés reproduirait exactement le défaut qu'ils servent à éviter.
 
+## Deux isolements différents, souvent confondus
+
+Ce prompt affirme *« tu n'as PAS accès au dépôt »*. Encore faut-il que ce soit vrai — sinon c'est
+une affirmation invérifiable dans un document dont toute la raison d'être est d'empêcher les
+affirmations invérifiables.
+
+Il y a **deux** isolements, ils n'attrapent pas les mêmes défauts, et il faut savoir lequel on veut :
+
+| | Ce que le relecteur ignore | Ce que ça attrape |
+|---|---|---|
+| **Contexte de conversation vide** | ce qui a été affirmé plus tôt dans la session | une affirmation qui ne correspond pas aux fichiers |
+| **Aucun accès au dépôt** | tout, sauf le message reçu | une erreur de positionnement, de récit, de priorité |
+
+Le panel du 2026-08-08 (`eval/cold-review-2026-08-08/`) utilisait le **premier** : les lentilles
+pouvaient lire les fichiers, mais ne savaient pas ce que leur auteur avait prétendu. C'est ce qui
+leur a permis de trouver 19 écarts entre les affirmations et le dépôt.
+
+Ce prompt-ci veut le **second**. Il ne cherche pas un écart entre le dire et le faire — il cherche
+si **ce qu'on a choisi de raconter tient debout**, ce qui est exactement la position d'un prospect.
+
+## Comment l'exécuter
+
+**Par défaut — une conversation neuve dans ChatGPT, Gemini ou Mistral.** Les deux isolements sont
+satisfaits gratuitement : le modèle n'a ni l'historique, ni les fichiers. C'est le mode pour lequel
+ce prompt est écrit.
+
+**Dans Claude Code — attention.** Un sous-agent lancé depuis le dépôt **a** les outils de lecture.
+Lui dire « tu n'as pas accès » ne le lui retire pas : c'est une consigne qu'il peut enfreindre, et
+surtout une **prémisse fausse** qui rend sa sortie difficile à interpréter. Deux options honnêtes :
+
+1. le lancer depuis un répertoire qui n'est pas le dépôt — il n'a alors rien à lire, et la prémisse
+   devient vraie ;
+2. ne pas l'utiliser là, et prendre [`ARCHITECTURE-REVIEW-PROMPT.md`](ARCHITECTURE-REVIEW-PROMPT.md),
+   qui est écrit pour un agent qui **a** le dépôt et doit s'appuyer dessus.
+
+**Ce qu'il ne faut pas faire** : le lancer en sous-agent dans le dépôt en affirmant qu'il n'y a pas
+accès. La sortie serait un mélange indiscernable de ce qu'on lui a dit et de ce qu'il a lu.
+
+## Le contrôle qui rend l'isolement vérifiable
+
+La section D du format demande au relecteur de **déclarer lui-même** s'il a consulté autre chose
+que le message. Une réponse qui cite un chemin de fichier, un numéro d'issue ou un chiffre absent
+du prompt s'est disqualifiée toute seule — et c'est vérifiable sans lui faire confiance.
+
 ---
 
 ```
@@ -147,6 +191,9 @@ A. Contradictions relevées, avant tout le reste.
 B. Réponses aux 6 questions, chacune avec son raisonnement.
 C. Ce que tu recommandes de NE PAS faire, et pourquoi.
 D. Ce que tu n'as pas pu évaluer faute d'accès — liste explicite.
+E. Déclare si tu as consulté quoi que ce soit d'autre que ce message (fichier, web,
+   souvenir d'un échange antérieur). Si oui, dis quoi : ta réponse doit rester
+   interprétable.
 ```
 
 ## Deux choix assumés

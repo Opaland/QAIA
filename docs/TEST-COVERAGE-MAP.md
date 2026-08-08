@@ -73,6 +73,9 @@ un sujet d'exploitation.
 **QAIA vit entièrement dans Delivery et Maintenance.** Elle commence quand la discovery est finie
 et s'arrête quand le déploiement commence.
 
+**Arbitré le 2026-08-08 : on vise les deux bouts** ([ADR 0005](adr/0005-scope-discovery-and-run.md)).
+Discovery et Run cessent d'être des trous constatés pour devenir des chantiers ouverts — [#85](https://github.com/QAIA-Project/QAIA/issues/85) (exigences non-fonctionnelles dérivées quand elles sont encore négociables), [#86](https://github.com/QAIA-Project/QAIA/issues/86) (incident de production → test de non-régression), [#87](https://github.com/QAIA-Project/QAIA/issues/87) (chaos, différé et argumenté).
+
 Deux précisions qui corrigent une lecture trop favorable :
 
 - **Discovery.** `us-ingest` et `need-understanding` prennent une user story **déjà écrite** : on
