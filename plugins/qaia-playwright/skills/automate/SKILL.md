@@ -45,8 +45,11 @@ Two architectural choices are fixed, not renegotiated per run:
   fixtures pattern.
 - **Shared mutable SUT** → serialize (`workers: 1`) or isolate per test — a real lesson from the
   medibook flake hunt.
-- **No trivial assertions** — every `expect(...)` must check real SUT state. Full lint, its four
-  defect classes and the contract boundary it must not cross: `references/self-review-lint.md`.
+- **No trivial assertions, and no assertion that contradicts its own `Then`** — every
+  `expect(...)` must check real SUT state, agree in *polarity* with the clause it comes from, and
+  carry its scenario's ambiguity flag if the book set one. Full lint, its **nine** defect classes
+  — four hollow shapes plus five measured on real generated suites — and the contract boundary it
+  must not cross: `references/self-review-lint.md`.
 
 ## Steps
 
@@ -82,8 +85,10 @@ Two architectural choices are fixed, not renegotiated per run:
 5. **Self-review before writing** — a mechanical anti-sycophancy lint on the generator's own
    output, run before each spec reaches disk. It catches tautological comparisons, contentless
    `expect()` calls, weak-by-construction matchers on lazy locators, and scenarios whose `Then`
-   produced zero assertions. Full protocol, and the contract boundary it must not cross:
-   `references/self-review-lint.md`. Silent when clean.
+   produced zero assertions — **plus the five classes that no shape check sees**: an assertion
+   contradicting its `Then`, a dropped ambiguity flag, a test whose whole evidence is one-sided, a
+   literal with no provenance, and a report claiming what the code does not support. Full protocol,
+   and the contract boundary it must not cross: `references/self-review-lint.md`. Silent when clean.
 6. **Emit the CI pipeline** — this is what makes the generated suite autonomous outside the
    session. Instantiate it from `templates/` (`github-actions.yml`, `gitlab-ci.yml` or
    `Jenkinsfile`): it installs, runs the suite, and publishes JUnit + the HTML report + the run

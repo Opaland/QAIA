@@ -19,7 +19,7 @@ itself, never to grade itself.
 
 It runs on every generated spec and is silent when clean.
 
-## The four defects to flag
+## The four hollow-assertion defects
 
 ### D1 — Tautological / reflexive comparisons
 
@@ -55,6 +55,108 @@ zero `expect(...)` calls.
 
 Coverage promised by the scenario, dropped in the code. The scenario still appears in the
 traceability table, still counts as automated, and verifies nothing.
+
+## Five more defects, measured rather than imagined
+
+D1-D4 are shapes: an assertion that cannot fail whatever the application does. The five below are
+different and were invisible to that reading — every one of them is a *real* assertion, on real
+state, that a static reader accepts. They come from five independent judges applying
+[`eval/AUTOMATION-RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/AUTOMATION-RUBRIC.md) to five generated suites, and every one was verified by hand against
+the file before being written here. **None of the five suites passed the rubric's gate.**
+
+### D5 — an assertion that contradicts its own `Then`
+
+The severest defect found in the corpus, and the least visible.
+
+One suite's book demanded, for an email that is *not* a registered account: *"the Security
+Question field **is enabled, the same as for a registered email**"* — the scenario existing
+precisely to check that a public endpoint does not leak account existence. The generated test
+asserted `expect(enabled).toBe(false)`.
+
+The consequence is not a false negative, it is worse: **the day that test runs green, it is green
+because the application leaks.** The defect the scenario exists to detect has become its pass
+condition, and CI will hold that line indefinitely. When the application is eventually fixed, the
+test turns red and reads as a regression to revert.
+
+**Check, per test:** re-read the scenario's `Then` and the assertion side by side, and ask whether
+they agree in *polarity*, not merely in subject. `is enabled` → `toBe(true)`. `is refused` → an
+assertion of refusal. `no distinguishable signal` → an assertion of *sameness between two cases*,
+which usually means the test must exercise both.
+
+**Why generation produces it:** when a `Then` states a safe default rather than the observed
+behaviour, generating against what the app *does* is the path of least resistance. That is exactly
+the moment the book is telling you the app may be wrong.
+
+### D6 — the ambiguity flag dropped on the way to the code
+
+Found in three suites of five. A scenario the book marked `@low-confidence` or `# open: Q…` whose
+generated test carries no trace of it — no tag, no comment, no `test.fixme`.
+
+The severity is in what happens later. When that test goes red, the reader **cannot tell "the open
+question just got answered" from "the product regressed"**, and the cheapest resolution is to align
+the expected value with the application — silently converting a finding into a specification. On
+one suite this was armed on the run's own most contestable call, a P1 with no retries.
+
+**Check, per test:** if its scenario carries a flag in the book, the generated test must carry it
+too — in the title, and in a comment saying the expectation is unconfirmed and that a failure is an
+answer rather than a bug. Carrying it on a neighbouring test does not count.
+
+`automation_score.py` now flags this as `flag-dropped`, blocking. Do not rely on the tool to catch
+it: by the time it runs, the file is on disk.
+
+### D7 — a test whose whole evidence is one-sided
+
+Found in two suites. Every assertion in the test says only what the result *is not*:
+`expect(status).not.toBe(200)`, or `expect(alertText.length).toBeGreaterThan(0)` for a scenario
+demanding a specific alert **and** the absence of a success message — a string like
+`"Product added"` has a length greater than zero, so the test passes against the forbidden
+behaviour.
+
+Two things make it worse than it looks. Such an assertion cannot distinguish the refusal *under
+test* from any other refusal — on a target that refuses everything for an unrelated reason, it is
+green by accident. And **a negative test whose positive control is red proves nothing**: if the
+success path for the same endpoint is blocked or failing, the negative has no meaning at all.
+
+**Check, per test:** assert the refusal itself and make it *attributable* — the error message
+naming the field under test, the state that did not change, the record that was not created. If
+the scenario also claims an absence (*"and no invoice is created"*), that clause needs its own
+assertion; dropping it is D9.
+
+### D8 — a literal with no provenance
+
+Found in three suites. A status code, a message, an amount or a name asserted as expected without
+any source: not in the `Then`, not in the user story, not in observed behaviour.
+
+The dangerous case is not a wrong value, it is a *plausible* one that becomes load-bearing:
+"checkout success is HTTP 200" appeared in no source, was never observed passing, and six other
+tests asserted `not.toBe(200)` against it. An assumption had been promoted to a requirement in
+silence.
+
+**Check, per literal:** every concrete value traces to the book, the story, or something the run
+actually observed. If it was chosen for automation — a timeout, a seeded name — say so in a comment
+next to it. A comment that explains *why polling* is not provenance for *why 8000*.
+
+### D9 — a claim in the report that the code does not support
+
+Found in two suites. A run report listing a test project as *"actually used"* whose `testMatch`
+matches no file on disk. A page object citing `see automation/NOTES.md` where no such file was
+ever written. A traceability row reporting `PASS` for a scenario whose second `Then` clause was
+never asserted.
+
+Every one of these is a citation nobody follows, which is exactly why it survives: it looks
+authoritative and costs nothing to write.
+
+**Check, at step 8:** every artefact the report names must exist; every row marked covered must
+correspond to assertions covering **all** the clauses of its `Then`; every project or configuration
+described as used must have run something. `automation_score.py` catches the dead file citation as
+`dead-citation` — the other two need you.
+
+## Why these live here rather than only in the scorer
+
+Three of the nine are now machine-checked, and the scorer runs *after* delivery. The other six need
+the `Then` in front of you, which is only true during generation. A defect caught here costs a line;
+the same defect caught by a judge costs a campaign, and caught by nobody costs the credibility of
+every green run in the suite.
 
 ## On a hit — self-correct before writing
 
