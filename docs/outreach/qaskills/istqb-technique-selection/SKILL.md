@@ -115,7 +115,15 @@ Say both plainly when someone asks for them, rather than treating them as gaps t
 
    list views · full CRUD lifecycle · sibling collections · conditional behaviour · authorization
    and server-side enforcement · protocol surface · rendering surface · account recovery ·
-   enumerating *every* list rather than the first
+   enumerating *every* list rather than the first · **interaction surface**
+
+   The last one is the one teams discover late, because the criteria describe a *transaction*
+   while the user performs a *session*: the same submit dispatched twice before the first
+   answers; browser back after a state change; two authorised actors deciding the same record —
+   not protocol idempotence, both calls are valid and only their interleaving is the defect;
+   text carrying Unicode, right-to-left script or markup, whose expected result is almost always
+   *stored and rendered as data, never interpreted*; and a dependency deleted while someone is
+   still holding it.
 
    **The ceiling that comes with it: never invent a requirement to improve recall.** A pattern
    that does not apply costs one line to record as not applicable. Recall bought with fabrication

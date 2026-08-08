@@ -21,11 +21,11 @@
       "derived_from": [
         {
           "path": "plugins/qaia-core/skills/istqb-design/SKILL.md",
-          "sha256": "98df5343046d45984a2fbd84f8ce55642e4d0b235f0d3534fc76d83725fc5354"
+          "sha256": "ade6d1ef904b3e1a86bc05e8dd61bb89fd60c79598b6868eed318b4ae87a51ed"
         },
         {
           "path": "plugins/qaia-core/skills/istqb-design/references/coverage-expansion.md",
-          "sha256": "ce17fc2e82763531adfda07a8536868b2933602ff16f31a6f2e5a485f283ad2e"
+          "sha256": "10c6da666f08dff9b913bb223fd90d45f2f868acb3f2c0ecf55418093ad0a289"
         },
         {
           "path": "plugins/qaia-core/skills/istqb-design/references/knowledge-conditions.md",
