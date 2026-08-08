@@ -68,6 +68,32 @@ section « ce que ça dépose dans votre dépôt » (PII, injection de prompt, M
 `docs/STATUS.md` — lié depuis « vérifiable en cinq minutes » — est **en français avec des
 virgules décimales**, donc un anglophone qui cherche `2.4` n'obtient rien.
 
+### Deuxième partie de nuit : #66, #67, #71 fermées (D142)
+
+Le travail est passé du site au produit — ce que l'utilisateur reçoit réellement.
+
+**#66** — un utilisateur qui installe un plugin reçoit **le répertoire du plugin, pas le dépôt**.
+20 fichiers (et non 12 skills : le constat d'origine ne comptait que les `SKILL.md`) renvoyaient
+à `docs/`, `eval/`, `examples/` ou à un plugin voisin. `OUTPUT-CONTRACT.md` voyage désormais avec
+chaque plugin, un job CI garde les 4 copies identiques, et `lint_skills.py` refuse tout chemin de
+dépôt qui ne résout pas dans le plugin qui l'écrit. **Le contrôle a d'abord été faux** : il
+testait l'existence dans le dépôt, où tout existe — l'angle mort du mainteneur, reproduit dans
+l'outil censé le corriger.
+
+**#67** — `dataset-map` déclaré (quatrième occurrence du motif), `artifacts[].path` interdit de
+sortir de la run, et la règle « on ne merge jamais dans le manifeste d'une run qu'on n'a pas
+produite » écrite dans le contrat. La règle a trouvé **un second cas que l'issue ignorait**.
+37/37 manifestes valides.
+
+**#71** — `CP-001` corrigé (`Number.isFinite`), scénario promu en tests exécutables, suite à
+**50 tests verts**. Trois défauts de *vérification* pour un défaut de produit : un test construit
+normalement aurait envoyé `null` au lieu de `1e309` (JavaScript convertit avant sérialisation) ;
+la première mutation a « réussi » parce que `pkill` ne tue pas `node.exe` sous Git Bash ; et
+`CP-002` mentait sur ce qu'il garde, ce qui a révélé que la branche `<= 0` n'avait aucun test.
+
+Versions : `qaia-core` **0.2.31** · `qaia-playwright` **0.1.21** · `qaia-score` **0.2.1** ·
+`qaia-testdata` **0.1.3**.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
