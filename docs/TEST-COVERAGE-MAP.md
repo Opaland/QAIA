@@ -1,6 +1,7 @@
 # Ce que QAIA couvre du métier de test, et ce qu'elle ne couvre pas (2026-08-08)
 
-Établi en cartographiant les **30 skills réellement présentes** dans `plugins/` contre le
+Établi en cartographiant les **skills réellement présentes** dans `plugins/` — 30 le matin du
+2026-08-08, **33** le soir, les trois ajoutées étant précisément trois trous de cette carte — contre le
 processus de test ISTQB (CTFL ch. 1 et 5), les **niveaux** de test (ch. 2.2) et les **types** de
 test (ch. 2.3). Aucune case n'est cochée sur une intention : une case est verte quand une skill
 existe et porte le sujet.
@@ -11,7 +12,7 @@ existe et porte le sujet.
 |---|---|---|
 | Planification | **absente** | — |
 | Pilotage et contrôle | partielle | `report`, `run-report`, `aptitude-gate` |
-| Analyse | **couverte** | `us-ingest`, `us-review`, `need-understanding`, `istqb-design` |
+| Analyse | **couverte** | `us-ingest`, `openapi-ingest`, `us-review`, `need-understanding`, `istqb-design` |
 | Conception | **couverte** | `istqb-design`, `testbook-generate`, `oracle-generate`, `prioritize` |
 | Implémentation | **couverte** | `automate`, `dataset-generate` |
 | Exécution | **couverte** | `automate`, `a11y-audit`, `perf-check`, `visual-check`, `security-surface` |
@@ -25,7 +26,7 @@ rapport d'exécution. Un responsable de test commence par un **plan de test** et
 
 | Niveau | Couverture | Commentaire |
 |---|---|---|
-| Composant (unitaire) | **absente** | Aucune skill n'écrit ni n'analyse de test unitaire. C'est pourtant le niveau où vivent la majorité des tests d'un vrai dépôt. |
+| Composant (unitaire) | **hors périmètre, décidé** | [ADR 0004](adr/0004-test-level-boundary.md) : QAIA part d'une promesse observable de l'extérieur. Un test unitaire s'écrit contre une fonction, donc contre l'implémentation — c'est abandonner l'oracle qui fait la valeur du reste. |
 | Intégration | **absente en tant que telle** | `contract-probe` en approche une partie par le contrat, sans jamais nommer l'intégration |
 | Système | **couverte** | c'est le cœur du produit |
 | Acceptation | partielle | on produit le cahier ; personne ne pilote une recette humaine |
@@ -43,25 +44,27 @@ rapport d'exécution. Un responsable de test commence par un **plan de test** et
 | Compatibilité (navigateurs, appareils) | **absente** | aucune skill ne nomme le sujet |
 | Structurel (boîte blanche, couverture de code) | **absente** | aucune skill ne part de la couverture |
 | Confirmation (re-test après correction) | **absente** | on ne sait pas fermer la boucle d'un défaut |
-| Régression | partiel | `traffic-replay`, `flaky-detect` — rien qui parte d'un **diff** |
+| Régression | **couvert** | `traffic-replay`, `flaky-detect`, `impact-select` (depuis un diff) |
 
 ## 4. Les trous, classés par ce qu'ils coûtent à un vrai utilisateur
 
-**1. Le rapport de défaut.** Le livrable quotidien d'un testeur. QAIA n'en produit aucun. Elle
-sait dire qu'un test est rouge ; elle ne sait pas écrire ce qu'un développeur doit lire pour
-corriger. C'est le manque le plus embarrassant du catalogue.
+**1. ~~Le rapport de défaut.~~** **Comblé le 2026-08-08** — `qaia-playwright:defect-report`,
+éprouvée contre un ticket écrit par un humain sur le même défaut
+([#1551](https://github.com/typicode/json-server/issues/1551)). Aucun des deux rapports ne domine :
+l'humain gagne sur la cause parce qu'il a lu le code, la machine sur la reproduction et la
+traçabilité.
 
-**2. La sélection des tests à partir d'un diff.** Quels tests rejouer, lesquels vont casser, où
-manque la couverture. **Un diff, un développeur en a un tous les jours ; une user story, une fois
-par sprint.** Notre porte d'entrée est la plus rare des deux. Déjà relevé en lisant QA Orchestra,
-qui a cette skill et pas nous.
+**2. ~~La sélection des tests à partir d'un diff.~~** **Comblé le 2026-08-08** —
+`qaia-playwright:impact-select`, avec sa mesure : sur une faute injectée pour de vrai dans
+`examples/expense-demo`, la lecture naïve rate **6 impacts sur 10** et la lecture transitive n'en
+rate aucun (`eval/impact-select-2026-08-08/`).
 
-**3. OpenAPI / Swagger comme source d'exigence.** `contract-probe` part d'une documentation en
-prose. La plupart des API réelles ont une spécification formelle, lisible par machine. On l'ignore
-— alors que la campagne json-server vient de montrer que **partir du contrat plutôt que du code
-est exactement ce qui trouve les vrais défauts**.
+**3. ~~OpenAPI / Swagger comme source d'exigence.~~** **Comblé le 2026-08-08** —
+`qaia-core:openapi-ingest`, deuxième porte d'entrée de la chaîne. Appliquée à une vraie
+spécification, elle y a trouvé **les quatre classes de contradiction** qu'elle cherche
+(`eval/openapi-ingest-2026-08-08/`).
 
-**4. Le niveau composant.** Zéro skill. Toute la valeur est en système et en bout de chaîne.
+**4. ~~Le niveau composant.~~** Tranché le 2026-08-08 : hors périmètre, [ADR 0004](adr/0004-test-level-boundary.md). Ce n'est plus un trou, c'est une frontière déclarée.
 
 **5. Le plan de test et le bilan.** Les deux artefacts qu'un responsable de test doit signer.
 
@@ -74,6 +77,8 @@ guide personne dessus.
 ## 5. Ce que cette carte ne dit pas
 
 Elle mesure la **présence** d'une skill, pas sa **qualité**. Une case verte veut dire « le sujet
-est porté », pas « c'est bien fait ». Sur les 30 skills, une seule a été appliquée à un logiciel
-que nous n'avons pas écrit (`eval/external-application-2026-08-08/`), et aucune n'a été utilisée
-par un humain dans son travail réel.
+est porté », pas « c'est bien fait ». Sur les 33 skills, **trois** ont été appliquées à un logiciel
+ou à un document que nous n'avons pas écrit — `automate` et `defect-report` sur json-server,
+`openapi-ingest` sur la spécification Petstore — et **aucune n'a jamais été utilisée par un humain
+dans son travail réel**. C'est toujours l'inconnue n°1, et trois skills de plus n'y changent
+rien.

@@ -58,6 +58,8 @@ Add the rest only when you need them:
 /plugin install qaia-testdata@qaia        # synthetic test data
 ```
 
+**What QAIA deliberately does not do** ([ADR 0004](docs/adr/0004-test-level-boundary.md)): unit and component tests, integration between internal components, coverage-driven white-box testing. QAIA starts from a promise observable from the outside — a test written against a function is written against the implementation, which is the oracle it exists to avoid. If you want unit tests, your IDE already generates better ones.
+
 **Which skill for what?** [`plugins/qaia-core/CATALOGUE.md`](plugins/qaia-core/CATALOGUE.md) is a one-page “I want to X → use Y” map of all 33 skills — including the four that all probe a running app, laid out by *what each one uses as its oracle*, which is the only thing that tells them apart.
 
 Worked examples with their real output are in [`examples/`](examples/).
@@ -174,6 +176,8 @@ Ajoutez le reste seulement quand vous en avez besoin :
 /plugin install qaia-score@qaia           # score et gate de release
 /plugin install qaia-testdata@qaia        # jeux de données synthétiques
 ```
+
+**Ce que QAIA ne fait délibérément pas** ([ADR 0004](docs/adr/0004-test-level-boundary.md)) : les tests unitaires et de composant, l'intégration entre composants internes, le test structurel piloté par la couverture. QAIA part d'une promesse observable de l'extérieur — un test écrit contre une fonction est écrit contre l'implémentation, c'est-à-dire contre l'oracle qu'elle existe pour éviter. Si vous voulez des tests unitaires, votre IDE en génère déjà de meilleurs.
 
 **Quelle skill pour quoi ?** [`plugins/qaia-core/CATALOGUE.md`](plugins/qaia-core/CATALOGUE.md) est une carte d'une page « je veux faire X → utilise Y » des 33 skills — dont les quatre qui sondent une app en marche, rangées par **ce que chacune prend pour oracle**, la seule chose qui les distingue vraiment.
 
