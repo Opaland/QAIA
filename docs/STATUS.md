@@ -94,6 +94,35 @@ la première mutation a « réussi » parce que `pkill` ne tue pas `node.exe` so
 Versions : `qaia-core` **0.2.31** · `qaia-playwright` **0.1.21** · `qaia-score` **0.2.1** ·
 `qaia-testdata` **0.1.3**.
 
+### Troisième partie : le backlog technique (D143)
+
+**#18 avancée, pas fermée.** `visual-check` n'avait qu'une suite derrière elle — celle qu'elle
+cite comme sa propre référence. Générée contre `examples/expense-demo`, domaine qu'elle n'avait
+jamais vu : 6 snapshots, 6 verts, deux fois de suite, suite complète **56/56**. Vérifiée par
+mutation et rapportée **par mutation** : couleur de bouton → 5/6 tués, padding `.card` +3 px →
+2/6 tués, chaque mutation attrapée exactement par les snapshots dont le cadrage la contient.
+**Le défaut trouvé n'est pas visuel** : sur un mot de passe faux, le message d'erreur était écrit
+dans une section `hidden` — invisible, et son `aria-live` annoncé dans un sous-arbre caché, donc
+à personne. Ni l'E2E ni l'a11y ne l'attrapaient. **T17 reste non mesuré** et les baselines sont
+en `-win32`, donc le projet visual n'est pas câblé dans la CI.
+
+**#65 fermée** — arbitrage tranché pour la carte plutôt que la fusion : `plugins/qaia-core/CATALOGUE.md`,
+une page « je veux faire X → utilise Y ». Le cœur est la table des skills qui sondent une app en
+marche, rangée **par oracle** et non par outil : `contract-probe` → la doc de la cible,
+`security-surface` → des classes de défaut connues, `traffic-replay` → votre HAR, `flaky-detect`
+→ le même test rejoué. Lue en colonne, la frontière disparaît. Le paragraphe de six lignes
+« pourquoi je ne suis pas un doublon » de `contract-probe` — le symptôme d'origine — devient une
+ligne et un renvoi.
+
+**#74 aux quatre cinquièmes** — kit pilote lié, section `.qaia/`/PII/injection/MCP écrite,
+coûts publiés en anglais, `STATUS-en.md`, légendes de tableaux. Reste : `plugins/qaia-core/README.md`,
+où vivent les chiffres de coût complets, toujours en français.
+
+**Deux contrôles ajoutés à la CI**, chacun sur une classe de défaut et non sur son instance :
+les 4 copies du contrat partagé doivent rester identiques au canonique, et **toute version de
+plugin doit être énoncée dans le README** — troisième dérive de la semaine, toujours dans le même
+sens.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
