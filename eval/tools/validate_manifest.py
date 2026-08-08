@@ -34,7 +34,7 @@ STATUS_ENUM = {"draft", "review", "validated"}
 # above, and missed for the same reason: the enum was not revisited when a new plugin shipped.
 # Found 2026-08-01 by running the validator over `eval/**` instead of `plugins/**` only.
 ARTIFACT_KIND_ENUM = {"feature", "synthesis", "matrix", "execution", "export", "validation",
-                      "flakiness", "trafficReplay", "dataset"}
+                      "flakiness", "trafficReplay", "dataset", "dataset-map"}
 ARBITRATION_KIND_ENUM = {"open", "assumption", "simulated"}
 GATE_VERDICT_ENUM = {"PASS", "CONCERNS", "FAIL", "WAIVED"}
 
@@ -98,6 +98,20 @@ def validate_artifacts(artifacts, errors, base_dir=None):
         # manifest could claim deliverables that were never written. Only checked when a base
         # directory is given (--check-paths), because a manifest is often validated away from
         # the tree it describes.
+        # An artifact path that climbs out of the run directory is refused whether or not the
+        # file exists, and unlike the existence check it does not need the tree to be present.
+        # Wave A produced `../../skill-coverage-wave-.../dataset.json` inside another run's
+        # manifest: the run then claims a deliverable it does not own, `--check-paths` resolves
+        # it against whatever root it is handed, and the manifest stops being a self-contained
+        # description of one run (issue #67).
+        if isinstance(a.get("path"), str) and a["path"]:
+            norm = os.path.normpath(a["path"].replace("\\", "/")).replace(os.sep, "/")
+            if norm.startswith("../") or norm.startswith("/") or (len(norm) > 1 and norm[1] == ":"):
+                err(errors, f"{path}.path",
+                    f"escapes the run directory: {a['path']!r}. An artifacts[] path is relative "
+                    f"to the run's own report directory — a manifest describes what this run "
+                    f"produced, not files belonging to another run or an absolute location.")
+
         if base_dir and isinstance(a.get("path"), str):
             candidate = os.path.join(base_dir, a["path"].replace("\\", os.sep).replace("/", os.sep))
             if not os.path.exists(candidate):

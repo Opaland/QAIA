@@ -119,7 +119,11 @@ tests can seed real state from them instead of inventing a literal per test.
 10. **Optional manifest merge (shared output contract, `../../OUTPUT-CONTRACT.md`).** If
     `.qaia/reports/<US-ID>/manifest.json` already exists,
     merge into `producers[]` and add an `artifacts[]` entry (`kind: "dataset"`,
-    `format: "json"`, `path`) — append-only, never touching another producer's section
+    `format: "json"`, `path`), plus `kind: "dataset-map"` if you emitted a map. Two rules
+    bound this, both learned the hard way: the `path` is **relative to that run's report
+    directory and may not climb out of it**, and you only ever merge into the manifest of the
+    run you are part of — declaring your output inside someone else's manifest makes their run
+    claim work it never did. Append-only, never touching another producer's section
     (`design`/`execution`/`gate`/`status` stay byte-for-byte untouched, contract rule 2). If no
     manifest exists yet this is skipped, not a blocker for delivering the dataset itself.
 

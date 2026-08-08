@@ -113,11 +113,23 @@ producer — fix the source, re-project the manifest, never hand-edit the manife
   numbers to satisfy the validator is the fabrication D38 forbids — remove the block instead.
 - **`artifacts[].kind`** is a closed enum: `feature`, `synthesis`, `matrix`, `validation`,
   `execution`, `export`, `flakiness` (`flaky-detect`, D80 — read by `aptitude-gate` as a
-  CONCERNS signal), `trafficReplay` (`traffic-replay`, D88), `dataset`
-  (`qaia-testdata:dataset-generate`, D137). All three of the last were emitted by real
+  CONCERNS signal), `trafficReplay` (`traffic-replay`, D88), `dataset` and `dataset-map`
+  (`qaia-testdata:dataset-generate`, D137/D142). All four of the last were emitted by real
   producers long before being declared here; a kind not in this list is an error, so a new
   producer must extend the enum **and** this line together. That this keeps happening is the
   argument for the CI job validating `eval/**` as well as `plugins/**`.
+- **`artifacts[].path` stays inside the run.** It is relative to the run's own report
+  directory. A path that climbs out (`../../another-run/x.json`) or is absolute is refused by
+  the validator, whether or not the file exists. A manifest describes what *this* run produced;
+  the moment it can point anywhere, `--check-paths` resolves against whatever root it is handed
+  and the manifest stops being self-contained. Found in wave A, where a producer declared a
+  deliverable living two directories up, inside a different run (#67).
+- **Never write into a manifest you did not produce.** A producer merges into the manifest of
+  the run it is part of, and only that one. Emitting into another run's manifest — even to
+  declare something real — makes that run claim work it did not do, and its provenance stops
+  being readable. This rule existed only in some evaluation briefs before being written here,
+  which is why an agent broke it without being at fault (#67).
+
 - **A `gate` block may legitimately be partial.** Two skills fill it, in order:
   `qaia-score:testbook-score` writes `score`/`dimensions`/`max`, then `qaia-score:aptitude-gate`
   writes `verdict`/`reasons`/`waiver`. Between them sits a real intermediate state — a scored,
