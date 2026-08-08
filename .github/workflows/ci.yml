@@ -78,6 +78,18 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: A commit that names a decision must register it
+        run: |
+          set -e
+          # Same defect three times in one day (2026-08-08): decisions labelled in commit messages
+          # and absent from docs/DECISIONS.md. Found, filled, and explained in a commit saying
+          # "commit messages are not the project's memory" — then repeated four hours later, and
+          # again the same evening. A rule that survives being written down twice and still comes
+          # back is not enforceable by intention.
+          # Reads the HEAD commit message only: works on a shallow clone, and fires when the
+          # omission happens rather than accumulating a backlog nobody reconciles.
+          python eval/tools/check_decision_register.py
+
       - name: Skill counts claimed in the docs match the repository
         run: |
           set -e
