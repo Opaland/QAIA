@@ -252,6 +252,52 @@ peu actif peut mettre des jours à être indexé : la soumission directe court-c
 
 **Bloqué sur une connexion**, également.
 
+## 7. Recherche web fraîche du 2026-08-08 — ce qui reste, vérifié
+
+Recherche menée sans partir de la liste existante, pour éviter de re-trouver ce qu'on connaissait.
+Activité de chaque candidat GitHub vérifiée par API, pas supposée.
+
+### Fait dans la foulée
+
+**[Prat011/awesome-llm-skills](https://github.com/Prat011/awesome-llm-skills)** — 1 450 ★, PR
+[#206](https://github.com/Prat011/awesome-llm-skills/pull/206). Section « Development & Code
+Tools », qui contient déjà `pypict-claude-skill` (tests par paires) et `playwright-skill` : QAIA
+les complète plutôt qu'il ne les double. La PR répond point par point à leurs étapes de
+contribution, **y compris en refusant la case « testé sur plusieurs plateformes »** — QAIA est
+éprouvée sur Claude Code, la portabilité vers Codex ou Gemini CLI est revendiquée et non
+démontrée, donc ces plateformes ne sont pas listées.
+
+### Non retenus, avec le motif
+
+| Liste | ★ | Motif |
+|---|---|---|
+| `heilcheng/awesome-agent-skills` | 6 073 | la plus grosse, mais **poussée le 2026-04-05** — quatre mois d'inactivité, une PR y dort |
+| `caramaschiHG/awesome-ai-agents-2026` | 1 548 | poussée le 10/06, et « 300+ ressources, 20+ catégories » sans curation visible : le volume dilue |
+| `ARUNAGIRINATHAN-K/awesome-ai-agents-2026` | 288 | trois listes homonymes créées la même année, profil de dépôt SEO |
+| `Zijian-Ni/awesome-ai-agents-2026` | 216 | idem |
+| `aloth/awesome-ai-agents` | 20 | trop petite pour l'effort |
+
+Un dépôt à 6 000 étoiles qui ne bouge plus vaut moins qu'un dépôt à 1 400 étoiles vivant : la
+seule chose qui compte, c'est qu'un mainteneur lise la PR.
+
+### Canaux hors GitHub, par valeur — non faits, ils demandent le fondateur
+
+1. **[TestGuild](https://testguild.com/)** — **41 000 ingénieurs QA**, un podcast de 589 épisodes,
+   et une invitation explicite à proposer un outil ou à demander à être invité. C'est la plus
+   grosse audience QA ciblée trouvée, et elle est adressable par un formulaire.
+2. **Slack Ministry of Testing** — ~25 000 membres, la communauté QA la plus active. D12 la
+   désignait comme canal pilote dès M0 ; toujours pas approchée.
+3. **r/softwaretesting** — distinct de r/QualityAssurance, et souvent plus technique.
+4. **[DevHunt](https://devhunt.org/)** — plateforme de lancement hebdomadaire dédiée aux outils
+   pour développeurs, fenêtre d'une semaine au lieu de 24 h.
+5. **AlternativeTo** — pas un lancement, un actif SEO durable : les gens y cherchent « alternative
+   à X » pendant des années.
+6. **Indie Hackers** — pour du *build in public*, pas pour une annonce produit.
+
+**Ce qu'il ne faut pas faire de cette liste** : la dérouler entièrement. Six canaux tièdes valent
+moins qu'un seul où l'on répond aux commentaires. TestGuild et le Slack Ministry of Testing sont
+les deux qui touchent exactement l'audience visée par #1 — les cinq pilotes.
+
 ## Règle générale pour les prochains
 
 1. **Une soumission par annuaire, jamais de relance.** Un mainteneur relancé refuse.
