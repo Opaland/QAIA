@@ -152,6 +152,49 @@ depends on it is not reproducible.**
 
 ## The ceiling — do not hallucinate to chase recall
 
+## Interaction surface — what a user does that the AC never describes
+
+Found by measurement, not by review. On 2026-08-08 a competitor's design agent was run on the same
+user story and judged blind against ours
+([the head-to-head](https://github.com/QAIA-Project/QAIA/tree/main/eval/head-to-head-qa-orchestra-2026-08-08)).
+It produced **eight risk classes this file did not name**, and three of them were genuinely absent
+from every pattern above — verified by grep, not by impression.
+
+They share one shape: **the AC describes a transaction, the user performs a session.** Between the
+two sit actions no criterion mentions because no author thinks to write them down.
+
+- **Rapid repeated action** — the same submit dispatched twice before the first answers. The
+  protocol pattern above covers `POST` idempotence at the API; this is the interface event that
+  produces it, and it needs its own scenario because the defence lives in the UI, not the endpoint.
+- **Mid-flow navigation** — browser back after a state change, refresh mid-wizard, navigating away
+  and returning. A workflow with states (`draft` → `submitted` → …) has one of these per
+  transition, and back-after-transition is where stale state resurfaces.
+- **Concurrent actors on one record** — two approvers deciding the same item, an editor and a
+  deleter. This is *not* the same as protocol idempotence: the two calls are both valid, both
+  authorised, and only their interleaving is the defect. Any AC naming **two roles acting on one
+  entity** implies it.
+- **Text-field content the author never pictured** — Unicode beyond Latin-1, right-to-left text,
+  a string carrying markup or SQL-like syntax. The expected result is almost always *"stored and
+  rendered as data, never interpreted"*, which is precisely what makes it a **refusal-path**
+  condition rather than a decorative one.
+- **A dependency removed mid-session** — the attachment deleted while the approval is pending, the
+  referenced entity gone between reading and writing. The CRUD pattern above asks *how* a delete
+  cascades; this asks what happens to whoever was already holding the thing.
+
+### The ceiling still applies
+
+None of these may be invented into an expected result. If the AC does not say what should happen
+when a back button follows a state transition, the condition is generated **and its outcome is an
+open question** — same discipline as everywhere else in this file. Generating the condition is
+recall; asserting an outcome the source never states is fabrication.
+
+### And two the competitor covered that belong elsewhere
+
+Their output also carried performance-under-volume and keyboard/screen-reader accessibility.
+Those are **not** gaps in this file: `qaia-playwright:perf-check` and
+`qaia-playwright:a11y-audit` own them, with their own oracles. Listing them here would duplicate a
+skill and dilute this one.
+
 Two families are legitimately **not** inferable from a thin US and must not be invented:
 
 1. **Config or feature-flag-driven behavior** — what a button does when payments are off, a

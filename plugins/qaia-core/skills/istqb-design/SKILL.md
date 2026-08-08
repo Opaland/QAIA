@@ -89,10 +89,14 @@ what was considered and excluded: `references/technique-notes.md`.
    rather than guessing them. Oracle conditions are tagged `@oracle:<standard>` and cited — they
    strengthen negative-path coverage without fabrication.
 
-3c. **Systematic coverage expansion (recall — do not skip).** Nine reflex patterns a mature
+3c. **Systematic coverage expansion (recall — do not skip).** Ten reflex patterns a mature
    tester applies beyond the literal ACs: list views, full CRUD lifecycle, sibling collections,
    conditional behavior, authorization and server-side enforcement, protocol surface, rendering
-   surface, account recovery, and enumerating *every* list rather than the first.
+   surface, account recovery, enumerating *every* list rather than the first, and the
+   **interaction surface** — double-submit, mid-flow navigation, two actors on one record,
+   unexpected text content, a dependency removed mid-session. The tenth pattern exists because a
+   competitor's design agent, run on the same story and judged blind, produced three classes none
+   of the other nine named — the measurement is cited in the reference.
    Full patterns, their measured failures, and the **ceiling that forbids hallucinating to chase
    recall**: `references/coverage-expansion.md`.
 
