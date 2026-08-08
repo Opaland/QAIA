@@ -1,7 +1,7 @@
 # Ce que QAIA couvre du métier de test, et ce qu'elle ne couvre pas (2026-08-08)
 
 Établi en cartographiant les **skills réellement présentes** dans `plugins/` — 30 le matin du
-2026-08-08, **33** le soir, les trois ajoutées étant précisément trois trous de cette carte — contre le
+2026-08-08, **35** le soir, les cinq ajoutées étant précisément cinq trous de cette carte — contre le
 processus de test ISTQB (CTFL ch. 1 et 5), les **niveaux** de test (ch. 2.2) et les **types** de
 test (ch. 2.3). Aucune case n'est cochée sur une intention : une case est verte quand une skill
 existe et porte le sujet.
@@ -18,9 +18,11 @@ existe et porte le sujet.
 | Exécution | **couverte** | `automate`, `a11y-audit`, `perf-check`, `visual-check`, `security-surface` |
 | Clôture | **couverte** | `test-plan-and-closure` + `report` — le bilan nomme d'abord ce qui reste ouvert |
 
-**Le trou le plus visible est aux deux bouts.** QAIA commence à la user story et s'arrête au
-rapport d'exécution. Un responsable de test commence par un **plan de test** et finit par un
-**bilan** — deux livrables qu'on ne sait pas produire.
+**Le trou le plus visible était aux deux bouts** — QAIA commençait à la user story et s'arrêtait
+au rapport d'exécution, alors qu'un responsable de test commence par un **plan** et finit par un
+**bilan**. `test-plan-and-closure` couvre les deux depuis le 2026-08-08, avec une réserve qui
+compte : **seule la moitié « bilan » a été appliquée pour de vrai**, sur une campagne déjà
+terminée. La moitié « plan » n'a encore jamais servi.
 
 ## 2. Les niveaux de test
 
@@ -83,8 +85,8 @@ de raisonnement dans `automate`, pas une 36ᵉ entrée au catalogue.
 ## 5. Ce que cette carte ne dit pas
 
 Elle mesure la **présence** d'une skill, pas sa **qualité**. Une case verte veut dire « le sujet
-est porté », pas « c'est bien fait ». Sur les 33 skills, **trois** ont été appliquées à un logiciel
-ou à un document que nous n'avons pas écrit — `automate` et `defect-report` sur json-server,
-`openapi-ingest` sur la spécification Petstore — et **aucune n'a jamais été utilisée par un humain
-dans son travail réel**. C'est toujours l'inconnue n°1, et trois skills de plus n'y changent
-rien.
+est porté », pas « c'est bien fait ». Sur les 35 skills, **cinq** ont été exercées sur un logiciel
+ou un document que nous n'avons pas écrit — `automate`, `defect-report` et `confirm-fix` sur
+json-server, `openapi-ingest` sur la spécification Petstore, `test-plan-and-closure` sur le bilan
+de la campagne — et **aucune n'a jamais été utilisée par un humain dans son travail réel**. C'est
+toujours l'inconnue n°1, et cinq skills de plus n'y changent rien.

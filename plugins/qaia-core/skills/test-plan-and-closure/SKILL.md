@@ -83,9 +83,14 @@ only lists what went well is a press release.
 
 ## Applied for real
 
-The two documents were produced for the json-server campaign — a campaign that had *already
-finished*, so nothing could be tailored to make them look good:
+**Only the closure half has been applied for real.** It was produced for the json-server campaign
+— a campaign that had *already finished*, so nothing could be tailored to make it look good:
 [the closure report](https://github.com/QAIA-Project/QAIA/blob/main/eval/external-application-2026-08-08/closure-report.md).
+
+**The plan half has never been used.** No plan was written before that campaign, which is why its
+closure report has to state that there were no exit criteria to check. The half of this skill that
+carries entry and exit criteria is therefore specified and unexercised — say so rather than let the
+example imply otherwise.
 
 The closure report states, among other things, that **three of the four failures on the current
 version were the test book's fault and not the code's**, that one finding was **counted as

@@ -55,8 +55,11 @@ Target: `examples/expense-demo`, 56 tests, 4 projects. Changed file: `pages/Logi
 
 | Approach | Predicted | Actually failed | Missed | Over-selected |
 |---|---|---|---|---|
-| Naive — specs naming `LoginPage` | 6 | 10 | **6** | 0 |
+| Naive — specs naming `LoginPage` | 6 | 10 | **6** | 2 |
 | Transitive — through `fixtures.js` | 13 | 10 | **0** | 3 |
+
+The naive reading over-selects too: it predicts all six `visual` tests and only four of them fail.
+It is not more precise, it is merely smaller — which is the trap.
 
 Read the `Missed` column. The naive reading **misses 6 of the 10 impacted tests** — every e2e test
 and one accessibility test, none of which names `LoginPage` anywhere. They reach it through the

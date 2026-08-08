@@ -258,8 +258,8 @@ par raccourci ; elle n'a pas changé ces quatre points.
 
 Et la journée du 2026-08-08 non plus. Trois skills de plus, deux vrais défauts trouvés dans un
 projet à 75 694 étoiles, une preuve de mutation enfin honnête — **et toujours 0 étoile, 0 fork,
-0 pilote humain**. La carte de couverture le dit dans sa dernière ligne : sur 33 skills, trois ont
-été appliquées hors du dépôt, et **aucune n'a jamais été utilisée par un humain dans son travail
+0 pilote humain**. La carte de couverture le dit dans sa dernière ligne : sur 35 skills, cinq ont
+été exercées hors du dépôt, et **aucune n'a jamais été utilisée par un humain dans son travail
 réel**. C'est la seule mesure qui manque, et aucune quantité de travail dans le dépôt ne la
 produira.
 

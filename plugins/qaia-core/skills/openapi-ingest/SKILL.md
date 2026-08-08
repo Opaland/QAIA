@@ -12,7 +12,7 @@ a **formal, machine-readable specification**. Same chain afterwards — `istqb-d
 ## Why this entry point earns its place
 
 The external campaign kept in `eval/external-application-2026-08-08/` found two real
-defects in a 74k-star project by generating **from its documentation and never from its code**.
+defects in a 75,000-star project by generating **from its documentation and never from its code**.
 The defect that mattered most was a one-character mismatch between what the documentation promised
 and what the implementation read. A suite written by looking at the code cannot find that class of
 defect: it copies the mistake.

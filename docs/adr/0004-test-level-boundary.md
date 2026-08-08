@@ -6,7 +6,7 @@
 
 ## Contexte
 
-La cartographie du 2026-08-08 (`docs/TEST-COVERAGE-MAP.md`) a croisé les 32 skills du catalogue
+La cartographie du 2026-08-08 (`docs/TEST-COVERAGE-MAP.md`) a croisé les skills du catalogue — 30 au moment où elle a été établie —
 avec les niveaux de test ISTQB (CTFL ch. 2.2). Résultat mesuré, pas supposé :
 
 | Niveau | Skills |

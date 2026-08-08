@@ -243,7 +243,7 @@ Scenario: A line at exactly the receipt
     <div class="grid3">
       <div class="card">
         <h4>A one-character contract break</h4>
-        <p>The documentation promised <code>_dependent</code>. The code read <code>dependent</code>. The endpoint answered <em>success</em> and did nothing. <strong>A suite written by reading the code cannot find this</strong> — it copies the mistake. A real user had filed it as <a href="https://github.com/typicode/json-server/issues/1551">issue #1551</a>; the maintainer fixed it in <code>1b7c0fb</code>.</p>
+        <p>The documentation promised <code>_dependent</code>. The code read <code>dependent</code>. The endpoint answered <em>success</em>, deleted the post, and silently left every dependent record in place. <strong>A suite written by reading the code cannot find this</strong> — it copies the mistake. A real user had filed it as <a href="https://github.com/typicode/json-server/issues/1551">issue #1551</a>; the maintainer fixed it in <code>1b7c0fb</code>.</p>
       </div>
       <div class="card">
         <h4>Two filters that overwrote each other</h4>

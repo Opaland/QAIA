@@ -47,7 +47,8 @@ posts le satisfont. Corrigé trois mois après la version testée.
 
 **`@QAIA-EXT-030` — `_dependent` ne supprimait pas les dépendances.**
 `DELETE /posts/1?_dependent=comments` laissait les commentaires en place. Cause, correctif
-`1b7c0fb` (2024-06-03), issue **#1551 ouverte par un vrai utilisateur** :
+`1b7c0fb` (2024-06-03), **écrit et proposé par `wll8`**, l'utilisateur qui avait ouvert l'issue
+**#1551**, puis fusionné par le mainteneur :
 
 ```diff
 - res.locals['data'] = await service.destroyById(name, id, req.query['dependent'])
@@ -129,13 +130,28 @@ ci-dessus ont été produits par la suite Playwright, qui n'a pas été touchée
 git clone https://github.com/typicode/json-server.git
 git -C json-server worktree add ../sut   --detach 8fb0f72   # version A, mai 2024
 git -C json-server worktree add ../fixed --detach 89a34a4   # version B, mars 2026
-# npm install dans chaque worktree, puis, avec la base d'exemple du README :
-npx tsx src/bin.ts db.json --port 3010   # dans ../sut
-npx tsx src/bin.ts db.json --port 3020   # dans ../fixed
+# npm install dans chaque worktree, puis, avec la base EXACTE de la campagne
+# (`db.used.json`, a copier depuis ce dossier -- voir la note ci-dessous) :
+npx tsx src/bin.ts db.used.json --port 3010   # dans ../sut
+npx tsx src/bin.ts db.used.json --port 3020   # dans ../fixed
 cd eval/external-application-2026-08-08/tests && npm install
 SUT_URL=http://localhost:3010 npx playwright test   # attendu : 3 rouges
 SUT_URL=http://localhost:3020 npx playwright test   # attendu : 4 rouges, dont 3 contrats retirés
 ```
+
+**La base n'est pas exactement celle du README, et la première version de cette page le disait à
+tort.** Le README publie un `db.json` d'exemple contenant `posts`, `comments` et `profile`. Il
+documente aussi le filtrage sur champ imbriqué et sur indice de tableau en illustrant avec une
+ressource `/foo` — qu'il **ne fournit pas dans sa base d'exemple**. Couvrir ces deux promesses
+(`@QAIA-EXT-031`, `@QAIA-EXT-032`) imposait donc d'ajouter une collection `foo`, ce que le cahier
+déclare bien dans ses `Given` mais que ni cette page ni le bilan ne disaient.
+
+Conséquence mesurable : **un tiers suivant l'ancienne procédure obtenait 5 rouges en version A, pas
+3** — les deux tests `foo` échouant faute de données. La base réellement utilisée est désormais
+archivée ici sous `db.used.json`, et la procédure ci-dessus la référence.
+
+Trouvé par un panel de relecture à contexte vide lancé sur ce dépôt le soir même, et vérifié à la
+main avant correction.
 
 Sorties brutes conservées : `results-alpha23-2024-05.json`, `results-beta15-2026-03.json`.
 Cahier : `testbook/json-server-rest.feature`. Suite : `tests/json-server.api.spec.js`.

@@ -22,10 +22,12 @@ extrapole une promesse que le document ne fait pas. **Personne n'a arbitré.** I
 mainteneur de la cible, ou la suppression du scénario. *Source : `report.md`, section « Un
 troisième échec, contesté ».*
 
-**3. Cinq questions ouvertes du cahier n'ont jamais reçu de réponse.** Sur les sept `Qn` levées à
-la génération, deux ont été résolues par l'exécution (les codes de statut observés). Les cinq
-autres — dont « aucun code de statut n'est documenté, pour aucune route » — restent ouvertes,
-parce qu'y répondre demande le mainteneur de la cible. *Source :
+**3. Les sept questions ouvertes du cahier sont toutes encore ouvertes.** Aucune n'a été
+résolue : y répondre demande le mainteneur de la cible, pas une exécution. Observer un code de
+statut dit ce que l'application *fait*, jamais ce que le contrat *promet* — et c'est la question
+posée. *(La première version de ce bilan affirmait que deux d'entre elles avaient été résolues par
+l'exécution. C'était faux, et contredit par l'en-tête du cahier lui-même, qui écrit « NONE is
+resolved by assumption ».)* *Source :
 `testbook/json-server-rest.feature`.*
 
 **4. La question centrale n'a pas été répondue, et ne pouvait pas l'être.** Cette campagne mesure
@@ -68,8 +70,13 @@ c'est un échantillon.**
   scénarios portent des étiquettes `@P1`/`@P2` posées à la main pendant la génération, sans
   analyse probabilité × impact. **Il n'existe donc pas d'analyse de risque pour cette campagne**,
   et toute phrase qui en présenterait une serait inventée.
-- **Aucun jeu de données généré.** La base utilisée est celle publiée dans le README de la cible,
-  recopiée telle quelle. `dataset-generate` n'a pas été utilisée.
+- **Aucun jeu de données généré, mais la base n'est pas non plus celle du README telle quelle.**
+  Elle en reprend `posts`, `comments` et `profile`, **et y ajoute une collection `foo`** sans
+  laquelle les deux scénarios de filtrage imbriqué (`@QAIA-EXT-031`, `@QAIA-EXT-032`) n'ont pas de
+  données — le README documente ces promesses en illustrant avec `/foo` mais ne fournit pas la
+  ressource. `dataset-generate` n'a pas été utilisée ; la base réelle est archivée sous
+  `db.used.json`. *(La première version de ce bilan écrivait « recopiée telle quelle » : c'était
+  faux, et la procédure de reproduction publiée en héritait.)*
 - **Aucune piste mutation.** Les assertions de cette suite n'ont **jamais été prouvées
   non-décoratives**, contrairement aux deux suites vitrines du dépôt. Le fait qu'elles aient
   attrapé deux vrais défauts est une preuve indirecte et partielle : elle porte sur trois
@@ -99,8 +106,9 @@ part du document, quel taux de verts attendu sur la version d'époque, et ce qu'
 | `8fb0f72` (mai 2024) | 29 | 3 | **2 défauts réels**, 1 contesté |
 | `89a34a4` (mars 2026) | 28 | 4 | 1 contesté, **3 tests périmés de notre fait** |
 
-Les deux défauts ont été confirmés par les correctifs du mainteneur (`e6055e6`, `1b7c0fb`), lus
-**après** la génération.
+Les deux défauts ont été confirmés par des correctifs intégrés en amont (`e6055e6`, écrit par le
+mainteneur ; `1b7c0fb`, proposé par `wll8` — l'auteur de l'issue #1551 — et fusionné par le
+mainteneur), lus **après** la génération.
 
 ---
 
