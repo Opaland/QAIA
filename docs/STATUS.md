@@ -123,6 +123,16 @@ les 4 copies du contrat partagé doivent rester identiques au canonique, et **to
 plugin doit être énoncée dans le README** — troisième dérive de la semaine, toujours dans le même
 sens.
 
+**#63, dernière case (D143)** — la rubrique LLM appliquée pour la première fois par **deux juges à
+contexte vide**, sur deux suites que la session n'avait pas touchées (délibérément pas
+`US-EVAL-001`, dont la notation de D136 portait un conflit déclaré). `US-EVAL-002` **3/12**,
+`US-EVAL-006` **8/10 jugeables**. Vérifié à la main : 6 assertions `not.toBe(200)` et **zéro**
+appel à `GET /invoices` sur 002 ; `toBeHidden()` — qui passe sur zéro élément — sur un scénario
+dont le sujet est un élément *préexistant* sur 006. **Et le résultat le plus utile est ailleurs :
+huit défauts trouvés dans la rubrique elle-même**, tous corrigés. Deux de plus consignés et non
+corrigés parce que ce sont des décisions de scope. Les suites de campagne ne sont pas modifiées —
+ce sont des preuves, les corriger détruirait la trace.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
