@@ -48,6 +48,69 @@ terminée. La moitié « plan » n'a encore jamais servi.
 | Confirmation (re-test après correction) | **couvert** | `confirm-fix` — trois verdicts, et le troisième jamais rapporté comme le premier |
 | Régression | **couvert** | `traffic-replay`, `flaky-detect`, `impact-select` (depuis un diff) |
 
+## 3bis. Le cycle de vie produit — Discovery / Delivery / Run
+
+Les sections 1 à 3 croisent le catalogue avec le **processus de test ISTQB**. Elles ne disent rien
+d'une autre question, posée le 2026-08-08 : *à chaque étape du cycle il y a une activité de test —
+est-ce qu'on la couvre ?*
+
+Le SDLC canonique compte **sept phases** (planification, analyse des besoins, conception,
+implémentation, test, déploiement, maintenance), et le modèle produit les regroupe en
+**Discovery / Delivery / Run**. Le Run, c'est le *shift-right* : tests en production, monitoring
+synthétique, chaos, A/B — l'observabilité y étant traitée comme une extension du test, pas comme
+un sujet d'exploitation.
+
+| Phase | L'activité de test qui s'y joue | Couverture |
+|---|---|---|
+| **Discovery** | besoins, faisabilité, **définition des exigences non-fonctionnelles** | **faible** |
+| Delivery — conception | stratégie, techniques, risque | **forte** |
+| Delivery — implémentation | revue de code, analyse statique, unitaire | **absente** |
+| Delivery — test système | fonctionnel et non-fonctionnel | **forte — le cœur** |
+| Delivery — déploiement | smoke, prêt-à-livrer, rollback | partielle (`aptitude-gate`) |
+| **Run** | monitoring synthétique, chaos, incident → test, A/B | **quasi absente** |
+| Maintenance | régression, impact, santé de la suite | **forte** |
+
+**QAIA vit entièrement dans Delivery et Maintenance.** Elle commence quand la discovery est finie
+et s'arrête quand le déploiement commence.
+
+Deux précisions qui corrigent une lecture trop favorable :
+
+- **Discovery.** `us-ingest` et `need-understanding` prennent une user story **déjà écrite** : on
+  ingère le *produit* de la discovery, on ne la fait pas. Et c'est là que se définissent les
+  exigences non-fonctionnelles — or nos skills de performance et de sécurité s'exécutent contre une
+  application qui tourne. **Aucune ne dérive une exigence au moment où elle serait encore
+  négociable.**
+- **Run.** `traffic-replay` rejoue un fichier HAR que l'utilisateur fournit. Ce n'est pas du
+  monitoring de production. Sur les quatre pratiques du shift-right, la couverture est de **zéro**.
+
+Et une nuance sur notre propre décision : [ADR 0004](adr/0004-test-level-boundary.md) exclut le
+**niveau** unitaire, pas le **test statique**. La revue de code contre l'exigence part du même
+oracle que le reste de la chaîne — elle n'est ni couverte, ni interdite.
+
+## 3ter. Les outils, face aux leaders du marché
+
+L'architecture d'automatisation est un **Page Object Model exposé en fixtures Playwright** (pas un
+POM par héritage), et ce n'est pas déclaratif : `automation-score` refuse une suite dont le dossier
+`pages/` est absent.
+
+| Type | Ce que QAIA génère | Leaders du marché | Verdict |
+|---|---|---|---|
+| E2E | Playwright (JS) | Playwright, Cypress, Selenium | un sur trois |
+| API | `request` de Playwright | Postman/Newman, REST Assured, Karate | **aucun leader** |
+| Performance | **script k6 réel** + variante légère | k6, JMeter, Gatling | **le leader OSS** |
+| Sécurité | passif + **baseline OWASP ZAP** en option | ZAP, Burp, Snyk | partiel, bon outil |
+| Accessibilité | **axe-core** | axe-core, Pa11y, Lighthouse | **le standard** |
+| Visuel | snapshots Playwright | Applitools, Percy | pas de moteur perceptuel |
+| Chaos | — | Gremlin, Litmus, Toxiproxy | **rien, nulle part** |
+| Contrat | sonde HTTP maison | **Pact**, Spring Cloud Contract | aucun standard |
+
+Trois catégories sont au niveau du marché : performance, accessibilité, sécurité passive. Trois
+passent toutes par Playwright — défendable en E2E, **beaucoup moins en API**, où personne ne teste
+sérieusement avec `request` quand Karate ou REST Assured existent. Deux sont vides.
+
+*(Vérification faite en cherchant `Pact` dans le dépôt : les premières occurrences étaient le mot
+**impact**. Il n'y a aucun support Pact, et il s'en est fallu d'un `grep` mal écrit pour l'annoncer.)*
+
 ## 4. Les trous, classés par ce qu'ils coûtent à un vrai utilisateur
 
 **1. ~~Le rapport de défaut.~~** **Comblé le 2026-08-08** — `qaia-playwright:defect-report`,
