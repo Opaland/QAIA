@@ -36,3 +36,27 @@ curl -sL -H "Authorization: Bearer $GITHUB_PERSONAL_ACCESS_TOKEN" \
 Si le run met du temps à démarrer/finir, utiliser `Monitor` (poll en arrière-plan, une
 notification par événement) plutôt que d'attendre en bloquant le tour — ou signaler
 explicitement à l'utilisateur qu'on n'a pas encore confirmé le vert avant de clore.
+
+## Ne jamais faire passer du Markdown par le shell
+
+Trouvé le 2026-08-08, **six fois dans la même session** : un commentaire GitHub publié amputé de
+toutes ses références, parce que les backticks avaient été interprétés par le shell qui passait le
+texte en ligne (`python -c "..."`, heredoc non quoté). À chaque fois la même cause, à chaque fois
+le remède noté dans le commentaire correctif — et à chaque fois la récidive dans l'heure.
+
+**Règle** : tout corps de commentaire, d'issue ou de PR s'écrit **dans un fichier**, jamais dans une
+chaîne passée à Bash. Un rappel écrit n'a jamais tenu plus de quelques heures ; l'outil, lui,
+supprime l'occasion.
+
+```bash
+python eval/tools/gh_comment.py --file corps.md --issue 88
+python eval/tools/gh_comment.py --file corps.md --comment-id 5228083941
+```
+
+L'outil relit le commentaire **depuis l'API** après publication et le compare au fichier : si quoi
+que ce soit a été mangé en route, il échoue en montrant la première ligne divergente, au moment où
+ça arrive. Éprouvé dans les deux sens (une faute injectée reproduisant l'effet du shell est bien
+détectée, 231 caractères manquants signalés à la ligne 1).
+
+Même logique que `check_skill_counts.py` et `check_decision_register.py`, nés le même jour du même
+constat : **une règle qui se répète malgré son rappel n'est pas tenable par l'intention.**
