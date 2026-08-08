@@ -78,6 +78,29 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: README version claims match the plugin manifests
+        run: |
+          set -e
+          # The README states each plugin's version twice (English and French sections). Those
+          # numbers drifted behind the manifests three times in one week — always the same way:
+          # a plugin is bumped as part of a fix and the prose that advertises it is not. A stale
+          # version is a small lie about a project whose entire pitch is that its numbers are
+          # checkable, so it is checked rather than remembered.
+          python - <<'PY'
+          import json, glob, io, sys
+          readme = io.open('README.md', encoding='utf-8').read()
+          bad = []
+          for f in glob.glob('plugins/*/.claude-plugin/plugin.json'):
+              d = json.load(io.open(f, encoding='utf-8'))
+              claim = '`%s` %s' % (d['name'], d['version'])
+              if claim not in readme:
+                  bad.append('%s is at %s; README never states that version' % (d['name'], d['version']))
+          for b in bad:
+              print('::error::' + b)
+          sys.exit(1 if bad else 0)
+          PY
+          echo "OK: every plugin version is stated in the README"
+
       - name: Shared output contract is identical in every plugin
         run: |
           set -e
