@@ -5,7 +5,7 @@ Suivi de #69 et #73. Mis à jour le 2026-08-08.
 | Annuaire | ★ | État | Action |
 |---|---|---|---|
 | [jeremylongshore/claude-code-plugins-plus-skills](https://github.com/jeremylongshore/claude-code-plugins-plus-skills) | 2 608 | **PR ouverte — [#1163](https://github.com/jeremylongshore/claude-code-plugins-plus-skills/pull/1163)** | rien à faire, attendre la revue |
-| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | 51 858 | **texte prêt, soumission manuelle obligatoire** | 2 minutes, voir ci-dessous |
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | 51 858 | **soumise le 2026-08-08 — [#2466](https://github.com/hesreallyhim/awesome-claude-code/issues/2466), validation automatique passée** | attendre la revue humaine, ne pas relancer |
 | QASkills.sh | — | compte à créer | voir #73 |
 | claudemarketplaces.com | — | à explorer | |
 | claudepluginhub.com | — | à explorer | |
@@ -37,9 +37,17 @@ propose deux alternatives si leur catalogue l'exige.
 
 ---
 
-## 2. hesreallyhim/awesome-claude-code — À FAIRE À LA MAIN (2 minutes)
+## 2. hesreallyhim/awesome-claude-code — FAIT le 2026-08-08
 
 **51 858 étoiles, poussé quotidiennement. C'est l'annuaire qui compte le plus.**
+
+Soumise : **[issue #2466](https://github.com/hesreallyhim/awesome-claude-code/issues/2466)**,
+catégorie `Skills` (leurs 16 catégories n'incluent ni testing ni QA — `Skills` est le seul choix
+littéralement exact), **validation automatique passée** le jour même, label `validation-passed`.
+En attente de revue humaine, qui est discrétionnaire et sans délai annoncé.
+
+**Ne pas relancer.** Leur `CONTRIBUTING.md` est explicite sur le fait qu'une recommandation ne
+crée aucun contrat, et un mainteneur relancé refuse.
 
 ⚠️ **Ne pas soumettre par l'API.** Leur `CONTRIBUTING.md` est explicite :
 
