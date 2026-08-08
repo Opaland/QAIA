@@ -29,6 +29,11 @@ generated test files, and the JSON produced by `automation_score.py`. **Do not g
 generation session's context.** Instruct it to justify every score in one sentence, to cite a
 file:line for every claim, and to default to the **lower** score when hesitating.
 
+**A false claim in the run report is chargeable to dimension 6.** The report is offered as
+evidence *for* a score, so it is subject to the same honesty test as the code — a table listing a
+test project as "actually used" when its `testMatch` matches no file on disk is a dimension-6
+defect, not a typo.
+
 **The run report is in scope, up to any self-evaluation heading.** Dimension 6 accepts "a note in
 the run report" as evidence, and run reports in this project also carry producer self-grading
 sections. Read the report; stop at the first heading that grades the producer. All three judges so
@@ -55,6 +60,10 @@ infidelity, a hollow negative and an under-strength assertion. Score it in the d
 which dimension you charged it to. Charging one defect three times turns a single mistake into a
 four-point swing.
 
+**Dimension 1 or dimension 2, when both fit:** an assertion the `Then` never contained *at all*
+is dimension 1; a wrong or unsourced *value* inside an assertion the `Then` does contain is
+dimension 2. The fourth judge hit a case worth two points and had no tie-break.
+
 **A dimension whose defect was charged elsewhere is scored on its remaining instances only, and
 may still reach 2.** This sentence exists because the third judge to apply the rubric found the
 rule underspecified and said so: level 2 is written as a universal ("*every* test asserts…"), so
@@ -80,8 +89,8 @@ a suite can be shapely and vacuous. The two scores are still never summed.
 |---|---|---|---|---|
 | 1 | **Then-fidelity** | Every test asserts what its scenario's `Then` actually states — same observable, same expected value. Where the `Then` is vague, the test stays as vague rather than inventing precision | One test asserts a neighbouring observable (asserts the URL where the `Then` names a message, etc.) | A test asserts something the `Then` never claimed, or silently strengthens/weakens it |
 | 2 | **No invented expectation** | Every concrete literal (message text, amount, status code, count) traces to the test book, the US, or the app's observed behaviour — and where it was chosen for automation, a comment says so | A literal appears without provenance but is plausible and harmless | A literal contradicts the source, or an assumption is encoded as if it were a requirement (**dangerous: plausible-but-wrong**) |
-| 3 | **Assertions that would survive an inert app** — *tag-independent: judge any test whose scenario claims a refusal, an absence or an unchanged state, whether or not it carries `@negative`* | Each such test asserts the *refusal itself* (error shown, state unchanged, access denied) **and is attributable to the condition under test** — with an accompanying positive control for the same endpoint that the run report shows green, since a negative whose positive control is red or unrun proves nothing. If no run report is available, say that the control's existence was verified and its result was not | The test asserts only "not redirected", `not.toBe(200)` or similar single-sided evidence | The test would pass against an app that silently does nothing — or against one that did the forbidden thing and returned a different success code |
-| 4 | **Ambiguity preserved, not resolved** | Scenarios flagged `[open]` / `@low-confidence` in the test book are encoded as the book states them, with a comment saying the expectation is unconfirmed and that a failure is an answer, not a bug. **The flag must appear on the scenario the book flagged** — carrying it on a neighbour does not count | Flag carried on the right scenario but no explanation of what a failure would mean | The code quietly picks one reading of an open question and asserts it as settled. **A `test.fail` marker does not excuse an unflagged assertion**: it claims no green today, and goes live unannounced the day the blocker lifts |
+| 3 | **Assertions that would survive an inert app** — *tag-independent: judge any test whose scenario claims a refusal, an absence or an unchanged state, whether or not it carries `@negative`* | Each such test asserts the *refusal itself* (error shown, state unchanged, access denied) **and is attributable to the condition under test** — with an accompanying positive control for the same endpoint that the run report shows green, since a negative whose positive control is red or unrun proves nothing. If no run report is available, say that the control's existence was verified and its result was not | The test asserts only "not redirected", `not.toBe(200)` or similar single-sided evidence — **or** it asserts the refusal fully, with the right oracle, but no positive control for that path is shown green. The control may live in another test block; a vacuous assertion sitting inside an otherwise discriminating test is *not* chargeable here, it belongs to dimension 5 | The test would pass against an app that silently does nothing — or against one that did the forbidden thing and returned a different success code |
+| 4 | **Ambiguity preserved, not resolved** | Scenarios flagged `[open]` / `@low-confidence` in the test book are encoded as the book states them, with a comment saying the expectation is unconfirmed and that a failure is an answer, not a bug. **The flag must appear on the scenario the book flagged** — carrying it on a neighbour does not count | Flag carried on the right scenario but no explanation of what a failure would mean | The code quietly picks one reading of an open question and asserts it as settled — **and a scenario the book flagged that carries no flag anywhere in the code is level 0 regardless of what it asserts**, because the next reader has no way to tell a red test apart from a regression. **A `test.fail` marker does not excuse an unflagged assertion**: it claims no green today, and goes live unannounced the day the blocker lifts |
 | 5 | **Assertion strength matches the claim** | Where the scenario claims absence, the test distinguishes "hidden" from "not in the DOM"; where it claims a value, it asserts the value, not merely visibility | Assertion is weaker than the claim but still directional | Assertion is compatible with the failure mode the scenario exists to catch |
 | 6 | **Honest handling of what could not be automated** | Anything the test book demanded but the code cannot verify is named explicitly (comment, `test.fixme` with a reason, or a note in the run report) | Mentioned vaguely | Silently dropped — the scenario looks covered and is not |
 

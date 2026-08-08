@@ -141,3 +141,79 @@ One consequence worth stating plainly: the deterministic tool reported `blocking
 on all three suites. It counts shapes, and all three are shapely. **A suite can be shapely and
 vacuous**, which is exactly why the two scores are never summed and why the rubric's gate — not
 the tool's — decides whether a run ships.
+
+---
+
+## Fourth judge: `US-EVAL-013-mobile` — 5 / 12
+
+The mobile suite, chosen deliberately: QAIA's stated position is that mobile means browser
+emulation and never native, so this run tests whether the code and its report honour a claim the
+project makes loudly.
+
+**On that specific question the suite passes, and it deserves saying.** The judge found the
+emulation-only position stated in the config header, repeated at the top of all three spec files
+and in the run report, with the cheap version explicitly refused: *"Running both on one engine
+would only be window-resizing, not mobile emulation."* No result about a native app is claimed
+anywhere. **No honesty defect on the axis the project is most exposed on.**
+
+The two failures are elsewhere, and both were verified by hand before publishing.
+
+**Five `@low-confidence` flags in the test book, zero in the code.** `grep` over the three spec
+files returns no `low-confidence`, no `open: Q`, no `test.fixme`, no `test.fail`. The most
+contestable call of the whole run — *is a 20 × 20 px burger, the only phone navigation control, an
+acceptable target size?*, which the book itself marks `[open]` and calls "the single most
+contestable call" — is asserted in code as `toEqual({ width: 20, height: 20 })` and reported green.
+
+The failure scenario the judge draws from it is the useful part: SauceDemo ships an accessibility
+fix, the burger becomes 24 × 24, and a **P1 test with no retries** goes red on both descriptors
+with the title *"the burger is 20x20 CSS px, below the 24x24 minimum"*. The on-call reader has no
+signal anywhere that this red **is the answer to the open question arriving** rather than a
+regression. The likeliest resolution is that someone edits the expected value to match the app —
+**silently converting a WCAG finding into a WCAG specification.**
+
+**A test project listed as "actually used" that ran nothing.** `playwright.config.js` declares an
+`e2e-desktop` project scoped by `testMatch: /e2e\.desktop-.*\.spec\.js/`; the suite contains three
+files, all `e2e.mobile-*`. So the "contrast project for the ≥ 481 px side" executed zero tests —
+while the run report's table, headed *"Device descriptors actually used (the point of this run)"*,
+lists it. The report's own arithmetic contradicts it two dozen lines later (`42 = 21 blocks × 2
+descriptors`).
+
+**Four more rubric defects, all fixed:**
+
+1. **No tie-break between dimensions 1 and 2** when an assertion is both "something the `Then`
+   never contained" and "an unsourced literal". Two points hung on the judge's choice. Settled: an
+   assertion the `Then` never contained *at all* is dimension 1; a wrong or unsourced *value*
+   inside an assertion the `Then` does contain is dimension 2.
+2. **Dimension 3's ladder had a gap the new positive-control clause opened**: a test that asserts
+   the refusal *fully*, with the right oracle, but has no positive control matched neither level 2
+   nor level 1's wording. Level 1 now covers it — and two sub-questions the judge had to rule on
+   alone are written down: a control may live in another test block, and a vacuous assertion
+   inside an otherwise discriminating test belongs to dimension 5, not 3.
+3. **Dimension 4's refinement never engaged**, because there were no misplaced flags — there were
+   no flags at all. Added: a flagged scenario carrying no flag anywhere is level 0 regardless of
+   what it asserts, since the next reader cannot tell a red test from a regression.
+4. **The rubric never said whether a false claim in the run report is chargeable.** The report is
+   offered as evidence *for* dimension 6, so it now answers to the same honesty test as the code.
+
+## Where four applications leave it
+
+| Suite | Total | Gate |
+|---|---|---|
+| `US-EVAL-002` toolshop checkout | 3 / 12 | not met |
+| `US-EVAL-006` dynamic loading | 8 / 10 judgeable | not met once rescaled |
+| `US-EVAL-008` demoblaze | 2 / 12 | not met |
+| `US-EVAL-013` mobile | 5 / 12 | not met |
+
+**Four suites judged, none passes the gate. Fifteen defects found in the rubric against nine in
+the code.** The instrument absorbed more correction than the thing it measures, which is the
+honest summary of what "the rubric had never been applied" actually meant.
+
+Two facts that recur across all four and are not about any one suite:
+
+- **`mutation.status` is `skipped` on every one.** No suite in this corpus has been shown to have
+  load-bearing assertions. The rubric now forces that sentence, and it appeared in all four
+  reports.
+- **The deterministic tool reported `blocking.failed: false` on all four.** It counts shapes; all
+  four are shapely. Three of the four are vacuous against their own specification in at least two
+  dimensions. That gap is the entire argument for keeping a semantic judge, and it is now
+  measured rather than asserted.
