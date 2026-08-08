@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+"""Fail when a document claims a skill count that no longer matches the repository.
+
+Why this exists, and it is not hypothetical. On 2026-08-08 a blank-context review panel found
+**four different skill counts in four documents dated the same day** -- 30, 32, 33 and 35 -- while
+the repository contained 35. Each had been correct when written; five skills were added over the
+course of the day and each document was updated at a different moment, or not at all. The count had
+already been corrected four times by hand before this file existed. The fifth correction was the
+point at which correcting it again stopped being the right answer.
+
+## What is checked, and what is deliberately not
+
+**Total claims** -- a number presented as *the catalogue's size*: `35 skills across 4 plugins`,
+`all 35 skills`, `**35 skills**`, `des 35 skills`. These must equal the real total.
+
+**Per-plugin claims** in the README -- `qaia-core 0.2.34, 17 skills`. These must equal that
+plugin's real count. They drift independently of the total and were stale on their own.
+
+Not checked, on purpose:
+
+- **`docs/STATUS.md`** is a dated, chronological log. `29 skills` in a Sprint-26 entry is *correct*
+  -- it records what was true then. Checking it would demand rewriting history to keep a linter
+  quiet, which is the opposite of what the file is for.
+- **Another project's catalogue.** QASkills' ~380 skills are theirs to be wrong about. Recognised
+  by a marker on the line.
+- **Bare counts in prose** (`12 skills renvoient à docs/`). They describe a subset, not the total.
+  Only the shapes listed above are read as a total claim.
+
+The first version of this file checked every `<n> skills` occurrence and produced **35 findings of
+which 33 were false positives** -- the same failure that made nine linter warnings sit ignored for
+three sprints. A check that cries wolf is a check nobody runs.
+
+Run: python eval/tools/check_skill_counts.py
+Exit 0 all claims current, 1 at least one is stale, 2 nothing to count.
+"""
+import io
+import json
+import os
+import re
+import sys
+
+TOTAL_SCANNED = [
+    "README.md",
+    "docs/TEST-COVERAGE-MAP.md",
+    "docs/ACTION-PLAN.md",
+    "plugins/qaia-core/CATALOGUE.md",
+    "site/index.html",
+    "site/compare.html",
+    "site/walkthrough.html",
+    "site/llms.txt",
+]
+
+# A total claim, in the shapes this project actually writes.
+TOTAL_CLAIM = [
+    re.compile(r"(\d{1,4})\s+skills\s+across\s+\d+\s+plugins", re.I),
+    re.compile(r"\ball\s+(\d{1,4})\s+skills", re.I),
+    re.compile(r"\*\*(\d{1,4})\s+skills\*\*"),
+    re.compile(r"\bdes\s+(\d{1,4})\s+skills", re.I),
+    re.compile(r"(\d{1,4})\s+skills,\s+\d+\s+plugins", re.I),
+    re.compile(r"\bThe\s+(\d{1,4})\s+skills\s+are\b", re.I),
+    re.compile(r"\bSur\s+les\s+(\d{1,4})\s+skills", re.I),
+]
+
+# Deux formes reelles : "`qaia-core` 0.2.34, 17 skills" dans le bandeau de statut, et
+# "plugins/qaia-core/ | Core plugin: ... (17 skills," dans la carte du depot. La seconde a ete
+# oubliee par la premiere version resserree de ce controle, et elle etait perimee.
+PER_PLUGIN = [
+    re.compile(r"`(qaia-[a-z]+)`\s+[\d.]+,\s*(\d{1,3})\s+skills", re.I),
+    re.compile(r"plugins/(qaia-[a-z]+)/.{0,160}?\((\d{1,3})\s+skills", re.I),
+]
+
+EXTERNAL = re.compile(r"qaskills|qa[- ]orchestra|agentic[- ]qe|neonwatty|ClaudeCodeAgents", re.I)
+
+
+def count_skills(root):
+    n = 0
+    for dirpath, dirnames, files in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d != "node_modules"]
+        n += sum(1 for f in files if f == "SKILL.md")
+    return n
+
+
+def main():
+    total = count_skills("plugins")
+    if total == 0:
+        print("BROKEN: no SKILL.md under plugins/ -- run from the repository root.")
+        return 2
+    per_plugin = {p: count_skills(os.path.join("plugins", p))
+                  for p in sorted(os.listdir("plugins"))
+                  if os.path.isdir(os.path.join("plugins", p))}
+
+    stale, checked = [], 0
+    for path in TOTAL_SCANNED:
+        if not os.path.isfile(path):
+            continue
+        for i, line in enumerate(io.open(path, encoding="utf-8", errors="replace"), 1):
+            if EXTERNAL.search(line):
+                continue
+            for rx in TOTAL_CLAIM:
+                for m in rx.finditer(line):
+                    checked += 1
+                    if int(m.group(1)) != total:
+                        stale.append((path, i, "total", m.group(0).strip(), total))
+            for rx in PER_PLUGIN:
+                for m in rx.finditer(line):
+                    plugin, claimed = m.group(1), int(m.group(2))
+                    if plugin not in per_plugin:
+                        continue
+                    checked += 1
+                    if claimed != per_plugin[plugin]:
+                        stale.append((path, i, plugin, m.group(0).strip()[:70], per_plugin[plugin]))
+
+    if stale:
+        print("STALE SKILL COUNT -- the repository has %d skills (%s).\n"
+              % (total, ", ".join("%s %d" % (k, v) for k, v in per_plugin.items())))
+        for path, i, what, claim, real in stale:
+            print("  %s:%d  claims \"%s\"  ->  %s is %d" % (path, i, claim, what, real))
+        print("\nUpdate the claim, or -- if the number is deliberately historical -- rewrite it so it")
+        print("carries its date (\"30 le matin du 2026-08-08\") instead of reading as current.")
+        return 1
+
+    print("OK: %d skill-count claim(s) match the repository (%d skills; %s)."
+          % (checked, total, ", ".join("%s %d" % (k, v) for k, v in per_plugin.items())))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

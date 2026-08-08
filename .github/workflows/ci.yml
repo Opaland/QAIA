@@ -78,6 +78,17 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: Skill counts claimed in the docs match the repository
+        run: |
+          set -e
+          # A blank-context review panel found four different skill counts in four documents dated
+          # the same day -- 30, 32, 33, 35 -- while the repository held 35. Each had been correct
+          # when written. The count had already been hand-corrected four times; the fifth was the
+          # point at which correcting it again stopped being the right answer.
+          # docs/STATUS.md is deliberately excluded: it is a dated log, and its old numbers are
+          # correct records of what was true then.
+          python eval/tools/check_skill_counts.py
+
       - name: make check (the Makefile is verified here, not on the maintainer's machine)
         run: |
           set -e

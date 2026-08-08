@@ -152,7 +152,7 @@ Proven twice end-to-end, on two unrelated domains (see [`examples/`](examples/))
 | [`docs/STATUS.md`](docs/STATUS.md) | **Honest project state + resume prompt** (start here to continue) |
 | [`docs/M0-CHECKLIST.md`](docs/M0-CHECKLIST.md) | M0 progress and pending owner actions |
 | [`docs/PILOT-KIT.md`](docs/PILOT-KIT.md) | 15-minute guided walkthrough for pilot testers |
-| [`plugins/qaia-core/`](plugins/qaia-core/) | Core plugin: US → prioritized Gherkin test book (15 skills, incl. oracle-generate + report) |
+| [`plugins/qaia-core/`](plugins/qaia-core/) | Core plugin: US → prioritized Gherkin test book (17 skills, incl. oracle-generate + report) |
 | [`plugins/qaia-playwright/`](plugins/qaia-playwright/) | Automation plugin: test book → native Playwright + CI pipeline (E2E/API/a11y/perf/security) |
 | [`plugins/qaia-score/`](plugins/qaia-score/) | Scoring plugin (read-only): 10-dimension rubric (/20) + PASS/CONCERNS/FAIL/WAIVED gate |
 | [`plugins/qaia-testdata/`](plugins/qaia-testdata/) | Test-data plugin: rich, business-coherent synthetic datasets injectable via fixtures (never real data) |
