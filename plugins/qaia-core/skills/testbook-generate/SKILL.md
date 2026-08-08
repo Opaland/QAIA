@@ -35,7 +35,7 @@ Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and
   `[assumption]` or `[open]` item.
 - **Every scenario cites its condition** (`AC2-C3`) in a comment line — the full chain
   US → AC → condition → scenario.
-- **Negative coverage**: the blocking rule is the `[req-neg]` checklist of ADR 0001 (the
+- **Negative coverage**: the blocking rule is the `[req-neg]` checklist of [ADR 0001](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md) (the
   negative-path coverage gate) — every refusal, error or denial path has a scenario. The
   **negative ratio is reported as context, never a gate.** Full doctrine, and why this is
   laboured: `references/negative-ratio.md`.
@@ -73,7 +73,7 @@ Follow the shared contract in `../README.md`. Prerequisites: `03-design.md` and
    redundancy is deliberate: each deliverable stands on its own, and someone reading this
    synthesis alone would otherwise never learn the vocabulary was unified against nothing.
 5. **Emission lints — run before showing anything.** Eleven checks, one of them blocking. Full
-   list with the reasoning: `references/emission-lints.md`. In short: the ADR 0001 negative-path
+   list with the reasoning: `references/emission-lints.md`. In short: the [ADR 0001](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md) negative-path
    gate blocks emission; one `When` per scenario; no compound `Then`; every asserted literal
    computed and grounded; `Background` holds only universal invariants; no silent ID gaps; the
    reported ratio matches a literal tag count in the emitted file.

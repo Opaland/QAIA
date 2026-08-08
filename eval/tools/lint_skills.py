@@ -53,8 +53,21 @@ DESC_MIN, DESC_MAX = 120, 600
 TRIGGER = re.compile(r"\bUse\s+(when|whenever|for|to|it|this|after|before|right|on|during|in)\b", re.I)
 # `step X = done` with nothing making it conditional on the validation having happened.
 UNCONDITIONAL_DONE = re.compile(r"step\s+`?[\w-]+`?\s*=\s*done(?!\s*\*{0,2}only)", re.I)
-INTERNAL_CODE = re.compile(r"(?<![A-Za-z0-9])(?:D\d{1,3}|T\d{1,2}|Q\d{1,3}|ADR\s*\d{4}|#\d{1,3})(?![A-Za-z0-9])")
-CAMPAIGN_DATE = re.compile(r"\b20\d{2}-\d{2}-\d{2}\b")
+# `Qn` is deliberately absent from this pattern. In this catalogue it never means a project
+# decision: it is the nth open question **of the run the skill is currently performing**, a
+# numbering the skills define themselves (`Q1, Q2…`, `# open: Q5`). Flagging it told authors to
+# gloss a scheme their own text had just introduced. Found by reading the nine warnings
+# outstanding for three sprints rather than by acting on them: all nine were false positives.
+INTERNAL_CODE = re.compile(r"(?<![A-Za-z0-9])(?:D\d{1,3}|T\d{1,2}|ADR\s*\d{4}|#\d{1,3})(?![A-Za-z0-9])")
+# A code is acceptable when the sentence explains it on the spot: `ADR 0001, the negative-path
+# coverage gate` or `ADR 0001 (the …)`, or when it is a markdown link. The warning's own remedy
+# is "gloss on first use" — counting an already-glossed occurrence contradicts the remedy.
+GLOSSED = re.compile(r"(?:D\d{1,3}|T\d{1,2}|ADR\s*\d{4}|#\d{1,3})\s*[(,]\s*(?:the|le|la|les|its|which)\b", re.I)
+LINKED_CODE = re.compile(r"\[[^\]]*(?:D\d{1,3}|T\d{1,2}|ADR\s*\d{4}|#\d{1,3})[^\]]*\]\([^)]+\)")
+# A date inside a path is a directory name, not a changelog entry: `eval/ci-proof-2026-08-01/`
+# names an artifact folder and is the opposite of stale prose — it is how a claim stays
+# checkable. Only a bare date in the text is a changelog smell.
+CAMPAIGN_DATE = re.compile(r"(?<![\w/-])20\d{2}-\d{2}-\d{2}(?![\w/-])")
 
 
 def find_skills(paths):
@@ -143,8 +156,12 @@ def lint_one(path):
                          "that writes itself done is the bypass rule 3 exists to prevent — make it "
                          "conditional on the validation actually happening." % i)
 
-    codes = INTERNAL_CODE.findall("\n".join(body))
-    dates = CAMPAIGN_DATE.findall("\n".join(body))
+    body_text = "\n".join(body)
+    # Drop the occurrences the sentence already explains, and those inside a markdown link.
+    scrubbed = LINKED_CODE.sub("", body_text)
+    scrubbed = GLOSSED.sub("", scrubbed)
+    codes = INTERNAL_CODE.findall(scrubbed)
+    dates = CAMPAIGN_DATE.findall(body_text)
     if codes:
         warns.append("%d internal code reference(s) (%s…) — unreadable to anyone without the "
                      "project's history; gloss on first use or move to references/"

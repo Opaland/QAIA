@@ -33,7 +33,7 @@ guessed counts.
 2. **Compute the counts** — do not estimate. Every number in the manifest must equal what the
    artifacts contain: the negative ratio is `@negative` blocks / all blocks (the single
    definition given by `testbook-generate`), `reqNegCovered/reqNegTotal` is the negative-path
-   coverage gate of ADR 0001, `byPriority` sums to
+   coverage gate of [ADR 0001](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md), `byPriority` sums to
    `total` minus the excluded `@smoke` journey per the counting rules of `testbook-generate`.
 3. **Merge, don't clobber** (contract rule 2). If `manifest.json` already exists, load it,
    replace only the `design` section and `openArbitrations`, append this skill to

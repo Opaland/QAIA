@@ -40,7 +40,7 @@ averaging them hides whichever is worse.
 
 **In Claude Code**: materialize a throwaway script implementing the algorithm below and **run
 it**, for true determinism. The script is generated in-session and never shipped — QAIA stays
-100 % skill (ADR 0002). The maintainer's reference implementation is
+100 % skill ([ADR 0002](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0002-code-and-optin-tier.md)). The maintainer's reference implementation is
 [`eval/tools/automation_score.py`](https://github.com/QAIA-Project/QAIA/blob/main/eval/tools/automation_score.py), which **lives in the QAIA source repository, not in the
 installed plugin** — do not send a user looking for it in their own project.
 

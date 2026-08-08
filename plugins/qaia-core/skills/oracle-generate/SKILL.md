@@ -85,7 +85,7 @@ wins on business intent, the spec grounds the API shape.
    > The question is only "does this rule apply to us, yes or no". You do not need to know what
    > the standard says — that part is ours.
 3. **Emit** the accepted cases into the design conditions and, at generation, into scenarios — each tagged `@oracle:<standard>` and carrying a `# oracle: <ref>` comment. The expected result comes from the standard, not from extrapolation.
-4. **Record** provenance in `03-design.md` and the synthesis ("negative cases X, Y grounded in Luhn, not fabricated") — this raises negative-path coverage — the gate defined by ADR 0001 — without fabrication.
+4. **Record** provenance in `03-design.md` and the synthesis ("negative cases X, Y grounded in Luhn, not fabricated") — this raises negative-path coverage — the gate defined by [ADR 0001](https://github.com/QAIA-Project/QAIA/blob/main/docs/adr/0001-negative-coverage-gate.md) — without fabrication.
 
 ## Guardrails
 
