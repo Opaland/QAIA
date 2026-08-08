@@ -149,6 +149,19 @@ Et le contrôle de versions du README, ajouté quelques heures plus tôt, **a at
 auteur** au commit suivant. Troisième fois de la session qu'un garde-fou du projet arrête celui
 qui l'a posé.
 
+**#63 fermée, et les défauts remontent au générateur (D145).** L'auto-relecture d'`automate` passe
+de **4 à 9 classes** : les quatre existantes sont des *formes* qui ne peuvent pas échouer ; les
+cinq nouvelles sont de vraies assertions sur un vrai état, qu'un lecteur statique accepte — une
+assertion qui **contredit son propre `Then`**, un flag d'ambiguïté perdu, une évidence
+unilatérale, un littéral sans provenance, une affirmation du rapport que le code ne soutient pas.
+Chacune porte son cas mesuré et le mécanisme par lequel la génération la produit.
+
+Trois sont démontrées sur la fixture : **before déclenche quatre classes, after aucune**.
+Construire cette preuve a trouvé **deux défauts antérieurs dans l'outillage** — le scorer comptait
+les assertions écrites dans les *commentaires* (donc pénalisait tout fichier qui documente ses
+correctifs), et l'en-tête de la fixture citait `../VALIDATION.md` un répertoire trop haut depuis
+toujours, attrapé au premier run du contrôle `dead-citation`.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
