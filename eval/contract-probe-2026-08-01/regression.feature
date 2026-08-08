@@ -20,3 +20,10 @@ Feature: ExpenseFlow keeps its documented line-item and total guarantees under a
     Then the submission is refused with a message naming the invalid amount
     And the report stays in state "draft"
     And no report is recorded with a null line amount or a null converted total
+
+  # STATUS 2026-08-08: fixed in examples/expense-demo/app/server.js (Number.isFinite instead of
+  # typeof === "number"), and promoted to executable tests in
+  # examples/expense-demo/tests/api.expense.spec.js as @QAIA-CP-001/002/003.
+  # Mutation-verified rather than assumed: reverting the fix turns CP-001 red; CP-002 is killed
+  # by the same mutation and is kept as an input-class case, not an independent guard; CP-003
+  # covers the  branch, which had NO test at all before this pass.

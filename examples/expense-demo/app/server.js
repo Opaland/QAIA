@@ -157,7 +157,13 @@ function recomputeTotal(report) {
 // without a receipt while a 24 EUR line would not. Flagged @low-confidence.
 function validateLines(lines, currency) {
   for (const l of lines) {
-    if (!l.category || typeof l.amount !== 'number' || l.amount <= 0 || !l.date) return 'each line needs a category, a positive amount and a date';
+    // Number.isFinite, not `typeof === 'number'`: CP-001 (contract-probe, 2026-08-01). JSON
+    // parses 1e309 as Infinity, which IS a number and IS > 0, so it passed here — and then
+    // serialised back to null, admitting a submitted report with a null amount and a null
+    // total, i.e. inside the approval workflow with nothing to compare against AC2's
+    // EUR500/EUR5000 thresholds. The same validator refused a literal null with a 422: two
+    // identical end states, two opposite verdicts. NaN fails the same check for the same reason.
+    if (!l.category || !Number.isFinite(l.amount) || l.amount <= 0 || !l.date) return 'each line needs a category, a positive amount and a date';
     const ageDays = Math.floor((NOW() - new Date(l.date + 'T00:00:00Z').getTime()) / DAY); // Q5: server clock (see 02-understanding.md)
     if (ageDays > 90) return 'line "' + l.category + '" dated ' + l.date + ' is more than 90 days old and is blocked at submission'; // AC4
     const fx = fxRate(currency, l.date);

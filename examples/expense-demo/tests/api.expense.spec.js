@@ -376,4 +376,61 @@ test.describe('ExpenseFlow API (US-004)', () => {
     const r = await request.get(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + fin } });
     expect(r.status()).toBe(404); // band A report, only awaiting the manager -> finance is not yet in the chain
   });
+  // --- Adversarial contract probe (contract-probe, 2026-08-01) ---
+  //
+  // These two send a RAW JSON string, not an object. Writing `amount: 1e309` in JavaScript
+  // produces Infinity *before* serialisation, and JSON.stringify(Infinity) is `null` — so an
+  // object-based test would quietly send a literal null and assert against a different defect
+  // than the one being guarded. The overflow only exists on the wire.
+
+  async function submitRawAmount(request, token, rawAmount) {
+    const created = await request.post(B + '/api/reports', { headers: { Authorization: 'Bearer ' + token } });
+    const id = (await created.json()).report.id;
+    await request.put(B + '/api/reports/' + id, {
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      data: '{"currency":"EUR","lines":[{"category":"meal","amount":' + rawAmount + ',"date":"' + todayISO() + '","receipt":true}]}',
+    });
+    const res = await request.post(B + '/api/reports/' + id + '/submit', { headers: { Authorization: 'Bearer ' + token } });
+    return { id, res };
+  }
+
+  test('@QAIA-CP-001 @AC4 @AC2 @P1 @negative @error-guessing an amount beyond the representable numeric range is refused', async ({ request }) => {
+    // Found by contract-probe against the documented AC1-AC8, reproduced 3/3. 1e309 exceeds the
+    // IEEE-754 double range, so the parser yields Infinity — a number, and greater than zero.
+    // It passed validation, then serialised back to null: the report was admitted to `submitted`
+    // with a null amount AND a null totalEur, i.e. inside the approval workflow with nothing to
+    // compare against AC2's EUR500/EUR5000 thresholds, while the same validator refused a
+    // literal null with a 422. Two identical end states, two opposite verdicts.
+    const t = await apiLogin(request, B, 'employee@demo');
+    const { id, res } = await submitRawAmount(request, t, '1e309');
+    expect(res.status()).toBe(422);
+    expect((await res.json()).error).toContain('positive amount');
+
+    // The 422 was never the point — the defect was the admitted state behind it.
+    const after = await request.get(B + '/api/reports/' + id, { headers: { Authorization: 'Bearer ' + t } });
+    const body = await after.json();
+    expect(body.report.status).toBe('draft');
+    expect(body.report.totalEur ?? null).toBeNull();
+  });
+
+  test('@QAIA-CP-002 @AC4 @P2 @negative a negative overflow is refused', async ({ request }) => {
+    // Same input class as CP-001, other side of the range: -1e309 parses to -Infinity.
+    // Measured, not assumed: this one is killed by the SAME mutation as CP-001 (the finiteness
+    // check), and survives removal of the `<= 0` guard. It is kept as an input-class case, not
+    // as an independent guard — claiming otherwise would be the kind of assertion this project
+    // exists to catch.
+    const t = await apiLogin(request, B, 'employee@demo');
+    const { res } = await submitRawAmount(request, t, '-1e309');
+    expect(res.status()).toBe(422);
+  });
+
+  test('@QAIA-CP-003 @AC4 @P2 @negative a zero or negative amount is refused', async ({ request }) => {
+    // The `<= 0` branch had no test at all before this one — verified by mutation: removing the
+    // guard leaves CP-001 and CP-002 both green, so nothing in the suite was holding it.
+    const t = await apiLogin(request, B, 'employee@demo');
+    for (const raw of ['0', '-5']) {
+      const { res } = await submitRawAmount(request, t, raw);
+      expect(res.status(), 'amount ' + raw + ' must be refused').toBe(422);
+    }
+  });
 });
