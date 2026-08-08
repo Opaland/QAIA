@@ -111,3 +111,29 @@ The tool now catches these two shapes. It does **not** catch the other defects t
 found — an assertion faithful to a `Then` that is itself weaker than its scenario's purpose, a
 literal with no provenance, a test project listed as used that ran nothing. Those needed reading
 comprehension, and they are why the semantic judge stays.
+
+## Passe sur nos propres exemples — et le controle avait tort
+
+Les trois controles n'avaient jamais ete lances sur les suites vitrines du projet, seulement sur
+le corpus de campagne. C'etait un trou : nos exemples sont ce qu'un visiteur lit en premier, et
+rien ne garantissait qu'ils ne portaient pas les defauts qu'on venait d'apprendre a signaler.
+
+Resultat :  95,3/100 et  95,2/100, **aucun constat
+bloquant**, aucun , aucun . Les suites vitrines tiennent.
+
+**Mais  s'est declenche a tort**, sur  :
+
+>  (ARIA requires it even when empty, see app.js)
+
+C'est une reference en prose a un fichier que le lecteur connait — , qui existe bien, sous
+. Ce n'est pas une citation vers un emplacement que l'outil peut resoudre. Le motif
+exigeait un nom de fichier ; il exige desormais **un separateur de chemin**.  ne
+declenche plus,  declenche toujours.
+
+Verifie dans les trois sens apres correction : faux positif disparu de la vitrine, vrai constat
+maintenu sur , fixture avant/apres du generateur toujours discriminante (quatre
+classes avant, zero apres).
+
+**Cinquieme fois de la semaine qu'un garde-fou du projet attrape son auteur** — et la premiere ou
+il l'attrape en ayant tort. Un controle trop large coute la meme chose qu'un controle absent : on
+apprend a ignorer ce qu'il dit.

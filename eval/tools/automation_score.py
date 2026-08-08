@@ -111,7 +111,11 @@ FEATURE_FLAGGED_SCENARIO = re.compile(r"@low-confidence|#\s*open:\s*Q\d", re.I)
 # the same failure mode -- evidence offered that cannot be inspected -- one file over. Cheap to
 # check, impossible to argue with, and it decays silently: the citation looks authoritative
 # precisely because nobody follows it.
-CITATION = re.compile(r"see\s+([A-Za-z0-9_./-]+\.(?:md|json|txt|ya?ml|js|ts))\b", re.I)
+# The path must contain a separator. `see app.js` in prose refers to a file the reader is
+# expected to know, not to a location this tool can resolve -- flagging it was a false positive
+# on this project's own showcase suite, found by running the check against it rather than
+# trusting it. `see automation/NOTES.md` is a location, and still fires.
+CITATION = re.compile(r"see\s+([A-Za-z0-9_.-]+/[A-Za-z0-9_./-]*\.(?:md|json|txt|ya?ml|js|ts))\b", re.I)
 
 # Raw CSS/XPath selectors: the automate skill mandates getByRole/getByTestId/getByLabel.
 RAW_SELECTOR = re.compile(r"\.\s*(locator|\$\$?|querySelector)\s*\(\s*['\"`]")
