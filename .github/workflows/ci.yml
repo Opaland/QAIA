@@ -101,6 +101,18 @@ jobs:
           PY
           echo "OK: every plugin version is stated in the README"
 
+      - name: Skills published to external directories still match their source
+        run: |
+          set -e
+          # Directories like qaskills.sh take a single self-contained SKILL.md, which QAIA's
+          # skills deliberately are not -- their long reasoning lives in references/. Publishing
+          # therefore ships a *derived* artifact, and a derived artifact with nothing watching it
+          # is a copy that silently stops matching its original. Same dette as the shared output
+          # contract, same answer: a job that fails when the source moves and the copy was not
+          # re-read. Refresh with `python eval/tools/check_published_copies.py --update`, which
+          # is the decision point rather than a formality.
+          python eval/tools/check_published_copies.py
+
       - name: Shared output contract is identical in every plugin
         run: |
           set -e

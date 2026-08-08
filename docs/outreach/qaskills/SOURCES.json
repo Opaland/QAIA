@@ -1,0 +1,47 @@
+{
+  "_why": "Provenance of skills published to external directories. See eval/tools/check_published_copies.py.",
+  "published": [
+    {
+      "copy": "docs/outreach/qaskills/ambiguity-hunt/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-core/skills/need-understanding/SKILL.md",
+          "sha256": "4bbba27e5cf1bc401dcd7ad744fb4f7822fa03e98db3ba2c8047e9a88cd6d0a7"
+        },
+        {
+          "path": "plugins/qaia-core/skills/need-understanding/references/ambiguity-passes.md",
+          "sha256": "b7d718a5772bc3b9c941d58d3209a1684f918151df7d092760a0fabc9e077ca5"
+        }
+      ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/istqb-technique-selection/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-core/skills/istqb-design/SKILL.md",
+          "sha256": "98df5343046d45984a2fbd84f8ce55642e4d0b235f0d3534fc76d83725fc5354"
+        },
+        {
+          "path": "plugins/qaia-core/skills/istqb-design/references/coverage-expansion.md",
+          "sha256": "ce17fc2e82763531adfda07a8536868b2933602ff16f31a6f2e5a485f283ad2e"
+        },
+        {
+          "path": "plugins/qaia-core/skills/istqb-design/references/knowledge-conditions.md",
+          "sha256": "d87ef13769eb3733d6cbb381803c2203e6edc19a1e37f32129c3f255c0d334f9"
+        }
+      ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/generated-test-self-review/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-playwright/skills/automate/references/self-review-lint.md",
+          "sha256": "4f921bda6c8b8876f6d9461cecced9ed58a60b5b81ac0cf2ae4356f712782684"
+        }
+      ]
+    }
+  ]
+}
