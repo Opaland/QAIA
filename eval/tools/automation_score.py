@@ -78,11 +78,47 @@ WEAK_ASSERTIONS = [
     (re.compile(r"\.\s*not\s*\.\s*toBeNull\s*\(\s*\)"), "not.toBeNull() — asserts existence, not a value"),
 ]
 
+# Single-sided refusal evidence. Added 2026-08-08 after four blank-context judge runs, three of
+# which found the same shape: a negative test whose ONLY assertion is "not the success value".
+# `expect(alertText.length).toBeGreaterThan(0)` for a scenario whose Then demands a specific alert
+# AND the absence of "Product added." passes when the app shows "Product added" -- that string is
+# 13 characters long. `not.toBe(200)` passes against an app that refused for an unrelated reason,
+# and against one that did the forbidden thing and answered 201.
+#
+# Reported, never blocking, and the boundary is deliberate: the rubric states that the tool judges
+# assertion *shape* while the judge judges *vacuity against the specification*. Whether a
+# single-sided assertion is vacuous depends on what its scenario claimed, which this tool cannot
+# read. What it can say is "this test's whole evidence is one-sided" -- a fact, handed to the judge.
+SINGLE_SIDED = [
+    (re.compile(r"\.\s*length\s*\)\s*\.\s*toBeGreaterThan\s*\(\s*0\s*\)"),
+     "length > 0 -- satisfied by the forbidden value as readily as the expected one"),
+    (re.compile(r"\.\s*not\s*\.\s*toBe\s*\("), "not.toBe(...) -- asserts what it is not, not what it is"),
+    (re.compile(r"\.\s*not\s*\.\s*toContain\s*\("), "not.toContain(...) -- one-sided"),
+    (re.compile(r"\.\s*not\s*\.\s*toEqual\s*\("), "not.toEqual(...) -- one-sided"),
+]
+
+# A scenario the test book flagged as resting on an open question, whose generated test carries no
+# trace of the flag. Blocking, and the severity comes from the failure mode rather than the code:
+# when such a test goes red, the reader cannot tell "the open question just got answered" from
+# "the product regressed", and the cheapest resolution is to edit the expected value to match the
+# app -- silently converting a finding into a specification. Found on two of the four suites judged.
+FLAG_IN_CODE = re.compile(r"low[-_]confidence|open:\s*Q\d|unconfirmed|human arbitration|test\.(fixme|fail)", re.I)
+FEATURE_FLAGGED_SCENARIO = re.compile(r"@low-confidence|#\s*open:\s*Q\d", re.I)
+
+# A comment or report citing a file that does not exist. Added 2026-08-08 from the fifth judge
+# run: `pages/api-helpers.js` carried "a real finding, see automation/NOTES.md" and no NOTES.md
+# was ever written. The rubric already makes a false claim in the *run report* chargeable; this is
+# the same failure mode -- evidence offered that cannot be inspected -- one file over. Cheap to
+# check, impossible to argue with, and it decays silently: the citation looks authoritative
+# precisely because nobody follows it.
+CITATION = re.compile(r"see\s+([A-Za-z0-9_./-]+\.(?:md|json|txt|ya?ml|js|ts))\b", re.I)
+
 # Raw CSS/XPath selectors: the automate skill mandates getByRole/getByTestId/getByLabel.
 RAW_SELECTOR = re.compile(r"\.\s*(locator|\$\$?|querySelector)\s*\(\s*['\"`]")
 XPATH_SELECTOR = re.compile(r"['\"`]\s*(//|xpath=)")
 ROLE_SELECTOR = re.compile(r"\.\s*(getByRole|getByTestId|getByLabel|getByPlaceholder|getByText|getByTitle|getByAltText)\s*\(")
 
+NL = chr(10)
 EXPECT_CALL = re.compile(r"\bexpect\s*\(")
 # `test(...)`, `test.only(...)`, `test.fixme(...)` — but never `test.describe(...)`, which is a
 # grouping block, not a test. Counting describe blocks as tests reported every suite as having a
@@ -152,7 +188,7 @@ def split_tests(text):
     return blocks
 
 
-def static_track(spec_files, support_files, tests_dir, feature_ids):
+def static_track(spec_files, support_files, tests_dir, feature_ids, flagged_ids=frozenset()):
     findings = []
     tests_total = 0
     tests_with_real_assertion = 0
@@ -161,12 +197,23 @@ def static_track(spec_files, support_files, tests_dir, feature_ids):
     tagged_tests = 0
     seen_ids = set()
 
-    has_pages_dir = os.path.isdir(os.path.join(tests_dir, "pages"))
+    # A suite is laid out either as `tests/{pages,fixtures.js,*.spec.js}` or as
+    # `automation/{tests/*.spec.js, pages/, fixtures.js}`. Looking only under tests_dir reported
+    # `pom-missing` on suites whose pages/ sat one level up -- a false finding that appeared in
+    # several campaign JSONs and that two independent judges flagged as a probable tool bug before
+    # anyone checked. Look in both places, and remember which one won so support files and
+    # citations resolve there too.
+    pom_roots = [tests_dir, os.path.dirname(tests_dir.rstrip(os.sep))]
+    pom_root = next((r for r in pom_roots if os.path.isdir(os.path.join(r, "pages"))), None)
+    has_pages_dir = pom_root is not None
     fixtures_path = None
-    for cand in ("fixtures.js", "fixtures.ts", "fixtures.mjs"):
-        p = os.path.join(tests_dir, cand)
-        if os.path.isfile(p):
-            fixtures_path = p
+    for root in pom_roots:
+        for cand in ("fixtures.js", "fixtures.ts", "fixtures.mjs"):
+            p = os.path.join(root, cand)
+            if os.path.isfile(p):
+                fixtures_path = p
+                break
+        if fixtures_path:
             break
 
     for path in spec_files:
@@ -176,6 +223,17 @@ def static_track(spec_files, support_files, tests_dir, feature_ids):
         blocks = split_tests(text)
 
         for i, line in enumerate(lines, start=1):
+            for cm in CITATION.finditer(line):
+                target = cm.group(1)
+                # resolved against the tests dir and against its parent (a suite root), the two
+                # places a relative citation in a spec can plausibly mean
+                if not any(os.path.exists(os.path.join(base, target))
+                           for base in (tests_dir, os.path.dirname(tests_dir.rstrip(os.sep)))):
+                    findings.append({"kind": "dead-citation", "file": rel, "line": i,
+                                     "detail": "cites " + target + ", which does not exist: "
+                                               "evidence offered that cannot be inspected",
+                                     "blocking": False})
+
             wait = first_match(FORBIDDEN_WAITS, line)
             if wait:
                 findings.append({"kind": "forbidden-wait", "file": rel, "line": i,
@@ -207,10 +265,30 @@ def static_track(spec_files, support_files, tests_dir, feature_ids):
             else:
                 findings.append({"kind": "test-without-assertion", "file": rel, "line": start,
                                  "detail": title[:160], "blocking": True})
+            # Whole-evidence check: fires only when EVERY assertion in the test is one-sided.
+            # A test that asserts `not.toBe(200)` and then reads the error body is fine.
+            assertion_lines = [ln for ln in body.split(NL) if EXPECT_CALL.search(ln)]
+            if assertion_lines and all(first_match(SINGLE_SIDED, ln) for ln in assertion_lines):
+                findings.append({"kind": "single-sided-evidence", "file": rel, "line": start,
+                                 "detail": "every assertion in this test is one-sided ("
+                                           + first_match(SINGLE_SIDED, assertion_lines[0])
+                                           + "): it cannot distinguish the refusal under test from "
+                                             "any other refusal, nor from the forbidden behaviour "
+                                             "returning a different value",
+                                 "blocking": False})
+
             tag = QAIA_TAG.search(title)
             if tag:
                 tagged_tests += 1
-                seen_ids.add(tag.group(0).lstrip("@"))
+                sid = tag.group(0).lstrip("@")
+                seen_ids.add(sid)
+                if sid in flagged_ids and not FLAG_IN_CODE.search(body):
+                    findings.append({"kind": "flag-dropped", "file": rel, "line": start,
+                                     "detail": sid + " rests on an open question in the test book "
+                                               "(@low-confidence / # open: Q) and the generated test "
+                                               "carries no trace of it: a red here is "
+                                               "indistinguishable from a regression",
+                                     "blocking": True})
             else:
                 findings.append({"kind": "untraceable-test", "file": rel, "line": start,
                                  "detail": "no @QAIA-<ID> in the test title: " + title[:120],
@@ -227,6 +305,16 @@ def static_track(spec_files, support_files, tests_dir, feature_ids):
     for path in support_files:
         rel = os.path.relpath(path, tests_dir)
         for i, line in enumerate(read(path).split("\n"), start=1):
+            # Support files carry citations too, and the fifth judge found the dead one in a
+            # page object rather than in a spec.
+            for cm in CITATION.finditer(line):
+                target = cm.group(1)
+                if not any(os.path.exists(os.path.join(base, target))
+                           for base in (tests_dir, os.path.dirname(tests_dir.rstrip(os.sep)))):
+                    findings.append({"kind": "dead-citation", "file": rel, "line": i,
+                                     "detail": "cites " + target + ", which does not exist: "
+                                               "evidence offered that cannot be inspected",
+                                     "blocking": False})
             wait = first_match(FORBIDDEN_WAITS, line)
             if wait:
                 findings.append({"kind": "forbidden-wait", "file": rel, "line": i,
@@ -483,10 +571,23 @@ def collect_feature_ids(testbook):
         for root, dirs, files in os.walk(testbook):
             dirs[:] = [d for d in dirs if d not in ("node_modules", ".git")]
             paths += [os.path.join(root, f) for f in files if f.endswith(".feature")]
+    flagged = set()
     for p in paths:
-        for m in FEATURE_TAG.finditer(read(p)):
+        text = read(p)
+        for m in FEATURE_TAG.finditer(text):
             ids.add(m.group(1))
-    return ids
+        # A scenario is flagged when the marker sits on its tag line or in the comment block just
+        # above it. Walk the file and attribute a pending flag to the next scenario ID seen.
+        pending_flag = False
+        for line in text.split(NL):
+            if FEATURE_FLAGGED_SCENARIO.search(line):
+                pending_flag = True
+            m = FEATURE_TAG.search(line)
+            if m and pending_flag:
+                flagged.add(m.group(1))
+            if line.strip().startswith("Scenario"):
+                pending_flag = False
+    return ids, flagged
 
 
 def main():
@@ -511,8 +612,15 @@ def main():
         return 2
 
     support_files = find_support_files(tests_dir, spec_files)
-    feature_ids = collect_feature_ids(args.testbook)
-    static = static_track(spec_files, support_files, tests_dir, feature_ids)
+    # If pages/ lives one level up (the automation/{tests,pages} layout), its files are
+    # support files too -- otherwise selectors and citations there are invisible.
+    parent = os.path.dirname(tests_dir.rstrip(os.sep))
+    if os.path.isdir(os.path.join(parent, 'pages')):
+        support_files += [p for p in find_support_files(os.path.join(parent, 'pages'), spec_files)
+                          if p not in support_files]
+
+    feature_ids, flagged_ids = collect_feature_ids(args.testbook)
+    static = static_track(spec_files, support_files, tests_dir, feature_ids, flagged_ids)
 
     if args.skip_mutation:
         mutation = {"status": "skipped", "blocker": "--skip-mutation requested",
