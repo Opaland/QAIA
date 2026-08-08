@@ -185,6 +185,56 @@ par deux ou trois skills qui tiennent debout seules — `istqb-design`, `us-revi
 
 ---
 
+## 5. Le marketplace communautaire officiel d'Anthropic — la plus grosse trouvaille
+
+**C'est le référencement le plus élevé possible pour un plugin Claude Code, et il nous manquait.**
+
+Anthropic maintient **deux** marketplaces publics :
+
+- **`claude-plugins-official`** — curé par Anthropic, **aucun processus de candidature**, inclusion
+  à leur seule discrétion. Rien à faire, rien à demander.
+- **`claude-community`** — le marketplace communautaire public où atterrissent les soumissions
+  tierces après revue. Les utilisateurs l'ajoutent avec
+  `/plugin marketplace add anthropics/claude-plugins-community` et installent en `@claude-community`.
+  **C'est un chemin de découverte de premier ordre à l'intérieur même de Claude Code**, pas un
+  site tiers.
+
+### Comment soumettre — et quel formulaire
+
+Deux formulaires existent, et **un seul nous concerne** :
+
+| Formulaire | Pour qui |
+|---|---|
+| [claude.ai/admin-settings/directory/submissions/plugins/new](https://claude.ai/admin-settings/directory/submissions/plugins/new) | **exige une organisation Team ou Enterprise** avec accès à la gestion d'annuaire — pas notre cas |
+| **[platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit)** | **auteurs individuels hors organisation Team/Enterprise — c'est nous** |
+
+**Prérequis déjà satisfait.** La doc demande de lancer `claude plugin validate` avant de
+soumettre, la revue rejouant le même contrôle. Vérifié sur les quatre plugins, en `--strict` :
+
+```
+plugins/qaia-core        ✔ Validation passed
+plugins/qaia-playwright  ✔ Validation passed
+plugins/qaia-score       ✔ Validation passed
+plugins/qaia-testdata    ✔ Validation passed
+```
+
+**Ce qui se passe après approbation** : le plugin est épinglé à un SHA de commit dans
+[`anthropics/claude-plugins-community`](https://github.com/anthropics/claude-plugins-community),
+et leur CI avance l'épingle automatiquement à chaque push. Le catalogue public se synchronise la
+nuit, donc il y a un délai entre l'approbation et l'apparition dans `marketplace.json`.
+
+**Bloqué sur une connexion Console**, que je ne peux pas faire. C'est le geste à plus forte valeur
+de toute cette liste.
+
+## 6. ClaudePluginHub
+
+[claudepluginhub.com/tools/submit-plugin](https://www.claudepluginhub.com/tools/submit-plugin) —
+le formulaire ne demande **qu'une URL de dépôt public**, pour mettre en file de validation et
+d'indexation. Leur auto-découverte scanne GitHub Code Search régulièrement, mais un dépôt jeune ou
+peu actif peut mettre des jours à être indexé : la soumission directe court-circuite ça.
+
+**Bloqué sur une connexion**, également.
+
 ## Règle générale pour les prochains
 
 1. **Une soumission par annuaire, jamais de relance.** Un mainteneur relancé refuse.
