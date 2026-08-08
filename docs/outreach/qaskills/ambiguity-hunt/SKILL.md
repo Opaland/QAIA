@@ -2,7 +2,7 @@
 name: Requirement Ambiguity Hunt
 description: Find what a user story does not say before writing a single test - undefined terms, unstated clocks, cross-rule contradictions, missing error paths - and turn each into a numbered question for the product owner instead of a silent guess baked into an assertion.
 version: 1.0.0
-author: Opaland
+author: opaland
 license: MIT
 tags: [requirements, ambiguity, shift-left, test-design, bdd, istqb]
 testingTypes: [strategy, acceptance, e2e]

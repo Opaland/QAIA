@@ -2,7 +2,7 @@
 name: Generated Test Self-Review
 description: Re-scan a test you just generated before writing it to disk, against nine defect classes - four that make an assertion unable to fail, and five measured on real generated suites that a static reader accepts because every assertion is real.
 version: 1.0.0
-author: Opaland
+author: opaland
 license: MIT
 tags: [playwright, code-review, assertions, test-quality, generated-tests, anti-patterns]
 testingTypes: [e2e, api, regression]

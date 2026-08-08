@@ -2,7 +2,7 @@
 name: ISTQB Technique Selection, Justified
 description: Pick the test design technique each acceptance criterion actually calls for and write the one-sentence reason next to it, then derive the concrete conditions to cover - including the refusal paths that a percentage-based negative target lets you skip.
 version: 1.0.0
-author: Opaland
+author: opaland
 license: MIT
 tags: [istqb, test-design, boundary-value-analysis, decision-table, state-transition, ctal-ta]
 testingTypes: [strategy, acceptance, regression]
