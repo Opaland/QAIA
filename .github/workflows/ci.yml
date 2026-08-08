@@ -237,13 +237,19 @@ jobs:
           #    others), including files with a leading "> US-xxx | source: ..."
           #    citation-comment header before any Feature: line -- not valid
           #    Gherkin by construction, not a real deliverable.
+          #  - eval/portability-2026-08-08/ : sorties BRUTES de quatre modeles a qui on a
+          #    donne la skill telle quelle (#84). Deux d'entre elles sont invalides -- l'une
+          #    en francais sans en-tete de langue, l'autre sans ligne Feature: -- et c'est
+          #    tout l'interet : ce sont les defauts que la mesure a trouves. Les corriger
+          #    pour faire taire le linter detruirait la preuve. Elles sont archivees comme
+          #    resultat, pas comme livrable.
           FIND_ARGS=(. -name '*.feature' \
             -not -path './node_modules/*' \
             -not -path '*/export/*' \
             -not -path './eval/concerns-zone-fixtures/*' \
             -not -path './eval/gold-set/*' \
             -not -path './eval/goldset-hardened/*' \
-            -not -path './eval/baselines/*')
+            -not -path './eval/baselines/*'             -not -path './eval/portability-2026-08-08/*')
           if find "${FIND_ARGS[@]}" | grep -q .; then
             # -exec {} + passes each path as a single ./-prefixed argument: no word
             # splitting, no option injection. Version pinned (decision T15).
