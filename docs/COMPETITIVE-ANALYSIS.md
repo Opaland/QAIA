@@ -325,3 +325,31 @@ Enfin, leur périmètre est déclaré et étroit — « not in scope : code qual
 scanning, performance profiling, unit tests », borné à la correction fonctionnelle vis-à-vis des
 CA. Nos exemples portent des projets `security` et `perf`. Comparer les largeurs sans dire que la
 leur est **volontairement** bornée serait malhonnête.
+
+### La lecture a ensuite été mise à l'épreuve, et elle se trompait sur un point
+
+Leur agent `test-scenario-designer` a été **exécuté** sur la même user story que QAIA, jugé en
+aveugle par trois relecteurs à contexte vide : `eval/head-to-head-qa-orchestra-2026-08-08/`.
+Verdict **2 contre 1 pour QAIA**, et trois corrections à apporter à ce qui précède.
+
+**Ils ne devinent pas les bornes ambiguës.** Les trois juges sont unanimes : sur le « exactement
+500,00 € » que le critère ne tranche pas, leur sortie crée le scénario **et** déclare l'hypothèse
+dans une section « Risks and Gaps ». Notre avantage n'est pas de déclarer là où ils devineraient —
+c'est que chez nous l'ambiguité **voyage avec le scénario** et se filtre par tag, quand chez eux
+elle est à soixante lignes de là et illisible par une machine. Supériorité de structure, pas de
+lucidité.
+
+**Deux écarts de plus en leur faveur, sur notre propre terrain.** Leur sortie est
+**immédiatement exécutable** — URL, comptes, données exactes, date de référence fixe résolvant
+« 90 jours » ; la nôtre laisse cinq décisions à prendre. Et ils couvrent **huit classes de risque
+que nous ne couvrons pas** : montants nuls et négatifs, double-clic, concurrence entre approbateurs,
+retour arrière navigateur, justificatif supprimé en cours d'approbation, XSS/Unicode/RTL,
+performance, accessibilité clavier.
+
+**Ce qui tient, mesuré** : 17 chemins de refus exercés contre 10 à 12 — il leur manque toute
+l'authentification et l'autorisation transverse — et neuf ambiguïtés contre six, **chacune testée**
+là où deux des leurs sont signalées sans qu'aucun scénario ne les incarne.
+
+**Et l'épreuve nous a trouvé un défaut** : notre cahier assère 17 codes HTTP que l'exigence ne
+mentionne jamais ([#83](https://github.com/QAIA-Project/QAIA/issues/83)). Il passait inaperçu parce
+que nous avons aussi écrit l'application — un oracle circulaire.
