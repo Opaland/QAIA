@@ -6,6 +6,29 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 33 — Discovery, Run et portabilité multi-agent (2026-08-08, D165) 🔵 OUVERT
+
+Ouvert par deux arbitrages du fondateur ([ADR 0005](adr/0005-scope-discovery-and-run.md),
+[ADR 0006](adr/0006-multi-agent-portability.md)). Le périmètre passe de *Delivery + Maintenance* à
+*Discovery → Run*, et les skills doivent tourner dans l'agent que l'utilisateur possède déjà.
+
+| Chantier | État | Note |
+|---|---|---|
+| **#84 — exécuter la chaîne dans un autre agent, telle quelle** | à faire, **en premier** | Mesurer, ne rien corriger en route. Le correctif est le backlog qui en sort. |
+| **#85 — exigences non-fonctionnelles dérivées en Discovery** | à faire | Point dur : une exigence inventée est pire que pas d'exigence. Provenance ou question ouverte, jamais de chiffre orphelin. |
+| **#86 — incident de production → test de non-régression** | à faire | La plus utile des quatre pratiques du shift-right, et la moins chère. |
+| **#87 — chaos engineering** | différé, argumenté | Suppose une cible qu'on possède et qu'on peut casser, un environnement à déployer, et une production à éprouver. |
+
+**L'ordre est imposé, pas suggéré.** #84 d'abord : tout ce qu'on construirait avant cette mesure
+serait une supposition sur ce qui casse ailleurs.
+
+**Le risque, écrit à l'ouverture** : élargir le périmètre avec **zéro utilisateur** est exactement
+l'ordre que le sprint 32 s'est reproché toute la journée. Assumé par le fondateur au motif que
+« couvrir le cycle » est une promesse de positionnement, et qu'un produit qui ne la tient pas ne se
+rattrape pas par la qualité de ce qu'il tient.
+
+---
+
 ## Sprint 32 — distribution, première application hors du dépôt, et un dépôt qui se corrige lui-même (2026-08-08, D140-D164) ✅ TERMINÉ
 
 Session longue sous mandat d'autonomie. Deux temps : le matin, la distribution et une preuve de

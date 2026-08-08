@@ -305,6 +305,28 @@ Sur les quatre pratiques du shift-right, la couverture est de **zéro**. Deuxiè
 outils face aux leaders du marché — trois catégories au niveau (k6, axe-core, ZAP passif), trois
 passant toutes par Playwright, deux vides (chaos, contrat standard).
 
+**Deux arbitrages du fondateur, en fin de session (D165).** La carte de couverture posait deux
+questions que seul lui pouvait trancher. Les deux sont prises, et elles ouvrent le sprint suivant.
+
+**[ADR 0005](adr/0005-scope-discovery-and-run.md) — on vise Discovery et Run**, plutôt que de
+corriger l'objectif pour qu'il colle au produit. Motif : le différenciateur revendiqué est la
+couverture du cycle ; le réduire à sa moitié la mieux tenue reviendrait à ressembler aux outils qui
+n'attaquent que l'exécution. ADR 0004 tient — élargir aux deux bouts ne rouvre pas le niveau
+unitaire, ce sont des questions orthogonales.
+
+**[ADR 0006](adr/0006-multi-agent-portability.md) — QAIA doit tourner dans l'agent que
+l'utilisateur possède déjà.** Et sur ce point **l'erreur était de mon côté** : j'avais présenté le
+multi-LLM comme incompatible avec la contrainte d'autonomie, en le lisant comme « livrer des clés
+API vers plusieurs fournisseurs ». Le fondateur voulait dire l'inverse — le projet tourne dans
+l'agent que l'utilisateur paie déjà, donc **aucune clé livrée, aucun service appelé par nous**. La
+contrainte n'est pas violée, elle est **étendue** : aujourd'hui aucune dépendance à une clé, demain
+aucune dépendance à un hôte. *Une contradiction apparente vient souvent d'une définition non
+partagée, et la nommer sans demander la définition fait perdre la bonne réponse.*
+
+Quatre issues, **#84 à #87**, avec un ordre imposé sur la portabilité : **mesurer d'abord**. On a
+vérifié que les instructions survivent à un changement de *modèle* ; jamais qu'elles survivent à un
+changement d'*hôte* — alors que le dépôt revendique déjà « 100 % Markdown, aucune clé ».
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
