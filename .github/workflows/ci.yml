@@ -78,6 +78,15 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: make check (the Makefile is verified here, not on the maintainer's machine)
+        run: |
+          set -e
+          # `make` does not exist in the maintainer's Git Bash environment on Windows, so the
+          # Makefile added on 2026-08-08 cannot be run where it was written. Shipping it unverified
+          # would be exactly the habit this project spent the day removing. So the CI runs it: if a
+          # target is misspelled or a recipe rots, this fails rather than the next newcomer.
+          make check
+
       - name: Requirement sources unchanged since their test book was written
         run: |
           set -e
