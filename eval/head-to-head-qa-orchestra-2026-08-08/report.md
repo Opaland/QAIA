@@ -59,7 +59,17 @@ document promet un comportement observable autrement »*. Le cahier vitrine du p
 l'inverse.
 
 Il passe au vert parce que **nous avons aussi écrit l'application** : le système sous test renvoie
-les codes que le cahier attend. Une équipe qui implémenterait les mêmes critères avec `400` au lieu
+les codes que le cahier attend.
+
+**Le périmètre a été vérifié après coup, et il est étroit — ce qui rend le défaut plus gênant, pas
+moins.** Les huit autres cahiers du dépôt qui contiennent des codes de statut ont été examinés :
+tous dérivent d'une source qui les déclare (une spécification OpenAPI, le code source d'un service
+tiers) ou sont des données d'oracle externes reprises verbatim. Aucun n'a le défaut.
+
+Mieux : `examples/oracle-demo/openapi-oracle.feature` porte la règle **écrite dans son en-tête** —
+*« Expected statuses come from the contract's documented `responses`, not from extrapolation. »*
+Le projet connaissait la règle, l'avait écrite, l'appliquait ailleurs — et ne l'a pas appliquée
+dans le cahier qu'il met en vitrine. Une équipe qui implémenterait les mêmes critères avec `400` au lieu
 de `422` serait déclarée en défaut par un cahier qui n'en a pas le droit. Ouvert en
 [#83](https://github.com/QAIA-Project/QAIA/issues/83).
 
