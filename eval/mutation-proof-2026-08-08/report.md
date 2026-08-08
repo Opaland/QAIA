@@ -8,15 +8,21 @@ That gap is now closed for the two showcase suites — the ones a visitor reads 
 
 | Suite | Candidates | **Executed** | Killed | Survivors | Static |
 |---|---|---|---|---|---|
-| `examples/expense-demo` (api, e2e, a11y, visual) | 75 | **75** | **75** | **0** | 95.3/100 |
-| `examples/medibook` (api, e2e ×2, security, perf, a11y, visual) | 32 | **32** | **32** | **0** | 95.2/100 |
-| **Total** | 107 | **107** | **107** | **0** | — |
+| `examples/expense-demo` (api, e2e, a11y, visual) | 77 | **77** | **77** | **0** | 95.3/100 |
+| `examples/medibook` (api, e2e ×2, security, perf, a11y, visual) | 34 | **34** | **34** | **0** | 95.2/100 |
+| **Total** | 111 | **111** | **111** | **0** | — |
 
 Raw tool output next to this file: `expense-demo-all-projects.json`, `medibook-all-projects.json`.
 
 **Read the `Executed` column, not the `Candidates` column.** It exists because the first version of
-this page reported the same 107/107 while 40 of those mutations were never run at all. That is the
-subject of the next two sections, and it is the more useful result of the day.
+this page reported 107/107 while 40 of those mutations were never run at all. That is the subject of
+the next two sections, and it is the more useful result of the day.
+
+The totals moved from 107 to 111 for a separate reason, in the same family: **four assertions were
+missing from the corpus entirely.** `expect(violations).toEqual([])` is the whole a11y idiom, and no
+mutation operator touched an empty-collection expectation — so the two a11y tests of each suite were
+absent from every mutation run ever made, with no field saying so. An operator now inverts
+`toEqual([])` and `toEqual({})` into a non-empty expectation. All four are killed.
 
 ## What a mutation run does, and what it does not
 
@@ -25,8 +31,8 @@ status, an expected string gets a marker appended — and re-runs the test. **An
 survives its own inversion is decorative**: the test passes whether or not the application does
 the thing.
 
-107 mutations, 107 killed means every assertion in both suites is sensitive to its own expected
-value.
+111 mutations, 111 killed means every assertion in both suites that an operator can invert is
+sensitive to its own expected value.
 
 **It does not mean the assertions check the right thing.** Mutating the *test* proves an assertion
 is load-bearing; it says nothing about whether the expectation matches the requirement. That is
@@ -92,9 +98,12 @@ the mutant is now killed; `expense-demo-defect-evidence.json` is the run that fo
 - **All projects, both suites.** api, e2e, a11y and visual on expense-demo; api, e2e desktop and
   mobile, security, perf, a11y and visual on medibook. The `--project` limit stated in the first
   version of this page is gone — it was the cause of defect 1, not merely a scope note.
-- **Assertions the operators do not mutate are still out of reach.** `toHaveScreenshot` has no
-  inverted expected value, so visual baselines are covered by the per-mutation SUT experiment in
-  `eval/visual-check-2026-08-08/`, not here.
+- **Assertions the operators do not mutate are still out of reach — and that set is not published
+  anywhere.** `toHaveScreenshot` has no inverted expected value, so visual baselines are covered by
+  the per-mutation SUT experiment in `eval/visual-check-2026-08-08/`, not here. The a11y gap found
+  today was of exactly this kind and nothing announced it: a suite's assertion can be absent from
+  the corpus and the report still reads *n/n killed*. Until the tool emits the list of assertions it
+  declined to mutate, read every total on this page as *of the assertions an operator covers*.
 - **The campaign corpus is still unproven.** `US-EVAL-001` through `013` carry
   `mutation.status: skipped`, and nothing here changes that.
 - **`US-EVAL-001`'s old 8/8 and 12/12 cannot be re-verified.** Both used an unfiltered

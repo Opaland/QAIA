@@ -86,13 +86,13 @@
   "mutation": {
     "status": "ok",
     "blocker": "",
-    "total": 75,
-    "killed": 75,
+    "total": 77,
+    "killed": 77,
     "survived": [],
     "errored": [],
     "not_run": [],
     "skipped_over_cap": 0,
-    "exercised": 75
+    "exercised": 77
   },
   "blocking": {
     "failed": false,

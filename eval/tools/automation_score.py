@@ -468,6 +468,20 @@ def mutate_line(line):
         return (line[:m.start(2)] + "qaia_mut_never_matches" + line[m.end(2):],
                 "%s(/%s/) -> /qaia_mut_never_matches/" % (m.group(1), m.group(2)[:40]))
 
+    # `toEqual([])` / `toEqual({})` -- "nothing was found". The whole a11y idiom is
+    # `expect(violations).toEqual([])`, and no operator above touches it: the two a11y assertions of
+    # the showcase suite were simply absent from the mutation corpus, silently, which is the same
+    # class of gap as counting an unrun mutation as a kill. Requiring a non-empty collection makes
+    # the expectation false for an application that really has no violations.
+    m = re.search(r"\.\s*(toEqual|toStrictEqual)\s*\(\s*\[\s*\]\s*\)", line)
+    if m:
+        return (line[:m.start()] + "." + m.group(1) + "(['" + MUTANT_MARK + "'])" + line[m.end():],
+                "%s([]) -> %s(['%s'])" % (m.group(1), m.group(1), MUTANT_MARK))
+    m = re.search(r"\.\s*(toEqual|toStrictEqual)\s*\(\s*\{\s*\}\s*\)", line)
+    if m:
+        return (line[:m.start()] + "." + m.group(1) + "({ " + MUTANT_MARK + ": true })" + line[m.end():],
+                "%s({}) -> %s({%s: true})" % (m.group(1), m.group(1), MUTANT_MARK))
+
     # Generic equality on a literal.
     m = re.search(r"\.\s*(toBe|toEqual|toStrictEqual)\s*\(\s*(-?\d+(?:\.\d+)?)\s*\)", line)
     if m:

@@ -173,8 +173,14 @@ de mutations est bâti sur tous les specs de `--tests-dir` sans tenir compte du 
 contenant une apostrophe était grepé avec son échappement JavaScript, donc ne matchait rien, donc
 comptait tué aussi — **7 mutations**, dont les deux tests IDOR.
 
-Corrigé et re-couru honnêtement, tous projets confondus : **107 candidates, 107 exécutées, 107
-tuées, 0 survivante**. Le nombre affiché n'a pas bougé ; ce qu'il vaut, si. Un `No tests found`
+Corrigé et re-couru honnêtement, tous projets confondus : **111 candidates, 111 exécutées, 111
+tuées, 0 survivante**. Le nombre affiché est passé de 107 à 111 pour une raison distincte et de la
+même famille : **quatre assertions manquaient purement du corpus**. `expect(violations).toEqual([])`
+est tout l'idiome a11y, et aucun opérateur ne touchait une attente de collection vide — les deux
+tests a11y de chaque suite étaient absents de tous les runs de mutation jamais faits, sans qu'aucun
+champ le dise. Un opérateur inverse désormais `toEqual([])` et `toEqual({})` ; les quatre sont
+tuées. La leçon tient en une phrase : **une suite peut avoir des assertions hors du corpus et le
+rapport affiche quand même « n/n tuées »**. Un `No tests found`
 devient `not_run` et une liste `not_run` non vide est **bloquante** ;
 `eval/tools/selfcheck_automation_score.py` tient les deux invariants en CI. Le comptage faussé
 cachait par ailleurs **une vraie survivante** : `toBeVisible` inversée en `toBeHidden` passait

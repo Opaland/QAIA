@@ -59,6 +59,19 @@ if titles:
     check("escape_grep leaves the apostrophe alone",
           "\\'" in A.escape_grep(titles[0]), False)
 
+# --- 3. "nothing was found" assertions must be mutable ---------------------------------------
+# `expect(violations).toEqual([])` is the entire a11y idiom. No operator covered it, so those
+# assertions were absent from the mutation corpus without any field saying so -- the same class of
+# gap as scoring an unrun mutation as a kill, one level earlier.
+mutated, desc = A.mutate_line("    expect(serious).toEqual([]);")
+check("toEqual([]) is mutated", mutated is not None and A.MUTANT_MARK in (mutated or ""), True)
+check("the mutant still parses as a non-empty array",
+      "toEqual(['" + A.MUTANT_MARK + "'])" in (mutated or ""), True)
+check("toEqual({}) is mutated",
+      A.MUTANT_MARK in (A.mutate_line("    expect(o).toEqual({});")[0] or ""), True)
+check("a non-empty literal array is left to the other operators",
+      A.mutate_line("    expect(x).toEqual([1, 2]);")[0], None)
+
 if failures:
     print("selfcheck_automation_score: %d FAILURE(S)\n" % len(failures))
     for f in failures:
