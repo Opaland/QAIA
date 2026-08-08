@@ -6,11 +6,22 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
-## Sprint 33 — Discovery, Run et portabilité multi-agent (2026-08-08, D165) 🔵 OUVERT
+## Sprint 33 — la revue d'architecture retourne le sprint, et trois P0 apparaissent (2026-08-08, D165-D169) 🔵 OUVERT
 
-Ouvert par deux arbitrages du fondateur ([ADR 0005](adr/0005-scope-discovery-and-run.md),
-[ADR 0006](adr/0006-multi-agent-portability.md)). Le périmètre passe de *Delivery + Maintenance* à
-*Discovery → Run*, et les skills doivent tourner dans l'agent que l'utilisateur possède déjà.
+Ouvert sur deux arbitrages ([ADR 0005](adr/0005-scope-discovery-and-run.md),
+[ADR 0006](adr/0006-multi-agent-portability.md)) — puis **retourné le jour même** par une revue
+d'architecture menée sur le dépôt avec obligation de preuve.
+[ADR 0007](adr/0007-scope-delivery-and-maintenance.md) remplace ADR 0005 : le périmètre reste
+*Delivery + Maintenance*. La portabilité (ADR 0006) tient et reste ouverte.
+
+**Le verdict de la revue : ne rien construire de neuf, rendre vrai ce qui est déjà écrit, publier
+ensuite.** Trois P0, tous vérifiés à la main :
+
+| P0 | Constat |
+|---|---|
+| Kit pilote | il faisait ingérer au testeur `eval/gold-set/US-001…`, **dont la section « Judge reference » liste les ambiguïtés plantées** — le formulaire lui demandait ensuite lesquelles il avait manquées. La première mesure humaine du projet aurait été faussée par construction. |
+| Chiffres vitrines | `run-log.txt` dit 32 exécutions pour **26 tests** ; les documents disaient 32, 31 et **24** — ce dernier dans une `SKILL.md` empaquetée et livrée. |
+| ADR 0007 | n'était cité par **aucun** fichier hors lui-même, pendant qu'ADR 0005 portait toujours « Accepté » et fondait ce sprint. |
 
 | Chantier | État | Note |
 |---|---|---|

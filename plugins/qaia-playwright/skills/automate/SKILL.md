@@ -6,7 +6,7 @@ description: Generate native Playwright tests (Page Object Model as fixtures) fr
 # automate — Gherkin test book → native Playwright (POM-as-fixtures)
 
 Turns `.feature` scenarios into executable Playwright tests, following the reference proven in
-`examples/medibook/` (24 tests green).
+`examples/medibook/` (26 tests, 32 executions — the e2e suite runs on two device profiles).
 
 Two architectural choices are fixed, not renegotiated per run:
 

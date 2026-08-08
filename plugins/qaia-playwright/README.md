@@ -2,7 +2,7 @@
 
 QAIA automation plugin: turn a Gherkin test book into **native Playwright tests** (Page Object Model as fixtures), with requirement traceability — plus accessibility, performance and security-surface coverage. **Web-first.**
 
-**Status: 0.1.8.** The skills codify the patterns proven end-to-end in [`examples/medibook/`](../../examples/medibook) (31 tests green across 7 test types) and [`examples/expense-demo/`](../../examples/expense-demo) (40 tests green, finance/HR domain).
+**Status: 0.1.8.** The skills codify the patterns proven end-to-end in [`examples/medibook/`](../../examples/medibook) (26 tests across 7 project types, 32 executions — the e2e suite runs on desktop and mobile) and [`examples/expense-demo/`](../../examples/expense-demo) (56 tests, finance/HR domain).
 
 ## Install
 

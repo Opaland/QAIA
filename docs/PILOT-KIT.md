@@ -30,7 +30,13 @@ Two ways:
 
 In Claude Code, just say:
 
-> Use the QAIA `us-ingest` skill on `eval/gold-set/US-001-appointment-booking.md`, then walk me through the journey.
+> Use the QAIA `us-ingest` skill on `docs/pilot/US-001-appointment-booking.md`, then walk me through the journey.
+
+> **Pourquoi cette copie et pas le fichier du gold set.** L'original porte une section
+> `## Judge reference` qui **liste les ambiguïtés plantées exprès**. L'ingérer vous donnerait la
+> réponse à la question que ce formulaire vous pose ensuite — la première mesure humaine du
+> projet serait faussée par construction. Les critères d'acceptation des deux fichiers sont
+> identiques à l'octet près.
 
 The tool will, step by step, ask you to validate each stage: the captured source, the extraction, the ambiguities it found (answer or say "not specified"), the ISTQB techniques, the priorities, and finally generate the test book. **Say yes/no/correct as a real reviewer would** — that's exactly the conversational path we need to validate.
 
@@ -54,7 +60,7 @@ Open [a feedback discussion](https://github.com/QAIA-Project/QAIA/discussions) o
 
 ## Optional — see automation run for real (5 min)
 
-If you're curious, the `examples/medibook/` folder has a running demo app + Playwright tests (E2E, API, a11y, perf, security — 31 tests). `cd examples/medibook/app && node server.js`, then in another shell `cd ../tests && npm i && npx playwright test`.
+If you're curious, the `examples/medibook/` folder has a running demo app + Playwright tests (E2E, API, a11y, perf, security, visual — 26 tests, 32 executions). `cd examples/medibook/app && node server.js`, then in another shell `cd ../tests && npm i && npx playwright test`.
 
 ---
 

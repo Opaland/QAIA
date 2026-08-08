@@ -42,13 +42,13 @@ Message prêt à coller ci-dessous (à retoucher). Cible : communautés QA (Mini
 ---
 ### Message FR (LinkedIn / MoT)
 > **Je cherche 5 testeurs pilotes pour un outil QA open source.**
-> Ancien directeur QA, je construis **QAIA** : un outil qui transforme une user story en cahier de test Gherkin priorisé (techniques ISTQB, traçabilité), puis en tests Playwright — le tout dans ta session Claude, sans clé API, sans backend. Open source, orienté logiciel médical/réglementé.
+> Ancien directeur QA, je construis **QAIA** : un outil qui transforme une user story en cahier de test Gherkin priorisé (techniques ISTQB, traçabilité), puis en tests Playwright — le tout dans ta session Claude, sans clé API, sans backend. Open source, généraliste — des workflows métier ordinaires aux domaines exigeants.
 > Je cherche **5 testeurs volontaires** pour l'éprouver sur une vraie US à eux et me dire ce qui casse. ~1 h, sous 30 jours. En échange : accès anticipé, ton nom au crédit, et un outil façonné par de vrais testeurs.
 > Intéressé·e ? Commente ou DM. 🧪
 
 ### Message EN
 > **Looking for 5 pilot testers for an open-source QA tool.**
-> Former QA director building **QAIA**: turns a user story into a prioritized Gherkin test book (ISTQB techniques, traceability) then Playwright tests — all inside your Claude session, no API key, no backend. Open source, medical/regulated-first.
+> Former QA director building **QAIA**: turns a user story into a prioritized Gherkin test book (ISTQB techniques, traceability) then Playwright tests — all inside your Claude session, no API key, no backend. Open source, generalist.
 > I need **5 volunteer testers** to run it on a real US of their own and tell me what breaks. ~1 h, within 30 days. In return: early access, credit, and a tool shaped by real testers.
 > Interested? Comment or DM. 🧪
 ---

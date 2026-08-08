@@ -1,9 +1,18 @@
 # ADR 0005 — Le périmètre s'étend à Discovery et à Run
 
-- Statut : **Accepté**
+- Statut : **REMPLACÉE le 2026-08-08 par [ADR 0007](0007-scope-delivery-and-maintenance.md)**
 - Date : 2026-08-08
 - Décidé par : le fondateur, arbitrage explicite
 - Complète : [ADR 0004](0004-test-level-boundary.md), qui borne les *niveaux* de test et reste valable
+
+> **Cette décision a été annulée le jour même de sa signature.** Une revue d'architecture menée
+> sur le dépôt a infirmé son raisonnement : la capacité existante n'est pas prouvée (cinq juges à
+> contexte vide, aucune suite ne franchit la porte), et les chiffres qui soutenaient le
+> différenciateur « couverture du cycle » étaient faux dans des fichiers livrés. Élargir aurait
+> ajouté de la surface non prouvée à de la surface non prouvée.
+>
+> Le texte est conservé intact : une décision annulée le même jour est un fait du projet, pas une
+> erreur à effacer. Voir [ADR 0007](0007-scope-delivery-and-maintenance.md).
 
 ## Contexte
 
