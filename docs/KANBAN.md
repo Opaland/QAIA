@@ -6,6 +6,37 @@ Le développement se déroule en **sprints courts** exécutés en sessions agent
 
 ---
 
+## Sprint 32 — distribution, première application hors du dépôt, et un dépôt qui se corrige lui-même (2026-08-08, D140-D164) ✅ TERMINÉ
+
+Session longue sous mandat d'autonomie. Deux temps : le matin, la distribution et une preuve de
+mutation qui s'est révélée fausse ; le soir, la première application à un logiciel tiers, puis une
+série de corrections déclenchées par des relectures que le projet ne s'était jamais imposées.
+
+| Livré | Preuve |
+|---|---|
+| **Deux vrais défauts trouvés dans un logiciel qu'on n'a pas écrit** — cahier écrit depuis le seul README de la cible, jamais son code, passé sur deux versions. Les deux corrigés en amont depuis. Le troisième constat compté **contesté** parce que notre test extrapolait. | `eval/external-application-2026-08-08/` |
+| **La preuve de mutation refaite après s'être révélée fausse** : elle annonçait 107/107 alors que **40 mutations n'avaient jamais tourné**. Trois défauts de l'outil, tous du même genre. Corrigée : 111 candidates, 111 exécutées, 111 tuées. | `eval/mutation-proof-2026-08-08/` |
+| **Cinq skills** — `defect-report`, `openapi-ingest`, `impact-select`, `confirm-fix`, `test-plan-and-closure` — chacune éprouvée sur un cas réel, pas sur une fixture | 30 → 35 skills |
+| **Trois issues fermées en refusant de construire** : ADR 0004 (pas de niveau unitaire), anonymisation écartée sur un critère de vérifiabilité, compatibilité navigateurs traitée en note plutôt qu'en 36ᵉ skill | #78, #81, #82 |
+| **Panel de relecture à contexte vide sur le travail du jour** : 30 constats examinés, 11 réfutés, **19 confirmés** — dont un qui rendait la preuve principale non reproductible | `eval/cold-review-2026-08-08/` |
+| **QA Orchestra exécutée et jugée en aveugle**, 2 juges sur 3 pour QAIA — et deux écarts en leur faveur sur notre propre terrain | `eval/head-to-head-qa-orchestra-2026-08-08/` |
+| **Un défaut que rien d'interne n'avait vu** : le cahier vitrine assérait 17 codes HTTP absents de l'exigence. Oracle circulaire — on avait aussi écrit l'application testée. | #83, D161 |
+| **Deux défauts répétés devenus des machines** : `check_skill_counts.py` et `check_decision_register.py`, tous deux éprouvés dans les deux sens | `make check` passe de 3 à 6 contrôles |
+| **La carte de couverture gagne deux axes** : le cycle Discovery/Delivery/Run, et les outils face aux leaders du marché | `docs/TEST-COVERAGE-MAP.md` §3bis, §3ter |
+| Prompt de revue pour un LLM **sans** accès au dépôt, écrit après que deux analyses externes ont inventé des faits | `docs/EXTERNAL-REVIEW-PROMPT.md` |
+
+**Ce que le sprint établit, et qui n'est pas confortable** : QAIA vit entièrement dans **Delivery et
+Maintenance**. Elle commence quand la discovery est finie, s'arrête quand le déploiement commence,
+et sa couverture du shift-right est de zéro. C'est la description la plus exacte du produit à ce
+jour, et elle n'avait jamais été écrite.
+
+**Ce que le sprint ne change pas** : 0 étoile, 0 fork, **0 pilote humain**. Sur 35 skills, cinq ont
+été exercées hors du dépôt et aucune n'a jamais servi à un humain dans son travail. Les 8 issues
+restantes ne demandent plus une ligne de code produit — trois relèvent de la distribution, une exige
+un vrai PM/PO, deux attendent un pilote, deux sont des tiers volontairement différés.
+
+---
+
 ## Sprint 23 — Second audit externe (Gemini), recoupement, JSON Schema du contrat de sortie (2026-07-28, D104) ✅ TERMINÉ
 
 Demande fondateur : lire un rapport d'audit produit par Gemini (3 personas ISTQB/IA/PM),

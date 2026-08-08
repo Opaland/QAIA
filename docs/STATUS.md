@@ -1,6 +1,6 @@
 # QAIA — état du projet & prompt de reprise
 
-## Sprint 32 — la distribution, enfin, et un panel qui démolit mes propres pages (2026-08-08, D140-D141) — EN COURS
+## Sprint 32 — la distribution, la première application hors du dépôt, et un dépôt qui se corrige lui-même toute la journée (2026-08-08, D140-D164) — TERMINÉ
 
 Session de nuit, mandat d'autonomie complète du fondateur, objectif qu'il a fixé : **1000 étoiles
 fin d'année**. Point de départ mesuré, pas supposé : **0 étoile, 277 vues pour 9 visiteurs
@@ -249,6 +249,61 @@ trois plus coûteux fermés le soir même :
 le niveau système, et le déclare. Le trou au niveau unitaire n'avait jamais été *décidé* — il
 existait par défaut. Un trou non décidé se lit comme un oubli ; une absence décidée est un
 positionnement.
+
+**Cinq skills de plus, trois issues fermées en refusant de construire (D150-D157).** La carte de
+couverture ISTQB (`docs/TEST-COVERAGE-MAP.md`) a produit huit issues, #75 à #82, toutes traitées le
+soir même. Cinq par une skill : `defect-report` (le livrable quotidien d'un testeur, absent des 30),
+`openapi-ingest` (deuxième porte d'entrée de la chaîne), `impact-select` (partir d'un diff),
+`confirm-fix` (fermer la boucle d'un défaut), `test-plan-and-closure` (les deux documents qu'un
+responsable signe). **Et trois par une décision de ne rien construire** : [ADR 0004](adr/0004-test-level-boundary.md)
+assume que QAIA ne descend pas sous le niveau système ; l'anonymisation sort du périmètre sur un
+critère de vérifiabilité ; la compatibilité navigateurs devient une note de raisonnement plutôt
+qu'une 36ᵉ skill.
+
+Chacune est éprouvée sur un cas réel, pas sur une fixture. `defect-report` contre un **ticket écrit
+par un humain** sur le même défaut — et l'étalon nous a corrigés. `impact-select` **mesurée avant
+d'être écrite** : sur une faute injectée pour de vrai, la lecture naïve rate **6 impacts sur 10**.
+`confirm-fix` sur un cas entièrement public, où le verdict naïf (« fermé, 3 régressions ») est
+**faux** — les trois tests étaient périmés, pas régressés, et une seule vérification retourne le
+verdict.
+
+**Un panel de relecture à contexte vide sur le travail du jour : 19 constats sur 30 survivent
+(D158).** Cinq lentilles, chaque constat ensuite attaqué par un sceptique chargé de le détruire. Le
+plus grave était matériel : **la procédure de reproduction publiée ne pouvait pas produire les
+chiffres publiés** — la base utilisée était enrichie d'une collection que le README de la cible
+illustre sans la fournir, et elle n'était archivée nulle part. Un tiers obtenait 5 rouges, pas 3.
+Corrigé, et la correction **rejouée** plutôt que raisonnée. Les dix-huit autres relèvent tous du
+même motif : un chiffre écrit de mémoire, jamais recroisé.
+
+**Deux défauts répétés deviennent des machines (D159, D163).** Le compteur de skills avait quatre
+valeurs différentes dans quatre documents du même jour ; corrigé quatre fois à la main, la cinquième
+a servi à écrire `check_skill_counts.py`. Le registre de décisions a été trouvé incomplet **trois
+fois dans la journée** — comblé, expliqué, et revenu dans les heures qui suivent à chaque fois ;
+`check_decision_register.py` refuse désormais un commit qui nomme une décision sans l'enregistrer.
+C'est la seule différence observable entre une résolution et une machine : la première tient
+quelques heures.
+
+**QA Orchestra exécutée, jugée en aveugle — 2 juges sur 3 pour QAIA (D160).** Leur agent joué
+verbatim sur la même user story, avec un contexte écrit *pour eux* à leur format. Ce que la mesure
+retire à notre argumentaire : **ils déclarent les bornes ambiguës eux aussi**. Notre avantage est
+que l'ambiguïté voyage *avec* le scénario — supériorité de structure, pas de lucidité. Et deux
+écarts en leur faveur sur notre terrain : leur sortie est immédiatement exécutable, et ils couvrent
+huit classes de risque absentes de chez nous.
+
+**Et l'épreuve nous a trouvé un défaut que rien d'interne n'avait vu (D161).** Le cahier vitrine
+assérait **17 codes HTTP que l'exigence ne mentionne jamais**. Il avait survécu à cinq juges LLM, à
+une piste mutation complète et au panel du matin — parce que **nous avons aussi écrit l'application
+sous test**. Oracle circulaire : le cahier ne vérifiait pas l'exigence, il vérifiait notre
+implémentation de l'exigence. Trouvé en mettant notre sortie à côté de celle d'un concurrent.
+
+**La carte de couverture gagne deux axes, et j'étais généreux sur les deux (D164).** Sur la question
+« le test est-il couvert à chaque étape du cycle ? », deux mauvaises réponses avant la bonne — dont
+un découpage en neuf étapes **inventé de toutes pièces**, quand le SDLC canonique en compte sept.
+Vérifié sur le web plutôt qu'improvisé. Résultat : **QAIA vit entièrement dans Delivery et
+Maintenance**, elle commence quand la discovery est finie et s'arrête quand le déploiement commence.
+Sur les quatre pratiques du shift-right, la couverture est de **zéro**. Deuxième axe ajouté : les
+outils face aux leaders du marché — trois catégories au niveau (k6, axe-core, ZAP passif), trois
+passant toutes par Playwright, deux vides (chaos, contrat standard).
 
 ### Ce qui reste vrai et inchangé
 
