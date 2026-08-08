@@ -34,89 +34,85 @@ From Claude Code:
 
 \* Orders of magnitude — never promises. The journey state lives in `.qaia/` (see `skills/README.md` for the full contract): every step checkpoints to disk, so an interrupted session resumes where it left off.
 
-## Token budget — ordre de grandeur (issue #7)
+## Token budget — orders of magnitude
 
-**Version 0.2.15 — daté 2026-07-25. Intégralement instrumenté.** Les 14 skills de ce tableau
-ont désormais une mesure réelle (méthode ci-dessous) — issue #7 fermée.
+**Version 0.2.15 — measured 2026-07-25. Fully instrumented.** All 14 commands in the table below
+carry a real measurement, taken by the method described here.
 
-**Méthode de mesure** : chaque skill mesurée a été appliquée fidèlement, du début à la fin, par
-un agent dédié sur une US du gold set (pas de raccourci) ; le chiffre rapporté est le total de
-tokens réellement consommé par cet agent pour la tâche complète (input+output, tel que rapporté
-par l'infrastructure d'orchestration — pas une auto-déclaration de l'agent lui-même, qui n'a
-aucun accès fiable à son propre compteur, confirmé activement à plusieurs reprises cette
-session : aucune variable d'environnement ni aucun outil accessible à l'agent délégué
-n'expose son propre total). Chiffre lu au niveau orchestrateur, un cran au-dessus de l'agent
-délégué, où il est bien exposé (confirmation méthodologique nouvelle cette session, D91). Un
-seul run par skill mesurée — pas encore de moyenne/variance.
+**How they were measured.** Each command was applied faithfully, start to finish, by a dedicated
+agent on a gold-set user story — no shortcuts. The figure is the total tokens that agent actually
+consumed for the complete task (input + output, as reported by the orchestration layer). It is
+**not** a self-report: an agent has no reliable access to its own counter, which was confirmed
+repeatedly — no environment variable and no tool available to a delegated agent exposes its own
+total. The number is read one level above the agent, where it is exposed. **One run per command,
+so there is no average and no variance yet.**
 
-| Commande | Ordre de grandeur (tokens, aller-retour) | Mesuré ? | Ce qui fait varier |
+| Command | Tokens, round trip | Measured? | What moves it |
 |---|---|---|---|
-| `hello` | **39,1k mesuré** (2026-07-25) | ✅ Mesuré | lecture seule, un tour — au-dessus de l'ancienne estimation ~1-5k |
-| `qaia-help` | **56,3k mesuré** (fixture US-004, 2026-07-25) | ✅ Mesuré | lecture seule, un tour, mais lit un état de parcours complet (7 étapes) — au-dessus de l'ancienne estimation ~1-5k |
-| `us-ingest` | **44,9k mesuré** (US-002, 2026-07-25) | ✅ Mesuré | taille de l'US, gates — **la mesure réelle dépasse nettement l'ancienne estimation (~5-20k) : rapporté honnêtement, pas lissé** |
-| `us-review` | **73,8k mesuré** (US-002, 2026-07-25) | ✅ Mesuré | taille de l'US, gates — au-dessus de l'ancienne estimation ~5-20k |
-| `prioritize` | **84,7k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb de conditions à scorer (37 ici) — au-dessus de l'ancienne estimation ~5-20k |
-| `feedback` | **88,5k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb de corrections capturées (4 ici, 2 promues en règle) — au-dessus de l'ancienne estimation ~5-20k |
-| `istqb-design` | **40,1k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb d'AC, expansion 3c — cohérent avec l'ancienne estimation |
-| `rag-build` | **67,6k mesuré** (base de connaissance neuve, domaine covoiturage, 2026-07-25) | ✅ Mesuré | initialisation complète (5 fichiers) vs. ajout incrémental à une base existante, nb de règles métier — au-dessus de l'ancienne estimation ~20-60k, cohérent avec un run d'initialisation (le cas le plus coûteux du spectre) |
-| `need-understanding` | **91,1k mesuré** (US-002, 2026-07-25) | ✅ Mesuré | ambiguïté, nb d'AC (8 questions sur 8 AC ici), échanges Q&A — au-dessus de l'ancienne estimation ~20-60k |
-| `oracle-generate` | **67,1k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | nb de domaines d'oracle détectés (2 ici : ISO 4217, ISO 8601) — au-dessus de l'ancienne estimation ~20-60k |
-| `testbook-generate` | **112,5k mesuré** (US-005, 2026-07-25), plage indicative ~40–150k+ | ✅ Mesuré | nb d'AC × techniques ; parallélisation sous-agents en amplifie le débit **et** le coût |
-| `testbook-export` | **77,6k mesuré** (projection du cahier US-004, 4 fichiers/38 scénarios, 2026-07-25) | ✅ Mesuré | volume du test book, nb de livrables produits (XLSX ajoute un coût réel) — au-dessus de l'ancienne estimation ~10-40k |
-| `testbook-validate` | **107,1k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | volume du test book audité (4 fichiers/38 scénarios) + score structurel déterministe rejoué en plus du LLM-judge — au-dessus de l'ancienne estimation ~10-40k |
-| `report` | **139,7k mesuré** (US-004, 2026-07-25) | ✅ Mesuré | volume du parcours complet à consolider (7 étapes) — au-dessus de l'ancienne estimation ~10-40k |
+| `hello` | **39.1k** | ✅ | read-only, one turn — well above the old ~1-5k estimate |
+| `qaia-help` | **56.3k** (US-004 fixture) | ✅ | read-only, one turn, but reads a full 7-step journey state — above the old ~1-5k estimate |
+| `us-ingest` | **44.9k** (US-002) | ✅ | size of the story, gates — **the measurement far exceeds the old ~5-20k estimate; reported as measured, not smoothed** |
+| `us-review` | **73.8k** (US-002) | ✅ | size of the story, gates — above the old ~5-20k estimate |
+| `prioritize` | **84.7k** (US-004) | ✅ | number of conditions to score (37 here) — above the old ~5-20k estimate |
+| `feedback` | **88.5k** (US-004) | ✅ | corrections captured (4 here, 2 promoted to rules) — above the old ~5-20k estimate |
+| `istqb-design` | **40.1k** (US-004) | ✅ | number of acceptance criteria, coverage expansion — consistent with the old estimate |
+| `rag-build` | **67.6k** (new knowledge base, carpooling domain) | ✅ | full initialisation (5 files) vs. incremental addition to an existing base, number of business rules — above the old ~20-60k estimate, consistent with an initialisation run being the most expensive case |
+| `need-understanding` | **91.1k** (US-002) | ✅ | ambiguity, number of criteria (8 questions over 8 criteria here), Q&A turns — above the old ~20-60k estimate |
+| `oracle-generate` | **67.1k** (US-004) | ✅ | oracle domains detected (2 here: ISO 4217, ISO 8601) — above the old ~20-60k estimate |
+| `testbook-generate` | **112.5k** (US-005), indicative range ~40-150k+ | ✅ | criteria × techniques; sub-agent parallelisation raises throughput **and** cost |
+| `testbook-export` | **77.6k** (US-004 book, 4 files / 38 scenarios) | ✅ | book volume, deliverables produced (XLSX adds real cost) — above the old ~10-40k estimate |
+| `testbook-validate` | **107.1k** (US-004) | ✅ | volume audited (4 files / 38 scenarios) plus the deterministic structural score replayed alongside the LLM judge |
+| `report` | **139.7k** (US-004) | ✅ | volume of the full 7-step journey to consolidate — above the old ~10-40k estimate |
 
-**Constat transversal (2026-07-25)** : sur les 14 skills désormais mesurées, **13/14 dépassent
-leur ancienne estimation à dire d'expert**, parfois nettement (`report` 139,7k vs ~10-40k
-estimé, `need-understanding` 91,1k vs ~20-60k estimé). Seule `istqb-design` est restée dans sa
-fourchette. Ce n'est pas corrigé artificiellement à la baisse — c'est le signal que les
-anciennes fourchettes, jamais instrumentées, étaient systématiquement optimistes plutôt qu'un
-problème propre à une skill en particulier.
+**The finding that runs across the table: 13 of the 14 measured commands cost more than the
+expert estimate that preceded them**, several of them by a wide margin (`report` 139.7k against a
+~10-40k estimate, `need-understanding` 91.1k against ~20-60k). Only `istqb-design` landed inside
+its range. Nothing was adjusted downwards after the fact — the signal is that the old ranges, none
+of which were ever instrumented, were **systematically optimistic**, rather than that one
+particular command misbehaves.
 
-Le coût utilisateur est en **quota d'abonnement** (Q22), pas en facturation API. Télémétrie
-disponible côté mainteneur : les campagnes d'évaluation consomment ~115k à 1.76M tokens (workflow
-multi-agent), ce qui n'est **pas** représentatif d'une commande unique côté utilisateur.
+The cost lands on your **subscription quota**, not an API bill. For context on the maintainer
+side: evaluation campaigns consume ~115k to 1.76M tokens because they are multi-agent workflows —
+that is **not** representative of a single user command.
 
-## Coût face aux paliers d'abonnement (issue #49, D108)
+## What that means against the subscription tiers
 
-**Limite honnête à poser d'abord** : Anthropic ne publie plus de chiffre exact et garanti de
-messages/heures par palier — confirmé en relisant directement la page d'aide officielle
-(support.claude.com, 2026-07-28) : *"Both Pro and Max plans offer usage limits that are shared
-across Claude and Claude Code"*, sans quantifier. Les chiffres ci-dessous sont des **estimations
-tierces, non officielles**, datées et sourcées, à recouper vous-même dans votre compte avant
-d'engager une équipe dessus — pas une garantie contractuelle d'Anthropic.
+**The honest limit first.** Anthropic no longer publishes an exact, guaranteed figure of
+messages or hours per tier — checked directly against the official help page (support.claude.com,
+2026-07-28): *"Both Pro and Max plans offer usage limits that are shared across Claude and Claude
+Code"*, with no quantification. The numbers below are **third-party estimates, unofficial**,
+dated and sourced. Check them against your own account before committing a team to them; they are
+not a contractual guarantee from Anthropic.
 
-| Palier | Fenêtre 5h (tiers, 2026-07-28) | Cadence hebdo (tiers) |
+| Tier | 5-hour window (third-party, 2026-07-28) | Weekly cadence (third-party) |
 |---|---|---|
-| Pro (~20 $/mois) | ~45 prompts / 5h | pas de plage publiée, usage jugé adapté à 2-5h/semaine de Claude Code sur des tâches contenues |
-| Max 5x (~100 $/mois) | ~225 prompts / 5h | ~140-280h Claude Code/semaine (tiers) |
-| Max 20x (~200 $/mois) | ~900 prompts / 5h | ~240-480h Claude Code/semaine (tiers) |
+| Pro (~$20/month) | ~45 prompts / 5h | no published range; usage judged suited to 2-5h a week of Claude Code on contained tasks |
+| Max 5× (~$100/month) | ~225 prompts / 5h | ~140-280h of Claude Code per week |
+| Max 20× (~$200/month) | ~900 prompts / 5h | ~240-480h of Claude Code per week |
 
-**Pourquoi le budget token mesuré (tableau ci-dessus) ne se convertit pas 1:1 en "nombre de
-parcours par semaine"** : le quota d'abonnement est compté en **prompts/temps de session**, pas
-en tokens bruts — un appel de skill qui consomme 133k tokens en interne (agent + outils) compte
-généralement comme **un seul prompt** dans la fenêtre de 5h, au même titre qu'un message court.
-Le vrai facteur limitant pour une équipe n'est donc pas le volume de tokens mesuré par skill,
-mais le **nombre d'invocations de skill** (≈ un prompt chacune) et le temps de session cumulé.
+**Why the measured token budget does not convert 1:1 into "journeys per week".** The subscription
+quota is counted in **prompts and session time**, not raw tokens. A skill invocation that consumes
+133k tokens internally (agent plus tools) generally counts as **one prompt** in the 5-hour window,
+exactly like a short message. So the real limiting factor for a team is not the token volume
+measured per command — it is the **number of skill invocations** (≈ one prompt each) and the
+cumulative session time.
 
-**Recommandation d'usage, avec cette réserve explicite** : un parcours QAIA complet (6 skills du
-cœur : `us-ingest` → `us-review` → `need-understanding` → `istqb-design` → `testbook-generate`
-→ `report`) consomme de l'ordre de **6 à 12 prompts** (une skill peut se relancer une fois en cas
-d'arbitrage humain) — largement sous la fenêtre 5h même du palier Pro (~45 prompts). Le facteur
-limitant réel pour un usage équipe (plusieurs développeurs, plusieurs US par semaine) est le
-**temps de session cumulé**, pas le compte de prompts isolé — une équipe de 3-5 développeurs
-lançant 1-2 parcours complets par jour reste dans l'ordre de grandeur d'un usage individuel
-"contenu" par personne, cohérent avec le palier Pro déjà cité comme suffisant pour ce profil par
-les sources tierces ci-dessus ; un usage plus intensif (plusieurs US en parallèle, régénérations
-fréquentes, skills optionnelles ajoutées comme `oracle-generate`/`testbook-validate`) pousse vers
-Max 5x. **Aucun de ces deux profils ne nécessite Max 20x** sur la seule base de ce que QAIA
-consomme — ce palier resterait pertinent pour un usage Claude Code plus large que QAIA seul
-(développement général en parallèle).
+**Usage guidance, with that caveat attached.** A full QAIA journey — the six core commands
+`us-ingest` → `us-review` → `need-understanding` → `istqb-design` → `testbook-generate` →
+`report` — costs on the order of **6 to 12 prompts** (a command may be re-run once when a human
+arbitrates), comfortably inside the 5-hour window of even the Pro tier (~45 prompts). For team
+use, the real constraint is cumulative session time rather than an isolated prompt count: a team
+of 3-5 developers running 1-2 full journeys a day stays in the order of magnitude of "contained"
+individual usage per person, which the third-party sources above already call adequate for Pro.
+Heavier use — several stories in parallel, frequent regeneration, optional commands such as
+`oracle-generate` or `testbook-validate` — pushes toward Max 5×. **Neither profile requires
+Max 20×** on the basis of what QAIA consumes; that tier stays relevant for Claude Code usage
+wider than QAIA alone.
 
-**Non fait, honnêtement** : aucune équipe pilote réelle n'a encore rapporté sa consommation de
-quota sur plusieurs semaines (mur humain, #1) — cette section reste une **projection à partir
-du budget token mesuré**, pas une mesure de quota réel épuisé, à corriger dès qu'un retour pilote
-existe.
+**Not done, and said plainly: no real pilot team has yet reported its quota consumption over
+several weeks.** This whole section is a **projection from the measured token budget**, not a
+measurement of quota actually exhausted, and it is to be corrected the moment pilot feedback
+exists.
 
 ## Portability
 
