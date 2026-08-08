@@ -1,0 +1,12 @@
+{
+  "testbook": "testbook/json-server-rest.feature",
+  "note": "The frozen copy is the requirement as it stood when the book was written. `check_requirement_drift.py` fails when it no longer matches, which is the signal to re-read -- see report.md, section on the three red tests that were our fault and not the code's.",
+  "sources": [
+    {
+      "label": "typicode/json-server README at 8fb0f72 (2024-05-13)",
+      "path": "sources/README.8fb0f72.md",
+      "origin": "https://github.com/typicode/json-server/blob/8fb0f72/README.md",
+      "sha256": "7cd0597879b51c2a4857b5c432961dddf0e16d2fb4fcfe02295d0a02212e3805"
+    }
+  ]
+}

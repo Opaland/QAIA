@@ -78,6 +78,16 @@ jobs:
           # readability debt, tracked deliberately, not correctness defects.
           python eval/tools/lint_skills.py
 
+      - name: Requirement sources unchanged since their test book was written
+        run: |
+          set -e
+          # Found by measurement, not by design review: the json-server campaign (2026-08-08) ran
+          # its book against the current version and got four reds, three of which were OUR fault
+          # -- `_limit`, `_start`/`_end` and `arr[0]` had been removed from the documentation in
+          # the meantime. The suite kept demanding retired promises with the confidence of tests
+          # that had once been green. Nothing in a generated suite says when its requirement moved.
+          python eval/tools/check_requirement_drift.py
+
       - name: automation_score self-check (mutation track)
         run: |
           set -e
