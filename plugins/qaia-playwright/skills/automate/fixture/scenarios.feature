@@ -21,3 +21,21 @@ Feature: Booking cancellation window (fixture for automate's assertion self-revi
     Given the practitioner list contains dermatology and cardiology slots
     When the patient filters by "dermatology"
     Then only dermatology slots are displayed
+
+  # --- The five defect classes measured on real generated suites (D5-D9). Each scenario below
+  # --- is written so that exactly one of them can be committed against it.
+
+  @QAIA-FIXTURE-041-004 @AC7 @P1 @low-confidence
+  # open: Q1 -- the specification does not say whether an unregistered address must be treated
+  # identically to a registered one. Proposed default below; human arbitration required.
+  Scenario: an unregistered address gives no signal distinguishing it from a registered one
+    Given the password reset page is open
+    When an address that is not registered is submitted
+    Then the security question field is enabled, the same as for a registered address
+
+  @QAIA-FIXTURE-041-005 @AC7 @P1 @negative
+  Scenario: a cancellation without a reason is refused, and no cancellation is recorded
+    Given a patient has booked a slot starting in 26 hours
+    When cancellation is requested with no reason given
+    Then the request is refused with a message naming the missing reason
+    And no cancellation appears in the booking history

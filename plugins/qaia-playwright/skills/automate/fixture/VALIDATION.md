@@ -81,3 +81,48 @@ matcher, silent zero-assertion block) are distinguishable from their corrected f
 mechanical inspection (grep, syntax check, assertion count), and each correction is
 traceable to concrete text in the scenario's `Then` rather than fabricated. This matches
 the intended behavior of `SKILL.md` step 5.
+
+## Extended 2026-08-08 — three measured classes, and two defects the extension found
+
+The fixture originally exercised the three trivial-assertion classes. Five more classes were
+added to the lint after five blank-context judges applied
+[`eval/AUTOMATION-RUBRIC.md`](https://github.com/QAIA-Project/QAIA/blob/main/eval/AUTOMATION-RUBRIC.md)
+to five real generated suites — none of which passed its gate. Three of those five are visible to
+a static reader, so they belong here:
+
+| Scenario | Defect committed in `generated-before` | Fixed in `generated-after` |
+|---|---|---|
+| `041-004` | **D5** — asserts `toBe(false)` where the `Then` demands the field be *enabled, the same as for a registered address*: the inverse. Plus **D6** on the same test — the book flags the scenario as resting on an open question, the code says nothing | Polarity restored, and the test now exercises **both** cases because the `Then` claims *sameness*. Flag carried in the title and in a comment saying a failure is the answer arriving, not a regression |
+| `041-005` | **D7** — sole assertion `not.toBe(200)`, and the `Then`'s second clause (*no cancellation appears in the history*) never asserted | Status and error message asserted so the refusal is attributable to the field under test, plus the absence clause |
+
+### Discrimination, measured
+
+```
+before  {hollow-assertion: 2, test-without-assertion: 3, flag-dropped: 1, single-sided-evidence: 1}
+after   {}
+```
+
+Every class fires on the naive file and **nothing at all fires on the corrected one**. The second
+half is the half that matters: a lint that flags both files discriminates nothing.
+
+### Two defects the extension found in the project's own tooling
+
+Neither was the point of the exercise, and both were there before today.
+
+1. **`automation_score.py` matched assertion patterns inside `//` comments.** `generated-after`
+   documents each fix with a line like `// Was: expect(true).toBe(true)` — and was reported as
+   containing two hollow assertions *because it explains what it fixed*. Any suite that documents
+   its own corrections was being penalised for the documentation. Comments are now stripped before
+   pattern matching (block comments and `//` inside string literals are deliberately left alone:
+   the cheap version is right far more often, and a clever parser that mangles a URL is worse).
+2. **This fixture's own header cited `../VALIDATION.md`**, one directory too high — the file is
+   `./VALIDATION.md`. Written long before today, never noticed, and caught on the first run of the
+   `dead-citation` check by the tool it was added to. A citation looks authoritative precisely
+   because nobody follows it.
+
+### What the fixture still cannot show
+
+**D8** (a literal with no provenance) and **D9** (a report claiming what the code does not support)
+are not committed here. Both need context this fixture does not carry — the source a literal should
+trace to, and the run report itself. They stay judge-only, and that is stated rather than papered
+over with a case that would only look like a demonstration.

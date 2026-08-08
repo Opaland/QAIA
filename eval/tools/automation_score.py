@@ -129,6 +129,19 @@ QAIA_TAG = re.compile(r"@?\bQAIA[-A-Za-z0-9_]*-\d+\b")
 FEATURE_TAG = re.compile(r"@(QAIA[-A-Za-z0-9_]*-\d+)\b")
 
 
+# A `//` line comment is prose, not code. Stripping it before pattern matching was added
+# 2026-08-08 after the assertion rules fired on `// Was: expect(true).toBe(true)` in a fixture
+# whose whole purpose is to document the defect it fixed. Any suite that explains its own
+# corrections was being penalised for the explanation. Block comments and `//` inside a string
+# literal are deliberately not handled: the cheap version is right far more often than not, and a
+# clever one that mis-parses a URL would be worse than none.
+COMMENT_TAIL = re.compile(r"(?<!:)//.*$")
+
+
+def code_of(line):
+    return COMMENT_TAIL.sub("", line)
+
+
 def first_match(rules, line):
     """Only the first matching rule fires. `waitForLoadState('networkidle')` matches two
     patterns and was reported twice before this (found by running the tool, not reading it)."""
@@ -238,11 +251,11 @@ def static_track(spec_files, support_files, tests_dir, feature_ids, flagged_ids=
             if wait:
                 findings.append({"kind": "forbidden-wait", "file": rel, "line": i,
                                  "detail": wait, "blocking": False})
-            hollow = first_match(HOLLOW_ASSERTIONS, line)
+            hollow = first_match(HOLLOW_ASSERTIONS, code_of(line))
             if hollow:
                 findings.append({"kind": "hollow-assertion", "file": rel, "line": i,
                                  "detail": hollow, "blocking": True})
-            weak = first_match(WEAK_ASSERTIONS, line)
+            weak = first_match(WEAK_ASSERTIONS, code_of(line))
             if weak:
                 findings.append({"kind": "weak-assertion", "file": rel, "line": i,
                                  "detail": weak, "blocking": False})
@@ -258,7 +271,7 @@ def static_track(spec_files, support_files, tests_dir, feature_ids, flagged_ids=
             body = "\n".join(lines[start - 1:end - 1])
             real_assertions = len([
                 1 for ln in body.split("\n")
-                if EXPECT_CALL.search(ln) and not any(rx.search(ln) for rx, _ in HOLLOW_ASSERTIONS)
+                if EXPECT_CALL.search(code_of(ln)) and not any(rx.search(code_of(ln)) for rx, _ in HOLLOW_ASSERTIONS)
             ])
             if real_assertions:
                 tests_with_real_assertion += 1
@@ -267,7 +280,7 @@ def static_track(spec_files, support_files, tests_dir, feature_ids, flagged_ids=
                                  "detail": title[:160], "blocking": True})
             # Whole-evidence check: fires only when EVERY assertion in the test is one-sided.
             # A test that asserts `not.toBe(200)` and then reads the error body is fine.
-            assertion_lines = [ln for ln in body.split(NL) if EXPECT_CALL.search(ln)]
+            assertion_lines = [ln for ln in body.split(NL) if EXPECT_CALL.search(code_of(ln))]
             if assertion_lines and all(first_match(SINGLE_SIDED, ln) for ln in assertion_lines):
                 findings.append({"kind": "single-sided-evidence", "file": rel, "line": start,
                                  "detail": "every assertion in this test is one-sided ("
