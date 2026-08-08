@@ -1,0 +1,12 @@
+{
+  "testbook": "testbook/petstore-pets.feature",
+  "note": "A specification fetched from a URL is a requirement that changes without warning. Frozen here so the derived book can be argued about at the version it was generated from -- check_requirement_drift.py fails the day it moves.",
+  "sources": [
+    {
+      "label": "Swagger Petstore OpenAPI 3.0.4, version 1.0.27, fetched 2026-08-08",
+      "path": "sources/petstore-openapi-1.0.27.json",
+      "origin": "https://petstore3.swagger.io/api/v3/openapi.json",
+      "sha256": "00441c05add60f28da55eb4563d3fb6bbda364ba8eb7b381e2e2c98613005c82"
+    }
+  ]
+}

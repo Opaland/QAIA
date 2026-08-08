@@ -1,6 +1,6 @@
 # QAIA catalogue — I want to X, which skill?
 
-31 skills across 4 plugins. This page exists because a cold read by four business personas found
+32 skills across 4 plugins. This page exists because a cold read by four business personas found
 the boundary between three shift-right skills unreadable *without reading all three* — and a
 skill that has to spend six lines explaining it is not a duplicate is a catalogue problem, not a
 wording problem. The answer taken: **keep the skills distinct, publish the map.**
@@ -18,6 +18,7 @@ interrupted session.
 | I want to | Skill | Plugin |
 |---|---|---|
 | Bring a user story in (paste, file, URL, Jira) | `us-ingest` | core |
+| Bring a formal API contract in (OpenAPI, Swagger) | `openapi-ingest` | core |
 | Check the extraction is faithful before building on it | `us-review` | core |
 | Find what the story does *not* say — ambiguities, contradictions | `need-understanding` | core |
 | Set up or enrich the team's shared knowledge base | `rag-build` | core |
