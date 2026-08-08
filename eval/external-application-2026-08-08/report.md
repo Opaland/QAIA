@@ -3,7 +3,8 @@
 Tout ce que ce projet mesure, il le mesure sur du code qu'il a lui-même produit. La question
 restée ouverte depuis le début : **est-ce que ça trouve quelque chose sur du vrai logiciel ?**
 
-Cible : [`typicode/json-server`](https://github.com/typicode/json-server) — 74 000 étoiles, un
+Cible : [`typicode/json-server`](https://github.com/typicode/json-server) — 75 694 étoiles
+(mesurées le 2026-08-08), un
 serveur REST qui transforme un fichier JSON en API. Choisi parce qu'il tourne sans base de
 données externe et surtout parce qu'il a **un contrat public et antérieur** : son README.
 
@@ -101,7 +102,7 @@ mécanisme pour détecter qu'une exigence a été retirée — c'est un manque, 
 ## Ce qu'elle prouve
 
 Un cahier de tests écrit depuis la seule documentation publique d'un projet tiers, sans jamais
-en lire le code, a trouvé **deux défauts réels dans un projet à 74 000 étoiles** — dont un
+en lire le code, a trouvé **deux défauts réels dans un projet à 75 694 étoiles** — dont un
 signalé par un vrai utilisateur dans un vrai ticket, et les deux corrigés par le mainteneur
 après la version testée.
 

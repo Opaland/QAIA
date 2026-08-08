@@ -233,6 +233,34 @@ Scenario: A line at exactly the receipt
   </section>
 
   <section id="proof">
+    <h2>Two real defects, in software we did not write</h2>
+    <p class="lede">Until 8 August 2026, everything this project measured, it measured on code it had produced itself. That is the weakest kind of evidence, and it was the honest criticism of QAIA. So the pipeline was pointed at a stranger's repository.</p>
+
+    <p>Target: <a href="https://github.com/typicode/json-server">json-server</a> — <strong>75,694 stars</strong> (measured 8 August 2026), chosen because it runs without a database and, more importantly, because it has a <strong>public contract that predates us</strong>: its README.</p>
+
+    <p>The rule of the exercise: the test book was written from <strong>that README alone</strong>. Never the code, never the issues, never the fix commits. Then the same suite was run against two versions of the same software — the one the README described, and the current one.</p>
+
+    <div class="grid3">
+      <div class="card">
+        <h4>A one-character contract break</h4>
+        <p>The documentation promised <code>_dependent</code>. The code read <code>dependent</code>. The endpoint answered <em>success</em> and did nothing. <strong>A suite written by reading the code cannot find this</strong> — it copies the mistake. A real user had filed it as <a href="https://github.com/typicode/json-server/issues/1551">issue #1551</a>; the maintainer fixed it in <code>1b7c0fb</code>.</p>
+      </div>
+      <div class="card">
+        <h4>Two filters that overwrote each other</h4>
+        <p>Asking for <em>views &gt; 100 <strong>and</strong> views &lt; 300</em> returned everything. Conditions were stored in a map keyed by field name, so the second silently replaced the first. Fixed by the maintainer in <code>e6055e6</code>, three months after the version we tested.</p>
+      </div>
+      <div class="card">
+        <h4>A third finding we refused to count</h4>
+        <p><code>_start</code> used alone returns an empty list — a fact, verified by hand. But the README only ever shows it <em>paired</em>, so the test extrapolated a promise the document does not make. <strong>Counted as contested, not as a defect. Two, not three.</strong></p>
+      </div>
+    </div>
+
+    <p><strong>And the result that goes against us.</strong> Run against the <em>current</em> version, four tests fail — and <strong>three of those four are our fault</strong>. Those features were removed from the documentation in the meantime, and the suite kept demanding retired promises with the confidence of tests that had once been green. QAIA had no way to notice a contract had moved. It does now, and that gap is written up rather than quietly closed.</p>
+
+    <p><a href="https://github.com/QAIA-Project/QAIA/blob/main/eval/external-application-2026-08-08/report.md">Read the full campaign, including the protocol and its limits →</a></p>
+
+    <p class="muted"><strong>What this is not.</strong> It is not a pilot. No human has used QAIA in their own work — that remains the project's biggest unknown, and finding defects in a stranger's repository does not substitute for it. It is one target, one API, no user interface, and 32 scenarios rather than full coverage of the README.</p>
+
     <h2>Three things you can verify yourself in five minutes</h2>
     <p class="lede">Every claim below points at a file or a run you can open without installing anything or taking our word for it.</p>
 

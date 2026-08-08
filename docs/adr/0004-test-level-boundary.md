@@ -44,7 +44,7 @@ dans une note de bas de page.
 
 **1. La valeur de QAIA vient précisément de partir du contrat, et le contrat n'existe pas en
 dessous.** La campagne externe du 2026-08-08 (`eval/external-application-2026-08-08/`) a trouvé
-deux défauts réels dans un projet à 74 000 étoiles en générant depuis sa documentation et **jamais**
+deux défauts réels dans un projet à 75 694 étoiles en générant depuis sa documentation et **jamais**
 depuis son code. Le plus important était un écart d'un caractère entre ce que la documentation
 promettait et ce que l'implémentation lisait. **Une suite écrite en regardant le code ne peut pas
 trouver cette classe de défaut : elle recopie l'erreur.**

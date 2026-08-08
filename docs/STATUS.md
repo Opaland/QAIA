@@ -205,7 +205,7 @@ tous les jours ; un CA, une fois par sprint. La case de #70 **reste ouverte** : 
 
 **Première application à un logiciel qu'on n'a pas écrit — deux vrais défauts (D147).** Tout ce que
 le projet mesurait, il le mesurait sur du code qu'il avait produit. Cible : `typicode/json-server`,
-**74 000 étoiles**, choisie parce qu'elle a un contrat public **antérieur** — son README. Cahier de
+**75 694 étoiles** (mesurées le 2026-08-08), choisie parce qu'elle a un contrat public **antérieur** — son README. Cahier de
 32 scénarios écrit depuis ce README seul, jamais depuis le code, puis passé sur deux versions du
 même logiciel. **29 verts sur 32, et deux défauts réels** confirmés par les correctifs du
 mainteneur lus *après* génération. Le plus parlant : la doc disait `_dependent`, le code lisait
@@ -257,7 +257,7 @@ utilisateur toujours pas mesurée. La nuit a construit un canal et corrigé une 
 par raccourci ; elle n'a pas changé ces quatre points.
 
 Et la journée du 2026-08-08 non plus. Trois skills de plus, deux vrais défauts trouvés dans un
-projet à 74 000 étoiles, une preuve de mutation enfin honnête — **et toujours 0 étoile, 0 fork,
+projet à 75 694 étoiles, une preuve de mutation enfin honnête — **et toujours 0 étoile, 0 fork,
 0 pilote humain**. La carte de couverture le dit dans sa dernière ligne : sur 33 skills, trois ont
 été appliquées hors du dépôt, et **aucune n'a jamais été utilisée par un humain dans son travail
 réel**. C'est la seule mesure qui manque, et aucune quantité de travail dans le dépôt ne la
