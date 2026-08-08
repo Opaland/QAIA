@@ -133,6 +133,22 @@ huit défauts trouvés dans la rubrique elle-même**, tous corrigés. Deux de pl
 corrigés parce que ce sont des décisions de scope. Les suites de campagne ne sont pas modifiées —
 ce sont des preuves, les corriger détruirait la trace.
 
+**#63 — cinq juges, et trois constats devenus des contrôles machine (D144).** Scores : 002 → 3/12,
+004 → 4/12, 006 → 8/10 jugeables, 008 → 2/12, 013 → 5/12. **Aucune suite ne franchit la porte.**
+Le pire défaut, vérifié à la main : `US-EVAL-004` assère l'**inverse** de son `Then` et encode
+ainsi une fuite d'existence de comptes comme condition de succès.
+
+Mais le résultat principal est le ratio : **19 défauts trouvés dans la rubrique contre 12 dans le
+code.** Et trois d'entre eux ont migré vers la machine — `flag-dropped` (bloquant),
+`single-sided-evidence`, `dead-citation` — avec fixture et zéro faux positif. Ajouter le troisième
+a déterré un **bug de l'outil** que deux juges avaient soupçonné : `automation_score.py` ne
+regardait que sous `--tests-dir`, donc sur la disposition `automation/{tests,pages}` il ne voyait
+pas les page objects, d'où des `pom-missing` faux.
+
+Et le contrôle de versions du README, ajouté quelques heures plus tôt, **a attrapé son propre
+auteur** au commit suivant. Troisième fois de la session qu'un garde-fou du projet arrête celui
+qui l'a posé.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
