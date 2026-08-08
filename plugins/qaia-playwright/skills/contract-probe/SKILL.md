@@ -8,13 +8,12 @@ description: Probe a self-hosted or explicitly authorized app's real behavior ag
 Reference: `fixture/taskapi/` (a deliberately defective toy API + its own README as the
 "documented contract") — see `fixture/VALIDATION.md` for the worked example.
 
-**Direction, and why this is not a duplicate of anything existing.** The rest of QAIA's journey
-is spec-first: US → AC → Gherkin → automation, generated *before* the app necessarily exists in
-its final form. `contract-probe` is the opposite direction: a system already runs, it already
-documents what it promises (a README, an OpenAPI spec, inline help text), and the question is
-whether it keeps those promises under conditions a happy-path test never tries. `security-surface`
-is a fixed security checklist; `flaky-detect` measures run-to-run variance, not contract
-conformance; neither reads a target's own documentation to derive what to probe.
+**Direction.** The rest of QAIA's journey is spec-first: US → AC → Gherkin → automation,
+generated *before* the app necessarily exists in its final form. This skill runs the other way: a
+system already runs, it already documents what it promises, and the question is whether it keeps
+those promises under conditions a happy-path test never tries. **Its oracle is the target's own
+documentation** — that is what separates it from the other skills that touch a running app, and
+the one-line-per-skill comparison lives in the catalogue map rather than here.
 
 ## Steps
 

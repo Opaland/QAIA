@@ -58,6 +58,8 @@ Add the rest only when you need them:
 /plugin install qaia-testdata@qaia        # synthetic test data
 ```
 
+**Which skill for what?** [`plugins/qaia-core/CATALOGUE.md`](plugins/qaia-core/CATALOGUE.md) is a one-page “I want to X → use Y” map of all 30 skills — including the four that all probe a running app, laid out by *what each one uses as its oracle*, which is the only thing that tells them apart.
+
 Worked examples with their real output are in [`examples/`](examples/).
 
 
@@ -172,6 +174,8 @@ Ajoutez le reste seulement quand vous en avez besoin :
 /plugin install qaia-score@qaia           # score et gate de release
 /plugin install qaia-testdata@qaia        # jeux de données synthétiques
 ```
+
+**Quelle skill pour quoi ?** [`plugins/qaia-core/CATALOGUE.md`](plugins/qaia-core/CATALOGUE.md) est une carte d'une page « je veux faire X → utilise Y » des 30 skills — dont les quatre qui sondent une app en marche, rangées par **ce que chacune prend pour oracle**, la seule chose qui les distingue vraiment.
 
 Puis, dans n'importe quel projet, `/hello` vérifie l'installation et liste ce qui est disponible.
 
