@@ -203,11 +203,65 @@ vers la suite existante) n'a **aucun équivalent** chez nous — or un diff, l'u
 tous les jours ; un CA, une fois par sprint. La case de #70 **reste ouverte** : une lecture
 établit ce qu'un contrat promet, jamais ce qu'une exécution rend.
 
+**Première application à un logiciel qu'on n'a pas écrit — deux vrais défauts (D147).** Tout ce que
+le projet mesurait, il le mesurait sur du code qu'il avait produit. Cible : `typicode/json-server`,
+**74 000 étoiles**, choisie parce qu'elle a un contrat public **antérieur** — son README. Cahier de
+32 scénarios écrit depuis ce README seul, jamais depuis le code, puis passé sur deux versions du
+même logiciel. **29 verts sur 32, et deux défauts réels** confirmés par les correctifs du
+mainteneur lus *après* génération. Le plus parlant : la doc disait `_dependent`, le code lisait
+`dependent`. **Un underscore** — et une suite écrite en regardant le code ne peut pas le voir, elle
+recopie l'erreur. Le troisième échec est compté **contesté** et non défaut : notre test extrapolait
+une doc ambiguë. Deux, pas trois.
+
+**Le résultat négatif traité à égalité (D148).** Sur la version courante, 3 des 4 rouges étaient de
+notre faute : des fonctionnalités retirées de la documentation depuis, que la suite continuait
+d'exiger avec l'assurance de tests autrefois verts. `check_requirement_drift.py` le détecte
+désormais — la source est gelée dans le dépôt et son empreinte vérifiée en CI. Ce qui est contrôlé
+est la **provenance**, pas le contenu : l'outil ne sait pas quelle promesse a disparu, seulement
+que le sol a bougé.
+
+**Trois analyses externes vérifiées une à une (D149).** Gemini, ChatGPT et Mistral ont analysé le
+dépôt à la demande du fondateur. **La moitié des chiffres ne survit pas à la vérification**, et
+Gemini a audité un autre produit — elle décrit QAIA comme un banc d'essai de LLM, ce qui est le
+dossier `eval/`, outillage de mainteneur explicitement jamais livré. Sa feuille de route entière a
+été écartée. ChatGPT est la seule qui tienne, parce qu'elle n'avance aucun chiffre : c'est une
+méthodologie, conservée dans le dépôt. `docs/ACTION-PLAN.md` en tire une règle de tri : *une action
+entre au plan si elle réduit la distance à un premier utilisateur réel, ou rend une affirmation
+vérifiable par un tiers.*
+
+**Les trois trous P1 de la carte, comblés dans la soirée.** `docs/TEST-COVERAGE-MAP.md` a croisé les
+skills avec le processus, les niveaux et les types ISTQB. Sept trous, huit issues (#75-#82), et les
+trois plus coûteux fermés le soir même :
+
+- **`defect-report` (D150)** — le livrable quotidien d'un testeur, absent. Éprouvée contre un
+  **ticket écrit par un humain** sur le même défaut. L'étalon nous a corrigés : ma rédaction
+  affirmait à tort qu'il ne nommait pas la cause. Aucun des deux ne domine — l'humain gagne sur la
+  cause parce qu'il a lu le code, la machine sur la reproduction et la traçabilité.
+- **`openapi-ingest` (D151)** — deuxième porte d'entrée de la chaîne. Appliquée à une vraie
+  spécification, elle y a trouvé **les quatre classes de contradiction** qu'elle cherche, dont
+  celle-ci : **9 opérations sur 19 déclarent une sécurité, et aucune ligne du document ne déclare de
+  401 ni de 403.**
+- **`impact-select` (D152)** — mesurée avant d'être écrite. Sur une faute injectée pour de vrai, la
+  lecture naïve **rate 6 impacts sur 10** ; la transitive n'en rate aucun. Règle instituée : le
+  rappel est la métrique à protéger, pas la précision.
+
+**Une issue fermée par une décision, pas par du code (D153).** ADR 0004 : QAIA ne descend pas sous
+le niveau système, et le déclare. Le trou au niveau unitaire n'avait jamais été *décidé* — il
+existait par défaut. Un trou non décidé se lit comme un oubli ; une absence décidée est un
+positionnement.
+
 ### Ce qui reste vrai et inchangé
 
 Aucun gate humain franchi, aucun pilote réel, T17 non mesuré, qualité des tests produits pour un
 utilisateur toujours pas mesurée. La nuit a construit un canal et corrigé une page qui mentait
 par raccourci ; elle n'a pas changé ces quatre points.
+
+Et la journée du 2026-08-08 non plus. Trois skills de plus, deux vrais défauts trouvés dans un
+projet à 74 000 étoiles, une preuve de mutation enfin honnête — **et toujours 0 étoile, 0 fork,
+0 pilote humain**. La carte de couverture le dit dans sa dernière ligne : sur 33 skills, trois ont
+été appliquées hors du dépôt, et **aucune n'a jamais été utilisée par un humain dans son travail
+réel**. C'est la seule mesure qui manque, et aucune quantité de travail dans le dépôt ne la
+produira.
 
 
 ## Sprint 31 — #60 fermée : une suite générée tourne dans une vraie CI (2026-08-01, D132) — TERMINÉ
