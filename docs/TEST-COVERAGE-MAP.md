@@ -43,7 +43,7 @@ rapport d'exécution. Un responsable de test commence par un **plan de test** et
 | Visuel | **couvert** | `visual-check` |
 | Compatibilité (navigateurs, appareils) | **absente** | aucune skill ne nomme le sujet |
 | Structurel (boîte blanche, couverture de code) | **absente** | aucune skill ne part de la couverture |
-| Confirmation (re-test après correction) | **absente** | on ne sait pas fermer la boucle d'un défaut |
+| Confirmation (re-test après correction) | **couvert** | `confirm-fix` — trois verdicts, et le troisième jamais rapporté comme le premier |
 | Régression | **couvert** | `traffic-replay`, `flaky-detect`, `impact-select` (depuis un diff) |
 
 ## 4. Les trous, classés par ce qu'ils coûtent à un vrai utilisateur
@@ -66,7 +66,7 @@ spécification, elle y a trouvé **les quatre classes de contradiction** qu'elle
 
 **4. ~~Le niveau composant.~~** Tranché le 2026-08-08 : hors périmètre, [ADR 0004](adr/0004-test-level-boundary.md). Ce n'est plus un trou, c'est une frontière déclarée.
 
-**5. Le plan de test et le bilan.** Les deux artefacts qu'un responsable de test doit signer.
+**5. Le plan de test et le bilan.** Les deux artefacts qu'un responsable de test doit signer. *(Le test de confirmation, qui figurait dans cette liste, est comblé : `confirm-fix`, `eval/confirm-fix-2026-08-08/`.)*
 
 **6. L'anonymisation de données réelles.** `dataset-generate` fabrique du synthétique. Prendre un
 jeu de production et le rendre utilisable est un autre problème, très demandé, réglementé.

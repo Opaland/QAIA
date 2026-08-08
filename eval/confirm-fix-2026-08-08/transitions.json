@@ -1,0 +1,42 @@
+{
+  "('green', 'green')": [
+    "@QAIA-EXT-001",
+    "@QAIA-EXT-002",
+    "@QAIA-EXT-003",
+    "@QAIA-EXT-004",
+    "@QAIA-EXT-005",
+    "@QAIA-EXT-006",
+    "@QAIA-EXT-007",
+    "@QAIA-EXT-008",
+    "@QAIA-EXT-009",
+    "@QAIA-EXT-010",
+    "@QAIA-EXT-011",
+    "@QAIA-EXT-012",
+    "@QAIA-EXT-013",
+    "@QAIA-EXT-014",
+    "@QAIA-EXT-015",
+    "@QAIA-EXT-016",
+    "@QAIA-EXT-017",
+    "@QAIA-EXT-018",
+    "@QAIA-EXT-020",
+    "@QAIA-EXT-024",
+    "@QAIA-EXT-025",
+    "@QAIA-EXT-026",
+    "@QAIA-EXT-027",
+    "@QAIA-EXT-028",
+    "@QAIA-EXT-029",
+    "@QAIA-EXT-031"
+  ],
+  "('red', 'green')": [
+    "@QAIA-EXT-019",
+    "@QAIA-EXT-030"
+  ],
+  "('green', 'red')": [
+    "@QAIA-EXT-021",
+    "@QAIA-EXT-023",
+    "@QAIA-EXT-032"
+  ],
+  "('red', 'red')": [
+    "@QAIA-EXT-022"
+  ]
+}
