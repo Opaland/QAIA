@@ -5,7 +5,13 @@ description: Generate and run visual regression tests (Playwright screenshot sna
 
 # visual-check — visual regression
 
-Reference: [`examples/medibook/tests/visual.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/visual.booking.spec.js) (login + booking screen baselines).
+References, two independent domains: [`examples/medibook/tests/visual.booking.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/medibook/tests/visual.booking.spec.js)
+(login + booking baselines) and [`examples/expense-demo/tests/visual.expense.spec.js`](https://github.com/QAIA-Project/QAIA/blob/main/examples/expense-demo/tests/visual.expense.spec.js)
+(6 screens, mutation-verified: a button-colour change kills 5 snapshots, a 3-pixel padding
+shift kills the 2 that scope card lists, and no snapshot outside the mutated element's scope
+reacts). Generating the second suite surfaced a defect no functional or a11y test had: a
+sign-in error written into a region that is still `hidden` at that moment — invisible, and
+its `aria-live` announcement made inside a hidden subtree.
 Completes the 7-type coverage: E2E, API, mobile-emulation, a11y, perf, security, **visual**.
 
 ## Steps

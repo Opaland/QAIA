@@ -36,6 +36,11 @@
       <label for="password">Password</label>
       <input id="password" data-testid="password" type="password" autocomplete="current-password" />
       <p><button data-testid="login-btn" id="login-btn">Sign in</button></p>
+      <!-- A failed sign-in used to write into #message, which lives inside #app-section and is
+           still hidden at that point: the error was announced to nobody, screen reader included
+           (the aria-live region was inside a hidden subtree). Found by generating the visual
+           suite with qaia-playwright:visual-check, 2026-08-08, issue #18. -->
+      <div id="login-message" data-testid="login-message" role="status" aria-live="assertive"></div>
     </section>
 
     <section id="app-section" hidden>

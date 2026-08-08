@@ -2,7 +2,12 @@
 let token = null, me = null, draftId = null, lineCount = 0;
 
 const $ = (id) => document.getElementById(id);
-function showMsg(text, ok) { $('message').textContent = text; $('message').className = 'msg ' + (ok ? 'ok' : 'error'); }
+// Writes to whichever message region is actually on screen: before sign-in the app section is
+// hidden, so a message put there is invisible AND unannounced (issue #18).
+function showMsg(text, ok) {
+  const target = $('login-section').hidden ? $('message') : $('login-message');
+  target.textContent = text; target.className = 'msg ' + (ok ? 'ok' : 'error');
+}
 
 async function api(path, opts = {}) {
   const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});

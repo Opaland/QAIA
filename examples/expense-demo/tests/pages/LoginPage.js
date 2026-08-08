@@ -5,7 +5,7 @@ exports.LoginPage = class LoginPage {
     this.email = page.getByTestId('email');
     this.password = page.getByTestId('password');
     this.submit = page.getByTestId('login-btn');
-    this.error = page.locator('#login-section #message');
+    this.error = page.getByTestId('login-message');
   }
   async goto() { await this.page.goto('/'); }
   async signIn(email, password) {

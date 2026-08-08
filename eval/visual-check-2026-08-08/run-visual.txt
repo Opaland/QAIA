@@ -1,0 +1,11 @@
+
+Running 6 tests using 1 worker
+
+  ok 1 [visual] › visual.expense.spec.js:29:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-001 sign-in screen (166ms)
+  ok 2 [visual] › visual.expense.spec.js:35:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-002 sign-in screen with a rejected credential (240ms)
+  ok 3 [visual] › visual.expense.spec.js:45:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-003 reports screen, empty state (206ms)
+  ok 4 [visual] › visual.expense.spec.js:54:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-004 draft form with one line filled (322ms)
+  ok 5 [visual] › visual.expense.spec.js:64:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-005 my reports after a submission (389ms)
+  ok 6 [visual] › visual.expense.spec.js:76:3 › ExpenseFlow visual (US-004) › @QAIA-VIS-006 approver inbox (222ms)
+
+  6 passed (1.9s)

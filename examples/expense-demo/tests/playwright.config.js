@@ -15,5 +15,9 @@ module.exports = defineConfig({
     { name: 'e2e-desktop', testMatch: /e2e\..*\.spec\.js/, use: { ...devices['Desktop Chrome'] } },
     { name: 'api', testMatch: /api\..*\.spec\.js/ },
     { name: 'a11y', testMatch: /a11y\..*\.spec\.js/, use: { ...devices['Desktop Chrome'] } },
+    // Visual snapshots are platform-specific and must run in the environment that produced
+    // the baselines (visual-check guardrail) -- kept as its own project so the other suites can
+    // run anywhere without dragging screenshot comparison along.
+    { name: 'visual', testMatch: /visual\..*\.spec\.js/, use: { ...devices['Desktop Chrome'] } },
   ],
 });
