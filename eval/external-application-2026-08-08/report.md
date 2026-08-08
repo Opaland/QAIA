@@ -107,6 +107,21 @@ après la version testée.
 
 Et il a échoué là où on ne l'avait pas prévu : sur un contrat qui bouge.
 
+## Note de fabrication : le cahier a d'abord été rejeté par notre propre CI
+
+Première version du `.feature` : mots-clés Gherkin **en français** (`Fonctionnalite:`, `Etant
+donne`, `Quand`, `Alors`) sans en-tête `# language:`. Ce n'est pas du Gherkin valide, et tous les
+cahiers du dépôt utilisent les mots-clés anglais. Le job « Lint Gherkin features » l'a refusé au
+push, avec 60 erreurs de parsing.
+
+Réécrit à la convention, vérifié en rejouant **la commande exacte de la CI** sur l'ensemble des
+`.feature` du dépôt avant de repousser — et l'ancienne version rejouée à part pour confirmer
+qu'elle était bien la cause, plutôt que de le supposer.
+
+Le contenu du cahier n'a pas changé : mêmes 32 scénarios, mêmes identifiants, mêmes questions
+ouvertes. Seuls la langue des mots-clés et le libellé des étapes ont bougé. Les résultats
+ci-dessus ont été produits par la suite Playwright, qui n'a pas été touchée.
+
 ## Reproduire
 
 ```bash

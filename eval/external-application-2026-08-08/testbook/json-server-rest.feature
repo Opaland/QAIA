@@ -1,243 +1,213 @@
-# Cahier de tests -- json-server, API REST documentee
+# Test book -- json-server, the documented REST API.
 #
-# SOURCE D'EXIGENCE, UNIQUE ET EXTERNE : le README.md du depot `typicode/json-server` au
-# commit 8fb0f72 (2024-05-13). Aucune autre source. Ni le code, ni les tests du projet, ni les
-# tickets, ni les commits de correction n'ont ete lus avant la generation de ce cahier.
+# REQUIREMENT SOURCE, SINGLE AND EXTERNAL: the README.md of `typicode/json-server` at commit
+# 8fb0f72 (2024-05-13). Nothing else. Neither the code, nor the project's own tests, nor its
+# issues, nor its fix commits were read before this book was written.
 #
-# Ce cahier n'a pas ete ecrit pour attraper un defaut connu : il a ete ecrit pour couvrir un
-# contrat publie. C'est la seule facon dont le resultat signifie quelque chose.
+# This book was not written to catch a known defect: it was written to cover a published
+# contract. That is the only way its result means anything.
 #
-# Questions ouvertes -- le README ne les tranche pas. Elles sont marquees dans les scenarios
-# concernes par `# open: Qn` et AUCUNE n'est resolue par supposition (ADR 0001 : une ambiguite se
-# declare, elle ne se devine pas).
+# Open questions -- the README does not settle them. They are marked `# open: Qn` on the
+# scenarios they touch and NONE is resolved by assumption (ADR 0001: an ambiguity is declared,
+# not guessed).
 #
-#   Q1  Les operateurs sont listes `lt`, `lte`, `gt`, `gte`, `ne` mais l'exemple ecrit
-#       `?views_gt=9000`. Le prefixe est-il le nom du champ ou un underscore autonome ?
-#       Retenu pour les scenarios : `champ_op`, la seule forme montree par un exemple.
-#   Q2  La pagination est listee `page`, `per_page` et montree `_page`, `_per_page`. Idem pour
-#       la plage : listee `start`, `end`, `limit`, montree `_start`, `_end`, `_limit`.
-#       Retenu : la forme des exemples.
-#   Q3  **La forme de la reponse paginee n'est documentee nulle part.** Un tableau ? une
-#       enveloppe avec un total ? Aucun scenario n'asserte la forme : ce serait inventer
-#       l'exigence.
-#   Q4  **Aucun code de statut n'est documente, pour aucune route.** Ni le succes, ni l'absence,
-#       ni l'invalide. Les scenarios ci-dessous n'assertent donc un code que la ou le README
-#       promet un comportement observable autrement (corps de reponse, effet sur les donnees).
-#   Q5  `_per_page` a pour defaut 10. Le comportement au-dela de la derniere page n'est pas dit.
-#   Q6  `_embed=post` (singulier) est montre pour `comments` sans que la regle de nommage
-#       -- pluriel vers singulier, cle etrangere `postId` -- soit enoncee.
-#   Q7  `_dependent=comments` supprime les dependances ; la reponse et le sort des dependances
-#       orphelines si la ressource parente n'existe pas ne sont pas dits.
+#   Q1  Operators are listed `lt`, `lte`, `gt`, `gte`, `ne`, but the example writes
+#       `?views_gt=9000`. Is the prefix the field name or a standalone underscore?
+#       Taken here: `field_op`, the only form an example shows.
+#   Q2  Pagination is listed `page`, `per_page` and shown `_page`, `_per_page`. Same for range:
+#       listed `start`, `end`, `limit`, shown `_start`, `_end`, `_limit`. Taken: the shown form.
+#   Q3  **The shape of a paginated response is documented nowhere.** An array? an envelope with
+#       a total? No scenario asserts the shape: that would be inventing the requirement.
+#   Q4  **No status code is documented, for any route.** Not success, not absence, not invalid
+#       input. Scenarios below assert a code only where the README promises behaviour that is
+#       observable some other way (response body, effect on the data).
+#   Q5  `_per_page` defaults to 10. Behaviour past the last page is not stated.
+#   Q6  `_embed=post` (singular) is shown for `comments` without the naming rule -- plural to
+#       singular, foreign key `postId` -- ever being stated.
+#   Q7  `_dependent=comments` deletes dependants; neither the response nor the fate of orphaned
+#       dependants when the parent does not exist is stated.
 #
-# Base de donnees de reference : celle publiee dans le README (posts avec `views` 100 et 200,
-# deux comments rattaches au post 1, un objet singulier `profile`).
+# Reference database: the one published in the README (posts with `views` 100 and 200, two
+# comments attached to post 1, a singular `profile` object).
 
-Fonctionnalite: Servir une base JSON comme une API REST
+Feature: Serve a JSON file as a REST API
 
-  Contexte:
-    Etant donne une base contenant les posts 1 (views 100) et 2 (views 200)
-    Et deux commentaires rattaches au post 1
-    Et un objet singulier profile
-
-  # --- Routes de collection et d'element -------------------------------------------------
+  Background:
+    Given a database holding post 1 with 100 views and post 2 with 200 views
+    And two comments attached to post 1
+    And a singular profile object
 
   @QAIA-EXT-001 @routes @P1
-  Scenario: La collection entiere est renvoyee
-    Quand je demande GET /posts
-    Alors je recois les deux posts, 1 et 2
+  Scenario: The whole collection is returned
+    When I request GET /posts
+    Then I receive both posts, 1 and 2
 
   @QAIA-EXT-002 @routes @P1
-  Scenario: Un element est renvoye par son identifiant
-    Quand je demande GET /posts/1
-    Alors je recois le post 1 et son titre "a title"
+  Scenario: An item is returned by its identifier
+    When I request GET /posts/1
+    Then I receive post 1 with the title "a title"
 
-  @QAIA-EXT-003 @routes @P1 @negatif
-  Scenario: Un identifiant inexistant ne renvoie pas de ressource
-    # open: Q4 -- le README ne dit pas quel code. L'assertion porte sur ce qu'il promet :
-    # il n'existe pas de post 999, donc la reponse ne peut pas etre un post 999.
-    Quand je demande GET /posts/999
-    Alors la reponse ne contient pas de ressource d'identifiant 999
+  @QAIA-EXT-003 @routes @P1 @negative
+  Scenario: A missing identifier returns no resource
+    # open: Q4 -- the README states no code. The assertion holds to what it does promise:
+    # there is no post 999, so the response cannot be a post 999.
+    When I request GET /posts/999
+    Then the response carries no resource with identifier 999
 
-  @QAIA-EXT-004 @routes @P1 @negatif
-  Scenario: Une collection inexistante ne renvoie pas de donnees
-    Quand je demande GET /inexistant
-    Alors la reponse ne contient aucune ressource
+  @QAIA-EXT-004 @routes @P1 @negative
+  Scenario: A missing collection returns no data
+    When I request GET /nonexistent
+    Then the response carries no resource
 
   @QAIA-EXT-005 @routes @P1
-  Scenario: L'objet singulier profile est lisible
-    Quand je demande GET /profile
-    Alors je recois un objet dont le nom est "typicode"
+  Scenario: The singular profile object is readable
+    When I request GET /profile
+    Then I receive an object whose name is "typicode"
 
-  # --- Ecriture ---------------------------------------------------------------------------
+  @QAIA-EXT-006 @write @P1
+  Scenario: An identifier is generated when missing
+    # README, "Notable differences": id is always a string and will be generated if missing
+    When I create a post with no identifier
+    Then the created resource carries an identifier
+    And that identifier is a string
 
-  @QAIA-EXT-006 @ecriture @P1
-  Scenario: Un identifiant est genere quand il manque
-    # README, "Notable differences" : « id is always a string and will be generated for you if missing »
-    Quand je cree un post sans identifiant
-    Alors la ressource creee porte un identifiant
-    Et cet identifiant est une chaine de caracteres
+  @QAIA-EXT-007 @write @P1
+  Scenario: An identifier is always a string
+    When I request GET /posts
+    Then every post identifier is a string
 
-  @QAIA-EXT-007 @ecriture @P1
-  Scenario: L'identifiant est toujours une chaine
-    Quand je demande GET /posts
-    Alors l'identifiant de chaque post est une chaine de caracteres
+  @QAIA-EXT-008 @write @P1
+  Scenario: PUT replaces the resource
+    When I replace an existing post with the title "replaced"
+    Then reading that post back gives the title "replaced"
 
-  @QAIA-EXT-008 @ecriture @P1
-  Scenario: PUT remplace la ressource
-    Quand je remplace le post 1 par un titre "remplace"
-    Et que je demande GET /posts/1
-    Alors le titre du post 1 est "remplace"
+  @QAIA-EXT-009 @write @P1
+  Scenario: PATCH changes one field and keeps the others
+    When I patch only the title of an existing post with 42 views
+    Then reading it back gives the new title
+    And its view count is still 42
 
-  @QAIA-EXT-009 @ecriture @P1
-  Scenario: PATCH modifie un seul champ et conserve les autres
-    Quand je modifie le seul titre du post 2 en "patche"
-    Et que je demande GET /posts/2
-    Alors le titre du post 2 est "patche"
-    Et le nombre de vues du post 2 vaut toujours 200
+  @QAIA-EXT-010 @write @P1
+  Scenario: DELETE removes the resource
+    When I delete an existing post
+    Then that post is no longer in the collection
 
-  @QAIA-EXT-010 @ecriture @P1
-  Scenario: DELETE retire la ressource
-    Quand je supprime le post 2
-    Et que je demande GET /posts
-    Alors le post 2 n'est plus dans la collection
-
-  @QAIA-EXT-011 @ecriture @P1
-  Scenario: PATCH sur l'objet singulier profile
-    Quand je modifie le profil avec le nom "modifie"
-    Et que je demande GET /profile
-    Alors le nom du profil est "modifie"
-
-  # --- Conditions -------------------------------------------------------------------------
+  @QAIA-EXT-011 @write @P1
+  Scenario: PATCH on the singular profile object
+    When I patch the profile with the name "changed"
+    Then reading the profile back gives the name "changed"
 
   @QAIA-EXT-012 @conditions @P1
-  Scenario: Egalite implicite sur un champ
-    # README : « ` ` -> `==` »
-    Quand je demande GET /posts?views=200
-    Alors je recois le seul post 2
+  Scenario: Implicit equality on a field
+    When I request GET /posts?views=200
+    Then I receive post 2 only
 
   @QAIA-EXT-013 @conditions @P1
-  Scenario: Superieur strict
-    Quand je demande GET /posts?views_gt=100
-    Alors je recois le seul post 2
+  Scenario: Greater than
+    When I request GET /posts?views_gt=100
+    Then I receive post 2 only
 
-  @QAIA-EXT-014 @conditions @P1 @limite
-  Scenario: Superieur strict exclut la valeur exacte
-    # Valeur limite : 100 est la valeur exacte d'un post, elle doit etre exclue par `gt`.
-    Quand je demande GET /posts?views_gt=200
-    Alors je ne recois aucun post
+  @QAIA-EXT-014 @conditions @P1 @boundary
+  Scenario: Greater than excludes the exact value
+    # Boundary: 200 is a post's exact value and must be excluded by `gt`.
+    When I request GET /posts?views_gt=200
+    Then I receive no post
 
-  @QAIA-EXT-015 @conditions @P1 @limite
-  Scenario: Superieur ou egal inclut la valeur exacte
-    Quand je demande GET /posts?views_gte=200
-    Alors je recois le seul post 2
+  @QAIA-EXT-015 @conditions @P1 @boundary
+  Scenario: Greater than or equal includes the exact value
+    When I request GET /posts?views_gte=200
+    Then I receive post 2 only
 
   @QAIA-EXT-016 @conditions @P1
-  Scenario: Inferieur strict
-    Quand je demande GET /posts?views_lt=200
-    Alors je recois le seul post 1
+  Scenario: Less than
+    When I request GET /posts?views_lt=200
+    Then I receive post 1 only
 
-  @QAIA-EXT-017 @conditions @P1 @limite
-  Scenario: Inferieur ou egal inclut la valeur exacte
-    Quand je demande GET /posts?views_lte=100
-    Alors je recois le seul post 1
+  @QAIA-EXT-017 @conditions @P1 @boundary
+  Scenario: Less than or equal includes the exact value
+    When I request GET /posts?views_lte=100
+    Then I receive post 1 only
 
-  @QAIA-EXT-018 @conditions @P1 @negatif
-  Scenario: Different exclut la valeur donnee
-    Quand je demande GET /posts?views_ne=100
-    Alors je recois le seul post 2
+  @QAIA-EXT-018 @conditions @P1 @negative
+  Scenario: Not equal excludes the given value
+    When I request GET /posts?views_ne=100
+    Then I receive post 2 only
 
   @QAIA-EXT-019 @conditions @P1
-  Scenario: Deux conditions sur le meme champ se combinent
-    # Le README documente les operateurs sans interdire de les cumuler ; deux bornes qui
-    # encadrent le seul post 2 sont la lecture la plus faible qu'on puisse en faire.
-    Quand je demande GET /posts?views_gt=100&views_lt=300
-    Alors je recois le seul post 2
+  Scenario: Two conditions on the same field combine
+    # The README documents the operators without forbidding their combination; two bounds
+    # framing post 2 alone is the weakest reading available.
+    When I request GET /posts?views_gt=100&views_lt=300
+    Then I receive post 2 only
 
-  @QAIA-EXT-020 @conditions @P1
-  Scenario: Une condition sur un champ absent ne renvoie rien
-    Quand je demande GET /posts?champ_absent=valeur
-    Alors je ne recois aucun post
+  @QAIA-EXT-020 @conditions @P1 @negative
+  Scenario: A condition on an absent field returns nothing
+    When I request GET /posts?absent_field=value
+    Then I receive no post
 
-  # --- Plage ------------------------------------------------------------------------------
+  @QAIA-EXT-021 @range @P1
+  Scenario: _limit bounds the number of items
+    When I request GET /posts?_limit=1
+    Then I receive exactly one post
 
-  @QAIA-EXT-021 @plage @P1
-  Scenario: _limit borne le nombre d'elements
-    Quand je demande GET /posts?_limit=1
-    Alors je recois exactement un post
+  @QAIA-EXT-022 @range @P1
+  Scenario: _start shifts the beginning
+    When I request GET /posts?_start=1
+    Then I receive post 2 only
 
-  @QAIA-EXT-022 @plage @P1
-  Scenario: _start decale le debut
-    Quand je demande GET /posts?_start=1
-    Alors je recois exactement un post
-    Et ce post est le post 2
-
-  @QAIA-EXT-023 @plage @P1 @limite
-  Scenario: _start et _end delimitent une tranche
-    Quand je demande GET /posts?_start=0&_end=1
-    Alors je recois exactement un post
-    Et ce post est le post 1
-
-  # --- Pagination -------------------------------------------------------------------------
+  @QAIA-EXT-023 @range @P1 @boundary
+  Scenario: _start and _end delimit a slice
+    When I request GET /posts?_start=0&_end=1
+    Then I receive post 1 only
 
   @QAIA-EXT-024 @pagination @P1
-  Scenario: Une page de taille 1 ne contient qu'un element
-    # open: Q3 -- la forme de la reponse n'est pas documentee, donc l'assertion porte sur le
-    # nombre d'elements de donnees, quelle que soit l'enveloppe qui les porte.
-    Quand je demande GET /posts?_page=1&_per_page=1
-    Alors la reponse porte exactement un post
+  Scenario: A page of size one carries one item
+    # open: Q3 -- the response shape is undocumented, so the assertion holds to the number of
+    # data items, whatever envelope carries them.
+    When I request GET /posts?_page=1&_per_page=1
+    Then the response carries exactly one post
 
   @QAIA-EXT-025 @pagination @P1
-  Scenario: La deuxieme page contient l'element suivant
-    Quand je demande GET /posts?_page=2&_per_page=1
-    Alors la reponse porte exactement un post
-    Et ce post est le post 2
+  Scenario: The second page carries the next item
+    When I request GET /posts?_page=2&_per_page=1
+    Then the response carries post 2 only
 
-  # --- Tri --------------------------------------------------------------------------------
+  @QAIA-EXT-026 @sort @P1
+  Scenario: Ascending sort on a numeric field
+    When I request GET /posts?_sort=views
+    Then the posts arrive in the order 1 then 2
 
-  @QAIA-EXT-026 @tri @P1
-  Scenario: Tri ascendant sur un champ numerique
-    Quand je demande GET /posts?_sort=views
-    Alors les posts arrivent dans l'ordre 1 puis 2
-
-  @QAIA-EXT-027 @tri @P1
-  Scenario: Le prefixe moins inverse le tri
-    # README : `_sort=id,-views`
-    Quand je demande GET /posts?_sort=-views
-    Alors les posts arrivent dans l'ordre 2 puis 1
-
-  # --- Embed ------------------------------------------------------------------------------
+  @QAIA-EXT-027 @sort @P1
+  Scenario: A minus prefix reverses the sort
+    When I request GET /posts?_sort=-views
+    Then the posts arrive in the order 2 then 1
 
   @QAIA-EXT-028 @embed @P1
-  Scenario: Un post embarque ses commentaires
-    Quand je demande GET /posts?_embed=comments
-    Alors le post 1 porte ses deux commentaires
+  Scenario: A post embeds its comments
+    When I request GET /posts?_embed=comments
+    Then post 1 carries both of its comments
 
   @QAIA-EXT-029 @embed @P1
-  Scenario: Un commentaire embarque son post
-    # open: Q6 -- la regle de nommage n'est pas enoncee, seul l'exemple l'est.
-    Quand je demande GET /comments?_embed=post
-    Alors chaque commentaire porte le post 1
+  Scenario: A comment embeds its post
+    # open: Q6 -- the naming rule is not stated, only the example is.
+    When I request GET /comments?_embed=post
+    Then every comment carries post 1
 
-  # --- Suppression en cascade ---------------------------------------------------------------
+  @QAIA-EXT-030 @cascade @P1
+  Scenario: _dependent deletes the dependent resources
+    When I delete a post with _dependent=comments
+    Then no comment attached to that post remains
 
-  @QAIA-EXT-030 @suppression @P1
-  Scenario: _dependent supprime les ressources dependantes
-    Quand je supprime le post 1 avec _dependent=comments
-    Et que je demande GET /comments
-    Alors il ne reste aucun commentaire rattache au post 1
+  @QAIA-EXT-031 @nested @P2
+  Scenario: Filtering on a nested field
+    # README: GET /foo?a.b=bar
+    Given a foo resource whose a.b is "bar"
+    When I request GET /foo?a.b=bar
+    Then I receive that resource only
 
-  # --- Champs imbriques -----------------------------------------------------------------------
-
-  @QAIA-EXT-031 @imbrique @P2
-  Scenario: Filtrer sur un champ imbrique
-    # README : `GET /foo?a.b=bar`
-    Etant donne une ressource foo dont a.b vaut "bar"
-    Quand je demande GET /foo?a.b=bar
-    Alors je recois cette ressource
-
-  @QAIA-EXT-032 @imbrique @P2
-  Scenario: Filtrer sur un element de tableau par son indice
-    # README : `GET /foo?arr[0]=bar`
-    Etant donne une ressource foo dont arr[0] vaut "bar"
-    Quand je demande GET /foo?arr[0]=bar
-    Alors je recois cette ressource
+  @QAIA-EXT-032 @nested @P2
+  Scenario: Filtering on an array element by index
+    # README: GET /foo?arr[0]=bar
+    Given a foo resource whose first array element is "bar"
+    When I request GET /foo?arr[0]=bar
+    Then I receive that resource only
