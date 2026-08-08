@@ -11,6 +11,47 @@ Suivi de #69 et #73. Mis à jour le 2026-08-08.
 | claudepluginhub.com | — | à explorer | |
 | aitmpl.com | — | à explorer | |
 | SkillsMP / ClawHub / skills.sh / Smithery | — | à explorer | |
+| [mxschmitt/awesome-playwright](https://github.com/mxschmitt/awesome-playwright) | 1 547 | **PR ouverte — [#177](https://github.com/mxschmitt/awesome-playwright/pull/177)** | attendre |
+| [TheJambo/awesome-testing](https://github.com/TheJambo/awesome-testing) | 2 329 | **PR ouverte — [#201](https://github.com/TheJambo/awesome-testing/pull/201)** | attendre |
+| [naodeng/awesome-qa-skills](https://github.com/naodeng/awesome-qa-skills) | 151 | **écarté volontairement** | voir §4 |
+
+---
+
+## 4. Les listes de liens — et celle qu'on a écartée
+
+**`mxschmitt/awesome-playwright` — PR [#177](https://github.com/mxschmitt/awesome-playwright/pull/177).**
+Section `AI & Agents`, qui ne contenait que **deux** entrées (Playwright Agent CLI et Playwright
+MCP, toutes deux officielles). Liste maintenue par un membre de l'équipe Playwright : public
+exactement ciblé, et un emplacement non encombré. La PR argumente sur ce qui est
+Playwright-pertinent — POM-as-fixtures, locators par rôle, et la suite générée qui tourne en CI
+sans session Claude — plutôt que sur QAIA en général.
+
+**`TheJambo/awesome-testing` — PR [#201](https://github.com/TheJambo/awesome-testing/pull/201).**
+Section `AI & LLM Testing`, où **QASkills.sh figure déjà**. Liste QA généraliste de référence,
+poussée en continu.
+
+Les deux PR déclarent l'état pré-alpha et proposent explicitement au mainteneur de refuser sur
+des critères de maturité.
+
+### `naodeng/awesome-qa-skills` : écarté, et le motif compte
+
+151 ★, poussé quotidiennement, et **exactement notre niche** — c'est le candidat qui avait le
+meilleur rapport signal/bruit sur le papier.
+
+Mais ce n'est **pas une liste de liens** : contribuer signifie verser une skill complète dans
+*leur* structure — `SKILL.md`, `quick-start.md`, `output-formats.md`, `prompts/`, `agents/`,
+`evals/`, `references/`. Sept fichiers, leur schéma de métadonnées, leur arborescence. Aucune
+section ne permet de simplement lier un projet externe (vérifié : `resources/` ne contient que
+`ci-cd`, `examples`, `templates`).
+
+**Ce serait une troisième copie divergente**, après le dépôt QAIA et les copies QASkills. On
+vient de passer deux fois par cette dette — `OUTPUT-CONTRACT.md` (#66) et les copies QASkills —
+et de la solder à chaque fois en posant un contrôle automatique. Ajouter une troisième variante,
+dans un schéma qui n'est pas le nôtre, pour 151 étoiles, c'est rouvrir la dette au pire endroit :
+là où le contrôle serait le plus coûteux à écrire.
+
+**À reconsidérer** si leur dépôt ouvre une section de liens externes, ou si QAIA a assez
+d'utilisateurs pour que l'effort de synchronisation se justifie.
 
 ---
 
