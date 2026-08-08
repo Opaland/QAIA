@@ -1,6 +1,6 @@
 # QAIA catalogue — I want to X, which skill?
 
-32 skills across 4 plugins. This page exists because a cold read by four business personas found
+33 skills across 4 plugins. This page exists because a cold read by four business personas found
 the boundary between three shift-right skills unreadable *without reading all three* — and a
 skill that has to spend six lines explaining it is not a duplicate is a catalogue problem, not a
 wording problem. The answer taken: **keep the skills distinct, publish the map.**
@@ -48,6 +48,7 @@ interrupted session.
 | Fix a test failing because a locator broke | `locator-repair` |
 | Produce an execution report in a format the profession consumes | `run-report` |
 | Turn a red test into something a developer can act on | `defect-report` |
+| Work out what a diff puts at risk in an existing suite | `impact-select` |
 
 ## Checking a running application
 

@@ -1,0 +1,2359 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\examples\\expense-demo\\tests\\playwright.config.js",
+    "rootDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-desktop",
+        "name": "e2e-desktop",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/e2e\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      },
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/api\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      },
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "a11y",
+        "name": "a11y",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/a11y\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      },
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual",
+        "name": "visual",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/examples/expense-demo/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/visual\\..*\\.spec\\.js/"
+        ],
+        "timeout": 15000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e.expense.spec.js",
+      "file": "e2e.expense.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "ExpenseFlow — approval journey (US-004)",
+          "file": "e2e.expense.spec.js",
+          "line": 15,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@QAIA-US-004-001 @AC1 @AC2 @AC8 @P1 @smoke end-to-end: draft to first approval on a small report",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-001",
+                "AC1",
+                "AC2",
+                "AC8",
+                "P1",
+                "smoke"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 649,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:39.860Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b3db5baf6ed315125789-a0fcaa9783b3104d869e",
+              "file": "e2e.expense.spec.js",
+              "line": 17,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-002 @AC1 @P2 a complete draft is submitted successfully",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-002",
+                "AC1",
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 333,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:40.609Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b3db5baf6ed315125789-6b82ebdc348470aba60e",
+              "file": "e2e.expense.spec.js",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-003 @AC1 @P2 a changes-requested report returns to draft",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-003",
+                "AC1",
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 241,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:40.950Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b3db5baf6ed315125789-7f10f42341118e5d8d6d",
+              "file": "e2e.expense.spec.js",
+              "line": 47,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-004 @AC1 @P2 an edited changes-requested draft is re-submitted",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-004",
+                "AC1",
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 334,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:41.198Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b3db5baf6ed315125789-14dd8923b3dc8978e37f",
+              "file": "e2e.expense.spec.js",
+              "line": 60,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-038 @AC-list @P3 an employee with no reports sees an empty list",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-038",
+                "AC-list",
+                "P3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "e2e-desktop",
+                  "projectName": "e2e-desktop",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 150,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:41.541Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b3db5baf6ed315125789-9b8f6c993d795b9cdbf7",
+              "file": "e2e.expense.spec.js",
+              "line": 75,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "api.expense.spec.js",
+      "file": "api.expense.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "ExpenseFlow API (US-004)",
+          "file": "api.expense.spec.js",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@QAIA-US-004-005 @AC1 @P2 @negative submitting an already-submitted report is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-005",
+                "AC1",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 42,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.135Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-f79e17313bd62275f4a5",
+              "file": "api.expense.spec.js",
+              "line": 13,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-006 @AC1 @P2 @negative editing a submitted report is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-006",
+                "AC1",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.208Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-3d0d86f808c6c6241971",
+              "file": "api.expense.spec.js",
+              "line": 20,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-007 @AC1 @AC7 @P1 @negative @low-confidence a draft via changes-requested cannot be rejected directly (open: Q3)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-007",
+                "AC1",
+                "AC7",
+                "P1",
+                "negative",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 18,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-7c053e89a5698f394aa4",
+              "file": "api.expense.spec.js",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-028 @AC7 @P2 @negative a rejected report cannot be edited",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-028",
+                "AC7",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.257Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-8b1650119874289f2957",
+              "file": "api.expense.spec.js",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-029 @AC7 @P2 @negative a rejected report cannot be re-submitted",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-029",
+                "AC7",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.278Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-fada061f427fb47aade4",
+              "file": "api.expense.spec.js",
+              "line": 46,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-043 @AC7 @P2 @negative an approved report cannot be edited",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-043",
+                "AC7",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 15,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.295Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-f5786cee9b5295f87dfe",
+              "file": "api.expense.spec.js",
+              "line": 59,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-044 @AC7 @P2 @negative an approved report cannot be re-submitted",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-044",
+                "AC7",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.317Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-2d3279040e920b972097",
+              "file": "api.expense.spec.js",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-045 @AC7 @P2 @negative an approved report cannot be re-decided",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-045",
+                "AC7",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.337Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-e1c655e06f68cfd6d06c",
+              "file": "api.expense.spec.js",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-008 @AC2 @P1 @boundary just under €500 needs only manager",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-008",
+                "AC2",
+                "P1",
+                "boundary"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.357Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-ffe31950e89c286557d7",
+              "file": "api.expense.spec.js",
+              "line": 88,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-009 @AC2 @P1 @boundary @low-confidence exactly €500.00 needs manager then finance (open: Q1)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-009",
+                "AC2",
+                "P1",
+                "boundary",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.378Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-5f8b396f3681fcf071d7",
+              "file": "api.expense.spec.js",
+              "line": 96,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-010 @AC2 @P1 @boundary @low-confidence exactly €5000.00 stays in manager+finance band (open: Q1)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-010",
+                "AC2",
+                "P1",
+                "boundary",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.401Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-05e10bc49107d6fa8dfd",
+              "file": "api.expense.spec.js",
+              "line": 104,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-011 @AC2 @P1 @boundary just above €5000 needs manager, finance, director",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-011",
+                "AC2",
+                "P1",
+                "boundary"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 24,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.420Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-e3897a485ee2d5520f3b",
+              "file": "api.expense.spec.js",
+              "line": 114,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-012 @AC2 @P1 @negative approver acting out of chain order is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-012",
+                "AC2",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.453Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-9d7634f91c4b8066d3f0",
+              "file": "api.expense.spec.js",
+              "line": 127,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-013 @AC3 @P1 @negative an approver cannot decide on their own report",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-013",
+                "AC3",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.470Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-a51237b67e1c9ffe2142",
+              "file": "api.expense.spec.js",
+              "line": 137,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-014 @AC3 @P1 @low-confidence a manager's own small report escalates to finance (open: Q2)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-014",
+                "AC3",
+                "P1",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.485Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-67a9ee944649bd0887d2",
+              "file": "api.expense.spec.js",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-015 @AC3 @P1 @low-confidence a manager's own large report drops only the manager step (open: Q2)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-015",
+                "AC3",
+                "P1",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 13,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.500Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-4225350dbe02abe582ab",
+              "file": "api.expense.spec.js",
+              "line": 152,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-016 @AC3 @P1 @low-confidence a finance user's own large report escalates finance to director (open: Q8)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-016",
+                "AC3",
+                "P1",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.524Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-cbe8a203a2e131bd90ee",
+              "file": "api.expense.spec.js",
+              "line": 163,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-017 @AC4 @P3 @negative a line missing required fields is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-017",
+                "AC4",
+                "P3",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.544Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-8d3ab5abd68a38aadd51",
+              "file": "api.expense.spec.js",
+              "line": 176,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-018 @AC4 @P2 @boundary @low-confidence a line dated exactly 90 days ago is accepted (assumption: Q5)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-018",
+                "AC4",
+                "P2",
+                "boundary",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.558Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-b843be265000f52ec50b",
+              "file": "api.expense.spec.js",
+              "line": 183,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-019 @AC4 @P2 @negative @boundary a line dated 91 days ago is blocked with a message",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-019",
+                "AC4",
+                "P2",
+                "negative",
+                "boundary"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.573Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-7a6b52dbc53e6c89c534",
+              "file": "api.expense.spec.js",
+              "line": 189,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-020 @AC5 @P2 @boundary line just under €25 needs no receipt",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-020",
+                "AC5",
+                "P2",
+                "boundary"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.588Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-79ba9ea9eacf9b3d3e41",
+              "file": "api.expense.spec.js",
+              "line": 199,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-021 @AC5 @P1 @negative line at exactly €25 without receipt is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-021",
+                "AC5",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.602Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-d0e5671f49fba973a97b",
+              "file": "api.expense.spec.js",
+              "line": 205,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-022 @AC5 @P3 line at €25 with a receipt is accepted",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-022",
+                "AC5",
+                "P3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.616Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-b2a335a78a6eff6bc8f5",
+              "file": "api.expense.spec.js",
+              "line": 213,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-023 @AC5 @AC6 @P1 @negative @low-confidence a non-EUR line crossing €25 EUR-equivalent is refused (open: Q6)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-023",
+                "AC5",
+                "AC6",
+                "P1",
+                "negative",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.629Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-245791fbc597b22c6c7d",
+              "file": "api.expense.spec.js",
+              "line": 219,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-024 @AC6 @P1 a non-EUR total drives the approval band",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-024",
+                "AC6",
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.645Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-ae850f2a895cc45af939",
+              "file": "api.expense.spec.js",
+              "line": 229,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-025 @AC6 @P1 @negative @low-confidence unresolvable currency is refused (open: Q4)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-025",
+                "AC6",
+                "P1",
+                "negative",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 7,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.662Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-ef07225ff9c79ab3339a",
+              "file": "api.expense.spec.js",
+              "line": 240,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-026 @AC6 @P1 @low-confidence a weekend rate gap falls back to the last available rate (open: Q4)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-026",
+                "AC6",
+                "P1",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.676Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-5fa0bb1654c1ce984da8",
+              "file": "api.expense.spec.js",
+              "line": 248,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-027 @AC2 @AC3 @AC6 @P1 @low-confidence manager stale-rate report drives band and escalation together (open: Q7)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-027",
+                "AC2",
+                "AC3",
+                "AC6",
+                "P1",
+                "low-confidence"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.690Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-5ad6a80fbf1e620cd101",
+              "file": "api.expense.spec.js",
+              "line": 256,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-030 @AC8 @P2 @negative rejecting without a sufficient comment is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-030",
+                "AC8",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.707Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-d8c8511dd5f8b39cfb5b",
+              "file": "api.expense.spec.js",
+              "line": 268,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-031 @AC8 @P2 @negative changes-requested without a sufficient comment is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-031",
+                "AC8",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.725Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-281b1101803bb560a99b",
+              "file": "api.expense.spec.js",
+              "line": 276,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-032 @AC8 @P2 @boundary a comment of exactly 10 characters is accepted",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-032",
+                "AC8",
+                "P2",
+                "boundary"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.741Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-ac0fc342fd4e78fa5aff",
+              "file": "api.expense.spec.js",
+              "line": 284,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-033 @AC8 @P3 approving does not require a comment",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-033",
+                "AC8",
+                "P3"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 12,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.757Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-e7e3afd925bea53a434a",
+              "file": "api.expense.spec.js",
+              "line": 294,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-034 @AC8 @P1 every transition is recorded in the audit trail with who and when",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-034",
+                "AC8",
+                "P1"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.778Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-f38b53d9d639702b0f35",
+              "file": "api.expense.spec.js",
+              "line": 302,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-042 @AC8 @P1 @negative reading the audit trail without authentication is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-042",
+                "AC8",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.795Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-f60fe94774cbeb5b7771",
+              "file": "api.expense.spec.js",
+              "line": 324,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-035 @AC-auth @P2 @negative creating a report without authentication is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-035",
+                "AC-auth",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.804Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-989462e403ac0248607a",
+              "file": "api.expense.spec.js",
+              "line": 331,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-036 @AC-auth @P2 @negative deciding without authentication is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-036",
+                "AC-auth",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.815Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-a6f2f78a3a9271fbdc8c",
+              "file": "api.expense.spec.js",
+              "line": 336,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-037 @AC-auth @P1 @negative an employee cannot edit another employee's draft (IDOR)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-037",
+                "AC-auth",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.828Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-ac1785a2b0708d42cffd",
+              "file": "api.expense.spec.js",
+              "line": 343,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-039 @AC-auth @P1 @negative a manager cannot read an employee's unsubmitted draft (IDOR, read path)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-039",
+                "AC-auth",
+                "P1",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 8,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.846Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-146238e585caaef70303",
+              "file": "api.expense.spec.js",
+              "line": 356,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-040 @AC-auth @P2 the current approver CAN read a report once it is submitted and awaiting their role",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-040",
+                "AC-auth",
+                "P2"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.860Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-80986ded6716602de00c",
+              "file": "api.expense.spec.js",
+              "line": 364,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-US-004-041 @AC-auth @P2 @negative an approver not yet in the chain cannot read a submitted report (IDOR, read path)",
+              "ok": true,
+              "tags": [
+                "QAIA-US-004-041",
+                "AC-auth",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 10,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.874Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-2ed1a1c6c9940f817fde",
+              "file": "api.expense.spec.js",
+              "line": 372,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-CP-001 @AC4 @AC2 @P1 @negative @error-guessing an amount beyond the representable numeric range is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-CP-001",
+                "AC4",
+                "AC2",
+                "P1",
+                "negative",
+                "error-guessing"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 9,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.889Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-59083b4b02ab120eb49e",
+              "file": "api.expense.spec.js",
+              "line": 397,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-CP-002 @AC4 @P2 @negative a negative overflow is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-CP-002",
+                "AC4",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.908Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-82ddd385be0a72c08191",
+              "file": "api.expense.spec.js",
+              "line": 416,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-CP-003 @AC4 @P2 @negative a zero or negative amount is refused",
+              "ok": true,
+              "tags": [
+                "QAIA-CP-003",
+                "AC4",
+                "P2",
+                "negative"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "api",
+                  "projectName": "api",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 11,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:42.921Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "76d0d058cb9252f7b1e1-d163533a6c9daac898fd",
+              "file": "api.expense.spec.js",
+              "line": 427,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "a11y.expense.spec.js",
+      "file": "a11y.expense.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "ExpenseFlow accessibility (WCAG 2 A/AA)",
+          "file": "a11y.expense.spec.js",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@QAIA-A11Y-US004-001 login screen has no serious/critical violations",
+              "ok": true,
+              "tags": [
+                "QAIA-A11Y-US004-001"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "a11y",
+                  "projectName": "a11y",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 455,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:43.386Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3771595adf783c7be670-8b99d863c5c6789f8299",
+              "file": "a11y.expense.spec.js",
+              "line": 6,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-A11Y-US004-002 reports screen has no serious/critical violations",
+              "ok": true,
+              "tags": [
+                "QAIA-A11Y-US004-002"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "a11y",
+                  "projectName": "a11y",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 499,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:43.930Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3771595adf783c7be670-c15ce5bf7db68317ec60",
+              "file": "a11y.expense.spec.js",
+              "line": 13,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "visual.expense.spec.js",
+      "file": "visual.expense.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "ExpenseFlow visual (US-004)",
+          "file": "visual.expense.spec.js",
+          "line": 24,
+          "column": 6,
+          "specs": [
+            {
+              "title": "@QAIA-VIS-001 sign-in screen",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-001"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:44.861Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-ff30589ccd97a51c64d8",
+              "file": "visual.expense.spec.js",
+              "line": 29,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-VIS-002 sign-in screen with a rejected credential",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-002"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:45.185Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-5ea4b073900fa4f9608c",
+              "file": "visual.expense.spec.js",
+              "line": 35,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-VIS-003 reports screen, empty state",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-003"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 237,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:45.426Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-46f775df5dca08fff7e9",
+              "file": "visual.expense.spec.js",
+              "line": 45,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-VIS-004 draft form with one line filled",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-004"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 333,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:45.676Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-6cf9a3be341ae7ee995f",
+              "file": "visual.expense.spec.js",
+              "line": 54,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-VIS-005 my reports after a submission",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-005"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 399,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:46.022Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-c444a6dc084c65e29277",
+              "file": "visual.expense.spec.js",
+              "line": 64,
+              "column": 3
+            },
+            {
+              "title": "@QAIA-VIS-006 approver inbox",
+              "ok": true,
+              "tags": [
+                "QAIA-VIS-006"
+              ],
+              "tests": [
+                {
+                  "timeout": 15000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "visual",
+                  "projectName": "visual",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 252,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-08T16:26:46.434Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "91c5395676b5f1943c76-284e6a7b43433bf0c2af",
+              "file": "visual.expense.spec.js",
+              "line": 76,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-08T16:26:39.368Z",
+    "duration": 7391.747,
+    "expected": 56,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
