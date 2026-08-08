@@ -90,7 +90,33 @@ stratégie promotionnelle, prévois un plan B »*. La soumission coûte deux min
 
 ---
 
-## 3. QASkills.sh
+## 3. QASkills.sh — 7 skills pretes, 5 categories couvertes
+
+**Compte cree le 2026-08-08** (`opaland`). Voie de publication tranchee apres verification de
+leur chaine : leur guide documente `@qaskills/skill-validator` (**404 sur npm**),
+`npx @qaskills/cli login` (**commande inexistante** en 0.4.1) et `/dashboard/tokens` (**404**).
+La seule voie qui fonctionne est l'assistant web du dashboard — et il accepte une URL de
+**sous-dossier**, l'etape 2 etant un formulaire manuel et non un parseur. Donc aucun depot dedie
+n'est necessaire.
+
+| Copie | Categorie visee | Derivee de |
+|---|---|---|
+| `ambiguity-hunt` | E2E | `need-understanding` |
+| `istqb-technique-selection` | E2E / regression | `istqb-design` |
+| `generated-test-self-review` | E2E / API | le lint d'`automate` |
+| `accessibility-audit` | **Accessibility** | `a11y-audit` |
+| `security-surface-checks` | **Security** | `security-surface` |
+| `performance-check` | **Performance** | `perf-check` |
+| `visual-regression` | **Visual** | `visual-check` |
+
+Les quatre dernieres existent parce que les trois premieres tombaient toutes dans la meme zone :
+publier trois skills qui se rangent en E2E, c'est occuper une case sur huit de leur navigation
+par categorie. Les quatre ajoutees correspondent **au mot pres** a une categorie de leur liste.
+
+Toutes sont surveillees par `eval/tools/check_published_copies.py` : chaque copie enregistre le
+sha256 de ses sources, et la CI echoue en nommant la copie a relire des qu'une source bouge.
+
+### Ancien etat
 
 Voir #73. Nécessite la création d'un compte, donc le fondateur. Le catalogue accepte les
 soumissions tierces (« Publish a Skill », dashboard ou CLI) et il est adossé à The Testing

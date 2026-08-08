@@ -42,6 +42,58 @@
           "sha256": "4f921bda6c8b8876f6d9461cecced9ed58a60b5b81ac0cf2ae4356f712782684"
         }
       ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/accessibility-audit/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-playwright/skills/a11y-audit/SKILL.md",
+          "sha256": "e1ef7755cbd6771d527fa5f92d565765997fc186667d6d49868ba0962d317ba1"
+        },
+        {
+          "path": "plugins/qaia-playwright/skills/a11y-audit/references/manual-pass.md",
+          "sha256": "c3ba75e6142f308b4a7e07cb347b78644891ffb215630c3497e147551780f284"
+        },
+        {
+          "path": "plugins/qaia-playwright/skills/a11y-audit/references/impact-and-reporting.md",
+          "sha256": "225b6569e12c062b8f8bff7de1fcb870583afcc4d8227ef1b068f5d791525b49"
+        }
+      ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/security-surface-checks/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-playwright/skills/security-surface/SKILL.md",
+          "sha256": "3c32215089dd13d1ee37b6c5d3a47e9fc34ba9e294c5afbb0f2c93b978d4e80a"
+        },
+        {
+          "path": "plugins/qaia-playwright/skills/security-surface/references/protocols.md",
+          "sha256": "8a9d9968a543d8e89d0169d73de9540d59e471c058e81329d039767e57c44ec2"
+        }
+      ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/performance-check/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-playwright/skills/perf-check/SKILL.md",
+          "sha256": "9ecf063644a4e86bdb3f3e36f6eb278b0c605dcce3ebbf862415633789812238"
+        }
+      ]
+    },
+    {
+      "copy": "docs/outreach/qaskills/visual-regression/SKILL.md",
+      "directory": "qaskills.sh",
+      "derived_from": [
+        {
+          "path": "plugins/qaia-playwright/skills/visual-check/SKILL.md",
+          "sha256": "754ba771e21236aa6a49760bdd583dd75e98e7ffd7fe79b98d3af89121d5d583"
+        }
+      ]
     }
   ]
 }
