@@ -53,7 +53,7 @@ A `red → green` on a test that is *not* the proving one deserves as much suspi
 
 **A test that goes green because its requirement changed is not a fixed defect.**
 
-Measured on a real case (`eval/external-application-2026-08-08/`): between two versions of the same
+Measured on a real case ([the campaign](https://github.com/QAIA-Project/QAIA/tree/main/eval/external-application-2026-08-08)): between two versions of the same
 project, three tests went from green to red — and **none of them was a regression**. The features
 they asserted had been removed from the documentation in the meantime. The code was right; the
 tests were stale.
@@ -87,7 +87,7 @@ run into noise, and the noise reads like a regression.
 
 The `_dependent` defect of `typicode/json-server` — found by QAIA from documentation alone, fixed
 by the maintainer in commit `1b7c0fb`. Both versions are public, so the confirmation is
-reproducible by anyone: `eval/confirm-fix-2026-08-08/`.
+reproducible by anyone: [the measurement](https://github.com/QAIA-Project/QAIA/tree/main/eval/confirm-fix-2026-08-08).
 
 The result is the interesting part. The proving test closes, a second defect closes with it — and
 **three tests go green→red without a single regression among them**. That case is why step 3 exists.

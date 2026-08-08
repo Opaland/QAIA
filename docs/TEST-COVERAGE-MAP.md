@@ -10,13 +10,13 @@ existe et porte le sujet.
 
 | Phase ISTQB | Couverture | Skills |
 |---|---|---|
-| Planification | **absente** | — |
+| Planification | **couverte** | `test-plan-and-closure` — dérivé des artefacts, jamais d'un gabarit |
 | Pilotage et contrôle | partielle | `report`, `run-report`, `aptitude-gate` |
 | Analyse | **couverte** | `us-ingest`, `openapi-ingest`, `us-review`, `need-understanding`, `istqb-design` |
 | Conception | **couverte** | `istqb-design`, `testbook-generate`, `oracle-generate`, `prioritize` |
 | Implémentation | **couverte** | `automate`, `dataset-generate` |
 | Exécution | **couverte** | `automate`, `a11y-audit`, `perf-check`, `visual-check`, `security-surface` |
-| Clôture | **quasi absente** | `report` produit un manifeste ; rien n'archive ni ne capitalise |
+| Clôture | **couverte** | `test-plan-and-closure` + `report` — le bilan nomme d'abord ce qui reste ouvert |
 
 **Le trou le plus visible est aux deux bouts.** QAIA commence à la user story et s'arrête au
 rapport d'exécution. Un responsable de test commence par un **plan de test** et finit par un
@@ -66,7 +66,7 @@ spécification, elle y a trouvé **les quatre classes de contradiction** qu'elle
 
 **4. ~~Le niveau composant.~~** Tranché le 2026-08-08 : hors périmètre, [ADR 0004](adr/0004-test-level-boundary.md). Ce n'est plus un trou, c'est une frontière déclarée.
 
-**5. Le plan de test et le bilan.** Les deux artefacts qu'un responsable de test doit signer. *(Le test de confirmation, qui figurait dans cette liste, est comblé : `confirm-fix`, `eval/confirm-fix-2026-08-08/`.)*
+**5. ~~Le plan de test et le bilan.~~** **Comblé le 2026-08-08** — `test-plan-and-closure`, appliquée à une campagne *déjà terminée* pour qu'aucune section ne puisse être ajustée pour bien paraître (`eval/external-application-2026-08-08/closure-report.md`). *(Le test de confirmation, qui figurait aussi dans cette liste, est comblé : `confirm-fix`.)*
 
 **6. ~~L'anonymisation de données réelles.~~** **Écartée le 2026-08-08** ([#81](https://github.com/QAIA-Project/QAIA/issues/81)),
 et c'est une frontière, pas un trou. Le critère est la **vérifiabilité**, pas la difficulté : toutes
