@@ -74,6 +74,36 @@ That is the whole product in one screen: a stable ID that survives regeneration,
 comes from, the technique that produced it (`@boundary`), and the ambiguity declared rather than
 guessed away.
 
+## Two real defects, in software we did not write
+
+Everything above is measured on code this project produced itself, which is the weakest kind of
+evidence. So the pipeline was pointed at a stranger's repository:
+[`typicode/json-server`](https://github.com/typicode/json-server) — 75,694 stars (measured
+2026-08-08), chosen because it has a **public contract that predates us**: its README.
+
+The rule: the test book was written from **that README alone**. Never the code, never the issues,
+never the fix commits. Then the same suite ran against two versions of the same software.
+
+- **A one-character contract break.** The documentation promised `_dependent`; the code read
+  `dependent`. The endpoint answered success, deleted the post, and silently left every dependent
+  record in place. **A suite written by reading the code cannot find this** — it copies the mistake.
+  A real user had filed it as issue #1551; the maintainer merged the fix in `1b7c0fb`.
+- **Two filters that overwrote each other.** `views_gt=100&views_lt=300` returned everything:
+  conditions were stored in a map keyed by field name, so the second replaced the first. Fixed in
+  `e6055e6`.
+- **A third finding, refused.** `_start` alone returns an empty list — a fact — but the README only
+  ever shows it *paired*, so the test extrapolated a promise the document does not make. **Counted
+  as contested. Two, not three.**
+
+**And the part that goes against us.** Against the *current* version, four tests fail and **three of
+them are our fault** — those features were removed from the documentation in the meantime, and the
+suite kept demanding retired promises. That gap is now detected
+([`check_requirement_drift.py`](eval/tools/check_requirement_drift.py)) rather than quietly closed.
+
+**This is not a pilot.** No human has used QAIA in their own work. One target, one API, no user
+interface, 32 scenarios rather than full coverage. [The full campaign, protocol and
+limits →](eval/external-application-2026-08-08/report.md)
+
 ## Install and try it
 
 QAIA is a set of Claude Code plugins. There is nothing to build and no API key to provide — the
@@ -238,6 +268,38 @@ découvrir en production.
 
 C'est le produit entier en un écran : un identifiant stable qui survit à la régénération, le critère
 dont il vient, la technique qui l'a produit (`@boundary`), et l'ambiguïté déclarée plutôt que devinée.
+
+## Deux vrais défauts, dans un logiciel que nous n'avons pas écrit
+
+Tout le reste est mesuré sur du code que ce projet a lui-même produit, ce qui est la preuve la plus
+faible qui soit. La chaîne a donc été pointée sur le dépôt d'un inconnu :
+[`typicode/json-server`](https://github.com/typicode/json-server) — 75 694 étoiles (mesurées le
+2026-08-08), choisi parce qu'il a un **contrat public antérieur** : son README.
+
+La règle : le cahier a été écrit depuis **ce README seul**. Jamais le code, jamais les tickets,
+jamais les correctifs. Puis la même suite a tourné sur deux versions du même logiciel.
+
+- **Une rupture de contrat d'un caractère.** La documentation promettait `_dependent` ; le code
+  lisait `dependent`. L'endpoint répondait en succès, supprimait le post, et laissait silencieusement
+  toutes les ressources dépendantes en place. **Une suite écrite en regardant le code ne peut pas
+  trouver ça** — elle recopie l'erreur. Un vrai utilisateur l'avait signalé (issue #1551) ; le
+  correctif `1b7c0fb` a été fusionné par le mainteneur.
+- **Deux filtres qui s'écrasaient.** `views_gt=100&views_lt=300` renvoyait tout : les conditions
+  étaient stockées dans un dictionnaire indexé par nom de champ, donc la seconde remplaçait la
+  première. Corrigé en `e6055e6`.
+- **Un troisième constat, refusé.** `_start` seul renvoie une liste vide — c'est un fait — mais le
+  README ne le montre qu'**en paire**, donc le test extrapolait une promesse que le document ne fait
+  pas. **Compté contesté. Deux, pas trois.**
+
+**Et ce qui va contre nous.** Sur la version *actuelle*, quatre tests échouent et **trois sont de
+notre faute** : ces fonctionnalités ont été retirées de la documentation entre-temps, et la suite
+continuait d'exiger des promesses périmées. Ce manque est désormais détecté
+([`check_requirement_drift.py`](eval/tools/check_requirement_drift.py)) plutôt que refermé en
+silence.
+
+**Ce n'est pas un pilote.** Aucun humain n'a utilisé QAIA dans son propre travail. Une cible, une
+API, aucune interface, 32 scénarios et non une couverture complète. [La campagne entière, son
+protocole et ses limites →](eval/external-application-2026-08-08/report.md)
 
 ## Installer et essayer
 
