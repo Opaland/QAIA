@@ -62,7 +62,23 @@ installed plugin** — do not send a user looking for it in their own project.
   itself);
 - `.toBeDefined()` / `.not.toBeNull()` on a locator handle — always truthy, since locators are
   lazy;
-- a forbidden fixed wait (`waitForTimeout`) standing in for a real condition.
+- a forbidden fixed wait (`waitForTimeout`) standing in for a real condition;
+- **a scenario the test book flagged as resting on an open question (`@low-confidence`,
+  `# open: Q…`) whose test carries no trace of the flag.** The severity is not in the code, it is
+  in what happens the day that test goes red: the reader cannot tell *the open question just got
+  answered* from *the product regressed*, and the cheapest resolution is to align the expected
+  value with the application — silently converting a finding into a specification.
+
+**Findings reported but never blocking** — these are shape facts handed to a human or to the LLM
+rubric, because deciding whether they matter needs the specification, which a static pass has not
+read:
+
+- **every assertion in a test being one-sided** (`not.toBe(x)`, `length > 0`): the test cannot
+  distinguish the refusal under test from any other refusal, nor from the forbidden behaviour
+  returning a different value. Only report it when *all* assertions in the test are one-sided —
+  a test that asserts `not.toBe(200)` and then reads the error body has the attributable evidence.
+- **a comment or report citing a file that does not exist**: a citation looks authoritative
+  precisely because nobody follows it.
 
 Report `scenarios_without_test` separately: a scenario the book demanded and the code never
 automated is a coverage gap, not a code-quality one, and blending them hides it.

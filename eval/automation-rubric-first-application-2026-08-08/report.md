@@ -217,3 +217,91 @@ Two facts that recur across all four and are not about any one suite:
   four are shapely. Three of the four are vacuous against their own specification in at least two
   dimensions. That gap is the entire argument for keeping a semantic judge, and it is now
   measured rather than asserted.
+
+---
+
+## Fifth judge: `US-EVAL-004-juiceshop-password-reset` — 4 / 12
+
+And it found the worst defect of the corpus, by a wide margin. Verified by hand before publishing.
+
+**The test asserts the inverse of its own `Then`.**
+
+The book (`password-reset.feature:21`) demands, for an email that is *not* a registered account:
+
+> Then the Security Question field **is enabled, the same as for a registered email**
+> And nothing in the response identifies the email as unregistered
+
+The generated test (`e2e.password-reset.spec.js:44`) asserts:
+
+```js
+expect(enabled).toBe(false);
+```
+
+Juice Shop's `GET /rest/user/security-question` is public and unauthenticated. The scenario exists
+to check whether it leaks account existence; the book generated the safe default — *no
+distinguishable signal* — and **the code asserts the opposite**.
+
+The consequence is not academic. The day this suite runs green, it is green **because the
+application leaks account existence to an anonymous caller** — a user-enumeration oracle for
+harvesting valid customer emails before a credential-stuffing run. The suite has converted the
+exact defect the scenario exists to detect into its pass condition, and CI will hold that line
+green indefinitely. And if the application is later fixed to stop leaking, the test goes red —
+with no `@low-confidence` marker anywhere — and reads as a regression to be reverted.
+
+Second finding, smaller and now machine-checked: `pages/api-helpers.js:29` carries *"a real
+finding, see automation/NOTES.md"*. `automation/NOTES.md` does not exist.
+
+The judge also credited what the suite does well, which is worth recording: on the
+refused-versus-merely-not-successful axis it is **better than typical** — it re-authenticates with
+the original password to prove the account state is unchanged, a real oracle rather than a
+`not.toBe(200)`. What is missing is the other half (no assertion that no reset token was issued,
+no notification triggered), and the book never demanded it, so it is not chargeable.
+
+**Four more rubric defects, all fixed:**
+
+1. **Dimension 3 had no state for "the run report exists and says nothing ran."** This suite's
+   report is unusually honest — *10/10 BLOCKED, not passed* — and the literal reading capped the
+   dimension at 1, scoring an honestly blocked run the same as one whose control was observed red.
+   Fixed: a report declaring everything blocked counts as *no run report*, and the level-1 cap is
+   reserved for a control that actually ran and was not green.
+2. **Dimension 5's "the claim" was undefined** — the `Then`, or the scenario as a whole? On one
+   line, dimension 1 *rewards* a test for staying as vague as its `Then` while dimension 5 would
+   punish it for the same vagueness, and "default lower when hesitating" forces a contradiction.
+   Fixed: the `Then` is the contract for both, and a scenario *title* claiming more than its `Then`
+   is a **test-book** defect belonging to the other rubric.
+3. **"Count a defect once" was read per scenario rather than per defect.** This suite has an
+   inverted assertion *and* a dropped flag on the same scenario — two independent mistakes, and
+   the judge nearly declined the second charge out of fairness. Fixed: per defect, explicitly.
+4. **Dimension 6 did not authorise charging a dead citation in *code*** — only in the run report.
+   Fixed and generalised, and now also caught mechanically.
+
+## Where five applications leave it
+
+| Suite | Total | Gate |
+|---|---|---|
+| `US-EVAL-002` toolshop checkout | 3 / 12 | not met |
+| `US-EVAL-004` juiceshop password reset | 4 / 12 | not met |
+| `US-EVAL-006` dynamic loading | 8 / 10 judgeable | not met once rescaled |
+| `US-EVAL-008` demoblaze | 2 / 12 | not met |
+| `US-EVAL-013` mobile | 5 / 12 | not met |
+
+**Five suites judged, none passes. Nineteen defects found in the rubric against twelve in the
+code.** The instrument still absorbs more correction than the thing it measures, though the ratio
+is narrowing as the rubric hardens.
+
+## And three of those findings are now machine checks
+
+The point of running five judges was never the five scores. It was to find out what a reading
+judge sees that a static tool does not — and then to move whatever could move.
+
+Three did: `flag-dropped` (blocking), `single-sided-evidence` and `dead-citation`, all in
+`automation_score.py`, all with a fixture and all verified against the real corpus with zero false
+positives on the one corrected suite. Adding the third **uncovered a real bug in the tool itself**:
+it only ever looked under `--tests-dir`, so on the `automation/{tests,pages}` layout it could not
+see the page objects at all — which is why `pom-missing` was being reported on suites that have
+`pages/`. Two independent judges had flagged that as a probable tool bug before anyone checked.
+
+What stays with the judge is what needed reading comprehension: an assertion inverted against its
+`Then`, an assertion faithful to a `Then` that is itself weaker than its scenario's purpose, a
+literal with no provenance, a project listed as used that ran nothing. That list is the honest
+answer to "why keep a semantic judge at all", and it is now evidence rather than argument.

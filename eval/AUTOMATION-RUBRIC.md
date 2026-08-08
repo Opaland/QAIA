@@ -29,6 +29,12 @@ generated test files, and the JSON produced by `automation_score.py`. **Do not g
 generation session's context.** Instruct it to justify every score in one sentence, to cite a
 file:line for every claim, and to default to the **lower** score when hesitating.
 
+**A citation — in the run report or in the code — pointing at a file that does not exist is a
+dimension-6 defect.** Same failure mode as a false claim: evidence offered that cannot be
+inspected. The fifth judge found a page object citing a `NOTES.md` nobody ever wrote, and charged
+it by analogy rather than by rule; the rule now exists. (This one is also checked by
+`automation_score.py` as `dead-citation`, so echo the tool rather than re-finding it.)
+
 **A false claim in the run report is chargeable to dimension 6.** The report is offered as
 evidence *for* a score, so it is subject to the same honesty test as the code — a table listing a
 test project as "actually used" when its `testMatch` matches no file on disk is a dimension-6
@@ -53,6 +59,11 @@ scenario…"; read them all as *worst instance*: one test at level 0 puts the di
 however good the other thirteen are. This is deliberately harsh, and it is the reading both first
 judges adopted independently before the rule existed.
 
+**The count-once rule is per *defect*, not per scenario or per test.** Two independent mistakes in
+one test are charged twice — an inverted assertion and a dropped ambiguity flag are separate
+mistakes, not one mistake seen from two angles. The fifth judge nearly declined the second charge
+for fairness, which would have cost a point.
+
 **Count a defect once.** A single defect often satisfies the level-0 wording of dimensions 1, 3
 and 5 at the same time — a dropped `And no invoice is created` clause is simultaneously an
 infidelity, a hollow negative and an under-strength assertion. Score it in the dimension whose
@@ -70,6 +81,16 @@ rule underspecified and said so: level 2 is written as a universal ("*every* tes
 after charging a defect to another dimension it is unclear whether this one may still claim the
 universal. It may — the charged defect is invisible here. Without this line two judges scored the
 same suite one point apart, which is the exact variance the rule was written to remove.
+
+**A run report declaring every scenario BLOCKED counts as "no run report", not as a red control.**
+Dimension 3 provides for a control shown green and for no report at all; an honestly blocked run
+is epistemically the second case, and reading it as the first penalises the team that bothered to
+write the report. Reserve the level-1 cap for a control that actually ran and was not green.
+
+**The `Then` is the contract for dimensions 1 and 5 alike.** A scenario *title* that claims more
+than its `Then` asserts is a **test-book** defect and belongs to `eval/RUBRIC.md`, not here —
+otherwise dimension 1 rewards a test for staying as vague as its `Then` while dimension 5 punishes
+it for the same line, and "default lower when hesitating" forces a contradiction.
 
 **N/A is allowed, and rescales the gate.** If a dimension has no material — a book that honestly
 declares zero negative scenarios has nothing for dimension 3 — mark it `n/a` rather than guessing
