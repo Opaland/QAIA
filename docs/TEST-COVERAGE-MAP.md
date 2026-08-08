@@ -41,7 +41,7 @@ rapport d'exécution. Un responsable de test commence par un **plan de test** et
 | Accessibilité | **couvert** | `a11y-audit` (WCAG 2 A/AA) |
 | Utilisabilité | **couvert** | `usability-heuristic-review` (CT-UT) |
 | Visuel | **couvert** | `visual-check` |
-| Compatibilité (navigateurs, appareils) | **absente** | aucune skill ne nomme le sujet |
+| Compatibilité (navigateurs, appareils) | **couvert, sans skill dédiée** | `automate` → `references/compatibility-selection.md`. La mécanique existe nativement dans Playwright ; ce qui manquait était le **choix** de ce qu'on rejoue |
 | Structurel (boîte blanche, couverture de code) | **absente** | aucune skill ne part de la couverture |
 | Confirmation (re-test après correction) | **couvert** | `confirm-fix` — trois verdicts, et le troisième jamais rapporté comme le premier |
 | Régression | **couvert** | `traffic-replay`, `flaky-detect`, `impact-select` (depuis un diff) |
@@ -75,8 +75,10 @@ se vérifie qu'en tentant de ré-identifier — ce qui demande le jeu d'origine,
 auxiliaires et une méthode, dont QAIA ne dispose d'aucun. Une skill qui anonymise mal est pire
 qu'aucune skill : elle donne la confiance sans la propriété.
 
-**7. Compatibilité navigateurs et appareils.** Playwright le fait nativement ; aucune skill ne
-guide personne dessus.
+**7. ~~Compatibilité navigateurs et appareils.~~** **Traité le 2026-08-08 — et délibérément sans
+skill nouvelle.** Multiplier une suite par un tableau de navigateurs est une ligne de
+configuration, pas une compétence ; la compétence est de choisir quoi rejouer. C'est donc une note
+de raisonnement dans `automate`, pas une 36ᵉ entrée au catalogue.
 
 ## 5. Ce que cette carte ne dit pas
 

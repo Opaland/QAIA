@@ -50,6 +50,11 @@ Two architectural choices are fixed, not renegotiated per run:
   carry its scenario's ambiguity flag if the book set one. Full lint, its **nine** defect classes
   — four hollow shapes plus five measured on real generated suites — and the contract boundary it
   must not cross: `references/self-review-lint.md`.
+- **One `e2e` project per browser engine, and never more** — a suite is multiplied by an engine
+  matrix only where the engine can change the answer: layout, native controls, focus order,
+  storage policy. An API test has no engine; in `examples/expense-demo` that is 43 of 56 tests,
+  and running them on three browsers buys nothing. Which scenarios to replay, which divergences
+  are *expected* rather than defects, and what to refuse: `references/compatibility-selection.md`.
 
 ## Steps
 
