@@ -33,6 +33,47 @@ Built with and for testers: ISTQB techniques applied and justified, requirement�
 
 **Not a claim of regulatory readiness.** QAIA's original v1 niche framing (`docs/DECISIONS.md`, D2) named "medical software / regulated environments" specifically — retired (D114) after an honest gap check: QAIA has no mapped coverage of the actual regulatory frameworks that govern that space (IEC 62304, 21 CFR Part 11, ISO 13485) and no real medtech pilot deployment. `examples/medibook/` is an internal demo proving traceability and technique quality on a healthcare-*shaped* domain, not a certified or regulator-reviewed artifact — if your context requires actual regulatory conformance, treat QAIA as unproven there until that gap is closed.
 
+## What it actually produces, before you install anything
+
+One acceptance criterion in, one scenario out. **Verbatim, truncated but not retouched** — both
+files are in this repository.
+
+The requirement ([`eval/gold-set/US-004-expense-approval.md`](eval/gold-set/US-004-expense-approval.md)):
+
+> 2. A report under €500 total needs one approval (the employee's direct manager). €500–€5000 needs manager **then** finance. Above €5000 needs manager, finance, **then** a director.
+
+*(Quoted verbatim; the emphasis is the source's own.)*
+
+Read it twice. *Under €500* and *€500–€5000* do not say what happens at **exactly €500.00** — and
+that ambiguity was planted on purpose, in a section of the file the skills were never given.
+
+What came out ([`examples/expense-demo/qaia-journey/testbooks/US-004/approval-chain.feature`](examples/expense-demo/qaia-journey/testbooks/US-004/approval-chain.feature)):
+
+```gherkin
+  @QAIA-US-004-008 @AC2 @P1 @boundary
+  # condition: AC2-C1 — priority P1
+  Scenario: A report just under €500 needs only the manager's approval
+    Given a submitted report "R" by "employee@demo" totalling exactly 499.99 EUR
+    Then report "R" awaits approval from "manager" only
+
+  @QAIA-US-004-009 @AC2 @P1 @boundary @low-confidence
+  # condition: AC2-C2 — priority P1 — open: Q1 (exact-€500 boundary — read as inclusive
+  # in band B: manager then finance)
+  Scenario: A report of exactly €500.00 needs manager then finance
+    Given a submitted report "R" by "employee@demo" totalling exactly 500.00 EUR
+    When "manager@demo" approves report "R"
+    Then report "R" still awaits approval from "finance"
+```
+
+**The second scenario is the point.** The tool did not silently pick a reading of the boundary: it
+picked one, tagged the scenario `@low-confidence`, numbered the open question, and **wrote its
+assumption in the file** — so a human can overturn it in one line instead of discovering it in
+production.
+
+That is the whole product in one screen: a stable ID that survives regeneration, the criterion it
+comes from, the technique that produced it (`@boundary`), and the ambiguity declared rather than
+guessed away.
+
 ## Install and try it
 
 QAIA is a set of Claude Code plugins. There is nothing to build and no API key to provide — the
@@ -155,6 +196,48 @@ Scenario: A line at exactly the receipt threshold without a receipt is refused
 [Voir entrée réelle et sortie réelle côte à côte →](https://qaia-project.github.io/QAIA/) · [Quel outil installer ? (on en recommande d'autres dans 3 cas sur 4) →](https://qaia-project.github.io/QAIA/compare.html)
 
 **Statut : pré-alpha, en développement actif.** Les plugins cœur (`qaia-core` 0.2.34, 17 skills), automatisation (`qaia-playwright` 0.1.27, 14 skills), score (`qaia-score` 0.2.3, 3 skills) et jeux de données (`qaia-testdata` 0.1.3, 1 skill) existent — **35 skills** —, valident `--strict`, et sont prouvés bout-en-bout sur **deux domaines réels indépendants** — santé ([`examples/medibook/`](examples/medibook), 32 tests Playwright, tous verts — rejoués le 2026-07-31, sortie brute dans [`examples/medibook/tests/run-log.txt`](examples/medibook/tests/run-log.txt)) et finance/RH ([`examples/expense-demo/`](examples/expense-demo), 43 tests verts, vrais bugs trouvés et corrigés pendant l'automatisation) — plus un corpus de robustesse multi-modèles à 24 cas ([`eval/baselines/corpus-24-depth.md`](eval/baselines/corpus-24-depth.md)). La validation par de vrais pilotes humains n'a pas encore eu lieu — voir [`docs/STATUS.md`](docs/STATUS.md) pour l'état honnête. **Envie d'être le premier ?** [`docs/PILOT-KIT.md`](docs/PILOT-KIT.md) est un parcours guidé de 15 minutes sur une histoire toute prête, et la seule chose demandée en retour, c'est de dire où ça a raté.
+
+## Ce que ça produit vraiment, avant d'installer quoi que ce soit
+
+Un critère d'acceptation en entrée, un scénario en sortie. **Verbatim, tronqué mais non retouché** —
+les deux fichiers sont dans ce dépôt.
+
+L'exigence ([`eval/gold-set/US-004-expense-approval.md`](eval/gold-set/US-004-expense-approval.md)) :
+
+L'original est en anglais ; **ceci est une traduction**, le texte exact est dans le fichier lié :
+
+> 2. Un rapport sous 500 € au total demande une approbation (le manager direct).
+> 500–5000 € demande le manager **puis** la finance. Au-dessus de 5000 €, manager, finance,
+> **puis** un directeur.
+
+Relisez. *Sous 500 €* et *500–5000 €* ne disent pas ce qui se passe à **exactement 500,00 €** — et
+cette ambiguïté était plantée exprès, dans une section du fichier que les skills n'ont jamais reçue.
+
+Ce qui est sorti ([`approval-chain.feature`](examples/expense-demo/qaia-journey/testbooks/US-004/approval-chain.feature)) :
+
+```gherkin
+  @QAIA-US-004-008 @AC2 @P1 @boundary
+  # condition: AC2-C1 — priority P1
+  Scenario: A report just under €500 needs only the manager's approval
+    Given a submitted report "R" by "employee@demo" totalling exactly 499.99 EUR
+    Then report "R" awaits approval from "manager" only
+
+  @QAIA-US-004-009 @AC2 @P1 @boundary @low-confidence
+  # condition: AC2-C2 — priority P1 — open: Q1 (exact-€500 boundary — read as inclusive
+  # in band B: manager then finance)
+  Scenario: A report of exactly €500.00 needs manager then finance
+    Given a submitted report "R" by "employee@demo" totalling exactly 500.00 EUR
+    When "manager@demo" approves report "R"
+    Then report "R" still awaits approval from "finance"
+```
+
+**Le second scénario est tout l'intérêt.** L'outil n'a pas choisi silencieusement une lecture de la
+borne : il en a choisi une, a marqué le scénario `@low-confidence`, numéroté la question ouverte, et
+**écrit son hypothèse dans le fichier** — pour qu'un humain la renverse en une ligne au lieu de la
+découvrir en production.
+
+C'est le produit entier en un écran : un identifiant stable qui survit à la régénération, le critère
+dont il vient, la technique qui l'a produit (`@boundary`), et l'ambiguïté déclarée plutôt que devinée.
 
 ## Installer et essayer
 
