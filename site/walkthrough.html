@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QAIA end to end, without installing anything — one user story to running tests</title>
+<meta name="description" content="Every step of a real QAIA run, with the actual files it produced: ambiguity questions, technique justification, risk priorities, Gherkin with stable IDs, coverage matrix, and the Playwright test that runs in CI.">
+<link rel="canonical" href="https://qaia-project.github.io/QAIA/walkthrough.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QAIA end to end, without installing anything">
+<meta property="og:description" content="Six steps, six real artifacts, copied verbatim from a run kept in the repository.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<style>
+  :root{
+    --bg:#fbfbfd; --fg:#16181d; --muted:#5c6270; --line:#e2e5ec; --card:#fff;
+    --accent:#3b5bdb; --on-accent:#fff; --warn:#8a5a00; --warn-soft:#fdf6e3; --code-bg:#f4f5f8;
+    --shadow:0 1px 2px rgba(16,18,25,.05),0 8px 24px -12px rgba(16,18,25,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#0e1014;--fg:#e8eaf0;--muted:#98a0b0;--line:#242833;--card:#161a21;
+      --accent:#7d94ff; --on-accent:#0e1014;--warn:#e0b055;--warn-soft:#241f12;--code-bg:#12151b;
+      --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);}
+  }
+  :root[data-theme="dark"]{--bg:#0e1014;--fg:#e8eaf0;--muted:#98a0b0;--line:#242833;--card:#161a21;--accent:#7d94ff;--on-accent:#0e1014;--warn:#e0b055;--warn-soft:#241f12;--code-bg:#12151b}
+  :root[data-theme="light"]{--bg:#fbfbfd;--fg:#16181d;--muted:#5c6270;--line:#e2e5ec;--card:#fff;--accent:#3b5bdb;--on-accent:#fff;--warn:#8a5a00;--warn-soft:#fdf6e3;--code-bg:#f4f5f8}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);overflow-x:hidden;
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--accent)}
+  a:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code-bg);padding:1px 5px;border-radius:4px;font-size:.92em}
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.55;margin:0;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  header.site{border-bottom:1px solid var(--line)}
+  header.site .wrap{display:flex;align-items:center;gap:16px;height:56px}
+  .brand{font-weight:700;font-size:18px;text-decoration:none;color:var(--fg);letter-spacing:-.02em}
+  .brand span{color:var(--accent)}
+  nav.top{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  nav.top a{color:var(--muted);text-decoration:none;font-size:14px}
+  h1{font-size:clamp(27px,4.4vw,38px);letter-spacing:-.03em;line-height:1.15;margin:44px 0 14px}
+  p{max-width:74ch}
+  .muted{color:var(--muted)}
+  .step{border-top:1px solid var(--line);padding:32px 0 8px;margin-top:8px}
+  .step h2{font-size:22px;letter-spacing:-.02em;margin:0 0 4px;display:flex;align-items:baseline;gap:12px}
+  .n{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;border-radius:8px;
+     background:var(--accent);color:var(--on-accent);font-size:14px;font-weight:700;flex:none}
+  .cmd{color:var(--muted);font-size:14px;margin:2px 0 14px}
+  .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 7px;font-weight:650}
+  .note{background:var(--warn-soft);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:8px;padding:14px 16px;margin:20px 0}
+  .why{border-left:3px solid var(--accent);padding-left:14px;margin:16px 0;color:var(--fg)}
+  footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 50px;color:var(--muted);font-size:14px}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="./">QA<span>IA</span></a>
+    <nav class="top">
+      <a href="./">Home</a>
+      <a href="./compare.html">Compare</a>
+      <a href="./demo/">Demo app</a>
+      <a href="https://github.com/QAIA-Project/QAIA">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <h1>The whole thing, without installing anything</h1>
+  <p class="muted">Six steps of one real run, with the file each one actually produced. Everything below is copied verbatim from <a href="https://github.com/QAIA-Project/QAIA/tree/main/examples/expense-demo/qaia-journey">examples/expense-demo/qaia-journey/</a>, which is kept in the repository precisely so this page cannot be a mockup.</p>
+
+  <div class="note">
+    <strong>Disclosed before you read a single artifact.</strong> This run used our own gold-set ticket, which has ambiguities <em>planted in it on purpose</em> — finding a planted ambiguity is easier than finding a wild one. It ran <strong>non-interactively</strong>: every point where the tool stops for a human was recorded as <code>simulated: &lt;default applied&gt;</code>, so nobody actually arbitrated anything here. And the acting model had read the file's sequestered judge section beforehand. All three are stated in <a href="https://github.com/QAIA-Project/QAIA/blob/main/examples/expense-demo/qaia-journey/state/US-004/journey.md">the run's own journey file</a>. What follows shows the <em>shape</em> of the output. It is not evidence that it works on your ticket.
+  </div>
+
+  <div class="step">
+    <h2><span class="n">1</span> Bring the story in</h2>
+    <p class="cmd"><code>us-ingest</code> → writes <code>state/US-004/00-source.md</code></p>
+    <p>The source is captured verbatim, with the checks logged rather than assumed: redaction scan, control-character sanitisation, and an untrusted-input check — because a requirement document is data, not instructions.</p>
+    <div class="lbl">Produced</div>
+<pre>- **Redaction scan**: no direct personal/sensitive data found (no real names,
+  SSNs, cards, health data, addresses). No masking applied.
+- **Untrusted-input check**: the source text contains no directive aimed at the
+  assistant — it is a plain requirement description. Treated as data throughout.
+
+&gt; **As an** employee,
+&gt; **I want** to submit an expense report and have it approved through the right chain,
+&gt; **so that** I get reimbursed correctly and the company keeps an auditable trail.</pre>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">2</span> Find what the story does not say</h2>
+    <p class="cmd"><code>need-understanding</code> → writes <code>state/US-004/02-understanding.md</code></p>
+    <p>This is the step most generators skip, and the one that decides whether the suite is honest. Nine questions came out of eight acceptance criteria. Here is one, unedited:</p>
+    <div class="lbl">Produced</div>
+<pre><strong>Q1 — AC2/AC6: threshold boundary at exactly €500 and exactly €5000.</strong>
+Why it matters: routes every report; an off-by-one here silently under- or
+over-approves.
+A close literal reading is self-consistent ("under €500" excludes 500 from band A;
+the closed range "€500–€5000" includes both ends; "above €5000" excludes 5000 from
+band C) — so band B would be `[500, 5000]` inclusive on both ends. But this reading
+depends on treating two different phrasings ("under X" vs "X–Y") as precisely
+complementary, which is exactly the kind of boundary phrasing that real
+implementations get wrong.</pre>
+    <div class="why">
+      <strong>Why this matters more than it looks.</strong> Almost any generator will produce a test for "above €500". The question is what it does with <em>exactly</em> €500. Pick silently, and you ship a suite that looks complete and encodes a guess — at the boundary, which is where the defects are. This step's output is a list of questions with the risk of each answer spelled out, addressed to a human.
+    </div>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">3</span> Choose techniques, and say why</h2>
+    <p class="cmd"><code>istqb-design</code> → writes <code>state/US-004/03-design.md</code></p>
+    <p>One line per acceptance criterion. The justification is the deliverable — a technique named without a reason is decoration.</p>
+    <div class="lbl">Produced</div>
+<pre>| AC2 | Boundary value analysis + Decision table | Three amount bands with two
+  literal boundaries (€500, €5000) → BVA; the resulting required-role set per band
+  is a decision table (amount band × role). |
+
+| AC5 | Boundary value analysis | A strict amount threshold (€25) on receipt
+  requirement — BVA at value/value-1. |
+
+| (cross-cutting) | Error guessing / checklist | Authorization and IDOR conditions,
+  anchored on the systematic-expansion checklist (not named per-AC in the source,
+  but a reflex expansion for any authenticated multi-actor workflow). |</pre>
+    <p class="muted" style="margin-top:12px">That last row is the one worth noticing: nothing in the story mentions authorization. It comes from a systematic expansion pass, not from the text — and it is the row that later produced a real IDOR finding in the demo application.</p>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">4</span> Rank by risk, and hand the arbitration back</h2>
+    <p class="cmd"><code>prioritize</code> → writes <code>state/US-004/04-priorities.md</code></p>
+    <p>Probability × impact per condition, proposed. The tool ranks; a human decides. Every ambiguity is carried through with the question that produced it, so a P1 flagged <code>low (Q1)</code> stays visibly unresolved rather than quietly becoming a fact.</p>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">5</span> Write the test book</h2>
+    <p class="cmd"><code>testbook-generate</code> → writes <code>testbooks/US-004/*.feature</code> and <code>coverage-matrix.md</code></p>
+    <p>38 scenarios from one story. Stable IDs so a regeneration diffs instead of overwriting, the technique on the tag line, the condition in a comment.</p>
+    <div class="lbl">Produced — one scenario of 38</div>
+<pre>@QAIA-US-004-019 @AC4 @P2 @negative @boundary
+# condition: AC4-C3 [req-neg] — priority P2
+Scenario: A line dated 91 days ago is blocked with an explanatory message
+  Given "employee@demo" has a draft report with one EUR line "supplies" of 10.00
+        dated 91 days ago, receipt attached
+  When "employee@demo" submits the report
+  Then the attempt is refused with a 422 status and a message mentioning "90 days"</pre>
+    <div class="lbl">Produced — the coverage matrix, which admits what it does not know</div>
+<pre>| AC  | Condition   | Scenario ID       | Prio | Rationale                              | Confidence  |
+| AC2 | AC2-C1      | @QAIA-US-004-008  | P1   | Financial-control boundary.            | normal      |
+| AC2 | AC2-C2      | @QAIA-US-004-009  | P1   | Q1-flagged; exact-€500 planted-        | <strong>low (Q1)</strong>   |
+|     |             |                   |      | ambiguity boundary.                    |             |
+| AC3 | AC3-C1 [req-neg] | @QAIA-US-004-013 | P1  | Classic internal-control defect class. | normal      |</pre>
+    <p class="muted" style="margin-top:12px">Eleven of the 38 rows carry a named open question like that one.</p>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">6</span> Turn it into tests that run without QAIA</h2>
+    <p class="cmd"><code>automate</code> → writes Playwright specs carrying the same IDs</p>
+    <p>Native Playwright, page objects as fixtures, the scenario ID on the test so a failure points back at the requirement.</p>
+    <div class="lbl">Produced</div>
+<pre>test('@QAIA-US-004-021 @AC5 @P1 @negative @boundary a line at exactly the receipt
+      threshold without a receipt is refused', async ({ request }) =&gt; {
+  const t = await apiLogin(request, B, 'employee@demo');
+  const { id } = await apiCreateDraft(request, B, t, {
+    lines: [{ category: 'gear', amount: 25.00, date: todayISO(), receipt: false }],
+  });
+  const r = await apiSubmit(request, B, t, id);
+  expect(r.status()).toBe(422);
+});</pre>
+    <div class="why">
+      <strong>And then QAIA gets out of the way.</strong> A suite generated this way runs on a GitHub Actions runner with <strong>no Claude session, no skill loaded, nothing from the plugin directory read</strong> — 8 tests, 8 green. That is the one claim on this whole site that no amount of writing could fake: <a href="https://github.com/QAIA-Project/QAIA/actions/runs/30702503888">open the run</a>.
+    </div>
+  </div>
+
+  <div class="step">
+    <h2><span class="n">7</span> Scored by something that did not write it</h2>
+    <p class="cmd"><code>testbook-score</code>, <code>automation-score</code>, <code>aptitude-gate</code> — a separate, read-only plugin</p>
+    <p>No producer grades its own output. That rule has repeatedly caught defects the producing skill could not see in itself — including one where the generated code was perfectly faithful to a test book whose <code>Then</code> was too weak, so the tests passed against the very defect the requirement existed to forbid. A judge looking only at code-vs-book would have missed it too.</p>
+  </div>
+
+  <div class="step">
+    <h2>What you would still have to decide</h2>
+    <p>Nothing above tells you whether this is worth your time on <em>your</em> ticket — no QA engineer has ever run it end to end on real work, and that is the project's largest unknown. If you would consider being the first, there is a <a href="https://github.com/QAIA-Project/QAIA/blob/main/docs/PILOT-KIT.md">15-minute pilot kit</a> built for exactly that, and the only thing asked in return is where it went wrong.</p>
+    <p><a href="./">← Back to the overview</a> · <a href="https://github.com/QAIA-Project/QAIA/tree/main/examples/expense-demo/qaia-journey">Read the full run, every file →</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    QAIA — MIT licensed · <a href="https://github.com/QAIA-Project/QAIA">github.com/QAIA-Project/QAIA</a> · <a href="./llms.txt">llms.txt</a>
+  </div>
+</footer>
+
+</body>
+</html>

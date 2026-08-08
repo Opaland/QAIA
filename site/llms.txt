@@ -45,6 +45,7 @@ techniques and do so competently. Three things are specific to QAIA:
 - [Decision journal](https://github.com/QAIA-Project/QAIA/blob/main/docs/DECISIONS.md): every architectural decision with its rationale and its reservations
 - [Competitive analysis](https://github.com/QAIA-Project/QAIA/blob/main/docs/COMPETITIVE-ANALYSIS.md): the landscape, QAIA's blind spots, and where rivals are better
 - [Comparison page](https://qaia-project.github.io/QAIA/compare.html): which tool to install, including when the answer is not QAIA
+- [Walkthrough](https://qaia-project.github.io/QAIA/walkthrough.html): the seven steps of one real run with the artifact each produced, disclosures included
 
 ## Worked examples with real artifacts
 

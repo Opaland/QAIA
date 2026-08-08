@@ -89,3 +89,39 @@ wording:
   **neither suite's assertions have been shown to be load-bearing** — the rubric now forces that
   sentence into every output where it applies.
 - Two suites, not the four the issue names. `US-EVAL-013` and the rest are unjudged.
+
+---
+
+## Troisième juge, même jour :  — 2/12
+
+Dispatché après la révision, pour éprouver les règles fraîchement écrites. Il les a appliquées
+**et il en a cassé une**.
+
+Le constat le plus lourd, vérifié à la main :  et  assèrent
+ pour un scénario dont le  exige l'alerte
+*« Your token has expired, please login again. »* **et** l'absence de *« Product added. »*.
+La chaîne  a une longueur supérieure à zéro : **le test passe contre le
+comportement exact qu'il existe pour interdire.** Une régression qui supprimerait la branche
+d'erreur laisserait 8/8 au vert et la table de traçabilité afficherait PASS.
+
+Trois défauts de plus dans la rubrique, tous corrigés le jour même :
+
+1. **La règle « compter un défaut une seule fois » ne disait pas ce que devient l'autre
+   dimension.** Ses niveaux sont écrits comme des universels (« *chaque* test assère… »), donc
+   après avoir chargé un défaut ailleurs, on ignore si la dimension peut encore revendiquer
+   l'universel. Le juge a documenté les deux lectures et le point d'écart que ça produit — soit
+   exactement la variance que la révision voulait supprimer. Tranché : la dimension est notée sur
+   ses instances restantes et **peut atteindre 2**.
+2. **La clause « contrôle positif vert » est invérifiable** avec les entrées que le protocole
+   donne au juge : ni le cahier, ni le code, ni le JSON statique ne contiennent de résultat
+   d'exécution. Corrigé dans les deux sens — les résultats de run sont ajoutés aux entrées quand
+   ils existent, et à défaut le juge doit dire qu'il a vérifié l'existence du contrôle et non son
+   résultat.
+3. **Le rapport de run est à la fois une entrée obligatoire et un document d'auto-évaluation.**
+   Les trois juges ont heurté une section d'auto-notation du producteur et l'ont signalée
+   spontanément. Le protocole dit maintenant : lire le rapport, s'arrêter au premier titre qui
+   note le producteur.
+
+Bilan des trois applications : **trois suites jugées, aucune ne franchit la porte** (3/12, 8/10
+jugeables, 2/12), et **onze défauts trouvés dans la rubrique** contre cinq dans le code. Une
+rubrique non éprouvée mesure surtout la confiance qu'on lui accorde.

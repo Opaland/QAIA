@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/lint-skill-after-edit.py",
+            "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/lint-skill-after-edit.py\"",
             "timeout": 70,
             "statusMessage": "Lint du SKILL.md edite..."
           }
