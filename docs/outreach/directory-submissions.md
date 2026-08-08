@@ -99,15 +99,29 @@ La seule voie qui fonctionne est l'assistant web du dashboard — et il accepte 
 **sous-dossier**, l'etape 2 etant un formulaire manuel et non un parseur. Donc aucun depot dedie
 n'est necessaire.
 
-| Copie | Categorie visee | Derivee de |
-|---|---|---|
-| `ambiguity-hunt` | E2E | `need-understanding` |
-| `istqb-technique-selection` | E2E / regression | `istqb-design` |
-| `generated-test-self-review` | E2E / API | le lint d'`automate` |
-| `accessibility-audit` | **Accessibility** | `a11y-audit` |
-| `security-surface-checks` | **Security** | `security-surface` |
-| `performance-check` | **Performance** | `perf-check` |
-| `visual-regression` | **Visual** | `visual-check` |
+| Copie | Categorie | Etat au 2026-08-08 | Score qualite |
+|---|---|---|---|
+| `ambiguity-hunt` | E2E | **publiee** | 85/100 |
+| `accessibility-audit` | **Accessibility** | **publiee** | **100/100** |
+| `security-surface-checks` | **Security** | **publiee** | **100/100** |
+| `istqb-technique-selection` | E2E / regression | prete | — |
+| `generated-test-self-review` | E2E / API | prete | — |
+| `performance-check` | **Performance** | prete | — |
+| `visual-regression` | **Visual** | prete | — |
+
+**Moyenne du compte : 95/100** sur trois skills, zero installation — donc portee entierement par
+la profondeur de contenu et la fraicheur, les deux seuls criteres de leur formule qui ne
+dependent pas d'utilisateurs.
+
+**Le signal a exploiter.** Les deux skills a 100 sont les concretes : outillage nomme, protocoles,
+code, cas limites. Celle a 85 est la methodologique. Leur guide dit exactement ca (« sois
+specifique et opinione », « inclus des exemples de code », « couvre les cas limites ») et le
+bareme le confirme. Pour les quatre restantes, envoyer d'abord `visual-regression` et
+`performance-check`, qui ressemblent aux deux gagnantes.
+
+**Rythme volontaire : trois publications le meme jour depuis un compte cree le matin, c'est le
+maximum qui ne ressemble pas a du remplissage.** Sur un annuaire cure, l'impression compte autant
+que le contenu. Les quatre restantes partent dans quelques jours.
 
 Les quatre dernieres existent parce que les trois premieres tombaient toutes dans la meme zone :
 publier trois skills qui se rangent en E2E, c'est occuper une case sur huit de leur navigation
