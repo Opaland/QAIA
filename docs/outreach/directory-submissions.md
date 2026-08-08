@@ -223,8 +223,25 @@ plugins/qaia-testdata    ✔ Validation passed
 et leur CI avance l'épingle automatiquement à chaque push. Le catalogue public se synchronise la
 nuit, donc il y a un délai entre l'approbation et l'apparition dans `marketplace.json`.
 
-**Bloqué sur une connexion Console**, que je ne peux pas faire. C'est le geste à plus forte valeur
-de toute cette liste.
+**SOUMIS le 2026-08-08** via [platform.claude.com/plugins/submit](https://platform.claude.com/plugins/submit).
+
+Ce qui a ete declare : depot `QAIA-Project/QAIA`, chemin `plugins/qaia-core`, page d'accueil le
+site GitHub Pages, nom `qaia-core` (le slug est **immuable** apres publication, il doit
+correspondre au `plugin.json`), licence MIT, contact l'e-mail du fondateur.
+
+**Plateforme cochee : Claude Code uniquement, pas Claude Cowork.** Le formulaire demande de tester
+le plugin sur les surfaces declarees avant de soumettre ; QAIA est eprouve sur Claude Code et n'a
+jamais tourne sur Cowork. Cocher les deux aurait ete une affirmation non soutenable, exactement le
+genre de chose qui se retourne en revue.
+
+**URL de politique de confidentialite laissee vide** (facultative) : QAIA ne collecte rien, pas de
+backend, pas de cle API, aucune donnee ne sort de la session de l'utilisateur. Inventer une URL
+aurait ete pire que le champ vide.
+
+Revue manuelle, delai non annonce, et leur propre encart precise que **la soumission ne garantit
+pas l'inclusion**. Si accepte : epinglage a un SHA de commit dans le catalogue, leur CI suit les
+push, synchro nocturne. Verifier l'apparition dans
+[le catalogue communautaire](https://github.com/anthropics/claude-plugins-community/blob/main/.claude-plugin/marketplace.json).
 
 ## 6. ClaudePluginHub
 
