@@ -1,0 +1,1327 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\playwright.config.js",
+    "rootDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/eval/external-application-2026-08-08/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/eval/external-application-2026-08-08/tests/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "api",
+        "name": "api",
+        "testDir": "C:/Users/Moretti Cédric/Documents/Claude/QAIA/eval/external-application-2026-08-08/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "json-server.api.spec.js",
+      "file": "json-server.api.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@QAIA-EXT-001 la collection entiere est renvoyee",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-001"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 28,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.538Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-1f6234de61417b5b9e25",
+          "file": "json-server.api.spec.js",
+          "line": 38,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-002 un element est renvoye par son identifiant",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-002"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.595Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-ae7f6789efdde2eaf4df",
+          "file": "json-server.api.spec.js",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-003 un identifiant inexistant ne renvoie pas de ressource",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-003"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.606Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-6af6bcab59ac63db3f6c",
+          "file": "json-server.api.spec.js",
+          "line": 49,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-004 une collection inexistante ne renvoie aucune ressource",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-004"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.617Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-64d27441880e4c82a1e2",
+          "file": "json-server.api.spec.js",
+          "line": 60,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-005 l objet singulier profile est lisible",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-005"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.630Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-72614be0f0a6122c3354",
+          "file": "json-server.api.spec.js",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-006 un identifiant est genere quand il manque",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-006"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.642Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-e7ab44acefdaf1f7e43a",
+          "file": "json-server.api.spec.js",
+          "line": 72,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-007 l identifiant est toujours une chaine",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-007"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.659Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-206fd05bd757f9614281",
+          "file": "json-server.api.spec.js",
+          "line": 82,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-008 PUT remplace la ressource",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-008"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.669Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-34d2410bbf37d7a07d14",
+          "file": "json-server.api.spec.js",
+          "line": 89,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-009 PATCH modifie un champ et conserve les autres",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-009"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.695Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-4b5f2a258f92ea9f4c13",
+          "file": "json-server.api.spec.js",
+          "line": 97,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-010 DELETE retire la ressource",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-010"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.715Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-51db0603e606e8fc65fe",
+          "file": "json-server.api.spec.js",
+          "line": 106,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-011 PATCH sur l objet singulier profile",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-011"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.734Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-ce9dec9400104e70cb27",
+          "file": "json-server.api.spec.js",
+          "line": 113,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-012 egalite implicite sur un champ",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-012"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.752Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-a3820acfa5fd7821a0d3",
+          "file": "json-server.api.spec.js",
+          "line": 122,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-013 superieur strict",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-013"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.762Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-a156ba3ccd32d4623d0a",
+          "file": "json-server.api.spec.js",
+          "line": 126,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-014 superieur strict exclut la valeur exacte",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-014"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.776Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-854508fc664183ae9b6c",
+          "file": "json-server.api.spec.js",
+          "line": 130,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-015 superieur ou egal inclut la valeur exacte",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-015"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.784Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-f168cbfecdf4b236f9b1",
+          "file": "json-server.api.spec.js",
+          "line": 134,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-016 inferieur strict",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-016"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.795Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-c5513153947c4fd00422",
+          "file": "json-server.api.spec.js",
+          "line": 138,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-017 inferieur ou egal inclut la valeur exacte",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-017"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.805Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-1b60399a9d90d8fa28f9",
+          "file": "json-server.api.spec.js",
+          "line": 142,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-018 different exclut la valeur donnee",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-018"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.820Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-beeed220786f67b70ab6",
+          "file": "json-server.api.spec.js",
+          "line": 146,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-019 deux conditions sur le meme champ se combinent",
+          "ok": false,
+          "tags": [
+            "QAIA-EXT-019"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"1\",\u001b[39m\n\u001b[2m    \"2\",\u001b[22m\n\u001b[2m  ]\u001b[22m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"1\",\u001b[39m\n\u001b[2m    \"2\",\u001b[22m\n\u001b[2m  ]\u001b[22m\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:151:66",
+                    "location": {
+                      "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                      "column": 66,
+                      "line": 151
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 149 |\u001b[39m\n \u001b[90m 150 |\u001b[39m test(\u001b[32m'@QAIA-EXT-019 deux conditions sur le meme champ se combinent'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 151 |\u001b[39m   expect(\u001b[36mawait\u001b[39m ids(request\u001b[33m,\u001b[39m \u001b[32m'/posts?views_gt=100&views_lt=300'\u001b[39m))\u001b[33m.\u001b[39mtoEqual([\u001b[32m'2'\u001b[39m])\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 152 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 153 |\u001b[39m\n \u001b[90m 154 |\u001b[39m test(\u001b[32m'@QAIA-EXT-020 une condition sur un champ absent ne renvoie rien'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                        "column": 66,
+                        "line": 151
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 0\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Array [\u001b[22m\n\u001b[31m+   \"1\",\u001b[39m\n\u001b[2m    \"2\",\u001b[22m\n\u001b[2m  ]\u001b[22m\n\n  149 |\n  150 | test('@QAIA-EXT-019 deux conditions sur le meme champ se combinent', async ({ request }) => {\n> 151 |   expect(await ids(request, '/posts?views_gt=100&views_lt=300')).toEqual(['2']);\n      |                                                                  ^\n  152 | });\n  153 |\n  154 | test('@QAIA-EXT-020 une condition sur un champ absent ne renvoie rien', async ({ request }) => {\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:151:66"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:57.829Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\test-results\\json-server.api--QAIA-EXT--33384--le-meme-champ-se-combinent-api\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                    "column": 66,
+                    "line": 151
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-0867f8937fd0436673c7",
+          "file": "json-server.api.spec.js",
+          "line": 150,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-020 une condition sur un champ absent ne renvoie rien",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-020"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.201Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-f4a68785576b1648bbdc",
+          "file": "json-server.api.spec.js",
+          "line": 154,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-021 _limit borne le nombre d elements",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-021"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.251Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-31bde33f0501c024990e",
+          "file": "json-server.api.spec.js",
+          "line": 160,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-022 _start decale le debut",
+          "ok": false,
+          "tags": [
+            "QAIA-EXT-022"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"2\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"2\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:165:49",
+                    "location": {
+                      "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                      "column": 49,
+                      "line": 165
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 163 |\u001b[39m\n \u001b[90m 164 |\u001b[39m test(\u001b[32m'@QAIA-EXT-022 _start decale le debut'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 165 |\u001b[39m   expect(\u001b[36mawait\u001b[39m ids(request\u001b[33m,\u001b[39m \u001b[32m'/posts?_start=1'\u001b[39m))\u001b[33m.\u001b[39mtoEqual([\u001b[32m'2'\u001b[39m])\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 166 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 167 |\u001b[39m\n \u001b[90m 168 |\u001b[39m test(\u001b[32m'@QAIA-EXT-023 _start et _end delimitent une tranche'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ request }) \u001b[33m=>\u001b[39m {\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                        "column": 49,
+                        "line": 165
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 3\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[32m- Array [\u001b[39m\n\u001b[32m-   \"2\",\u001b[39m\n\u001b[32m- ]\u001b[39m\n\u001b[31m+ Array []\u001b[39m\n\n  163 |\n  164 | test('@QAIA-EXT-022 _start decale le debut', async ({ request }) => {\n> 165 |   expect(await ids(request, '/posts?_start=1')).toEqual(['2']);\n      |                                                 ^\n  166 | });\n  167 |\n  168 | test('@QAIA-EXT-023 _start et _end delimitent une tranche', async ({ request }) => {\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:165:49"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.263Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\test-results\\json-server.api--QAIA-EXT-022-start-decale-le-debut-api\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                    "column": 49,
+                    "line": 165
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-74ded3adc118de9338f5",
+          "file": "json-server.api.spec.js",
+          "line": 164,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-023 _start et _end delimitent une tranche",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-023"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.631Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-d99029982dce7887079d",
+          "file": "json-server.api.spec.js",
+          "line": 168,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-024 une page de taille 1 ne contient qu un element",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-024"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.685Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-6aadabe664dc260f379b",
+          "file": "json-server.api.spec.js",
+          "line": 174,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-025 la deuxieme page contient l element suivant",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-025"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.697Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-85f1253e4c3062c5bdbb",
+          "file": "json-server.api.spec.js",
+          "line": 180,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-026 tri ascendant sur un champ numerique",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-026"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.709Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-4840e4fa39296cf70fa6",
+          "file": "json-server.api.spec.js",
+          "line": 188,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-027 le prefixe moins inverse le tri",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-027"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.722Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-8f10cc9618a336d42a82",
+          "file": "json-server.api.spec.js",
+          "line": 192,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-028 un post embarque ses commentaires",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-028"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.732Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-012ec0afdd1d62aa3ac7",
+          "file": "json-server.api.spec.js",
+          "line": 198,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-029 un commentaire embarque son post",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-029"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.744Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-124e148e50dbf7b8aae3",
+          "file": "json-server.api.spec.js",
+          "line": 205,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-030 _dependent supprime les ressources dependantes",
+          "ok": false,
+          "tags": [
+            "QAIA-EXT-030"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 24,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"2864\"\u001b[39m\nReceived array:     \u001b[31m[\"1\", \"2\", \u001b[7m\"2864\"\u001b[27m]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"2864\"\u001b[39m\nReceived array:     \u001b[31m[\"1\", \"2\", \u001b[7m\"2864\"\u001b[27m]\u001b[39m\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:221:24",
+                    "location": {
+                      "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                      "column": 24,
+                      "line": 221
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 219 |\u001b[39m   \u001b[36mawait\u001b[39m request\u001b[33m.\u001b[39m\u001b[36mdelete\u001b[39m(\u001b[33mBASE\u001b[39m \u001b[33m+\u001b[39m \u001b[32m'/posts/'\u001b[39m \u001b[33m+\u001b[39m post\u001b[33m.\u001b[39mid \u001b[33m+\u001b[39m \u001b[32m'?_dependent=comments'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 220 |\u001b[39m   \u001b[36mconst\u001b[39m restants \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m ids(request\u001b[33m,\u001b[39m \u001b[32m'/comments'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 221 |\u001b[39m   expect(restants)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(\u001b[33mString\u001b[39m(c1\u001b[33m.\u001b[39mid))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 222 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 223 |\u001b[39m\n \u001b[90m 224 |\u001b[39m \u001b[90m// --- Champs imbriques ----------------------------------------------------------------------------------\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                        "column": 24,
+                        "line": 221
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoContain\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // indexOf\u001b[22m\n\nExpected value: not \u001b[32m\"2864\"\u001b[39m\nReceived array:     \u001b[31m[\"1\", \"2\", \u001b[7m\"2864\"\u001b[27m]\u001b[39m\n\n  219 |   await request.delete(BASE + '/posts/' + post.id + '?_dependent=comments');\n  220 |   const restants = await ids(request, '/comments');\n> 221 |   expect(restants).not.toContain(String(c1.id));\n      |                        ^\n  222 | });\n  223 |\n  224 | // --- Champs imbriques ----------------------------------------------------------------------------------\n    at C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js:221:24"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:58.755Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\test-results\\json-server.api--QAIA-EXT--d9dd9--les-ressources-dependantes-api\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\Moretti Cédric\\Documents\\Claude\\QAIA\\eval\\external-application-2026-08-08\\tests\\json-server.api.spec.js",
+                    "column": 24,
+                    "line": 221
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-4ae0eb8f349350d186f6",
+          "file": "json-server.api.spec.js",
+          "line": 216,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-031 filtrer sur un champ imbrique",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-031"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:59.137Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-886bc9f82ba7018e262e",
+          "file": "json-server.api.spec.js",
+          "line": 226,
+          "column": 1
+        },
+        {
+          "title": "@QAIA-EXT-032 filtrer sur un element de tableau par son indice",
+          "ok": true,
+          "tags": [
+            "QAIA-EXT-032"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "api",
+              "projectName": "api",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-08T15:51:59.189Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "df7e6b403819f990f30e-2d37ec37ff9236a187ea",
+          "file": "json-server.api.spec.js",
+          "line": 230,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-08T15:51:57.184Z",
+    "duration": 2027.1809999999998,
+    "expected": 29,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  }
+}

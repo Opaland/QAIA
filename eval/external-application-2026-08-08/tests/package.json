@@ -1,0 +1,5 @@
+{
+  "name": "qaia-external-application-json-server",
+  "private": true,
+  "devDependencies": { "@playwright/test": "^1.47.0" }
+}
