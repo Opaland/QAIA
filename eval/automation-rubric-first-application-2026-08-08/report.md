@@ -92,36 +92,52 @@ wording:
 
 ---
 
-## Troisième juge, même jour :  — 2/12
+## Third judge, same day: `US-EVAL-008` — 2 / 12
 
-Dispatché après la révision, pour éprouver les règles fraîchement écrites. Il les a appliquées
-**et il en a cassé une**.
+Dispatched *after* the revision, to put the freshly written rules under load. It applied them —
+and broke one.
 
-Le constat le plus lourd, vérifié à la main :  et  assèrent
- pour un scénario dont le  exige l'alerte
-*« Your token has expired, please login again. »* **et** l'absence de *« Product added. »*.
-La chaîne  a une longueur supérieure à zéro : **le test passe contre le
-comportement exact qu'il existe pour interdire.** Une régression qui supprimerait la branche
-d'erreur laisserait 8/8 au vert et la table de traçabilité afficherait PASS.
+**The heaviest finding, verified by hand before publishing.** `e2e.cart-checkout.spec.js:33` and
+`:60` assert `expect(alertText.length).toBeGreaterThan(0)` for a scenario whose `Then` requires
+the alert *"Your token has expired, please login again."* **and** the absence of *"Product
+added."*. The string `Product added` has a length greater than zero, so **the test passes against
+the exact behaviour it exists to forbid.** A regression that removed the error branch entirely
+would leave 8/8 green and the traceability table reporting PASS.
 
-Trois défauts de plus dans la rubrique, tous corrigés le jour même :
+Two more of the same shape: `expect(confirmText).toContain('Amount:')` for a scenario whose
+purpose is catching a *wrong computed amount* — it passes on `Amount: 0 USD` with a loaded cart —
+and a `Then` clause (`and a request to clear the cart is sent`) dropped from both the code and the
+run report while the row is reported as passed.
 
-1. **La règle « compter un défaut une seule fois » ne disait pas ce que devient l'autre
-   dimension.** Ses niveaux sont écrits comme des universels (« *chaque* test assère… »), donc
-   après avoir chargé un défaut ailleurs, on ignore si la dimension peut encore revendiquer
-   l'universel. Le juge a documenté les deux lectures et le point d'écart que ça produit — soit
-   exactement la variance que la révision voulait supprimer. Tranché : la dimension est notée sur
-   ses instances restantes et **peut atteindre 2**.
-2. **La clause « contrôle positif vert » est invérifiable** avec les entrées que le protocole
-   donne au juge : ni le cahier, ni le code, ni le JSON statique ne contiennent de résultat
-   d'exécution. Corrigé dans les deux sens — les résultats de run sont ajoutés aux entrées quand
-   ils existent, et à défaut le juge doit dire qu'il a vérifié l'existence du contrôle et non son
-   résultat.
-3. **Le rapport de run est à la fois une entrée obligatoire et un document d'auto-évaluation.**
-   Les trois juges ont heurté une section d'auto-notation du producteur et l'ont signalée
-   spontanément. Le protocole dit maintenant : lire le rapport, s'arrêter au premier titre qui
-   note le producteur.
+**Three further rubric defects, all fixed the same day:**
 
-Bilan des trois applications : **trois suites jugées, aucune ne franchit la porte** (3/12, 8/10
-jugeables, 2/12), et **onze défauts trouvés dans la rubrique** contre cinq dans le code. Une
-rubrique non éprouvée mesure surtout la confiance qu'on lui accorde.
+1. **"Count a defect once" did not say what happens to the *other* dimension.** Its levels are
+   written as universals ("*every* test asserts…"), so after charging a defect elsewhere it is
+   unclear whether the dimension may still claim the universal. The judge documented both
+   readings and the one-point gap between them — precisely the variance the revision existed to
+   remove. Settled: the dimension is scored on its remaining instances and **may still reach 2**.
+2. **The "green positive control" clause was unverifiable** with the inputs the protocol hands
+   the judge — neither the book, nor the code, nor the static JSON contains a run result. Fixed
+   in both directions: run results join the judge's inputs when they exist, and failing that the
+   judge must say the control's *existence* was checked and its *result* was not.
+3. **The run report is simultaneously a required input and a self-assessment document.** All
+   three judges hit a producer self-grading section and disclosed it unprompted. The protocol now
+   says: read the run report, stop at the first heading that grades the producer.
+
+## Where three applications leave it
+
+| Suite | Total | Gate |
+|---|---|---|
+| `US-EVAL-002` | 3 / 12 | not met |
+| `US-EVAL-006` | 8 / 10 judgeable | not met once rescaled |
+| `US-EVAL-008` | 2 / 12 | not met |
+
+**Three suites judged, none passes the gate — and eleven defects found in the rubric against five
+in the code.** That ratio is the result. An instrument nobody has applied measures mostly the
+confidence placed in it, and the first three applications of this one spent most of their effort
+correcting the instrument.
+
+One consequence worth stating plainly: the deterministic tool reported `blocking.failed: false`
+on all three suites. It counts shapes, and all three are shapely. **A suite can be shapely and
+vacuous**, which is exactly why the two scores are never summed and why the rubric's gate — not
+the tool's — decides whether a run ships.
