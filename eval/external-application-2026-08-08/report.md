@@ -150,8 +150,17 @@ Conséquence mesurable : **un tiers suivant l'ancienne procédure obtenait 5 rou
 3** — les deux tests `foo` échouant faute de données. La base réellement utilisée est désormais
 archivée ici sous `db.used.json`, et la procédure ci-dessus la référence.
 
-Trouvé par un panel de relecture à contexte vide lancé sur ce dépôt le soir même, et vérifié à la
-main avant correction.
+Trouvé par un panel de relecture à contexte vide lancé sur ce dépôt le soir même. **Les deux
+chiffres ci-dessus ont été mesurés, pas déduits** : la suite a été rejouée sur la version A avec
+chacune des deux bases.
+
+| Base | Résultat |
+|---|---|
+| `db.used.json` (celle de la campagne, désormais archivée) | **29 verts, 3 rouges** — conforme aux chiffres publiés |
+| celle du README seul, sans `foo` | **27 verts, 5 rouges** — `EXT-031` et `EXT-032` s'ajoutent |
+
+Corriger une procédure de reproduction sans la rejouer aurait été le défaut même que ce constat
+dénonce.
 
 Sorties brutes conservées : `results-alpha23-2024-05.json`, `results-beta15-2026-03.json`.
 Cahier : `testbook/json-server-rest.feature`. Suite : `tests/json-server.api.spec.js`.

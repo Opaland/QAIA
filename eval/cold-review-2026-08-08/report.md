@@ -35,7 +35,9 @@ que le constat ne citait pas, que `/foo` avait répondu un tableau vide plutôt 
 directe que la collection existait bien dans la base utilisée.
 
 Corrigé : base archivée sous `db.used.json`, procédure et bilan rectifiés, avec la mention de ce
-qu'ils disaient avant.
+qu'ils disaient avant. **Et la correction a été rejouée** — 29 verts / 3 rouges avec la base
+archivée, 27 verts / 5 rouges avec celle du README seul. La prédiction du panel était exacte au
+test près.
 
 ## Le motif commun aux dix-huit autres
 
